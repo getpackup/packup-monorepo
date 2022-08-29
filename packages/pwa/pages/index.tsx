@@ -5,6 +5,11 @@ const StyledPage = styled.div`
   }
 `;
 
+/**
+ * This is the home page a.k.a. trip list page of the app
+ *
+ * @constructor
+ */
 export function Index() {
   /*
    * Replace the elements below with your own.
