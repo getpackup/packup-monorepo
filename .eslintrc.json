@@ -18,7 +18,26 @@
               }
             ]
           }
-        ]
+        ],
+        "strict": 0,
+        "import/no-unresolved": "error",
+        "react/destructuring-assignment": [0, "never"],
+        "react/prop-types": 0,
+        "operator-linebreak": 0,
+        "react/jsx-props-no-spreading": 0,
+        "no-unused-vars": 0,
+        "import/no-cycle": 0,
+        "react/jsx-one-expression-per-line": 0,
+        "react/jsx-filename-extension": [
+          1,
+          {
+            "extensions": [".ts", ".tsx"]
+          }
+        ],
+        "import/extensions": [0, "never"],
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-empty-function": "off"
       }
     },
     {
