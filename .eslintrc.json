@@ -2,6 +2,13 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nrwl/nx"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "tsconfig.base.json"
+      }
+    }
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -20,28 +27,34 @@
           }
         ],
         "strict": 0,
-        "import/no-unresolved": "error",
         "react/destructuring-assignment": [0, "never"],
         "react/prop-types": 0,
         "operator-linebreak": 0,
         "react/jsx-props-no-spreading": 0,
         "no-unused-vars": 0,
         "import/no-cycle": 0,
+        "import/extensions": [0, "never"],
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "import/no-unresolved": "error"
+      }
+    },
+    {
+      "files": ["*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {
         "react/jsx-one-expression-per-line": 0,
         "react/jsx-filename-extension": [
           1,
           {
-            "extensions": [".ts", ".tsx"]
+            "extensions": [".tsx"]
           }
-        ],
-        "import/extensions": [0, "never"],
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-empty-function": "off"
+        ]
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts"],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
     },

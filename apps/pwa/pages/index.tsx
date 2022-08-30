@@ -45,7 +45,7 @@ export function Index() {
                 </svg>
                 <span>You&apos;re up and running</span>
               </h2>
-              <a href="#commands"> What&apos;s next? </a>
+              <a href="apps/pwa/pages/index#commands"> What&apos;s next? </a>
             </div>
             <div className="logo-container">
               <svg
@@ -100,7 +100,7 @@ export function Index() {
                 </svg>
               </a>
               <a
-                href="https://blog.nrwl.io/?utm_source=nx-project"
+                href="apps/pwa/pages/index?utm_source=nx-project"
                 target="_blank"
                 rel="noreferrer"
                 className="list-item-link"
@@ -207,7 +207,7 @@ export function Index() {
                 </svg>
               </a>
               <a
-                href="https://nxplaybook.com/?utm_source=nx-project"
+                href="apps/pwa/pages/index?utm_source=nx-project"
                 target="_blank"
                 rel="noreferrer"
                 className="list-item-link"
@@ -295,7 +295,7 @@ export function Index() {
                 </p>
                 <pre>nx connect-to-nx-cloud</pre>
                 <a
-                  href="https://nx.app/?utm_source=nx-project"
+                  href="apps/pwa/pages/index?utm_source=nx-project"
                   target="_blank"
                   rel="noreferrer"
                 >

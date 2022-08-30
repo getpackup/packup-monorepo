@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@getpackup-group/components": ["packages/components/src/index.ts"]
+      "@getpackup-group/components": ["libs/components/src/index.ts"],
+      "@getpackup-group/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

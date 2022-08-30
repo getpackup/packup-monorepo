@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/pwa",
+  "sourceRoot": "apps/pwa",
   "projectType": "application",
   "targets": {
     "build": {
@@ -8,12 +8,12 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "root": "packages/pwa",
-        "outputPath": "dist/packages/pwa"
+        "root": "apps/pwa",
+        "outputPath": "dist/apps/pwa"
       },
       "configurations": {
         "development": {
-          "outputPath": "packages/pwa"
+          "outputPath": "apps/pwa"
         },
         "production": {}
       }
@@ -44,9 +44,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/pwa"],
+      "outputs": ["coverage/apps/pwa"],
       "options": {
-        "jestConfig": "packages/pwa/jest.config.ts",
+        "jestConfig": "apps/pwa/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -54,7 +54,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/pwa/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/pwa/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },

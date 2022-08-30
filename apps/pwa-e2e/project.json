@@ -1,12 +1,12 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/pwa-e2e/src",
+  "sourceRoot": "apps/pwa-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "packages/pwa-e2e/cypress.config.ts",
+        "cypressConfig": "apps/pwa-e2e/cypress.config.ts",
         "devServerTarget": "pwa:serve:development",
         "testingType": "e2e"
       },
@@ -20,7 +20,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/pwa-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/pwa-e2e/**/*.{js,ts}"]
       }
     }
   },
