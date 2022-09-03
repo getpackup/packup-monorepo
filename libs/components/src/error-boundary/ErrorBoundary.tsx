@@ -1,10 +1,10 @@
-import { Box, Button, Column, Heading, PageContainer, Row } from '../index';
-import * as Sentry from '@sentry/nextjs';
-import { trackEvent } from '@getpackup-group/utils';
-import React, { Component } from 'react';
+import { Box, Button, Column, Heading, PageContainer, Row } from '../index'
+import * as Sentry from '@sentry/nextjs'
+import { trackEvent } from '@getpackup-group/utils'
+import React, { Component } from 'react'
 
 interface Props {
-  children: any;
+  children: any
 }
 
 class ErrorBoundary extends Component<Props, {}> {
@@ -27,8 +27,8 @@ class ErrorBoundary extends Component<Props, {}> {
                       type="button"
                       rightSpacer
                       onClick={() => {
-                        trackEvent('Reset ErrorBoundary Clicked');
-                        resetError();
+                        trackEvent('Reset ErrorBoundary Clicked')
+                        resetError()
                       }}
                     >
                       Reset
@@ -49,8 +49,8 @@ class ErrorBoundary extends Component<Props, {}> {
       >
         {this.props.children}
       </Sentry.ErrorBoundary>
-    );
+    )
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

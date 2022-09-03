@@ -1,5 +1,5 @@
 declare global {
   interface Window {
-    analytics: unknown;
+    analytics: unknown
   }
 }

@@ -1,22 +1,22 @@
-import '@styles/bootstrapCarousel.css';
+import '@styles/bootstrapCarousel.css'
 
-import { ErrorBoundary, GlobalAlerts, Navbar } from '@components';
-import loadable from '@loadable/component';
-import { brandSecondary, brandSuccess, white } from '@styles/color';
-import CssReset from '@styles/cssReset';
-import { borderRadius, quadrupleSpacer, quarterSpacer, threeQuarterSpacer } from '@styles/size';
+import { ErrorBoundary, GlobalAlerts, Navbar } from '@components'
+import loadable from '@loadable/component'
+import { brandSecondary, brandSuccess, white } from '@styles/color'
+import CssReset from '@styles/cssReset'
+import { borderRadius, quadrupleSpacer, quarterSpacer, threeQuarterSpacer } from '@styles/size'
 import Link from 'next/link'
-import React, { FunctionComponent, useEffect } from 'react';
-import CookieConsent from 'react-cookie-consent';
-import { IconContext } from 'react-icons';
-import Modal from 'react-modal';
-import styled from 'styled-components';
+import React, { FunctionComponent, useEffect } from 'react'
+import CookieConsent from 'react-cookie-consent'
+import { IconContext } from 'react-icons'
+import Modal from 'react-modal'
+import styled from 'styled-components'
 
 const Footer = loadable(() => import('@components/Footer'), {
   fallback: <footer style={{ backgroundColor: brandSecondary, height: '20vh' }} />,
-});
-const UpploadTheme = loadable(() => import('@styles/upploadTheme'));
-const AddToHomeScreenBanner = loadable(() => import('./AddToHomeScreenBanner'));
+})
+const UpploadTheme = loadable(() => import('@styles/upploadTheme'))
+const AddToHomeScreenBanner = loadable(() => import('./AddToHomeScreenBanner'))
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -24,24 +24,24 @@ const LayoutWrapper = styled.div`
   min-height: 100vh;
   width: 100vw;
   overflow: hidden;
-`;
+`
 
 const PageBody = styled.main`
   flex: 1;
   padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
   padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
-`;
+`
 
 type LayoutProps = {
-  hideFromCms?: boolean;
-};
+  hideFromCms?: boolean
+}
 
 const Layout: FunctionComponent<LayoutProps> = (props) => {
   useEffect(() => {
     if (!props.hideFromCms) {
-      Modal.setAppElement('#___gatsby');
+      Modal.setAppElement('#___gatsby')
     }
-  }, []);
+  }, [])
   return (
     <>
       <CssReset />
@@ -82,7 +82,7 @@ const Layout: FunctionComponent<LayoutProps> = (props) => {
         </CookieConsent>
       </IconContext.Provider>
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
