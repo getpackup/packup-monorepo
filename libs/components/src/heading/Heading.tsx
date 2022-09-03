@@ -88,8 +88,6 @@ const StyledHeading = styled.h1<HeadingProps>`
     `}
 `
 
-const Heading: FunctionComponent<HeadingProps> = (props) => (
+export const Heading: FunctionComponent<HeadingProps> = (props) => (
   <StyledHeading {...props}>{props.children}</StyledHeading>
 )
-
-export default Heading
