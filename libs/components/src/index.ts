@@ -1,3 +1,4 @@
+export * from './heading/Heading'
 export * from './column/Column'
 export * from './loading-spinner/LoadingSpinner'
 export * from './button/Button'
