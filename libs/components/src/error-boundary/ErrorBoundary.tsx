@@ -34,7 +34,7 @@ class ErrorBoundary extends Component<Props, {}> {
                       Reset
                     </Button>
 
-                    <a href="/Users/jb-mpb/Public">Go to Home</a>
+                    <a href="/">Go to Home</a>
                   </p>
                   <details>
                     <summary>Click for error details</summary>
