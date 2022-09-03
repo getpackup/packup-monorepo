@@ -1,15 +1,14 @@
-import { Box, Button, Column, Heading, PageContainer, Row } from '@components';
+import { Box, Button, Column, Heading, PageContainer, Row } from '../index';
 import * as Sentry from '@sentry/nextjs';
-import trackEvent from '@utils/trackEvent';
+import { trackEvent } from '@getpackup-group/utils';
 import React, { Component } from 'react';
 
 interface Props {
   children: any;
-};
+}
 
-// eslint-disable-next-line react/prefer-stateless-function
 class ErrorBoundary extends Component<Props, {}> {
-  render() {
+  override render() {
     return (
       <Sentry.ErrorBoundary
         showDialog

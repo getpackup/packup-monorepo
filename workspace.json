@@ -5,6 +5,7 @@
     "components": "libs/components",
     "pwa": "apps/pwa",
     "pwa-e2e": "apps/pwa-e2e",
+    "styles": "libs/styles",
     "utils": "libs/utils"
   }
 }
