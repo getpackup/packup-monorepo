@@ -84,7 +84,7 @@ const StyledBoxFooter = styled.div`
   bottom: 0;
 `
 
-const Box: FunctionComponent<BoxProps> = ({
+export const Box: FunctionComponent<BoxProps> = ({
   textAlign,
   height,
   zindex,
@@ -114,5 +114,3 @@ const Box: FunctionComponent<BoxProps> = ({
 Box.defaultProps = {
   zindex: 1,
 }
-
-export default Box
