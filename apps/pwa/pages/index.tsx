@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 
 const StyledPage = styled.div`
@@ -10,7 +11,7 @@ const StyledPage = styled.div`
  *
  * @constructor
  */
-export function Index() {
+export default function Index() {
   /*
    * Replace the elements below with your own.
    *
@@ -414,5 +415,3 @@ export function Index() {
     </StyledPage>
   )
 }
-
-export default Index
