@@ -5,7 +5,7 @@ import {
   WorkerUpdateStoreType,
 } from './workerUpdateReady.d'
 
-export const initialState: WorkerUpdateStoreType = {
+const initialState: WorkerUpdateStoreType = {
   display: false,
 }
 

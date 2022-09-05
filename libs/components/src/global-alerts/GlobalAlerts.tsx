@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { animated, useTransition } from 'react-spring'
 import styled from 'styled-components'
 
-import Alert, { AlertProps } from './Alert'
+import { Alert, AlertProps } from '..'
 
 const GlobalAlertWrapper = styled.div`
   position: fixed;
@@ -25,7 +25,7 @@ const GlobalAlertWrapper = styled.div`
 
 const AnimatedAlert = styled(animated(Alert))``
 
-const GlobalAlerts: FunctionComponent<{}> = () => {
+export const GlobalAlerts: FunctionComponent<{}> = () => {
   const alerts = useSelector((state: RootState) => state.globalAlerts.alerts)
   const dispatch = useDispatch()
 
@@ -35,6 +35,7 @@ const GlobalAlerts: FunctionComponent<{}> = () => {
     precision: 0.1,
   }
 
+  // TODO this might need refactoring
   const transitions = useTransition(alerts, (alert) => alert.id, {
     from: { opacity: 0, right: '-100%', life: '100%' },
     enter: () => async (next: any) => next({ opacity: 1, right: '0%' }),
@@ -61,5 +62,3 @@ const GlobalAlerts: FunctionComponent<{}> = () => {
     </GlobalAlertWrapper>
   )
 }
-
-export default GlobalAlerts

@@ -16,6 +16,7 @@ export type RootState = {
   workerUpdateReady: WorkerUpdateStoreType
 }
 
+// TODO this needs sorting out to not conflict with types
 export const rootReducer = combineReducers<RootState>({
   client,
   firebase: firebaseReducer,
