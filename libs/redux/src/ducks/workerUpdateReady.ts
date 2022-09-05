@@ -3,15 +3,15 @@ import {
   SHOW_UPDATE_MODAL,
   WorkerUpdateActions,
   WorkerUpdateStoreType,
-} from '@redux/ducks/workerUpdateReady.d'
+} from './workerUpdateReady.d'
 
 export const initialState: WorkerUpdateStoreType = {
   display: false,
 }
 
 export default (
-  state: WorkerUpdateStoreType = initialState,
-  action: WorkerUpdateActions
+  action: WorkerUpdateActions,
+  state: WorkerUpdateStoreType = initialState
 ): WorkerUpdateStoreType => {
   switch (action.type) {
     case SHOW_UPDATE_MODAL: {

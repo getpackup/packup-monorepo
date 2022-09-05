@@ -1,5 +1,5 @@
-import { AlertType, GlobalAlertsActions, GlobalAlertsStoreType } from '@redux/ducks/globalAlerts.d'
 import { v4 as uuidv4 } from 'uuid'
+import { AlertType, GlobalAlertsActions, GlobalAlertsStoreType } from './globalAlerts.d'
 
 export const ADD_GLOBAL_ALERT = 'ADD_GLOBAL_ALERT'
 export const CLOSE_GLOBAL_ALERT = 'CLOSE_GLOBAL_ALERT'
@@ -14,8 +14,8 @@ export const initialState: GlobalAlertsStoreType = {
 }
 
 export default (
-  state: GlobalAlertsStoreType = initialState,
-  action: GlobalAlertsActions
+  action: GlobalAlertsActions,
+  state: GlobalAlertsStoreType = initialState
 ): GlobalAlertsStoreType => {
   switch (action.type) {
     case ADD_GLOBAL_ALERT: {
