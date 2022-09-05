@@ -1,3 +1,4 @@
+export * from './global-alerts/GlobalAlerts'
 export * from './row/Row'
 export * from './page-container/PageContainer'
 export * from './heading/Heading'

@@ -2,6 +2,12 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nrwl/nx"],
+  "extends": [
+    "airbnb",
+    "plugin:import/typescript", // this is needed because airbnb uses eslint-plugin-import
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "settings": {
     "import/resolver": {
       "typescript": {
@@ -26,12 +32,12 @@
             ]
           }
         ],
-        "strict": 0,
+        "strict": "error",
         "react/destructuring-assignment": [0, "never"],
         "react/prop-types": 0,
         "operator-linebreak": 0,
         "react/jsx-props-no-spreading": 0,
-        "no-unused-vars": 0,
+        "no-unused-vars": "warn",
         "import/no-cycle": 0,
         "import/extensions": [0, "never"],
         "@typescript-eslint/explicit-function-return-type": "off",

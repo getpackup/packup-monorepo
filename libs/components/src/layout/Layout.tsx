@@ -1,10 +1,15 @@
 import '@styles/bootstrapCarousel.css'
 
-import { ErrorBoundary, GlobalAlerts, Navbar } from '@components'
+import { ErrorBoundary, GlobalAlerts, Navbar } from '..'
 import loadable from '@loadable/component'
-import { brandSecondary, brandSuccess, white } from '@styles/color'
+import { brandSecondary, brandSuccess, white } from '@getpackup-group/styles'
 import CssReset from '@styles/cssReset'
-import { borderRadius, quadrupleSpacer, quarterSpacer, threeQuarterSpacer } from '@styles/size'
+import {
+  borderRadius,
+  quadrupleSpacer,
+  quarterSpacer,
+  threeQuarterSpacer,
+} from '@getpackup-group/styles'
 import Link from 'next/link'
 import React, { FunctionComponent, useEffect } from 'react'
 import CookieConsent from 'react-cookie-consent'
@@ -32,8 +37,9 @@ const PageBody = styled.main`
   padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
 `
 
-type LayoutProps = {
+interface LayoutProps {
   hideFromCms?: boolean
+  children: any // TODO shouldn't be any
 }
 
 const Layout: FunctionComponent<LayoutProps> = (props) => {
@@ -74,8 +80,8 @@ const Layout: FunctionComponent<LayoutProps> = (props) => {
         >
           <small>
             This site uses cookies to enhance the user experience. Visit our{' '}
-            <Link to="/privacy" style={{ color: white, textDecoration: 'underline' }}>
-              Privacy page
+            <Link href={'/privacy'}>
+              <a style={{ color: white, textDecoration: 'underline' }}>Privacy page</a>
             </Link>{' '}
             to learn more.
           </small>

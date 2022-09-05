@@ -7,7 +7,7 @@ interface Props {
   children: any
 }
 
-class ErrorBoundary extends Component<Props, {}> {
+export class ErrorBoundary extends Component<Props, {}> {
   override render() {
     return (
       <Sentry.ErrorBoundary
@@ -52,5 +52,3 @@ class ErrorBoundary extends Component<Props, {}> {
     )
   }
 }
-
-export default ErrorBoundary
