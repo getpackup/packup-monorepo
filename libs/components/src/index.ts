@@ -1,3 +1,4 @@
+export * from './gear-closet-icon/GearClosetIcon'
 export * from './notification-dot/NotificationDot'
 export * from './horizontal-rule/HorizontalRule'
 export * from './flex-container/FlexContainer'
