@@ -22,7 +22,7 @@ const Footer = dynamic(() => import('../footer/Footer'), {
   loading: () => <footer style={{ backgroundColor: brandSecondary, height: '20vh' }} />,
 })
 
-const AddToHomeScreenBanner = dynamic(import('./AddToHomeScreenBanner'))
+const AddToHomeScreenBanner = dynamic(import('../add-to-home-screen-banner/AddToHomeScreenBanner'))
 
 const LayoutWrapper = styled.div`
   display: flex;

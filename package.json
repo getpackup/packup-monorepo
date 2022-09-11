@@ -57,6 +57,7 @@
     "@types/react-numeric-input": "^2.2.4",
     "@types/react-select": "^5.0.1",
     "core-js": "^3.6.5",
+    "date-fns": "^2.29.2",
     "eslint-import-resolver-typescript": "^3.5.0",
     "firebase": "^9.9.3",
     "formik": "^2.2.9",
