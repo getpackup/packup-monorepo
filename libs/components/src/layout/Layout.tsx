@@ -1,9 +1,9 @@
 import '@styles/bootstrapCarousel.css'
 
 import { ErrorBoundary, GlobalAlerts, Navbar } from '..'
-import loadable from '@loadable/component'
+import dynamic from 'next/dynamic'
 import { brandSecondary, brandSuccess, white } from '@getpackup-group/styles'
-import CssReset from '@styles/cssReset'
+import { CssReset } from '@getpackup-group/styles'
 import {
   borderRadius,
   quadrupleSpacer,
@@ -14,14 +14,15 @@ import Link from 'next/link'
 import React, { FunctionComponent, useEffect } from 'react'
 import CookieConsent from 'react-cookie-consent'
 import { IconContext } from 'react-icons'
-import Modal from 'react-modal'
+import ReactModal from '../react-modal/ReactModal'
 import styled from 'styled-components'
+import { UploadTheme } from '@getpackup-group/styles'
 
-const Footer = loadable(() => import('@components/Footer'), {
-  fallback: <footer style={{ backgroundColor: brandSecondary, height: '20vh' }} />,
+const Footer = dynamic(() => import('../footer/Footer'), {
+  loading: () => <footer style={{ backgroundColor: brandSecondary, height: '20vh' }} />,
 })
-const UpploadTheme = loadable(() => import('@styles/upploadTheme'))
-const AddToHomeScreenBanner = loadable(() => import('./AddToHomeScreenBanner'))
+
+const AddToHomeScreenBanner = dynamic(import('./AddToHomeScreenBanner'))
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -45,13 +46,13 @@ interface LayoutProps {
 const Layout: FunctionComponent<LayoutProps> = (props) => {
   useEffect(() => {
     if (!props.hideFromCms) {
-      Modal.setAppElement('#___gatsby')
+      ReactModal.setAppElement('#___gatsby')
     }
   }, [])
   return (
     <>
       <CssReset />
-      <UpploadTheme />
+      <UploadTheme />
       <IconContext.Provider value={{ style: { position: 'relative' } }}>
         <LayoutWrapper>
           {!props.hideFromCms && <AddToHomeScreenBanner />}

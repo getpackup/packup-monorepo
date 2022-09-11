@@ -20,7 +20,9 @@
       "@getpackup-group/redux": ["libs/redux/src/index.ts"],
       "@getpackup-group/styles": ["libs/styles/src/index.ts"],
       "@getpackup-group/utils": ["libs/utils/src/index.ts"]
-    }
+    },
+    "typeRoots": ["types", "node_modules/@types"],
+    "types": ["@string-mask"]
   },
   "exclude": ["node_modules", "tmp"]
 }

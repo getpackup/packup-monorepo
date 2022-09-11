@@ -132,7 +132,7 @@ const darkTheme = {
   main: darkSpinner,
 }
 
-const LoadingSpinner: FunctionComponent<LoadingSpinnerProps> = ({ theme, style }) => {
+export const LoadingSpinner: FunctionComponent<LoadingSpinnerProps> = ({ theme, style }) => {
   let chosenTheme = lightTheme
 
   if (theme === 'dark') {
