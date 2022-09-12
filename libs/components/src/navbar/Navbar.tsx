@@ -274,7 +274,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
   return (
     <StyledNavbar role="navigation" aria-label="main-navigation">
-      {/*<Helmet onChangeClientState={onHelmetChange} />*/}
+      <Helmet onChangeClientState={onHelmetChange} />
       <PageContainer>
         <FlexContainer justifyContent="space-between" alignItems="center">
           {!size.isSmallScreen && auth.isLoaded && (

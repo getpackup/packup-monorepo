@@ -4,20 +4,23 @@ import Head from 'next/head'
 import './styles.css'
 import { Layout } from '@getpackup-group/components'
 import { ReduxWrapper } from '@getpackup-group/redux'
+import { HelmetProvider } from 'react-helmet-async'
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
         <title>Welcome to pwa!</title>
       </Head>
       <ReduxWrapper>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <HelmetProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </HelmetProvider>
       </ReduxWrapper>
     </>
   )
 }
 
-export default CustomApp
+export default App
