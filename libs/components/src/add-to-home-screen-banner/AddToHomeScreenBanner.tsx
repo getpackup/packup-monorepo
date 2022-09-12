@@ -1,5 +1,5 @@
 import { Button, FlexContainer } from '..'
-import logo from '../images/maskable_icon.png'
+import logo from '../../images/maskable_icon.png'
 import { useLocation } from 'react-router-dom'
 import { RootState } from '@getpackup-group/redux'
 import { white, zIndexModal, doubleSpacer, halfSpacer } from '@getpackup-group/styles'

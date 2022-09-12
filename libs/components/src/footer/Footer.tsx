@@ -107,7 +107,7 @@ export const Footer = () => {
   const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
   const loggedInUser = auth && auth.isLoaded && !auth.isEmpty
   const size = useWindowSize()
-  const location = useLocation()
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
 
   const nonArchivedTrips: TripType[] =
     isLoaded(trips) && Array.isArray(trips) && trips && trips.length > 0
@@ -121,7 +121,7 @@ export const Footer = () => {
       trip.tripMembers[auth.uid].status === TripMemberStatus.Pending
   )
 
-  const isInOnboardingFlow = location.pathname.includes('onboarding')
+  const isInOnboardingFlow = pathname.includes('onboarding')
 
   const isPartiallyActive = ({ isPartiallyCurrent }: { isPartiallyCurrent: boolean }) => {
     return isPartiallyCurrent ? { className: 'active' } : {}

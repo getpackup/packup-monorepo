@@ -1,4 +1,5 @@
-import topo from '@getpackup-group/components/../../image/topo.png'
+// @ts-ignore
+import topo from '../images/topo.png'
 import {
   baseBorderStyle,
   baseSpacer,
@@ -64,11 +65,11 @@ export const CssReset = createGlobalStyle`
   table{border-collapse:collapse;border-spacing:0}
   td,th{padding:0}
   html{box-sizing:border-box;height:100%}*,*:before,*:after{box-sizing:inherit}
-  @at-root{@-moz-viewport{width:device-width}
-  @-ms-viewport{width:device-width}
-  @-o-viewport{width:device-width}
-  @-webkit-viewport{width:device-width}
-  @viewport{width:device-width}}
+  //@at-root{@-moz-viewport{width:device-width}
+  //@-ms-viewport{width:device-width}
+  //@-o-viewport{width:device-width}
+  //@-webkit-viewport{width:device-width}
+  //@viewport{width:device-width}}
 
   /* https://benfrain.com/how-to-get-the-value-of-phone-notches-environment-variables-env-in-javascript-from-css/ */
   :root {

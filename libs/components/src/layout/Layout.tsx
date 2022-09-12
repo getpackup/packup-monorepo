@@ -1,4 +1,4 @@
-import '@styles/bootstrapCarousel.css'
+// import '@getpackup-group/styles/bootstrapCarousel.css'
 
 import { ErrorBoundary, GlobalAlerts, Navbar } from '..'
 import dynamic from 'next/dynamic'
@@ -14,7 +14,6 @@ import Link from 'next/link'
 import React, { FunctionComponent, useEffect } from 'react'
 import CookieConsent from 'react-cookie-consent'
 import { IconContext } from 'react-icons'
-import ReactModal from '../react-modal/ReactModal'
 import styled from 'styled-components'
 import { UploadTheme } from '@getpackup-group/styles'
 
@@ -43,19 +42,14 @@ interface LayoutProps {
   children: any // TODO shouldn't be any
 }
 
-const Layout: FunctionComponent<LayoutProps> = (props) => {
-  useEffect(() => {
-    if (!props.hideFromCms) {
-      ReactModal.setAppElement('#___gatsby')
-    }
-  }, [])
+export const Layout: FunctionComponent<LayoutProps> = (props) => {
   return (
     <>
       <CssReset />
       <UploadTheme />
       <IconContext.Provider value={{ style: { position: 'relative' } }}>
         <LayoutWrapper>
-          {!props.hideFromCms && <AddToHomeScreenBanner />}
+          {/*{!props.hideFromCms && <AddToHomeScreenBanner />}*/}
           {!props.hideFromCms && <Navbar />}
           <PageBody>
             <ErrorBoundary>{props.children}</ErrorBoundary>

@@ -11,7 +11,6 @@ import {
   GearClosetIcon,
 } from '..'
 import yak from '../../images/yak.svg'
-import { useLocation } from 'react-router-dom'
 import { RootState } from '@getpackup-group/redux'
 import {
   brandNotification,
@@ -213,7 +212,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
       trip.tripMembers[auth.uid].status === TripMemberStatus.Pending
   )
 
-  const { pathname } = useLocation()
+  const pathname = typeof window !== 'undefined' ? window?.location.pathname : '/'
 
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [pageTitle, setPageTitle] = useState('')
@@ -275,7 +274,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
   return (
     <StyledNavbar role="navigation" aria-label="main-navigation">
-      <Helmet onChangeClientState={onHelmetChange} />
+      {/*<Helmet onChangeClientState={onHelmetChange} />*/}
       <PageContainer>
         <FlexContainer justifyContent="space-between" alignItems="center">
           {!size.isSmallScreen && auth.isLoaded && (

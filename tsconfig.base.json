@@ -22,7 +22,7 @@
       "@getpackup-group/utils": ["libs/utils/src/index.ts"]
     },
     "typeRoots": ["types", "node_modules/@types"],
-    "types": ["@string-mask"]
+    "types": ["@string-mask", "@window", "node"]
   },
   "exclude": ["node_modules", "tmp"]
 }

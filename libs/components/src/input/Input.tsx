@@ -1,6 +1,6 @@
 import 'react-geosuggest/module/geosuggest.css'
 
-import poweredByGoogle from '@getpackup-group/components/powered_by_google_on_white_hdpi.png'
+import poweredByGoogle from '../../images/powered_by_google_on_white_hdpi.png'
 import {
   brandDanger,
   brandDangerRGB,

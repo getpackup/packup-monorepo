@@ -13,6 +13,10 @@ export default (
   action: WorkerUpdateActions,
   state: WorkerUpdateStoreType = initialState
 ): WorkerUpdateStoreType => {
+  if (typeof action === 'undefined') {
+    return state
+  }
+
   switch (action.type) {
     case SHOW_UPDATE_MODAL: {
       return {

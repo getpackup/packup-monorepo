@@ -6,7 +6,7 @@ export const CLOSE_GLOBAL_ALERT = 'CLOSE_GLOBAL_ALERT'
 export const ADD_GLOBAL_BANNER = 'ADD_GLOBAL_BANNER'
 export const CLOSE_GLOBAL_BANNER = 'CLOSE_GLOBAL_BANNER'
 
-const initialState: GlobalAlertsStoreType = {
+export const initialState: GlobalAlertsStoreType = {
   alerts: [],
   currentAlert: null,
   banners: [],
@@ -17,6 +17,10 @@ export default (
   action: GlobalAlertsActions,
   state: GlobalAlertsStoreType = initialState
 ): GlobalAlertsStoreType => {
+  if (typeof action === 'undefined') {
+    return state
+  }
+
   switch (action.type) {
     case ADD_GLOBAL_ALERT: {
       // eslint-disable-next-line
