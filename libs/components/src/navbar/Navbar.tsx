@@ -10,7 +10,7 @@ import {
   PageContainer,
   GearClosetIcon,
 } from '..'
-import { ReactComponent as Yak } from '../../images/yak.svg'
+import yak from '../../images/yak.svg'
 import { RootState } from '@getpackup-group/redux'
 import {
   brandPrimary,
@@ -39,6 +39,7 @@ import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components'
 
 import { AvatarImageWrapper } from '..'
+import Image from 'next/image'
 
 const StyledNavbar = styled.header`
   position: fixed;
@@ -276,7 +277,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 onClick={() => trackEvent('Navbar Logo Clicked', { isAuthenticated })}
               >
                 <>
-                  <Yak width={tripleSpacer} height={27} />{' '}
+                  <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
                   {size.isSmallScreen && !isAuthenticated ? (
                     ''
                   ) : (
@@ -294,7 +295,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 href="/"
                 onClick={() => trackEvent('Navbar SmallScreen Logo Clicked', { isAuthenticated })}
               >
-                <Yak width={tripleSpacer} />
+                <Image src={yak} alt="" width={tripleSpacer} />
                 packup<sup>beta</sup>
               </Link>
             </Heading>
