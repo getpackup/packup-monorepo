@@ -10,28 +10,24 @@ import {
   PageContainer,
   GearClosetIcon,
 } from '..'
-import yak from '../../images/yak.svg'
+import { ReactComponent as Yak } from '../../images/yak.svg'
 import { RootState } from '@getpackup-group/redux'
 import {
-  brandNotification,
   brandPrimary,
   brandSecondary,
   brandTertiary,
   white,
-} from '@getpackup-group/styles'
-import { zIndexNavbar } from '@getpackup-group/styles'
-import {
+  zIndexNavbar,
   baseSpacer,
   halfSpacer,
   quadrupleSpacer,
   quarterSpacer,
   tripleSpacer,
+  fontSizeBase,
+  fontSizeSmall,
+  headingsFontFamily,
 } from '@getpackup-group/styles'
-import { fontSizeBase, fontSizeSmall, headingsFontFamily } from '@getpackup-group/styles'
-import { TabOptions } from '@getpackup-group/utils'
-import { scrollToPosition } from '@getpackup-group/utils'
-import { trackEvent } from '@getpackup-group/utils'
-import { useWindowSize } from '@getpackup-group/utils'
+import { TabOptions, scrollToPosition, trackEvent, useWindowSize } from '@getpackup-group/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Spin as Hamburger } from 'hamburger-react'
@@ -40,7 +36,7 @@ import { Helmet } from 'react-helmet-async'
 import { FaCalendar, FaChevronLeft, FaUserLock } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 
 import { AvatarImageWrapper } from '..'
 
@@ -227,7 +223,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
   const hamburgerButton = useRef<HTMLDivElement>(null)
   const size = useWindowSize()
 
-  const handleProfileDropownClick = (e: MouseEvent) => {
+  const handleProfileDropdownClick = (e: MouseEvent) => {
     if (menuDropdown && menuDropdown.current && menuDropdown.current.contains(e.target as Node)) {
       return // inside click
     }
@@ -242,10 +238,10 @@ export const Navbar: FunctionComponent<unknown> = () => {
   }
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleProfileDropownClick)
+    document.addEventListener('mousedown', handleProfileDropdownClick)
 
     return () => {
-      document.removeEventListener('mousedown', handleProfileDropownClick)
+      document.removeEventListener('mousedown', handleProfileDropdownClick)
     }
   }, [])
 
@@ -268,29 +264,27 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
   const isInOnboardingFlow = pathname.includes('onboarding')
 
-  const isPartiallyActive = ({ isPartiallyCurrent }: { isPartiallyCurrent: boolean }) => {
-    return isPartiallyCurrent ? { className: 'active' } : {}
-  }
-
   return (
     <StyledNavbar role="navigation" aria-label="main-navigation">
       <Helmet onChangeClientState={onHelmetChange} />
       <PageContainer>
         <FlexContainer justifyContent="space-between" alignItems="center">
-          {!size.isSmallScreen && auth.isLoaded && (
+          {!size.isSmallScreen && !auth.isLoaded && (
             <Heading noMargin>
               <Link
                 href={isAuthenticated ? '/app/trips' : '/'}
                 onClick={() => trackEvent('Navbar Logo Clicked', { isAuthenticated })}
               >
-                <img src={yak} alt="" width={tripleSpacer} height={27} />{' '}
-                {size.isSmallScreen && !isAuthenticated ? (
-                  ''
-                ) : (
-                  <>
-                    packup<sup>beta</sup>
-                  </>
-                )}
+                <>
+                  <Yak width={tripleSpacer} height={27} />{' '}
+                  {size.isSmallScreen && !isAuthenticated ? (
+                    ''
+                  ) : (
+                    <>
+                      packup<sup>beta</sup>
+                    </>
+                  )}
+                </>
               </Link>
             </Heading>
           )}
@@ -300,7 +294,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 href="/"
                 onClick={() => trackEvent('Navbar SmallScreen Logo Clicked', { isAuthenticated })}
               >
-                <img src={yak} alt="" width={tripleSpacer} />
+                <Yak width={tripleSpacer} />
                 packup<sup>beta</sup>
               </Link>
             </Heading>
@@ -417,7 +411,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
           {!size.isSmallScreen && isAuthenticated && auth.isLoaded && !isInOnboardingFlow && (
             <TopNavIconWrapper>
               <Link
-                href="/app/trips"
+                href={'/app/trips'}
                 // getProps={isPartiallyActive}
                 onClick={() => trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Trips' })}
               >
@@ -425,7 +419,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 {pendingTrips.length > 0 && <NotificationDot top={halfSpacer} right="0" />}
               </Link>
               <Link
-                href="/app/gear-closet"
+                href={'/app/gear-closet'}
                 // getProps={isPartiallyActive}
                 onClick={() =>
                   trackEvent('Navbar LoggedInUser Link Clicked', { link: 'gear-closet' })
@@ -456,7 +450,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
               </Link> */}
               {profile.isAdmin && (
                 <Link
-                  href="/admin/gear-list"
+                  href={'/admin/gear-list'}
                   // getProps={isPartiallyActive}
                 >
                   <FaUserLock /> Admin
@@ -464,7 +458,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
               )}
               {loggedInUser && loggedInUser.length > 0 && (
                 <Link
-                  href="/app/profile"
+                  href={'/app/profile'}
                   // getProps={isPartiallyActive}
                   onClick={() =>
                     trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Profile' })
