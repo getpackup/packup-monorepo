@@ -1,3 +1,5 @@
+import { createGlobalStyle } from 'styled-components'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import topo from '../images/topo.png'
 import {
@@ -7,9 +9,6 @@ import {
   quarterSpacer,
   fontFamilySansSerif,
   headingsFontFamily,
-} from '@getpackup-group/styles'
-import { createGlobalStyle } from 'styled-components'
-import {
   brandPrimary,
   brandPrimaryHover,
   brandSecondary,
@@ -17,8 +16,8 @@ import {
   headingsColor,
   lightGray,
   textColor,
-  white,
-} from './color'
+  white
+} from "."
 
 /* eslint no-unused-expressions: ["error", { "allowTaggedTemplates": true }] */
 export const CssReset = createGlobalStyle`
