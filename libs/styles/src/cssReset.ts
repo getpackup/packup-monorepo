@@ -16,8 +16,8 @@ import {
   headingsColor,
   lightGray,
   textColor,
-  white
-} from "."
+  white,
+} from '.'
 
 /* eslint no-unused-expressions: ["error", { "allowTaggedTemplates": true }] */
 export const CssReset = createGlobalStyle`
