@@ -265,12 +265,15 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
   const isInOnboardingFlow = pathname.includes('onboarding')
 
+  // TODO: remove when fixing firestore to work with user auth
+  // auth.isLoaded = true
+
   return (
     <StyledNavbar role="navigation" aria-label="main-navigation">
       <Helmet onChangeClientState={onHelmetChange} />
       <PageContainer>
         <FlexContainer justifyContent="space-between" alignItems="center">
-          {!size.isSmallScreen && !auth.isLoaded && (
+          {!size.isSmallScreen && auth.isLoaded && (
             <Heading noMargin>
               <Link
                 href={isAuthenticated ? '/app/trips' : '/'}
@@ -278,13 +281,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
               >
                 <>
                   <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
-                  {size.isSmallScreen && !isAuthenticated ? (
-                    ''
-                  ) : (
-                    <>
-                      packup<sup>beta</sup>
-                    </>
-                  )}
+                  {size.isSmallScreen && !isAuthenticated ? '' : <>packup</>}
                 </>
               </Link>
             </Heading>
@@ -296,7 +293,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 onClick={() => trackEvent('Navbar SmallScreen Logo Clicked', { isAuthenticated })}
               >
                 <Image src={yak} alt="" width={tripleSpacer} />
-                packup<sup>beta</sup>
+                packup
               </Link>
             </Heading>
           )}
@@ -400,10 +397,13 @@ export const Navbar: FunctionComponent<unknown> = () => {
           )}
           {!size.isSmallScreen && !isAuthenticated && auth.isLoaded && (
             <FlexContainer as="nav">
-              <NavLink href="/blog">Blog</NavLink>
-              <NavLink href="/about">About</NavLink>
-              <NavLink href="/contact">Contact</NavLink>
-              <NavLink href="/login">Log In</NavLink>
+              {/*<NavLink href="/blog">Blog</NavLink>*/}
+              {/*<NavLink href="/about">About</NavLink>*/}
+              {/*<NavLink href="/contact">Contact</NavLink>*/}
+              <Button type="link" to="/login" color="secondary">
+                Log In
+              </Button>
+              &nbsp;
               <Button type="link" to="/signup">
                 Sign Up
               </Button>
