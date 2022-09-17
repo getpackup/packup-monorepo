@@ -21,6 +21,9 @@ import {
 
 /* eslint no-unused-expressions: ["error", { "allowTaggedTemplates": true }] */
 export const CssReset = createGlobalStyle`
+  :root {
+    color-scheme: light only;
+  }
   html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
   body{margin:0}
   article,aside,details,figcaption,figure,footer,header,main,menu,nav,section{display:block}
@@ -64,11 +67,11 @@ export const CssReset = createGlobalStyle`
   table{border-collapse:collapse;border-spacing:0}
   td,th{padding:0}
   html{box-sizing:border-box;height:100%}*,*:before,*:after{box-sizing:inherit}
-  //@at-root{@-moz-viewport{width:device-width}
-  //@-ms-viewport{width:device-width}
-  //@-o-viewport{width:device-width}
-  //@-webkit-viewport{width:device-width}
-  //@viewport{width:device-width}}
+  @at-root{@-moz-viewport{width:device-width}
+  @-ms-viewport{width:device-width}
+  @-o-viewport{width:device-width}
+  @-webkit-viewport{width:device-width}
+  @viewport{width:device-width}}
 
   /* https://benfrain.com/how-to-get-the-value-of-phone-notches-environment-variables-env-in-javascript-from-css/ */
   :root {
@@ -262,7 +265,7 @@ export const CssReset = createGlobalStyle`
 
   input[type="number"] {
     color: transparent;
-    text-shadow: 0 0 0 ${gray};
+    text-shadow: 0 0 0 var(--color-gray);
     caret-color: transparent;
 
     &::selection {
@@ -274,30 +277,30 @@ export const CssReset = createGlobalStyle`
   }
 
   input:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-box-shadow: 0 0 0 1000px white inset;
   }
 
   ::-moz-selection {
-      color: ${white};
+    color: var(--color-background);
       background: ${brandPrimaryHover};
   }
 
   ::selection {
-      color: ${white};
-      background: ${brandPrimaryHover};
+    color: var(--color-background);
+    background: ${brandPrimaryHover};
   }
 
   :-ms-input-placeholder {
-      color: ${lightGray};
+    color: var(--color-lightGray);
   }
 
   ::-ms-input-placeholder {
-      color: ${lightGray};
+    color: var(--color-lightGray);
   }
 
   ::placeholder {
-      color: ${lightGray};
-      opacity: 1; /* Firefox */
+    color: var(--color-lightGray);
+    opacity: 1; /* Firefox */
   }
   .accordion *:focus {
     outline: none;
