@@ -33,11 +33,10 @@ import { useRouter } from 'next/router'
 import { Spin as Hamburger } from 'hamburger-react'
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { FaCalendar, FaChevronLeft, FaUserLock } from 'react-icons/fa'
+import { FaCalendar, FaChevronLeft, FaShoppingCart, FaUserLock } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components'
-
 import { AvatarImageWrapper } from '..'
 import Image from 'next/image'
 
