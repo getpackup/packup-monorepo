@@ -1,6 +1,6 @@
 import { AnalyticsBrowser } from '@segment/analytics-next'
 
-const analytics = AnalyticsBrowser.load({ writeKey: process.env.NX_PROD_SEGMENT_API_KEY || '' })
+const analytics = AnalyticsBrowser.load({ writeKey: process.env.PROD_SEGMENT_API_KEY || '' })
 
 /**
  * Send an event to Segment for analytics tracking
@@ -13,3 +13,5 @@ export function trackEvent(event: string, properties?: Record<string, unknown>) 
   }
   return null
 }
+
+export default trackEvent
