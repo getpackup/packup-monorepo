@@ -8,10 +8,10 @@ import {
   NotificationDot,
   PageContainer,
   Row,
-  SignupForm,
+  // SignupForm,
   GearClosetIcon,
+  Button,
 } from '..'
-import { useLocation } from 'react-router-dom'
 import { RootState } from '@getpackup-group/redux'
 import {
   brandPrimary,
@@ -22,13 +22,13 @@ import {
   baseBorderStyle,
   visuallyHiddenStyle,
   baseSpacer,
-  doubleSpacer,
   halfSpacer,
   quadrupleSpacer,
   fontSizeH3,
   fontSizeSmall,
+  brandSecondaryHover,
 } from '@getpackup-group/styles'
-import { trackEvent, useWindowSize } from '@getpackup-group/utils'
+import { ThemeContext, trackEvent, useWindowSize } from '@getpackup-group/utils'
 import Link from 'next/link'
 import React from 'react'
 import { FaCalendar, FaFacebook, FaInstagram, FaTwitter, FaUserLock } from 'react-icons/fa'
@@ -38,6 +38,7 @@ import styled from 'styled-components'
 
 const StyledFooter = styled.footer`
   background-color: ${brandSecondary};
+  // background-color: var(--color-secondary);
   color: ${white};
   padding: ${quadrupleSpacer} 0;
   font-size: ${fontSizeSmall};
@@ -62,8 +63,9 @@ const HiddenText = styled.span`
 `
 
 const SignupFormWrapper = styled.div`
-  padding: ${doubleSpacer} 0;
-  background-color: ${brandPrimary};
+  padding: ${quadrupleSpacer} 0;
+  background-color: ${brandSecondaryHover};
+  text-align: center;
 `
 
 const BottomNav = styled.nav`
@@ -86,6 +88,7 @@ const BottomNav = styled.nav`
     flex: 1;
     height: ${quadrupleSpacer};
     color: ${textColor};
+    // color: var(--color-text);
     transition: all 0.2s ease-in-out;
     position: relative;
     font-size: ${fontSizeH3};
@@ -108,6 +111,8 @@ export const Footer = () => {
   const loggedInUser = auth && auth.isLoaded && !auth.isEmpty
   const size = useWindowSize()
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
+
+  const { colorMode, setColorMode } = React.useContext(ThemeContext)
 
   const nonArchivedTrips: TripType[] =
     isLoaded(trips) && Array.isArray(trips) && trips && trips.length > 0
@@ -138,16 +143,12 @@ export const Footer = () => {
           <SignupFormWrapper id="signup">
             <PageContainer>
               <Heading as="h1" inverse align="center">
-                Sign up for the newsletter
+                Plan your first trip today
               </Heading>
-              <p style={{ textAlign: 'center', color: white }}>
-                <strong>Enter your email to receive periodic updates about Packup</strong>
-              </p>
-              <Row>
-                <Column md={8} mdOffset={2}>
-                  <SignupForm location="footer" />
-                </Column>
-              </Row>
+
+              <Button type="link" to="/signup">
+                Get Started
+              </Button>
             </PageContainer>
           </SignupFormWrapper>
 
@@ -158,7 +159,7 @@ export const Footer = () => {
                   <Heading>
                     <Link href="/">packup</Link>
                   </Heading>
-                  <p>Adventure made easy.</p>
+                  <p>Get outside faster and safer.</p>
                 </Column>
                 <Column sm={4} md={3} lg={2}>
                   <p>
@@ -171,7 +172,7 @@ export const Footer = () => {
                   </p>
                   <p>
                     <Link
-                      href="/signup"
+                      href={'/signup'}
                       onClick={() => trackEvent('Footer Link Click', { link: 'Sign Up' })}
                     >
                       Sign Up
@@ -181,7 +182,7 @@ export const Footer = () => {
                 <Column sm={4} md={3} lg={2}>
                   <p>
                     <Link
-                      href="/blog"
+                      href={'/blog'}
                       onClick={() => trackEvent('Footer Link Click', { link: 'Blog' })}
                     >
                       Blog
@@ -189,7 +190,7 @@ export const Footer = () => {
                   </p>
                   <p>
                     <Link
-                      href="/about"
+                      href={'/about'}
                       onClick={() => trackEvent('Footer Link Click', { link: 'About' })}
                     >
                       About
@@ -199,12 +200,35 @@ export const Footer = () => {
                 <Column sm={4} md={3} lg={2}>
                   <p>
                     <Link
-                      href="/contact"
+                      href={'/contact'}
                       onClick={() => trackEvent('Footer Link Click', { link: 'Send a message' })}
                     >
                       Send a Message
                     </Link>
                   </p>
+                  <p>
+                    <a
+                      href="https://reddit.com/r/packup"
+                      onClick={() => trackEvent('Footer Link Click', { link: 'Send a message' })}
+                    >
+                      Community
+                    </a>
+                  </p>
+                  {/* <p>
+                    {colorMode ? (
+                      // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={colorMode === 'dark'}
+                          onChange={(ev) => {
+                            setColorMode(ev.target.checked ? 'dark' : 'light');
+                          }}
+                        />{' '}
+                        {colorMode === 'dark' ? `🌝` : `🌞`}
+                      </label>
+                    ) : null}
+                  </p> */}
                 </Column>
               </Row>
               <HorizontalRule />
@@ -240,13 +264,13 @@ export const Footer = () => {
                 </nav>
                 <small>
                   <Link
-                    href="/privacy"
+                    href={'/privacy'}
                     onClick={() => trackEvent('Footer Link Click', { link: 'Privacy' })}
                   >
                     Privacy
                   </Link>{' '}
                   <Link
-                    href="/terms"
+                    href={'/terms'}
                     onClick={() => trackEvent('Footer Link Click', { link: 'Terms of Use' })}
                   >
                     Terms of Use
@@ -261,7 +285,7 @@ export const Footer = () => {
       {size.isSmallScreen && loggedInUser && !isInOnboardingFlow && (
         <BottomNav>
           <Link
-            href="/app/trips"
+            href={'/app/trips'}
             // getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Trips' })
@@ -271,7 +295,7 @@ export const Footer = () => {
             {pendingTrips.length > 0 && <NotificationDot top={`-${halfSpacer}`} right="0" />}
           </Link>
           <Link
-            href="/app/gear-closet"
+            href={'/app/gear-closet'}
             // getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Gear Closet' })
@@ -280,7 +304,7 @@ export const Footer = () => {
             <GearClosetIcon size={15} />
           </Link>
           {/* TODO: when shopping list is ready <Link
-            to="/app/shopping-list"
+            href="/app/shopping-list"
             getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Shopping List' })
@@ -290,14 +314,14 @@ export const Footer = () => {
           </Link> */}
           {profile.isAdmin && (
             <Link
-              href="/admin/gear-list"
+              href={'/admin/gear-list'}
               // getProps={isPartiallyActive}
             >
               <FaUserLock />
             </Link>
           )}
           <Link
-            href="/app/profile"
+            href={'/app/profile'}
             // getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Profile' })
