@@ -1,21 +1,32 @@
+// import 'animate.css';
 // import '@getpackup-group/styles/bootstrapCarousel.css'
 
-import { ErrorBoundary, GlobalAlerts, Navbar } from '..'
+import {
+  ErrorBoundary,
+  GlobalAlerts,
+  Navbar,
+  // ReactModal
+} from '..'
 import dynamic from 'next/dynamic'
-import { brandSecondary, brandSuccess, white } from '@getpackup-group/styles'
 import { CssReset } from '@getpackup-group/styles'
 import {
+  brandSecondary,
+  brandSuccess,
+  white,
   borderRadius,
   quadrupleSpacer,
   quarterSpacer,
   threeQuarterSpacer,
+  UploadTheme,
 } from '@getpackup-group/styles'
 import Link from 'next/link'
-import React, { FunctionComponent, useEffect } from 'react'
+import React, {
+  FunctionComponent,
+  // useEffect
+} from 'react'
 import CookieConsent from 'react-cookie-consent'
 import { IconContext } from 'react-icons'
 import styled from 'styled-components'
-import { UploadTheme } from '@getpackup-group/styles'
 import { ThemeProvider } from '@getpackup-group/utils'
 
 const Footer = dynamic(() => import('../footer/Footer'), {
@@ -47,6 +58,12 @@ interface LayoutProps {
 
 export const Layout: FunctionComponent<LayoutProps> = (props) => {
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
+
+  // useEffect(() => {
+  //   if (!props.hideFromCms) {
+  //     Modal.setAppElement('#___gatsby');
+  //   }
+  // }, []);
 
   return (
     <>
