@@ -84,15 +84,11 @@ export const onWorkerUpdateReady = () => store.dispatch(showWorkerUpdateModal())
 export function ReduxWrapper(props) {
   return (
     <Provider store={store}>
-      {typeof window !== 'undefined' ? (
-        <ReactReduxFirebaseProvider {...rrfProps}>
-          <PersistGate loading={null} persistor={persistor}>
-            {props.children}
-          </PersistGate>
-        </ReactReduxFirebaseProvider>
-      ) : (
-        props.children
-      )}
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <PersistGate loading={null} persistor={persistor}>
+          {props.children}
+        </PersistGate>
+      </ReactReduxFirebaseProvider>
     </Provider>
   )
 }

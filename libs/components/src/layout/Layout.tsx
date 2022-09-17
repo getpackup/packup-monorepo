@@ -65,6 +65,8 @@ export const Layout: FunctionComponent<LayoutProps> = (props) => {
   //   }
   // }, []);
 
+  console.log(!props.hideFromCms)
+
   return (
     <>
       <ThemeProvider>
@@ -80,6 +82,7 @@ export const Layout: FunctionComponent<LayoutProps> = (props) => {
             {!props.hideFromCms && <GlobalAlerts />}
             {!props.hideFromCms && pathname !== '/' && <Footer />}
           </LayoutWrapper>
+
           <CookieConsent
             location="bottom"
             buttonText="Accept"
