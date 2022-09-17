@@ -33,7 +33,7 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isOpen, setOpened] = useState(false)
 
-  const location = useLocation()
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
 
   const isIos = () => {
     const userAgent = window.navigator.userAgent.toLowerCase()
@@ -42,7 +42,7 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
 
   let navigator: any
 
-  if (window.navigator) {
+  if (typeof window !== 'undefined' && window.navigator) {
     navigator = window.navigator
   }
 
@@ -86,7 +86,7 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
         isAuthenticated &&
         trips &&
         trips.length > 0 &&
-        (location.pathname === '/app/trips' || location.pathname === '/app/trips/') &&
+        (pathname === '/app/trips' || pathname === '/app/trips/') &&
         isIos() &&
         !isInStandaloneMode() &&
         checkLastPwaDisplay() &&

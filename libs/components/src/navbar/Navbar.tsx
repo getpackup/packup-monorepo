@@ -45,6 +45,7 @@ const StyledNavbar = styled.header`
   position: fixed;
   left: 0;
   right: 0;
+  // background: var(--color-secondary);
   background: ${brandSecondary};
   min-height: ${quadrupleSpacer};
   padding-top: env(safe-area-inset-top);
@@ -77,15 +78,15 @@ const StyledNavbar = styled.header`
     line-height: ${quadrupleSpacer};
   }
 
-  & sup {
-    text-transform: uppercase;
-    font-size: 0.5em;
-    top: -1em;
-    padding: ${quarterSpacer};
-    border-radius: ${baseSpacer};
-    background-color: ${white};
-    color: ${brandSecondary};
-  }
+  // & sup {
+  //   text-transform: uppercase;
+  //   font-size: 0.5em;
+  //   top: -1em;
+  //   padding: ${quarterSpacer};
+  //   border-radius: ${baseSpacer};
+  //   background-color: ${white};
+  //   color: ${brandSecondary};
+  // }
 
   & svg:focus {
     outline: none;
@@ -178,9 +179,8 @@ const TopNavIconWrapper = styled.nav`
   }
 
   /* active avatar border */
-
   & a.active ${AvatarImageWrapper} {
-    box-shadow: 0 0 0 2px ${brandSecondary}, 0px 0px 0px 4px ${brandPrimary};
+    box-shadow: 0px 0px 0px 2px ${brandSecondary}, 0px 0px 0px 4px ${brandPrimary};
   }
 `
 
@@ -266,7 +266,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
   const isInOnboardingFlow = pathname.includes('onboarding')
 
   // TODO: remove when fixing firestore to work with user auth
-  // auth.isLoaded = true
+  auth.isLoaded = true
 
   return (
     <StyledNavbar role="navigation" aria-label="main-navigation">
@@ -279,10 +279,10 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 href={isAuthenticated ? '/app/trips' : '/'}
                 onClick={() => trackEvent('Navbar Logo Clicked', { isAuthenticated })}
               >
-                <>
+                <a>
                   <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
                   {size.isSmallScreen && !isAuthenticated ? '' : <>packup</>}
-                </>
+                </a>
               </Link>
             </Heading>
           )}

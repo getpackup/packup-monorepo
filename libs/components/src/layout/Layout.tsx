@@ -16,6 +16,7 @@ import CookieConsent from 'react-cookie-consent'
 import { IconContext } from 'react-icons'
 import styled from 'styled-components'
 import { UploadTheme } from '@getpackup-group/styles'
+import { ThemeProvider } from '@getpackup-group/utils'
 
 const Footer = dynamic(() => import('../footer/Footer'), {
   loading: () => <footer style={{ backgroundColor: brandSecondary, height: '20vh' }} />,
@@ -31,10 +32,12 @@ const LayoutWrapper = styled.div`
   overflow: hidden;
 `
 
-const PageBody = styled.main`
+const PageBody = styled.main<{ isHomePage: boolean }>`
   flex: 1;
-  padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
-  padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
+  padding-top: ${(props) =>
+    props.isHomePage ? '0' : `calc(${quadrupleSpacer} + env(safe-area-inset-top))`};
+  padding-bottom: ${(props) =>
+    props.isHomePage ? '0' : `calc(${quadrupleSpacer} + env(safe-area-inset-bottom))`};
 `
 
 interface LayoutProps {
@@ -43,45 +46,49 @@ interface LayoutProps {
 }
 
 export const Layout: FunctionComponent<LayoutProps> = (props) => {
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
+
   return (
     <>
-      <CssReset />
-      <UploadTheme />
-      <IconContext.Provider value={{ style: { position: 'relative' } }}>
-        <LayoutWrapper>
-          {/*{!props.hideFromCms && <AddToHomeScreenBanner />}*/}
-          {!props.hideFromCms && <Navbar />}
-          <PageBody>
-            <ErrorBoundary>{props.children}</ErrorBoundary>
-          </PageBody>
-          {!props.hideFromCms && <GlobalAlerts />}
-          {!props.hideFromCms && <Footer />}
-        </LayoutWrapper>
-        <CookieConsent
-          location="bottom"
-          buttonText="Accept"
-          cookieName="packup-gdpr-google-analytics"
-          style={{
-            backgroundColor: brandSecondary,
-          }}
-          buttonStyle={{
-            backgroundColor: brandSuccess,
-            color: white,
-            fontSize: '80%',
-            borderRadius,
-            fontWeight: 'bold',
-            padding: `${quarterSpacer} ${threeQuarterSpacer}`,
-          }}
-        >
-          <small>
-            This site uses cookies to enhance the user experience. Visit our{' '}
-            <Link href={'/privacy'}>
-              <a style={{ color: white, textDecoration: 'underline' }}>Privacy page</a>
-            </Link>{' '}
-            to learn more.
-          </small>
-        </CookieConsent>
-      </IconContext.Provider>
+      <ThemeProvider>
+        <CssReset />
+        <UploadTheme />
+        <IconContext.Provider value={{ style: { position: 'relative' } }}>
+          <LayoutWrapper>
+            {!props.hideFromCms && <AddToHomeScreenBanner />}
+            {!props.hideFromCms && <Navbar />}
+            <PageBody isHomePage={pathname === '/'}>
+              <ErrorBoundary>{props.children}</ErrorBoundary>
+            </PageBody>
+            {!props.hideFromCms && <GlobalAlerts />}
+            {!props.hideFromCms && pathname !== '/' && <Footer />}
+          </LayoutWrapper>
+          <CookieConsent
+            location="bottom"
+            buttonText="Accept"
+            cookieName="packup-gdpr-google-analytics"
+            style={{
+              backgroundColor: brandSecondary,
+            }}
+            buttonStyle={{
+              backgroundColor: brandSuccess,
+              color: white,
+              fontSize: '80%',
+              borderRadius,
+              fontWeight: 'bold',
+              padding: `${quarterSpacer} ${threeQuarterSpacer}`,
+            }}
+          >
+            <small>
+              This site uses cookies to enhance the user experience. Visit our{' '}
+              <Link href={'/privacy'} style={{ color: white, textDecoration: 'underline' }}>
+                Privacy page
+              </Link>{' '}
+              to learn more.
+            </small>
+          </CookieConsent>
+        </IconContext.Provider>
+      </ThemeProvider>
     </>
   )
 }
