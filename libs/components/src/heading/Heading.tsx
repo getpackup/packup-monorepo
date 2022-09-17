@@ -1,6 +1,7 @@
-import { headingsColor, white } from '@getpackup-group/styles'
-import { baseSpacer } from '@getpackup-group/styles'
 import {
+  headingsColor,
+  white,
+  baseSpacer,
   fontFamilySansSerif,
   fontSizeBase,
   fontSizeH1,
@@ -9,9 +10,12 @@ import {
   fontSizeH4,
   fontSizeH5,
   fontSizeH6,
+  fontSizeMega,
   fontSizeSmall,
   headingsFontFamily,
   lineHeightSmall,
+  quadrupleSpacer,
+  tripleSpacer,
 } from '@getpackup-group/styles'
 import React, { FunctionComponent } from 'react'
 import styled, { css } from 'styled-components'
@@ -27,6 +31,7 @@ interface HeadingProps {
   onClick?: () => void
   withDecoration?: boolean
   children: any // TODO specify concrete type
+  mega?: boolean
 }
 
 const renderFontSize = (as: HeadingProps['as'], altStyle: HeadingProps['altStyle']) => {
@@ -58,7 +63,7 @@ const StyledHeading = styled.h1<HeadingProps>`
   margin-bottom: ${(props) => (props.noMargin ? '0' : baseSpacer)};
   text-align: ${(props) => props.align};
   white-space: pre-line;
-  font-size: ${(props) => renderFontSize(props.as, props.altStyle)};
+  font-size: ${(props) => (props.mega ? fontSizeMega : renderFontSize(props.as, props.altStyle))};
   text-transform: ${(props) => (props.uppercase ? 'uppercase' : 'initial')};
   font-family: ${(props) => (props.altStyle ? fontFamilySansSerif : headingsFontFamily)};
   & div {
