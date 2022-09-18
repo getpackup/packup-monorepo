@@ -65,8 +65,6 @@ export const Layout: FunctionComponent<LayoutProps> = (props) => {
   //   }
   // }, []);
 
-  console.log(!props.hideFromCms)
-
   return (
     <>
       <ThemeProvider>
@@ -76,9 +74,7 @@ export const Layout: FunctionComponent<LayoutProps> = (props) => {
           <LayoutWrapper>
             {!props.hideFromCms && <AddToHomeScreenBanner />}
             {!props.hideFromCms && <Navbar />}
-            <PageBody isHomePage={pathname === '/'}>
-              <ErrorBoundary>{props.children}</ErrorBoundary>
-            </PageBody>
+            <PageBody isHomePage={pathname === '/'}>{props.children}</PageBody>
             {!props.hideFromCms && <GlobalAlerts />}
             {!props.hideFromCms && pathname !== '/' && <Footer />}
           </LayoutWrapper>

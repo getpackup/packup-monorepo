@@ -33,7 +33,7 @@ export const getMiddlewares = () => [oauth, requestHeaders, apiMiddleware, error
 const middlewares = getMiddlewares()
 const isBrowser = typeof window !== 'undefined'
 
-if (isBrowser && (window.__ENVIRONMENT || process.env.GATSBY_ENVIRONMENT !== 'PRODUCTION')) {
+if (process.env.ENVIRONMENT !== 'PRODUCTION') {
   middlewares.push(logger)
 }
 
