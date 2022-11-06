@@ -2,6 +2,19 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nrwl/nx"],
+  "extends": [
+    "airbnb",
+    "plugin:import/typescript", // this is needed because airbnb uses eslint-plugin-import
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "tsconfig.base.json"
+      }
+    }
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -19,29 +32,37 @@
             ]
           }
         ],
-        "strict": 0,
-        "import/no-unresolved": "error",
+        "strict": "error",
         "react/destructuring-assignment": [0, "never"],
         "react/prop-types": 0,
         "operator-linebreak": 0,
         "react/jsx-props-no-spreading": 0,
-        "no-unused-vars": 0,
+        "no-unused-vars": "warn",
         "import/no-cycle": 0,
+        "import/extensions": [0, "never"],
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "import/no-unresolved": "error",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"]
+      }
+    },
+    {
+      "files": ["*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {
         "react/jsx-one-expression-per-line": 0,
         "react/jsx-filename-extension": [
           1,
           {
-            "extensions": [".ts", ".tsx"]
+            "extensions": [".tsx"]
           }
-        ],
-        "import/extensions": [0, "never"],
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-empty-function": "off"
+        ]
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts"],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
     },

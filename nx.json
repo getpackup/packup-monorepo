@@ -25,13 +25,21 @@
     }
   },
   "workspaceLayout": {
-    "appsDir": "packages",
-    "libsDir": "packages"
+    "appsDir": "apps",
+    "libsDir": "libs"
   },
   "generators": {
     "@nrwl/react": {
       "application": {
         "babel": true
+      },
+      "component": {
+        "style": "styled-components",
+        "project": "components",
+        "directory": ".",
+        "pascalCaseFiles": true,
+        "pascalCaseFolders": false,
+        "export": true
       }
     },
     "@nrwl/next": {
