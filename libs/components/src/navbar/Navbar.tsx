@@ -273,11 +273,12 @@ export const Navbar: FunctionComponent<unknown> = () => {
       <PageContainer>
         <FlexContainer justifyContent="space-between" alignItems="center">
           {!size.isSmallScreen && auth.isLoaded && (
-            <Heading noMargin>
-              <Link
-                href={isAuthenticated ? '/app/trips' : '/'}
-                onClick={() => trackEvent('Navbar Logo Clicked', { isAuthenticated })}
-              >
+            <Heading
+              noMargin
+              inverse
+              onClick={() => trackEvent('Navbar Logo Clicked', { isAuthenticated })}
+            >
+              <Link href={isAuthenticated ? '/app/trips' : '/'}>
                 <a>
                   <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
                   {size.isSmallScreen && !isAuthenticated ? '' : <>packup</>}

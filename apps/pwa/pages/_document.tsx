@@ -30,7 +30,15 @@ export default class CustomDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>{this.props.styles}</Head>
+        <Head>
+          {this.props.styles}
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cloud.typography.com/7222118/6340832/css/fonts.css"
+            media="all"
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

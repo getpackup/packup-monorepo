@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import topo from '../images/topo.png'
 import {
   baseBorderStyle,
   baseSpacer,
@@ -95,7 +94,7 @@ export const CssReset = createGlobalStyle`
     color: ${textColor};
     overflow-x: hidden;
     background-color: ${white};
-    background-image: url('${topo}');
+    background-image: url('/images/topo.png');
     background-size: 500px;
 
     &.ReactModal__Body--open {
