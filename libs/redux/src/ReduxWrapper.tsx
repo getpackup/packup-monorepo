@@ -8,13 +8,10 @@ import { Provider } from 'react-redux'
 import { FirebaseReducer, FirestoreReducer, ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import { PersistGate } from 'redux-persist/integration/react'
-import {
-  showWorkerUpdateModal,
-  initialState as workerUpdateInitialState,
-} from './ducks/workerUpdateReady'
-import { initialState as clientInitialState } from './ducks/client'
+import { showWorkerUpdateModal, workerUpdateInitialState } from './ducks/workerUpdateReady'
+import { clientInitialState } from './ducks/client'
 import configureStore from './configureStore'
-import { initialState as globalAlertsInitialState } from './ducks/globalAlerts'
+import { globalAlertsInitialState } from './ducks/globalAlerts'
 
 const initialState = process.env.BROWSER // eslint-disable-next-line no-underscore-dangle
   ? window.__INITIAL_STATE__
@@ -87,15 +84,11 @@ export const onWorkerUpdateReady = () => store.dispatch(showWorkerUpdateModal())
 export function ReduxWrapper(props) {
   return (
     <Provider store={store}>
-      {typeof window !== 'undefined' ? (
-        <ReactReduxFirebaseProvider {...rrfProps}>
-          <PersistGate loading={null} persistor={persistor}>
-            {props.children}
-          </PersistGate>
-        </ReactReduxFirebaseProvider>
-      ) : (
-        props.children
-      )}
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <PersistGate loading={null} persistor={persistor}>
+          {props.children}
+        </PersistGate>
+      </ReactReduxFirebaseProvider>
     </Provider>
   )
 }

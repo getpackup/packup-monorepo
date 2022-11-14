@@ -1,13 +1,36 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { minify } from 'terser'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import { Layout } from '@getpackup-group/components'
+import { ThemeProvider } from '@getpackup-group/utils'
 import { ReduxWrapper } from '@getpackup-group/redux'
 import { HelmetProvider } from 'react-helmet-async'
 import 'firebase/app'
 import 'firebase/auth'
-import { COLORS, COLOR_MODE_KEY, INITIAL_COLOR_MODE_CSS_PROP } from '@getpackup-group/styles'
+import styled, { CSSProperties } from 'styled-components'
+import CookieConsent from 'react-cookie-consent'
+import { IconContext } from 'react-icons'
+import {
+  baseSpacer,
+  borderRadius,
+  brandSecondary,
+  brandSuccess,
+  breakpoints,
+  COLORS,
+  COLOR_MODE_KEY,
+  CssReset,
+  INITIAL_COLOR_MODE_CSS_PROP,
+  offWhite,
+  quadrupleSpacer,
+  quarterSpacer,
+  threeQuarterSpacer,
+  UploadTheme,
+  white,
+  z1Shadow,
+} from '@getpackup-group/styles'
+import { AddToHomeScreenBanner, GlobalAlerts, Navbar, Footer } from '@getpackup-group/components'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 function setColorsByTheme() {
   const colors = '🌈'
@@ -81,7 +104,38 @@ function FallbackStyles() {
   return <style>{wrappedInSelector}</style>
 }
 
+const LayoutWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+`
+
+const PageBody = styled.main`
+  flex: 1;
+  padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
+  padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
+`
+
+const AppContainer = styled.div`
+  padding: ${baseSpacer} 0;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: ${breakpoints.xl};
+  background-color: ${offWhite};
+  // background-color: var(--color-background);
+  min-height: 100vh;
+  box-shadow: ${z1Shadow};
+`
+
 function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+
+  const { pathname } = router
+
+  const iconStyle = useMemo(() => ({ style: { position: 'relative' } }), [])
+
   return (
     <>
       <Head>
@@ -91,9 +145,48 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <ReduxWrapper>
         <HelmetProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <ThemeProvider>
+            <CssReset />
+            <UploadTheme />
+            <IconContext.Provider value={iconStyle as CSSProperties}>
+              <LayoutWrapper>
+                <AddToHomeScreenBanner />
+                <Navbar />
+                <PageBody>
+                  <AppContainer>
+                    <Component {...pageProps} />
+                  </AppContainer>
+                </PageBody>
+                <GlobalAlerts />
+                {pathname !== '/' && <Footer />}
+              </LayoutWrapper>
+
+              <CookieConsent
+                location="bottom"
+                buttonText="Accept"
+                cookieName="packup-gdpr-google-analytics"
+                style={{
+                  backgroundColor: brandSecondary,
+                }}
+                buttonStyle={{
+                  backgroundColor: brandSuccess,
+                  color: white,
+                  fontSize: '80%',
+                  borderRadius,
+                  fontWeight: 'bold',
+                  padding: `${quarterSpacer} ${threeQuarterSpacer}`,
+                }}
+              >
+                <small>
+                  This site uses cookies to enhance the user experience. Visit our{' '}
+                  <Link href="/privacy" style={{ color: white, textDecoration: 'underline' }}>
+                    Privacy page
+                  </Link>{' '}
+                  to learn more.
+                </small>
+              </CookieConsent>
+            </IconContext.Provider>
+          </ThemeProvider>
         </HelmetProvider>
       </ReduxWrapper>
     </>

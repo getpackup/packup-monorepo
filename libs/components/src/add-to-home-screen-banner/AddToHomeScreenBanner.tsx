@@ -82,6 +82,7 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
       //   console.log('isInStandaloneMode: ', isInStandaloneMode());
       //   console.log('checkLastPwaDisplay: ', checkLastPwaDisplay());
       // }
+      // TODO: update /app/trips link to point to / index page?
       if (
         isAuthenticated &&
         trips &&

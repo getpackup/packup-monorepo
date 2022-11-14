@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
+// TODO: refactor this file to use next/image stuff better, or just get rid of it
 export const PreviewCompatibleImage = ({
   imageInfo,
   ...rest
@@ -13,6 +14,7 @@ export const PreviewCompatibleImage = ({
   style?: React.CSSProperties
   width?: string
   height?: string
+  layout?: 'fixed' | 'fill' | 'intrinsic' | 'responsive' | undefined
 }) => {
   const imageStyle = { width: '100%' }
   const { alt = '', image } = imageInfo

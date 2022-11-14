@@ -1,25 +1,20 @@
 import React from 'react'
-import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
+import { RootState } from '@getpackup-group/redux'
+import { LoadingPage } from '@getpackup-group/components'
 
-const StyledPage = styled.div`
-  .page {
-  }
-`
-
-/**
- * This is the home page a.k.a. trip list page of the app
- *
- * @constructor
- */
 export default function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.styled-components file.
-   */
-  return (
-    <StyledPage>
-      <p>This will be the trip pages</p>
-    </StyledPage>
-  )
+  const router = useRouter()
+
+  const auth = useSelector((state: RootState) => state.firebase.auth)
+
+  if (auth && auth.isLoaded && auth.isEmpty) {
+    router.push('/login')
+  }
+
+  if (!auth || !auth.isLoaded) {
+    return <LoadingPage />
+  }
+  return <p style={{ margin: '3rem' }}>This will be the trip pages</p>
 }

@@ -13,7 +13,7 @@ export const RelativeOrExternalLink: FunctionComponent<RelativeOrExternalLinkPro
   onClick,
   ...other
 }) => {
-  // This assumes that any internal link (intended for Gatsby)
+  // This assumes that any internal link (intended for Next)
   // will start with exactly one slash, and that anything else is external.
   const internal = /getpackup.com/.test(to) || /^\/(?!\/)/.test(to)
   // Use NextJs Link for internal links, and <a> for others

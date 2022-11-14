@@ -5,13 +5,13 @@ import {
   WorkerUpdateStoreType,
 } from './workerUpdateReady.d'
 
-const initialState: WorkerUpdateStoreType = {
+export const workerUpdateInitialState: WorkerUpdateStoreType = {
   display: false,
 }
 
 export default (
   action: WorkerUpdateActions,
-  state: WorkerUpdateStoreType = initialState
+  state: WorkerUpdateStoreType = workerUpdateInitialState
 ): WorkerUpdateStoreType => {
   if (typeof action === 'undefined') {
     return state

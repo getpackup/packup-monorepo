@@ -6,7 +6,7 @@ export const CLOSE_GLOBAL_ALERT = 'CLOSE_GLOBAL_ALERT'
 export const ADD_GLOBAL_BANNER = 'ADD_GLOBAL_BANNER'
 export const CLOSE_GLOBAL_BANNER = 'CLOSE_GLOBAL_BANNER'
 
-export const initialState: GlobalAlertsStoreType = {
+export const globalAlertsInitialState: GlobalAlertsStoreType = {
   alerts: [],
   currentAlert: null,
   banners: [],
@@ -15,7 +15,7 @@ export const initialState: GlobalAlertsStoreType = {
 
 export default (
   action: GlobalAlertsActions,
-  state: GlobalAlertsStoreType = initialState
+  state: GlobalAlertsStoreType = globalAlertsInitialState
 ): GlobalAlertsStoreType => {
   if (typeof action === 'undefined') {
     return state

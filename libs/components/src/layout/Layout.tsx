@@ -3,7 +3,7 @@
 
 import {
   ErrorBoundary,
-  GlobalAlerts,
+  // GlobalAlerts,
   Navbar,
   // ReactModal
 } from '..'
@@ -75,7 +75,7 @@ export const Layout: FunctionComponent<LayoutProps> = (props) => {
             {!props.hideFromCms && <AddToHomeScreenBanner />}
             {!props.hideFromCms && <Navbar />}
             <PageBody isHomePage={pathname === '/'}>{props.children}</PageBody>
-            {!props.hideFromCms && <GlobalAlerts />}
+            {/* {!props.hideFromCms && <GlobalAlerts />} */}
             {!props.hideFromCms && pathname !== '/' && <Footer />}
           </LayoutWrapper>
 
