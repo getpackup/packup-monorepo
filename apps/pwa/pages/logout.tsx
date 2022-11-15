@@ -17,7 +17,7 @@ export default function Logout() {
       .auth()
       .signOut()
       .then(() => {
-        router.push('/')
+        router.push('/login')
       })
       .catch((err) => {
         dispatch(
@@ -33,9 +33,8 @@ export default function Logout() {
       dispatch({ type: actionTypes.CLEAR_DATA })
     })
     trackEvent('Logout', { location: 'Logout page' })
-    router.push('/')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    router.push('/login')
+  }, [dispatch, firebase, router])
 
   return (
     <PageContainer>

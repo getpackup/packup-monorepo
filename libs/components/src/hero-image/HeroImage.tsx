@@ -14,7 +14,7 @@ type HeroImageProps = {
   justifyContent?: CSSProperties['justifyContent']
   alignItems?: CSSProperties['alignItems']
   fullHeight?: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const HeroImageWrapper = styled.div`

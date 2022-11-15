@@ -12,7 +12,6 @@ const nextConfig = {
     svgr: true,
   },
   swcMinify: true,
-  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
@@ -24,6 +23,18 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.googleapis.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/getpackup/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.gravatar.com',
         port: '',
         pathname: '/**',
       },

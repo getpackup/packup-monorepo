@@ -18,7 +18,7 @@ import { trackEvent, requiredField } from '@getpackup-group/utils'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
@@ -32,9 +32,11 @@ export default function Login() {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  if (!!auth && auth.isLoaded && !auth.isEmpty) {
-    router.push('/')
-  }
+  useEffect(() => {
+    if (!!auth && auth.isLoaded && !auth.isEmpty) {
+      router.push('/')
+    }
+  }, [auth, router])
 
   const initialValues = {
     email: '',

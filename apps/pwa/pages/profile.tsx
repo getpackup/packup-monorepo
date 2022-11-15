@@ -41,6 +41,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
 import styled from 'styled-components'
+import Head from 'next/head'
 
 export const EmailWrapper = styled.div`
   width: 100%;
@@ -78,7 +79,7 @@ export default function Profile() {
       .signOut()
       .then(() => {
         trackEvent('Logout Clicked', { location: 'Profile' })
-        router.push('/')
+        router.push('/login')
       })
       .catch((err) => {
         trackEvent('Logout Failure', { location: 'Profile', error: err })
@@ -168,15 +169,16 @@ export default function Profile() {
 
   return (
     <PageContainer>
-      {/* TODO: update SEO to use next stuff */}
-      {/* <Seo title="Edit Profile">
+      <Head>
+        <title>Edit Profile | Packup</title>
         {typeof google !== 'object' && (
           <script
             type="text/javascript"
-            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GATSBY_GOOGLE_MAPS_API_KEY}&libraries=places`}
+            async
+            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places`}
           />
         )}
-      </Seo> */}
+      </Head>
       {auth && activeLoggedInUser && (
         <ProfileWrapper>
           <NegativeMarginContainer

@@ -139,7 +139,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to pwa!</title>
+        <title>Expert packing lists for camping and outdoor adventure | Packup</title>
         <FallbackStyles />
         <MagicScriptTag />
       </Head>

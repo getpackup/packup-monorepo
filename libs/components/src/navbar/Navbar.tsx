@@ -278,7 +278,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
               inverse
               onClick={() => trackEvent('Navbar Logo Clicked', { isAuthenticated })}
             >
-              <Link href="/">
+              <Link href={isAuthenticated ? '/' : '/login'}>
                 <a>
                   <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
                   {size.isSmallScreen && !isAuthenticated ? '' : <>packup</>}
