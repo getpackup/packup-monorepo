@@ -87,7 +87,7 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
         isAuthenticated &&
         trips &&
         trips.length > 0 &&
-        (pathname === '/app/trips' || pathname === '/app/trips/') &&
+        (pathname === '/trips' || pathname === '/trips/') &&
         isIos() &&
         !isInStandaloneMode() &&
         checkLastPwaDisplay() &&

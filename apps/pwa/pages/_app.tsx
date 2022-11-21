@@ -31,6 +31,7 @@ import {
 import { AddToHomeScreenBanner, GlobalAlerts, Navbar, Footer } from '@getpackup-group/components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Modal from 'react-modal'
 
 function setColorsByTheme() {
   const colors = '🌈'
@@ -128,6 +129,8 @@ const AppContainer = styled.div`
   min-height: 100vh;
   box-shadow: ${z1Shadow};
 `
+
+Modal.setAppElement('#__next')
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter()

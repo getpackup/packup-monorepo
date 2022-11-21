@@ -228,7 +228,7 @@ export default function Index() {
             <p>
               <Button
                 type="link"
-                to="/app/trips/new"
+                to="/trips/new"
                 iconLeft={<FaPlusCircle />}
                 block
                 onClick={() =>

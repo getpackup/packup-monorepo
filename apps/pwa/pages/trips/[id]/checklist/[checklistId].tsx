@@ -1,0 +1,96 @@
+import { PackingListItemType, TripType } from '@getpackup-group/common'
+import { useRouter } from 'next/router'
+
+import { NoTripFound, PageContainer, EditPackingListItem } from '@getpackup-group/components'
+import { RootState } from '@getpackup-group/redux'
+
+import { trackEvent } from '@getpackup-group/utils'
+
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
+import Head from 'next/head'
+
+export default function ChecklistId() {
+  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const users = useSelector((state: RootState) => state.firestore.data.users)
+  const activeTripById: Array<TripType> = useSelector(
+    (state: RootState) => state.firestore.ordered.activeTripById
+  )
+  const packingList: PackingListItemType[] = useSelector(
+    (state: RootState) => state.firestore.ordered.packingList
+  )
+
+  const router = useRouter()
+  // the trip ID
+  const id = router.query.id as string
+  const checklistId = router.query.checklistId as string
+
+  const isTripOwner: boolean =
+    activeTripById && activeTripById.length > 0 && activeTripById[0].owner === auth.uid
+
+  const activeTrip: TripType | undefined =
+    (activeTripById &&
+      activeTripById.length > 0 &&
+      Object.keys(activeTripById[0].tripMembers).some((member) => member === auth.uid)) ||
+    isTripOwner
+      ? activeTripById[0]
+      : undefined
+
+  useFirestoreConnect([
+    {
+      collection: 'trips',
+      doc: id,
+      storeAs: 'activeTripById',
+    },
+    {
+      collection: 'users',
+      where: [
+        'uid',
+        'in',
+        activeTrip && activeTrip.tripMembers && Object.keys(activeTrip.tripMembers).length > 0
+          ? Object.keys(activeTrip.tripMembers)
+          : [auth?.uid || ''],
+      ],
+    },
+    {
+      collection: 'trips',
+      doc: id,
+      subcollections: [{ collection: 'packing-list' }],
+      storeAs: 'packingList',
+      orderBy: ['category', 'asc'],
+    },
+  ])
+
+  if (!id) {
+    trackEvent('Trip By Id Had No Id')
+    return null
+  }
+
+  if (!checklistId) {
+    trackEvent('Trip Edit Packing List Item By Id Had No checklistId')
+    // TODO: return a better failure state UI here
+    return null
+  }
+
+  return (
+    <>
+      <Head>
+        <title>Trip Party</title>
+      </Head>
+
+      <PageContainer>
+        <EditPackingListItem
+          tripId={id}
+          checklistId={checklistId}
+          users={users}
+          packingList={packingList || []}
+          loggedInUserUid={auth.uid}
+          activeTrip={activeTrip}
+        />
+      </PageContainer>
+
+      {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && <NoTripFound />}
+    </>
+  )
+}
