@@ -1,3 +1,4 @@
+export * from './table/Table'
 // export * from './react-modal/ReactModal'
 export * from './add-to-home-screen-banner/AddToHomeScreenBanner'
 export * from './alert/Alert'

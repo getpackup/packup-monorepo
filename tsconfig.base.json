@@ -17,6 +17,7 @@
     "paths": {
       "@getpackup-group/common": ["libs/common/src/index.ts"],
       "@getpackup-group/components": ["libs/components/src/index.ts"],
+      "@getpackup-group/hooks": ["libs/hooks/src/index.ts"],
       "@getpackup-group/redux": ["libs/redux/src/index.ts"],
       "@getpackup-group/styles": ["libs/styles/src/index.ts"],
       "@getpackup-group/utils": ["libs/utils/src/index.ts"]
