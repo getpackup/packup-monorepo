@@ -11,7 +11,7 @@ import {
   StyledLabel,
   multiSelectStyles,
 } from '@getpackup-group/components'
-import { WindowLocation, useLocation } from '@reach/router'
+import { NextRouter, useRouter } from 'next/router'
 import { RootState } from '@getpackup-group/redux'
 import {
   brandDanger,
@@ -38,7 +38,6 @@ import {
   gearListOtherConsiderations,
 } from '@getpackup-group/utils'
 import { getQueryStringParams, mergeQueryParams, useWindowSize } from '@getpackup-group/utils'
-import { navigate } from 'gatsby'
 import uniqBy from 'lodash/uniqBy'
 import { matchSorter } from 'match-sorter'
 /* eslint-disable react/no-array-index-key */
@@ -123,13 +122,15 @@ const GlobalFilter = ({
   setTagToSearch,
   tagToSearch,
   location,
+  router,
 }: {
   setGlobalFilter: (value: string) => void
   setValueToSearch: (value: string) => void
   valueToSearch: string
   setTagToSearch: (value: string) => void
   tagToSearch: string
-  location: WindowLocation<unknown>
+  location: any
+  router: NextRouter
 }) => {
   const size = useWindowSize()
   const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
@@ -137,28 +138,22 @@ const GlobalFilter = ({
 
   const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
 
-  const onChange = useAsyncDebounce(({ val, subCat }: { val: string; subCat: string }) => {
+  const onChange = useAsyncDebounce(({ val, subCat, router }: { val: string; subCat: string }) => {
     setGlobalFilter(val || subCat || '')
     if (val === '' || subCat === '') {
       setGlobalFilter('')
       // if val is blank, clear everything out
-      navigate(mergeQueryParams({ currentPage: '', search: '', tag: '' }, location), {
-        replace: true,
-      })
+      router.push(mergeQueryParams({ currentPage: '', search: '', tag: '' }, location))
     }
     if (val !== '') {
       setGlobalFilter(val)
       // clear currentPage because there are going to be new results
-      navigate(mergeQueryParams({ currentPage: '', search: val || '', tag: '' }, location), {
-        replace: true,
-      })
+      router.push(mergeQueryParams({ currentPage: '', search: val || '', tag: '' }, location))
     }
     if (subCat !== '') {
       setGlobalFilter(`subCat-${subCat}`)
       // clear currentPage because there are going to be new results
-      navigate(mergeQueryParams({ currentPage: '', search: '', tag: subCat }, location), {
-        replace: true,
-      })
+      router.push(mergeQueryParams({ currentPage: '', search: '', tag: subCat }, location))
     }
   }, 200)
 
@@ -264,7 +259,7 @@ const GlobalFilter = ({
   )
 }
 
-const Table: FunctionComponent<TableProps> = ({
+export const Table: FunctionComponent<TableProps> = ({
   columns,
   data,
   hasPagination,
@@ -273,9 +268,10 @@ const Table: FunctionComponent<TableProps> = ({
   rowsPerPage,
   isLoading,
 }) => {
-  const location = useLocation()
+  const router = useRouter()
+  const { query } = router
   // currentPage index starts at 1 to match displayed text in pagination on UI
-  const { search, currentPage, sortColumn, sortDirection, tag } = getQueryStringParams(location)
+  const { search, currentPage, sortColumn, sortDirection, tag } = getQueryStringParams(query)
   const [valueToSearch, setValueToSearch] = useState(search || '')
   const [tagToSearch, setTagToSearch] = useState(tag || '')
 
@@ -352,6 +348,7 @@ const Table: FunctionComponent<TableProps> = ({
           setTagToSearch={setTagToSearch}
           tagToSearch={tagToSearch as string}
           location={location}
+          router={router}
         />
       )}
       <StyledTable {...getTableProps()}>
@@ -394,7 +391,7 @@ const Table: FunctionComponent<TableProps> = ({
                             curPage = ''
                           }
                           column.toggleSortBy()
-                          navigate(
+                          router.push(
                             mergeQueryParams(
                               {
                                 sortColumn: sortCol,
@@ -402,10 +399,7 @@ const Table: FunctionComponent<TableProps> = ({
                                 currentPage: curPage,
                               },
                               location
-                            ),
-                            {
-                              replace: true,
-                            }
+                            )
                           )
                         }
                       }}
@@ -466,7 +460,7 @@ const Table: FunctionComponent<TableProps> = ({
                             {String(cell.getCellProps().key).includes('action') ? (
                               <FlexContainer justifyContent="flex-end" flexWrap="nowrap">
                                 <IconWrapper
-                                  onClick={() => navigate(cell.row.original.actions[0].to)}
+                                  onClick={() => router.push(cell.row.original.actions[0].to)}
                                   hoverColor={brandPrimary}
                                   color={lightestGray}
                                 >
@@ -505,9 +499,7 @@ const Table: FunctionComponent<TableProps> = ({
                         size="small"
                         onClick={() => {
                           setValueToSearch('')
-                          navigate(mergeQueryParams({ currentPage: '', search: '' }, location), {
-                            replace: false,
-                          })
+                          router.push(mergeQueryParams({ currentPage: '', search: '' }, location))
                         }}
                       >
                         Clear
@@ -533,9 +525,7 @@ const Table: FunctionComponent<TableProps> = ({
                   onClick={() => {
                     gotoPage(0)
                     // set to empty string to remove currentPage query string param
-                    navigate(mergeQueryParams({ currentPage: '' }, location), {
-                      replace: true,
-                    })
+                    router.push(mergeQueryParams({ currentPage: '' }, location))
                   }}
                   disabled={!canPreviousPage}
                 >
@@ -548,7 +538,7 @@ const Table: FunctionComponent<TableProps> = ({
                   color="tertiary"
                   onClick={() => {
                     previousPage()
-                    navigate(
+                    router.push(
                       mergeQueryParams(
                         {
                           currentPage:
@@ -557,10 +547,7 @@ const Table: FunctionComponent<TableProps> = ({
                             currentPage === '2' ? '' : String(Number(currentPage as string) - 1),
                         },
                         location
-                      ),
-                      {
-                        replace: true,
-                      }
+                      )
                     )
                   }}
                   disabled={!canPreviousPage}
@@ -579,7 +566,7 @@ const Table: FunctionComponent<TableProps> = ({
                   rightSpacer
                   onClick={() => {
                     nextPage()
-                    navigate(
+                    router.push(
                       mergeQueryParams(
                         {
                           currentPage:
@@ -588,10 +575,7 @@ const Table: FunctionComponent<TableProps> = ({
                             currentPage ? String(Number(currentPage as string) + 1) : '2',
                         },
                         location
-                      ),
-                      {
-                        replace: true,
-                      }
+                      )
                     )
                   }}
                   disabled={!canNextPage}
@@ -605,9 +589,7 @@ const Table: FunctionComponent<TableProps> = ({
                   size="small"
                   onClick={() => {
                     gotoPage(pageCount - 1)
-                    navigate(mergeQueryParams({ currentPage: String(pageCount) }, location), {
-                      replace: true,
-                    })
+                    router.push(mergeQueryParams({ currentPage: String(pageCount) }, location))
                   }}
                   disabled={!canNextPage}
                 >

@@ -290,7 +290,7 @@ export const Footer = () => {
             {pendingTrips.length > 0 && <NotificationDot top={`-${halfSpacer}`} right="0" />}
           </Link>
           <Link
-            href={'/app/gear-closet'}
+            href={'/gear-closet'}
             // getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Gear Closet' })

@@ -425,7 +425,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 </a>
               </Link>
               <Link
-                href={'/app/gear-closet'}
+                href={'/gear-closet'}
                 // getProps={isPartiallyActive}
               >
                 <a

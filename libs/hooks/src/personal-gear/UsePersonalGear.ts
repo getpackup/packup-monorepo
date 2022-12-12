@@ -57,8 +57,10 @@ export const usePersonalGear = () => {
     return uniqBy(matches, 'name').concat(gearClosetAdditions)
   }, [masterGear, gearClosetRemovals, gearClosetAdditions])
 
-  if (!isLoaded(fetchedGearCloset)) {
+  if (!isLoaded(auth) || !isLoaded(fetchedGearCloset)) {
     return 'loading'
   }
   return personalGear
 }
+
+export default usePersonalGear

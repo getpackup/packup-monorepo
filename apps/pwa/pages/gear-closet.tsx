@@ -21,8 +21,7 @@ import {
   Modal,
   PageContainer,
   Row,
-  // Seo,
-  // Table,
+  Table,
   multiSelectStyles,
 } from '@getpackup-group/components'
 import { usePersonalGear } from '@getpackup-group/hooks'
@@ -34,14 +33,20 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FaFolderOpen, FaInfoCircle, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-// import Select from 'react-select'
-import ValueType from 'react-select'
+import Select, { CommonProps } from 'react-select'
 import ReactTooltip from 'react-tooltip'
+import Head from 'next/head'
 
-type Category = { value: string; label: string }
-// | ValueType<{ label: string; value: keyof ActivityTypes }, false>
+interface OptionType {
+  label: string
+  value: keyof ActivityTypes
+}
 
-function GearCloset() {
+type Category =
+  | { value: string; label: string }
+  | CommonProps<OptionType | OptionType[], boolean, any>
+
+export default function GearCloset() {
   const size = useWindowSize()
   const firebase = useFirebase()
   const dispatch = useDispatch()
@@ -66,9 +71,9 @@ function GearCloset() {
 
   useEffect(() => {
     if (isLoaded(fetchedGearCloset) && fetchedGearCloset.length === 0) {
-      router.push('/app/gear-closet/setup')
+      router.push('/gear-closet/setup')
     }
-  }, [fetchedGearCloset])
+  }, [fetchedGearCloset, router])
 
   const gearListCategoryOptions = [
     {
@@ -170,7 +175,7 @@ function GearCloset() {
     actions: [
       {
         label: <FaPencilAlt />,
-        to: `/app/gear-closet/${item.id}`,
+        to: `/gear-closet/${item.id}`,
         color: 'primaryOutline',
       },
       {
@@ -225,13 +230,15 @@ function GearCloset() {
 
   return (
     <PageContainer>
-      {/* <Seo title="Gear Closet" /> */}
+      <Head>
+        <title>Gear Closet | Packup</title>
+      </Head>
 
       {isLoaded(trips) && trips.length === 0 && (
         <Alert
           type="info"
           message="Looks like you have some gear now, start customizing it by adding or removing items, or go create your first trip!"
-          callToActionLink="/app/trips/new"
+          callToActionLink="/trips/new"
           callToActionLinkText="Create a trip"
         />
       )}
@@ -260,7 +267,7 @@ function GearCloset() {
           </div>
           <div>
             <DropdownMenu width={290}>
-              <Link href="/app/gear-closet/new">
+              <Link href="/gear-closet/new">
                 <FaPlusCircle /> Add New Item
               </Link>
               <button
@@ -279,7 +286,7 @@ function GearCloset() {
       <p>
         <Button
           type="link"
-          to="/app/gear-closet/new"
+          to="/gear-closet/new"
           iconLeft={<FaPlusCircle />}
           size="small"
           onClick={() => trackEvent('New Gear Closet Item Button clicked')}
@@ -288,17 +295,17 @@ function GearCloset() {
         </Button>
       </p>
 
-      {/* {isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && ( */}
-      {/*  <Table */}
-      {/*    columns={columns} */}
-      {/*    data={data || []} */}
-      {/*    hasPagination */}
-      {/*    hasSorting */}
-      {/*    hasFiltering */}
-      {/*    rowsPerPage={25} */}
-      {/*    isLoading={personalGearIsLoading} */}
-      {/*  /> */}
-      {/* )} */}
+      {isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && (
+        <Table
+          columns={columns}
+          data={data || []}
+          hasPagination
+          hasSorting
+          hasFiltering
+          rowsPerPage={25}
+          isLoading={personalGearIsLoading}
+        />
+      )}
 
       {!isLoaded(fetchedGearCloset) && <LoadingPage />}
 
@@ -357,15 +364,15 @@ function GearCloset() {
           Getting into a new sport or activity, or upgrading your gear? Select any category that
           applies to gear you own!
         </p>
-        {/* <Select */}
-        {/*  className="react-select" */}
-        {/*  styles={multiSelectStyles} */}
-        {/*  isMulti */}
-        {/*  menuPlacement="auto" */}
-        {/*  isSearchable={!size.isExtraSmallScreen} */}
-        {/*  options={gearListCategoryOptions} */}
-        {/*  onChange={(options) => setCategoriesToAdd(options as React.SetStateAction<Category[]>)} */}
-        {/* /> */}
+        <Select
+          className="react-select"
+          styles={multiSelectStyles}
+          isMulti
+          menuPlacement="auto"
+          isSearchable={!size.isExtraSmallScreen}
+          options={gearListCategoryOptions}
+          onChange={(options) => setCategoriesToAdd(options as React.SetStateAction<Category[]>)}
+        />
         {categoriesToAdd?.length > 0 && (
           <div style={{ display: 'flex', justifyContent: 'end', paddingTop: inputPaddingY }}>
             <Button type="button" iconLeft={<FaPlusCircle />} onClick={() => saveAddedCategories()}>
@@ -377,5 +384,3 @@ function GearCloset() {
     </PageContainer>
   )
 }
-
-export default GearCloset
