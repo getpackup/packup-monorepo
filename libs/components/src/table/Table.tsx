@@ -1,43 +1,43 @@
-import { ActivityTypes, GearListEnumType } from '@getpackup-group/utils'
 import {
-  Column,
-  FlexContainer,
-  IconWrapper,
-  Row,
-  Button,
-  ButtonProps,
-  InputWrapper,
-  StyledInput,
-  StyledLabel,
-  multiSelectStyles,
-} from '@getpackup-group/components'
-import { NextRouter, useRouter } from 'next/router'
-import { RootState } from '@getpackup-group/redux'
-import {
-  brandDanger,
-  brandPrimary,
-  lightestGray,
-  textColorLight,
-  white,
-  baseBorderStyle,
-} from '@getpackup-group/styles'
-import {
-  baseAndAHalfSpacer,
-  baseSpacer,
-  doubleSpacer,
-  halfSpacer,
-  quarterSpacer,
-} from '@getpackup-group/styles'
-import { fontSizeSmall } from '@getpackup-group/styles'
-import { createOptionsFromGearListArray } from '@getpackup-group/utils'
-import {
+  ActivityTypes,
   allGearListItems,
+  createOptionsFromGearListArray,
   gearListAccommodations,
   gearListActivities,
   gearListCampKitchen,
+  GearListEnumType,
   gearListOtherConsiderations,
+  mergeQueryParams,
+  useWindowSize,
 } from '@getpackup-group/utils'
-import { getQueryStringParams, mergeQueryParams, useWindowSize } from '@getpackup-group/utils'
+import {
+  Button,
+  ButtonProps,
+  Column,
+  FlexContainer,
+  IconWrapper,
+  InputWrapper,
+  multiSelectStyles,
+  Row,
+  StyledInput,
+  StyledLabel,
+} from '../index'
+import { NextRouter, useRouter } from 'next/router'
+import { RootState } from '@getpackup-group/redux'
+import {
+  baseAndAHalfSpacer,
+  baseBorderStyle,
+  baseSpacer,
+  brandDanger,
+  brandPrimary,
+  doubleSpacer,
+  fontSizeSmall,
+  halfSpacer,
+  lightestGray,
+  quarterSpacer,
+  textColorLight,
+  white,
+} from '@getpackup-group/styles'
 import uniqBy from 'lodash/uniqBy'
 import { matchSorter } from 'match-sorter'
 /* eslint-disable react/no-array-index-key */
@@ -129,7 +129,6 @@ const GlobalFilter = ({
   valueToSearch: string
   setTagToSearch: (value: string) => void
   tagToSearch: string
-  location: any
   router: NextRouter
 }) => {
   const size = useWindowSize()
@@ -138,24 +137,27 @@ const GlobalFilter = ({
 
   const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
 
-  const onChange = useAsyncDebounce(({ val, subCat, router }: { val: string; subCat: string }) => {
-    setGlobalFilter(val || subCat || '')
-    if (val === '' || subCat === '') {
-      setGlobalFilter('')
-      // if val is blank, clear everything out
-      router.push(mergeQueryParams({ currentPage: '', search: '', tag: '' }, location))
-    }
-    if (val !== '') {
-      setGlobalFilter(val)
-      // clear currentPage because there are going to be new results
-      router.push(mergeQueryParams({ currentPage: '', search: val || '', tag: '' }, location))
-    }
-    if (subCat !== '') {
-      setGlobalFilter(`subCat-${subCat}`)
-      // clear currentPage because there are going to be new results
-      router.push(mergeQueryParams({ currentPage: '', search: '', tag: subCat }, location))
-    }
-  }, 200)
+  const onChange = useAsyncDebounce(
+    ({ val, subCat, r }: { val: string; subCat: string; r: NextRouter }) => {
+      setGlobalFilter(val || subCat || '')
+      if (val === '' || subCat === '') {
+        setGlobalFilter('')
+        // if val is blank, clear everything out
+        r.push(mergeQueryParams({ currentPage: '', search: '', tag: '' }, r))
+      }
+      if (val !== '') {
+        setGlobalFilter(val)
+        // clear currentPage because there are going to be new results
+        r.push(mergeQueryParams({ currentPage: '', search: val || '', tag: '' }, r))
+      }
+      if (subCat !== '') {
+        setGlobalFilter(`subCat-${subCat}`)
+        // clear currentPage because there are going to be new results
+        r.push(mergeQueryParams({ currentPage: '', search: '', tag: subCat }, r))
+      }
+    },
+    200
+  )
 
   // the categories that the user DOES have in their gear closet, so we can only show those
   const getFilteredCategories = (array: GearListEnumType) =>
@@ -175,7 +177,7 @@ const GlobalFilter = ({
               onChange={(e: any) => {
                 setValueToSearch(e.target.value)
                 setTagToSearch('')
-                onChange({ val: e.target.value, subCat: '' })
+                onChange({ val: e.target.value, subCat: '', r: router })
               }}
               placeholder="Search anything..."
             />
@@ -229,7 +231,7 @@ const GlobalFilter = ({
               onChange={(option) => {
                 setValueToSearch('')
                 setTagToSearch(option?.label || '')
-                onChange({ val: '', subCat: option?.value || '' })
+                onChange({ val: '', subCat: option?.value || '', r: router })
               }}
             />
           </InputWrapper>
@@ -245,7 +247,7 @@ const GlobalFilter = ({
                 onClick={() => {
                   setValueToSearch('')
                   setTagToSearch('')
-                  onChange({ val: '', subCat: '' })
+                  onChange({ val: '', subCat: '', r: router })
                 }}
                 disabled={!valueToSearch && !tagToSearch}
               >
@@ -271,18 +273,18 @@ export const Table: FunctionComponent<TableProps> = ({
   const router = useRouter()
   const { query } = router
   // currentPage index starts at 1 to match displayed text in pagination on UI
-  const { search, currentPage, sortColumn, sortDirection, tag } = getQueryStringParams(query)
+  const { search, currentPage, sortColumn, sortDirection, tag } = query
   const [valueToSearch, setValueToSearch] = useState(search || '')
   const [tagToSearch, setTagToSearch] = useState(tag || '')
 
-  const fuzzyTextFilterFn = (rows: Array<any>, _: any, filterValue: string) => {
-    const stringMatches = matchSorter(rows, filterValue, {
+  const fuzzyTextFilterFn = (rowCollection: Array<any>, _: any, filterValue: string) => {
+    const stringMatches = matchSorter(rowCollection, filterValue, {
       keys: [
         { threshold: matchSorter.rankings.WORD_STARTS_WITH, key: 'values.name' },
         { threshold: matchSorter.rankings.CONTAINS, key: 'values.category' },
       ],
     })
-    const categoryMatches = rows.filter((row) => row.original[filterValue] === true)
+    const categoryMatches = rowCollection.filter((row) => row.original[filterValue] === true)
     return uniqBy([...stringMatches, ...categoryMatches], 'id')
   }
 
@@ -347,7 +349,6 @@ export const Table: FunctionComponent<TableProps> = ({
           valueToSearch={valueToSearch as string}
           setTagToSearch={setTagToSearch}
           tagToSearch={tagToSearch as string}
-          location={location}
           router={router}
         />
       )}
@@ -398,7 +399,7 @@ export const Table: FunctionComponent<TableProps> = ({
                                 sortDirection: sortDir,
                                 currentPage: curPage,
                               },
-                              location
+                              router
                             )
                           )
                         }
@@ -449,11 +450,11 @@ export const Table: FunctionComponent<TableProps> = ({
           ) : (
             <>
               {pageOrRows.length > 0 ? (
-                pageOrRows.map((row) => {
+                pageOrRows.map((row: any) => {
                   prepareRow(row)
                   return (
                     <StyledTr {...row.getRowProps()} key={row.id}>
-                      {row.cells.map((cell) => {
+                      {row.cells.map((cell: any) => {
                         // if cell.
                         return (
                           <StyledTd {...cell.getCellProps()} key={cell.getCellProps().key}>

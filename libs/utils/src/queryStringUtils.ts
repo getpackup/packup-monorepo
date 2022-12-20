@@ -1,13 +1,13 @@
 import identity from 'lodash/identity'
 import pickBy from 'lodash/pickBy'
-import { parse, stringify } from 'query-string'
+import { stringify } from 'query-string'
+import { NextRouter } from 'next/router'
 
-export const getQueryStringParams = (location: Window['location']) => parse(location.search)
+export const getQueryStringParams = (router: NextRouter) => router.query
 
-export const mergeQueryParams = (newObj: Record<string, string>, location: Window['location']) => {
-  const existingParams = parse(location.search)
+export const mergeQueryParams = (newObj: Record<string, string>, router: NextRouter) => {
   const newParams = {
-    ...existingParams,
+    ...router.query,
     ...newObj,
   }
 
