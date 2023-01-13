@@ -32,6 +32,7 @@ import { AddToHomeScreenBanner, GlobalAlerts, Navbar, Footer } from '@getpackup-
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Modal from 'react-modal'
+import '../webfonts.css'
 
 function setColorsByTheme() {
   const colors = '🌈'
