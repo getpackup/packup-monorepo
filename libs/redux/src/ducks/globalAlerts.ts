@@ -13,10 +13,11 @@ export const globalAlertsInitialState: GlobalAlertsStoreType = {
   currentBanner: null,
 }
 
-export default (
-  action: GlobalAlertsActions,
-  state: GlobalAlertsStoreType = globalAlertsInitialState
-): GlobalAlertsStoreType => {
+export default function globalAlertsReducer(
+  // eslint-disable-next-line default-param-last
+  state: GlobalAlertsStoreType = globalAlertsInitialState,
+  action: GlobalAlertsActions
+): GlobalAlertsStoreType {
   if (typeof action === 'undefined') {
     return state
   }

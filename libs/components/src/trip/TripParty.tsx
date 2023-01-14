@@ -44,7 +44,7 @@ type TripPartyProps = {
 export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => {
   const auth = useSelector((state: RootState) => state.firebase.auth)
   const profile = useSelector((state: RootState) => state.firebase.profile)
-  const users = useSelector((state: RootState) => state.firestore.data.users)
+  const users = useSelector((state: RootState) => state.firestore.data['users'])
   const [isSearchBarDisabled, setIsSearchBarDisabled] = useState(false)
   const [showManualShareModal, setShowManualShareModal] = useState<boolean>(false)
   const [leaveTripModalIsOpen, setLeaveTripModalIsOpen] = useState(false)
