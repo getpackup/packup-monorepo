@@ -32,6 +32,7 @@ interface HeadingProps {
   withDecoration?: boolean
   children: any // TODO specify concrete type
   mega?: boolean
+  style?: any
 }
 
 const renderFontSize = (as: HeadingProps['as'], altStyle: HeadingProps['altStyle']) => {

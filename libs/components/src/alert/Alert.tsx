@@ -11,7 +11,7 @@ import {
 import { animated } from 'react-spring'
 import styled from 'styled-components'
 
-import { RelativeOrExternalLink } from '@getpackup-group/components'
+import { RelativeOrExternalLink } from '../relative-or-external-link/RelativeOrExternalLink'
 
 export interface AlertProps {
   type: 'success' | 'danger' | 'info'

@@ -10,7 +10,7 @@ export const SET_ACTIVE_PACKING_LIST_TAB = 'SET_ACTIVE_PACKING_LIST_TAB'
 export const SET_PERSONAL_LIST_SCROLL_POSITION = 'SET_PERSONAL_LIST_SCROLL_POSITION'
 export const SET_SHARED_LIST_SCROLL_POSITION = 'SET_SHARED_LIST_SCROLL_POSITION'
 
-export const initialState: ClientStoreType = {
+export const clientInitialState: ClientStoreType = {
   location: undefined,
   activePackingListFilter: PackingListFilterOptions.All,
   activePackingListTab: TabOptions.Personal,
@@ -18,7 +18,11 @@ export const initialState: ClientStoreType = {
   sharedListScrollPosition: 0,
 }
 
-export default (action: ClientActions, state: ClientStoreType = initialState): ClientStoreType => {
+export default function clientReducer(
+  // eslint-disable-next-line default-param-last
+  state: ClientStoreType = clientInitialState,
+  action: ClientActions
+): ClientStoreType {
   if (typeof action === 'undefined') {
     return state
   }

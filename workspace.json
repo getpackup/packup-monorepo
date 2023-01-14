@@ -4,6 +4,7 @@
   "projects": {
     "common": "libs/common",
     "components": "libs/components",
+    "hooks": "libs/hooks",
     "pwa": "apps/pwa",
     "pwa-e2e": "apps/pwa-e2e",
     "redux": "libs/redux",

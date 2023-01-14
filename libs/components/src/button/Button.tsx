@@ -284,14 +284,14 @@ export const Button: FunctionComponent<ButtonProps> = ({
         type={type}
         style={style}
         size={size}
-        onClick={onClick} // so we can track analytics if passed in on Button Links
+        onClick={onClick}
         {...rest}
       >
         {!to.startsWith('sms') && !to.includes('mailto') ? (
           <Link href={to}>
-            <a>
+            <span>
               {iconLeft}&nbsp;{children}&nbsp;{iconRight}
-            </a>
+            </span>
           </Link>
         ) : (
           <Link href={to}>

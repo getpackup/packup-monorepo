@@ -1,5 +1,3 @@
-// TODO this one needs refactoring since fixed and fluid type doesnt exist with NextJS but could be adapted
-import { PreviewCompatibleImage } from '@getpackup-group/components'
 import { lightestGray, white } from '@getpackup-group/styles'
 import { zIndexAvatarImageAfter } from '@getpackup-group/styles'
 import {
@@ -17,6 +15,7 @@ import React, { FunctionComponent } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled, { CSSProperties } from 'styled-components'
 import { Md5 } from 'ts-md5'
+import Image from 'next/image'
 
 export interface AvatarProps {
   src?: string
@@ -27,6 +26,7 @@ export interface AvatarProps {
   staticContent?: string
   style?: CSSProperties
   username?: string
+  key?: string
 }
 
 const renderSize = (size: AvatarProps['size']) => {
@@ -140,11 +140,8 @@ export const Avatar: FunctionComponent<AvatarProps> = (props) => {
         </>
       ) : (
         <>
-          <PreviewCompatibleImage
-            imageInfo={{
-              image: props.src || (gravatarUrl as string),
-              alt: 'user profile picture',
-            }}
+          <Image
+            src={props.src || (gravatarUrl as string)}
             width={renderSize(props.size)}
             height={renderSize(props.size)}
           />

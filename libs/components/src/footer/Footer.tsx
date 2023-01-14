@@ -163,47 +163,44 @@ export const Footer = () => {
                 </Column>
                 <Column sm={4} md={3} lg={2}>
                   <p>
-                    <Link
-                      href="/"
-                      onClick={() => trackEvent('Footer Link Click', { link: 'Home' })}
-                    >
-                      Home
+                    <Link href="/">
+                      <span onClick={() => trackEvent('Footer Link Click', { link: 'Home' })}>
+                        Home
+                      </span>
                     </Link>
                   </p>
                   <p>
-                    <Link
-                      href={'/signup'}
-                      onClick={() => trackEvent('Footer Link Click', { link: 'Sign Up' })}
-                    >
-                      Sign Up
-                    </Link>
-                  </p>
-                </Column>
-                <Column sm={4} md={3} lg={2}>
-                  <p>
-                    <Link
-                      href={'/blog'}
-                      onClick={() => trackEvent('Footer Link Click', { link: 'Blog' })}
-                    >
-                      Blog
-                    </Link>
-                  </p>
-                  <p>
-                    <Link
-                      href={'/about'}
-                      onClick={() => trackEvent('Footer Link Click', { link: 'About' })}
-                    >
-                      About
+                    <Link href={'/signup'}>
+                      <span onClick={() => trackEvent('Footer Link Click', { link: 'Sign Up' })}>
+                        Sign Up
+                      </span>
                     </Link>
                   </p>
                 </Column>
                 <Column sm={4} md={3} lg={2}>
                   <p>
-                    <Link
-                      href={'/contact'}
-                      onClick={() => trackEvent('Footer Link Click', { link: 'Send a message' })}
-                    >
-                      Send a Message
+                    <Link href={'/blog'}>
+                      <span onClick={() => trackEvent('Footer Link Click', { link: 'Blog' })}>
+                        Blog
+                      </span>
+                    </Link>
+                  </p>
+                  <p>
+                    <Link href={'/about'}>
+                      <span onClick={() => trackEvent('Footer Link Click', { link: 'About' })}>
+                        About
+                      </span>
+                    </Link>
+                  </p>
+                </Column>
+                <Column sm={4} md={3} lg={2}>
+                  <p>
+                    <Link href={'/contact'}>
+                      <span
+                        onClick={() => trackEvent('Footer Link Click', { link: 'Send a message' })}
+                      >
+                        Send a Message
+                      </span>
                     </Link>
                   </p>
                   <p>
@@ -263,17 +260,15 @@ export const Footer = () => {
                   </Social>
                 </nav>
                 <small>
-                  <Link
-                    href={'/privacy'}
-                    onClick={() => trackEvent('Footer Link Click', { link: 'Privacy' })}
-                  >
-                    Privacy
+                  <Link href={'/privacy'}>
+                    <span onClick={() => trackEvent('Footer Link Click', { link: 'Privacy' })}>
+                      Privacy
+                    </span>
                   </Link>{' '}
-                  <Link
-                    href={'/terms'}
-                    onClick={() => trackEvent('Footer Link Click', { link: 'Terms of Use' })}
-                  >
-                    Terms of Use
+                  <Link href={'/terms'}>
+                    <span onClick={() => trackEvent('Footer Link Click', { link: 'Terms of Use' })}>
+                      Terms of Use
+                    </span>
                   </Link>{' '}
                   {`Copyright © Packup Technologies, Ltd. ${new Date().getFullYear()}`}
                 </small>
@@ -285,7 +280,7 @@ export const Footer = () => {
       {size.isSmallScreen && loggedInUser && !isInOnboardingFlow && (
         <BottomNav>
           <Link
-            href={'/app/trips'}
+            href={'/'}
             // getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Trips' })
@@ -295,7 +290,7 @@ export const Footer = () => {
             {pendingTrips.length > 0 && <NotificationDot top={`-${halfSpacer}`} right="0" />}
           </Link>
           <Link
-            href={'/app/gear-closet'}
+            href={'/gear-closet'}
             // getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Gear Closet' })
@@ -321,17 +316,13 @@ export const Footer = () => {
             </Link>
           )}
           <Link
-            href={'/app/profile'}
+            href={'/profile'}
             // getProps={isPartiallyActive}
             onClick={() =>
               trackEvent('Logged In Small Screen Footer Link Click', { link: 'Profile' })
             }
           >
-            <Avatar
-              src={profile.photoURL as string}
-              size="xs"
-              gravatarEmail={profile.email as string}
-            />
+            <Avatar src={profile.photoURL} size="xs" gravatarEmail={profile.email} />
           </Link>
         </BottomNav>
       )}

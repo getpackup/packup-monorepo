@@ -278,7 +278,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
               inverse
               onClick={() => trackEvent('Navbar Logo Clicked', { isAuthenticated })}
             >
-              <Link href={isAuthenticated ? '/app/trips' : '/'}>
+              <Link href={isAuthenticated ? '/' : '/login'}>
                 <a>
                   <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
                   {size.isSmallScreen && !isAuthenticated ? '' : <>packup</>}
@@ -292,8 +292,10 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 href="/"
                 onClick={() => trackEvent('Navbar SmallScreen Logo Clicked', { isAuthenticated })}
               >
-                <Image src={yak} alt="" width={tripleSpacer} />
-                packup
+                <a>
+                  <Image src={yak} alt="" width={tripleSpacer} />
+                  packup
+                </a>
               </Link>
             </Heading>
           )}
@@ -412,21 +414,27 @@ export const Navbar: FunctionComponent<unknown> = () => {
           {!size.isSmallScreen && isAuthenticated && auth.isLoaded && !isInOnboardingFlow && (
             <TopNavIconWrapper>
               <Link
-                href={'/app/trips'}
+                href={'/'}
                 // getProps={isPartiallyActive}
-                onClick={() => trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Trips' })}
               >
-                <FaCalendar style={{ marginRight: halfSpacer }} /> Trips
-                {pendingTrips.length > 0 && <NotificationDot top={halfSpacer} right="0" />}
+                <a
+                  onClick={() => trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Trips' })}
+                >
+                  <FaCalendar style={{ marginRight: halfSpacer }} /> Trips
+                  {pendingTrips.length > 0 && <NotificationDot top={halfSpacer} right="0" />}
+                </a>
               </Link>
               <Link
-                href={'/app/gear-closet'}
+                href={'/gear-closet'}
                 // getProps={isPartiallyActive}
-                onClick={() =>
-                  trackEvent('Navbar LoggedInUser Link Clicked', { link: 'gear-closet' })
-                }
               >
-                <GearClosetIcon size={17} style={{ marginRight: halfSpacer }} /> Gear Closet
+                <a
+                  onClick={() =>
+                    trackEvent('Navbar LoggedInUser Link Clicked', { link: 'gear-closet' })
+                  }
+                >
+                  <GearClosetIcon size={17} style={{ marginRight: halfSpacer }} /> Gear Closet
+                </a>
               </Link>
               {/* TODO: when shopping list is ready
               <Link
@@ -454,24 +462,29 @@ export const Navbar: FunctionComponent<unknown> = () => {
                   href={'/admin/gear-list'}
                   // getProps={isPartiallyActive}
                 >
-                  <FaUserLock /> Admin
+                  <a>
+                    <FaUserLock /> Admin
+                  </a>
                 </Link>
               )}
               {loggedInUser && loggedInUser.length > 0 && (
                 <Link
-                  href={'/app/profile'}
+                  href={'/profile'}
                   // getProps={isPartiallyActive}
-                  onClick={() =>
-                    trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Profile' })
-                  }
                 >
-                  <Avatar
-                    src={loggedInUser[0].photoURL as string}
-                    size="xs"
-                    gravatarEmail={loggedInUser[0].email as string}
-                    rightMargin
-                  />{' '}
-                  Profile
+                  <a
+                    onClick={() =>
+                      trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Profile' })
+                    }
+                  >
+                    <Avatar
+                      src={loggedInUser[0].photoURL as string}
+                      size="xs"
+                      gravatarEmail={loggedInUser[0].email as string}
+                      rightMargin
+                    />{' '}
+                    Profile
+                  </a>
                 </Link>
               )}
             </TopNavIconWrapper>
