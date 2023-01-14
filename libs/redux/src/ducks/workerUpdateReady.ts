@@ -9,10 +9,11 @@ export const workerUpdateInitialState: WorkerUpdateStoreType = {
   display: false,
 }
 
-export default (
-  action: WorkerUpdateActions,
-  state: WorkerUpdateStoreType = workerUpdateInitialState
-): WorkerUpdateStoreType => {
+export default function workerUpdateReadyReducer(
+  // eslint-disable-next-line default-param-last
+  state: WorkerUpdateStoreType = workerUpdateInitialState,
+  action: WorkerUpdateActions
+): WorkerUpdateStoreType {
   if (typeof action === 'undefined') {
     return state
   }

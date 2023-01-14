@@ -1,26 +1,29 @@
-import { FirebaseReducer, firebaseReducer } from 'react-redux-firebase'
+import { FirebaseReducer, firebaseReducer, FirestoreReducer } from 'react-redux-firebase'
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore'
-import client from './client'
-// import { ClientStoreType } from './client.d'
-import globalAlerts from './globalAlerts'
-// import { GlobalAlertsStoreType } from './globalAlerts.d'
-import workerUpdateReady from './workerUpdateReady'
-// import { WorkerUpdateStoreType } from './workerUpdateReady.d'
+import clientReducer from './client'
+import { ClientStoreType } from './client.d'
+import globalAlertsReducer from './globalAlerts'
+import { GlobalAlertsStoreType } from './globalAlerts.d'
+import workerUpdateReadyReducer from './workerUpdateReady'
+import { WorkerUpdateStoreType } from './workerUpdateReady.d'
 
 export type RootState = {
-  firebase: FirebaseReducer.Reducer
-  firestore: any
-  client: any
-  globalAlerts: any
-  workerUpdateReady: any
+  firebase: FirebaseReducer.Reducer<FirebaseReducer.Profile<{ isAdmin: boolean; username: string }>>
+  firestore: FirestoreReducer.Reducer
+  client: ClientStoreType
+  globalAlerts: GlobalAlertsStoreType
+  workerUpdateReady: WorkerUpdateStoreType
 }
 
-// TODO this needs sorting out to not conflict with types
-export const rootReducer = combineReducers<RootState>({
-  client,
+const rootReducer = combineReducers<RootState>({
+  client: clientReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
-  globalAlerts,
-  workerUpdateReady,
+  globalAlerts: globalAlertsReducer,
+  workerUpdateReady: workerUpdateReadyReducer,
 })
+
+export type AppState = ReturnType<typeof rootReducer>
+
+export default rootReducer

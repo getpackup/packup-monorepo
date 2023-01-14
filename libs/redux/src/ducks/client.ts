@@ -18,10 +18,11 @@ export const clientInitialState: ClientStoreType = {
   sharedListScrollPosition: 0,
 }
 
-export default (
-  action: ClientActions,
-  state: ClientStoreType = clientInitialState
-): ClientStoreType => {
+export default function clientReducer(
+  // eslint-disable-next-line default-param-last
+  state: ClientStoreType = clientInitialState,
+  action: ClientActions
+): ClientStoreType {
   if (typeof action === 'undefined') {
     return state
   }

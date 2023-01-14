@@ -1,16 +1,17 @@
+/* eslint-disable dot-notation */
 import { ActivityTypes, GearItemType } from '@getpackup-group/utils'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import uniqBy from 'lodash/uniqBy'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 
 export const usePersonalGear = () => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const fetchedMasterGear = useSelector((state: RootState) => state.firestore.ordered.gear)
-  const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const fetchedMasterGear = useSelector((state: AppState) => state.firestore.ordered['gear'])
+  const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered['gearCloset'])
   const fetchedGearClosetAdditions = useSelector(
-    (state: RootState) => state.firestore.ordered.gearClosetAdditions
+    (state: AppState) => state.firestore.ordered['gearClosetAdditions']
   )
 
   useFirestoreConnect([
@@ -50,14 +51,14 @@ export const usePersonalGear = () => {
     const matches: Array<GearItemType> = []
     gearClosetCategories.forEach((matchingCategory: string) => {
       matches.push(
-        ...customizedGear.filter((item: GearItemType) => item.category === matchingCategory)
+        ...customizedGear.filter((item: GearItemType) => item[matchingCategory] === true)
       )
     })
 
     return uniqBy(matches, 'name').concat(gearClosetAdditions)
-  }, [masterGear, gearClosetRemovals, gearClosetAdditions])
+  }, [masterGear, gearClosetRemovals, gearClosetAdditions, gearClosetCategories])
 
-  if (!isLoaded(auth) || !isLoaded(fetchedGearCloset)) {
+  if (!isLoaded(fetchedGearCloset)) {
     return 'loading'
   }
   return personalGear

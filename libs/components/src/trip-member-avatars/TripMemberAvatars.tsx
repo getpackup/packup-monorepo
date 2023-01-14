@@ -25,11 +25,17 @@ export const TripMemberAvatars = ({ trip, users }: TripMemberAvatarsProps): JSX.
                   ? TRIP_PARTY_AVATARS_TO_SHOW
                   : TRIP_PARTY_AVATARS_TO_SHOW - 1 // to account for the +N avatar below
               )
-              .map((tripMember: any) => {
-                const matchingUser: UserType | undefined = users[tripMember.uid]
-                  ? users[tripMember.uid]
-                  : undefined
-                if (!matchingUser) return <Avatar staticContent="" size="sm" username={undefined} />
+              .map((tripMember: any, index) => {
+                const matchingUser: UserType | undefined = users[tripMember.uid] ?? undefined
+                if (!matchingUser)
+                  return (
+                    <Avatar
+                      staticContent=""
+                      size="sm"
+                      username={undefined}
+                      key={`static-${trip.tripId}-${index}`}
+                    />
+                  )
                 return (
                   <Avatar
                     src={matchingUser.photoURL}

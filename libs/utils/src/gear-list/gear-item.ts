@@ -1,53 +1,5 @@
 import { IconType } from 'react-icons/lib'
 
-// TODO: figure out how to not need to repeat this list in ActivityTypes type
-export const activityTypesList: Array<keyof ActivityTypes> = [
-  'airplane',
-  'baby',
-  'backcountryThreeSeason',
-  'backcountryWinter',
-  'basicHut',
-  'bikepacking',
-  'biking',
-  'bivy',
-  'boat',
-  'bouldering',
-  'bus',
-  'car',
-  'carCamp',
-  'carCamping',
-  'casual',
-  'crossCountrySkiing',
-  'dayTrip',
-  'essential',
-  'fishing',
-  'hiking',
-  'hostel',
-  'hotel',
-  'iceClimbing',
-  'international',
-  'kids',
-  'motorcycle',
-  'mountainBiking',
-  'multidayTrip',
-  'paddling',
-  'pets',
-  'photography',
-  'resort',
-  'resortSkiing',
-  'servicedHut',
-  'skiTouring',
-  'snowboarding',
-  'snowshoeing',
-  'sportClimbing',
-  'surfing',
-  'tent',
-  'touring',
-  'tradClimbing',
-  'trailRunning',
-  'train',
-]
-
 export type ActivityTypes = {
   airplane: boolean
   baby: boolean
@@ -96,6 +48,55 @@ export type ActivityTypes = {
   train: boolean
 }
 
+// TODO: figure out how to not need to repeat this list in ActivityTypes type
+export const activityTypesList: Array<keyof ActivityTypes> = [
+  'airplane',
+  'baby',
+  'backcountryThreeSeason',
+  'backcountryWinter',
+  'basicHut',
+  'bikepacking',
+  'biking',
+  'bivy',
+  'boat',
+  'bouldering',
+  'bus',
+  'car',
+  'carCamp',
+  'carCamping',
+  'casual',
+  'crossCountrySkiing',
+  'dayTrip',
+  'essential',
+  'fishing',
+  'hiking',
+  'hostel',
+  'hotel',
+  'iceClimbing',
+  'international',
+  'kids',
+  'motorcycle',
+  'mountainBiking',
+  'multidayTrip',
+  'paddling',
+  'pets',
+  'photography',
+  'resort',
+  'resortSkiing',
+  'servicedHut',
+  'skiTouring',
+  'snowboarding',
+  'snowshoeing',
+  'sportClimbing',
+  'surfing',
+  'tent',
+  'touring',
+  'tradClimbing',
+  'trailRunning',
+  'train',
+]
+
+// todo commonize this with gearCloset.ts
 export type GearItemType = {
   id: string
   name: string

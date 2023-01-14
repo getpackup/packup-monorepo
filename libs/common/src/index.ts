@@ -1,3 +1,4 @@
+export * from './gearCloset/gearCloset'
 export * from './packingListItem/packingListItem'
 export * from './trip/trip'
 export * from './user/user'

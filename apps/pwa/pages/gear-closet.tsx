@@ -25,17 +25,18 @@ import {
   multiSelectStyles,
 } from '@getpackup-group/components'
 import { usePersonalGear } from '@getpackup-group/hooks'
-import { RootState, addAlert } from '@getpackup-group/redux'
+import { AppState, addAlert } from '@getpackup-group/redux'
 import { lightGray, halfSpacer, inputPaddingY } from '@getpackup-group/styles'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaFolderOpen, FaInfoCircle, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import Select, { CommonProps } from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import Head from 'next/head'
+import { createColumnHelper } from '@tanstack/react-table'
 
 interface OptionType {
   label: string
@@ -52,9 +53,9 @@ export default function GearCloset() {
   const dispatch = useDispatch()
   const router = useRouter()
   const personalGear = usePersonalGear()
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
-  const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered.trips)
 
   const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
 
@@ -114,7 +115,7 @@ export default function GearCloset() {
     },
     {
       collection: 'trips',
-      where: ['owner', '==', auth.uid],
+      where: ['owner', '==', auth?.uid || ''],
     },
   ])
 
@@ -142,29 +143,32 @@ export default function GearCloset() {
     setCategoriesToAdd([])
   }
 
-  const personalGearIsLoading = personalGear === 'loading'
+  // const personalGearIsLoading = personalGear === 'loading'
+  const columnHelper = createColumnHelper<GearItemType>()
 
-  const columns = useMemo(
-    () => [
-      {
-        header: 'Name',
-        accessor: 'name',
-      },
-      {
-        header: 'Category',
-        accessor: 'category',
-      },
-      {
-        header: 'Action',
-        accessor: 'action',
-        disableSortBy: true,
-      },
-    ],
-    []
-  )
+  const columns = [
+    {
+      accessorKey: 'name',
+      header: 'Name',
+      enableSorting: true,
+      sortingFn: 'basic',
+    },
+    {
+      accessorKey: 'category',
+      header: 'Category',
+      enableSorting: true,
+      sortingFn: 'basic',
+    },
+    columnHelper.display({
+      id: 'actions',
+      header: '',
+      enableSorting: false,
+      // cell: (props) => <div>{console.log(props)}</div>,
+    }),
+  ]
 
   const sortedGearList = () =>
-    !personalGearIsLoading && personalGear?.length && personalGear.length > 0
+    auth?.uid && personalGear?.length > 0
       ? [...(personalGear as Array<GearItemType>)].sort((a: GearItemType, b: GearItemType) =>
           a.name.localeCompare(b.name)
         )
@@ -226,6 +230,10 @@ export default function GearCloset() {
       })
     setItemToBeDeleted(undefined)
     setModalIsOpen(false)
+  }
+
+  if (!auth || !auth.isLoaded) {
+    return <LoadingPage />
   }
 
   return (
@@ -300,10 +308,10 @@ export default function GearCloset() {
           columns={columns}
           data={data || []}
           hasPagination
-          hasSorting
-          hasFiltering
-          rowsPerPage={25}
-          isLoading={personalGearIsLoading}
+          // hasSorting
+          // hasFiltering
+          // rowsPerPage={25}
+          // isLoading={personalGearIsLoading}
         />
       )}
 

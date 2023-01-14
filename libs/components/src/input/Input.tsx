@@ -107,7 +107,7 @@ export const sharedStyles = css`
   ${(props: InputProps) => props.disabled && disabledStyle}
 `
 
-export const StyledInput = styled.input`
+export const StyledInput = styled.input<any>`
   ${sharedStyles}
 `
 

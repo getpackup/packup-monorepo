@@ -3,11 +3,13 @@ import pickBy from 'lodash/pickBy'
 import { stringify } from 'query-string'
 import { NextRouter } from 'next/router'
 
-export const getQueryStringParams = (router: NextRouter) => router.query
-
-export const mergeQueryParams = (newObj: Record<string, string>, router: NextRouter) => {
+// eslint-disable-next-line import/prefer-default-export
+export const mergeQueryParams = (
+  newObj: Record<string, string>,
+  existingQueryParams: NextRouter['query']
+) => {
   const newParams = {
-    ...router.query,
+    ...existingQueryParams,
     ...newObj,
   }
 

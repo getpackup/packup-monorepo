@@ -26,6 +26,7 @@ export interface AvatarProps {
   staticContent?: string
   style?: CSSProperties
   username?: string
+  key?: string
 }
 
 const renderSize = (size: AvatarProps['size']) => {
