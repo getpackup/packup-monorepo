@@ -62,7 +62,6 @@
     "@types/react-instantsearch-dom": "^6.10.2",
     "@types/react-modal": "^3.12.1",
     "@types/react-numeric-input": "^2.2.4",
-    "@types/react-select": "^5.0.1",
     "@types/react-text-truncate": "^0.14.1",
     "@types/redux-api-middleware": "^3.2.3",
     "@types/tz-lookup": "^6.1.0",

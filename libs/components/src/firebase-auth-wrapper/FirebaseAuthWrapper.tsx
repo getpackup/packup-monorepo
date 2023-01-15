@@ -17,7 +17,13 @@ import { onAuthStateChanged } from 'firebase/auth'
 import 'firebaseui/dist/firebaseui.css'
 import { auth } from 'firebaseui'
 import { getApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
+  GithubAuthProvider,
+} from 'firebase/auth'
 
 const StyledFirebaseAuthWrapper = styled.div`
   & .firebaseui-container {
@@ -87,10 +93,10 @@ export const FirebaseAuthWrapper = ({ className, uiCallback }: Props) => {
   const signInProviders =
     typeof window !== 'undefined'
       ? [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          firebase.auth.GithubAuthProvider.PROVIDER_ID,
+          GoogleAuthProvider.PROVIDER_ID,
+          FacebookAuthProvider.PROVIDER_ID,
+          TwitterAuthProvider.PROVIDER_ID,
+          GithubAuthProvider.PROVIDER_ID,
         ]
       : []
 
