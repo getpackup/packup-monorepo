@@ -7,6 +7,7 @@ import differenceInDays from 'date-fns/differenceInDays'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+import Image from 'next/image'
 import styled from 'styled-components'
 
 const AddToHomeScreenWrapper = styled.div`
@@ -19,16 +20,9 @@ const AddToHomeScreenWrapper = styled.div`
   padding: ${halfSpacer};
 `
 
-const StyledImage = styled.img`
-  width: ${doubleSpacer};
-  height: ${doubleSpacer};
-  margin-right: ${halfSpacer};
-  border-radius: ${halfSpacer};
-`
-
 export const AddToHomeScreenBanner: FunctionComponent = () => {
   const auth = useSelector((state: RootState) => state.firebase.auth)
-  const trips = useSelector((state: RootState) => state.firestore.ordered.trips)
+  const trips = useSelector((state: RootState) => state.firestore.ordered['trips'])
   const isAuthenticated = auth && !auth.isEmpty
   const [isLoaded, setIsLoaded] = useState(false)
   const [isOpen, setOpened] = useState(false)
@@ -82,12 +76,11 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
       //   console.log('isInStandaloneMode: ', isInStandaloneMode());
       //   console.log('checkLastPwaDisplay: ', checkLastPwaDisplay());
       // }
-      // TODO: update /app/trips link to point to / index page?
       if (
         isAuthenticated &&
         trips &&
         trips.length > 0 &&
-        (pathname === '/trips' || pathname === '/trips/') &&
+        (pathname === '' || pathname === '/') &&
         isIos() &&
         !isInStandaloneMode() &&
         checkLastPwaDisplay() &&
@@ -107,7 +100,16 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
     <AddToHomeScreenWrapper>
       <FlexContainer justifyContent="space-between">
         <FlexContainer>
-          <StyledImage src={logo} alt="" />
+          <Image
+            src={logo}
+            alt=""
+            width={doubleSpacer}
+            height={doubleSpacer}
+            style={{
+              marginRight: halfSpacer,
+              borderRadius: halfSpacer,
+            }}
+          />
           <span style={{ lineHeight: 1 }}>
             <strong>packup</strong>
             <br />
