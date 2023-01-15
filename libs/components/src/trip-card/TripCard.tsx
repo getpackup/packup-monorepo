@@ -49,7 +49,7 @@ const StyledLineItem = styled.div`
 `
 
 export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, onClick }) => {
-  const users = useSelector((state: RootState) => state.firestore.data.users)
+  const users = useSelector((state: RootState) => state.firestore.data['users'])
   const auth = useSelector((state: RootState) => state.firebase.auth)
   const firebase = useFirebase()
   const dispatch = useDispatch()
@@ -209,11 +209,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
         <FlexContainer flexWrap="nowrap" alignItems="flex-start" justifyContent="flex-start">
           <FaRegCalendar style={{ marginRight: halfSpacer, top: quarterSpacer, flexShrink: 0 }} />
           {trip && trip.startDate ? (
-            <>
-              {trip.tripLength === 21
-                ? formattedDate(new Date(trip.startDate.seconds * 1000))
-                : formattedDateRange(trip.startDate.seconds * 1000, trip.endDate.seconds * 1000)}
-            </>
+            <>{formattedDateRange(trip.startDate.seconds * 1000, trip.endDate.seconds * 1000)}</>
           ) : (
             <div style={{ flex: 1 }}>
               <Skeleton count={1} width="50%" />

@@ -36,6 +36,7 @@ import { endOfDay, startOfDay } from 'date-fns'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
 import Link from 'next/link'
+import Script from 'next/script'
 import { Fragment, FunctionComponent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
@@ -102,9 +103,7 @@ export const TripDetails: FunctionComponent<TripDetailsProps> = ({ activeTrip, u
 
   const formattedTripDates =
     activeTrip &&
-    (activeTrip.tripLength === 21
-      ? formattedDate(new Date(activeTrip.startDate.seconds * 1000))
-      : formattedDateRange(activeTrip.startDate.seconds * 1000, activeTrip.endDate.seconds * 1000))
+    formattedDateRange(activeTrip.startDate.seconds * 1000, activeTrip.endDate.seconds * 1000)
 
   const onlyActivityTags = activeTrip
     ? activeTrip.tags.filter((item) =>
@@ -130,14 +129,11 @@ export const TripDetails: FunctionComponent<TripDetailsProps> = ({ activeTrip, u
     <>
       <Head>
         <title>Trip Details | Pack Up</title>
-        {typeof google !== 'object' && (
-          <script
-            type="text/javascript"
-            async
-            src={`https://maps.googleapis.com/maps/api/js?key=${process.env['NX_GOOGLE_MAPS_API_KEY']}&libraries=places`}
-          />
-        )}
       </Head>
+      <Script
+        async
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env['NX_GOOGLE_MAPS_API_KEY']}&libraries=places`}
+      />
 
       <PageContainer>
         {typeof activeTrip !== 'undefined' && activeTrip && (

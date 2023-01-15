@@ -42,6 +42,7 @@ import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
 import styled from 'styled-components'
 import Head from 'next/head'
+import Script from 'next/script'
 
 export const EmailWrapper = styled.div`
   width: 100%;
@@ -169,15 +170,12 @@ export default function Profile() {
 
   return (
     <PageContainer>
+      <Script
+        async
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places`}
+      />
       <Head>
         <title>Edit Profile | Packup</title>
-        {typeof google !== 'object' && (
-          <script
-            type="text/javascript"
-            async
-            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places`}
-          />
-        )}
       </Head>
       {auth && activeLoggedInUser && (
         <ProfileWrapper>
@@ -340,24 +338,24 @@ export default function Profile() {
                         )}
                       </FlexContainer>
                     </EditableInput>
-                    {typeof window !== 'undefined' && window.google && (
-                      <EditableInput
+
+                    <EditableInput
+                      label="Location"
+                      isLoading={isLoading}
+                      value={activeLoggedInUser.location || 'No location provided'}
+                    >
+                      <Field
+                        as={Input}
+                        type="geosuggest"
+                        geosuggestTypes={['(cities)']}
+                        name="location"
                         label="Location"
-                        isLoading={isLoading}
-                        value={activeLoggedInUser.location || 'No location provided'}
-                      >
-                        <Field
-                          as={Input}
-                          type="geosuggest"
-                          geosuggestTypes={['(cities)']}
-                          name="location"
-                          label="Location"
-                          hiddenLabel
-                          setFieldValue={setFieldValue}
-                          {...rest}
-                        />
-                      </EditableInput>
-                    )}
+                        hiddenLabel
+                        setFieldValue={setFieldValue}
+                        {...rest}
+                      />
+                    </EditableInput>
+
                     <EditableInput
                       label="Website"
                       isLoading={isLoading}

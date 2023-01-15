@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import 'react-geosuggest/module/geosuggest.css'
 
-import poweredByGoogle from '../../images/powered_by_google_on_white_hdpi.png'
 import {
   brandDanger,
   brandDangerRGB,
@@ -524,7 +524,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           {...field}
           {...props}
           {...meta}
-          onChange={(event) => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             field.onChange(event.target.name)(formatPhoneNumberValue(event.target.value))
           }}
         />
@@ -539,12 +539,12 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           {...field}
           {...props}
           {...meta}
-          onKeyDown={(event) => {
+          onKeyDown={(event: React.KeyboardEvent) => {
             if (event.key === ' ') {
               event.preventDefault()
             }
           }}
-          onChange={(event) => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             field.onChange(event.target.name)(event.target.value.replace(/\s/g, '').toLowerCase())
           }}
         />
@@ -631,7 +631,12 @@ export const Input: FunctionComponent<InputProps> = (props) => {
             </>
           )}
           <p style={{ margin: 0, float: 'right' }}>
-            <img src={poweredByGoogle} alt="powered by Google" style={{ height: 18 }} />
+            <Image
+              src="/images/powered_by_google_on_white.png"
+              alt="powered by Google"
+              height={18}
+              width={144}
+            />
           </p>
         </>
       )
