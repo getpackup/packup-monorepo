@@ -45,7 +45,7 @@ interface OptionType {
 
 type Category =
   | { value: string; label: string }
-  | CommonProps<OptionType | OptionType[], boolean, any>
+  | CommonProps<OptionType | OptionType[], boolean, unknown>
 
 export default function GearCloset() {
   const size = useWindowSize()

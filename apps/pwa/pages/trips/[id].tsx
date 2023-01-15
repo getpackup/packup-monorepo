@@ -21,7 +21,6 @@ import Head from 'next/head'
 export default function TripById() {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.firebase.auth)
-  const users = useSelector((state: RootState) => state.firestore.data.users)
   const activeTripById: Array<TripType> = useSelector(
     (state: RootState) => state.firestore.ordered.activeTripById
   )

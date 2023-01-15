@@ -58,6 +58,7 @@ const StyledFirebaseAuthWrapper = styled.div`
   }
 `
 
+// see https://github.com/firebase/firebaseui-web-react/pull/173 for more info
 interface Props {
   // The Firebase UI Web UI Config object.
   // See: https://github.com/firebase/firebaseui-web#configuration
