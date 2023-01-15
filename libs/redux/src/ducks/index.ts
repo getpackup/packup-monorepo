@@ -1,3 +1,5 @@
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { UserType } from '@getpackup-group/common'
 import { FirebaseReducer, firebaseReducer, FirestoreReducer } from 'react-redux-firebase'
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore'
@@ -9,7 +11,7 @@ import workerUpdateReadyReducer from './workerUpdateReady'
 import { WorkerUpdateStoreType } from './workerUpdateReady.d'
 
 export type RootState = {
-  firebase: FirebaseReducer.Reducer<FirebaseReducer.Profile<{ isAdmin: boolean; username: string }>>
+  firebase: FirebaseReducer.Reducer<FirebaseReducer.Profile<UserType>>
   firestore: FirestoreReducer.Reducer
   client: ClientStoreType
   globalAlerts: GlobalAlertsStoreType
