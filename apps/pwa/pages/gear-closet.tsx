@@ -33,20 +33,25 @@ import React, { useEffect, useState } from 'react'
 import { FaFolderOpen, FaInfoCircle, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-import Select, { CommonProps } from 'react-select'
+import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import Head from 'next/head'
 import { createColumnHelper } from '@tanstack/react-table'
 
-interface OptionType {
-  label: string
-  value: keyof ActivityTypes
+type SelectGearListCategoryOption = {
+  readonly value: keyof ActivityTypes
+  readonly label: string
 }
 
-type Category =
-  | { value: string; label: string }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | CommonProps<OptionType | OptionType[], boolean, any>
+export type GroupedChannelOption = {
+  readonly label: string
+  readonly options: readonly SelectGearListCategoryOption[]
+}
+
+// type Category =
+//   | { value: string; label: string }
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   | CommonProps<OptionType | OptionType[], boolean, any>
 
 export default function GearCloset() {
   const size = useWindowSize()
@@ -62,7 +67,7 @@ export default function GearCloset() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [itemToBeDeleted, setItemToBeDeleted] = useState<GearItemType | undefined>(undefined)
-  const [categoriesToAdd, setCategoriesToAdd] = useState<Category[]>([])
+  const [categoriesToAdd, setCategoriesToAdd] = useState<SelectGearListCategoryOption[]>([])
 
   const [addNewCategoryModalIsOpen, setAddNewCategoryModalIsOpen] = useState(false)
 
@@ -152,13 +157,11 @@ export default function GearCloset() {
       accessorKey: 'name',
       header: 'Name',
       enableSorting: true,
-      sortingFn: 'basic',
     },
     {
       accessorKey: 'category',
       header: 'Category',
       enableSorting: true,
-      sortingFn: 'basic',
     },
     columnHelper.display({
       id: 'actions',
@@ -373,14 +376,16 @@ export default function GearCloset() {
           Getting into a new sport or activity, or upgrading your gear? Select any category that
           applies to gear you own!
         </p>
-        <Select
+        <Select<SelectGearListCategoryOption, true, GroupedChannelOption>
           className="react-select"
           styles={multiSelectStyles}
           isMulti
           menuPlacement="auto"
           isSearchable={!size.isExtraSmallScreen}
           options={gearListCategoryOptions}
-          onChange={(options) => setCategoriesToAdd(options as React.SetStateAction<Category[]>)}
+          onChange={(options) =>
+            setCategoriesToAdd(options as React.SetStateAction<SelectGearListCategoryOption[]>)
+          }
         />
         {categoriesToAdd?.length > 0 && (
           <div style={{ display: 'flex', justifyContent: 'end', paddingTop: inputPaddingY }}>
