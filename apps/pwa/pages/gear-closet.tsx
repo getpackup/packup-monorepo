@@ -58,7 +58,7 @@ export default function GearCloset() {
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const router = useRouter()
-  const personalGear = usePersonalGear()
+  const personalGear: string | Array<GearItemType> = usePersonalGear()
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered.trips)
@@ -172,7 +172,7 @@ export default function GearCloset() {
   ]
 
   const sortedGearList = () =>
-    auth?.uid && personalGear?.length > 0
+    auth?.uid && typeof personalGear !== 'string' && personalGear?.length > 0
       ? [...(personalGear as Array<GearItemType>)].sort((a: GearItemType, b: GearItemType) =>
           a.name.localeCompare(b.name)
         )
