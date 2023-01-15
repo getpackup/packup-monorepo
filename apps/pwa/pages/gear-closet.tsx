@@ -37,6 +37,7 @@ import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import Head from 'next/head'
 import { createColumnHelper } from '@tanstack/react-table'
+import styled, { css } from 'styled-components'
 
 type SelectGearListCategoryOption = {
   readonly value: keyof ActivityTypes
@@ -52,6 +53,10 @@ export type GroupedChannelOption = {
 //   | { value: string; label: string }
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   | CommonProps<OptionType | OptionType[], boolean, any>
+
+const DropdownLink = styled.span`
+  padding: 8px 16px;
+`
 
 export default function GearCloset() {
   const size = useWindowSize()
@@ -280,7 +285,9 @@ export default function GearCloset() {
           <div>
             <DropdownMenu width={290}>
               <Link href="/gear-closet/new">
-                <FaPlusCircle /> Add New Item
+                <DropdownLink>
+                  <FaPlusCircle /> Add New Item
+                </DropdownLink>
               </Link>
               <button
                 onClick={() => {
