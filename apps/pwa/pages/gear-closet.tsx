@@ -45,7 +45,8 @@ interface OptionType {
 
 type Category =
   | { value: string; label: string }
-  | CommonProps<OptionType | OptionType[], boolean, unknown>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | CommonProps<OptionType | OptionType[], boolean, any>
 
 export default function GearCloset() {
   const size = useWindowSize()
