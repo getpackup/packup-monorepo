@@ -161,7 +161,7 @@ export default function Login() {
             </FlexContainer>
           </Column>
           <Column xs={10} xsOffset={1} sm={8} smOffset={2} md={5} lg={4} lgOffset={2}>
-            {typeof window !== 'undefined' && <FirebaseAuthWrapper />}
+            <FirebaseAuthWrapper />
           </Column>
         </Row>
       </Box>
