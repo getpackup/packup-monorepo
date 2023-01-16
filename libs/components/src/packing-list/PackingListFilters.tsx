@@ -8,7 +8,7 @@ import styled from 'styled-components'
 type PackingListFilterProps = {
   disabled: boolean
   activeFilter: PackingListFilterOptions
-  onFilterChange: (filter: PackingListFilterOptions) => void
+  onFilterChange: (filter: PackingListFilterOptions) => any
 }
 
 const Filters = styled.div`

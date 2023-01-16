@@ -21,6 +21,7 @@ declare global {
   interface Window {
     __ENVIRONMENT: any
     __REDUX_DEVTOOLS_EXTENSION__: any
+    __INITIAL_STATE__: any
   }
 }
 

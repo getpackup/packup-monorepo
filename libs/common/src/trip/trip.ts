@@ -59,6 +59,6 @@ export type TripFormType = Omit<
 > & {
   startDate: string | Date | undefined
   endDate: string | Date | undefined
-  created?: string | Date | undefined
-  updated?: string | Date | undefined
+  created?: string | Date | undefined | firebase.firestore.Timestamp
+  updated?: string | Date | undefined | firebase.firestore.Timestamp
 }
