@@ -21,7 +21,7 @@ export const SignupForm: FunctionComponent<SignupFormProps> = (props) => {
       validateOnMount
       initialValues={initialValues}
       onSubmit={() => {
-        console.log('Probably should send request to mailchimp at this point')
+        // console.log('Probably should send request to mailchimp at this point')
       }}
       // onSubmit={(values, { setSubmitting }) => {
       //   addToMailchimp(values[`email-${props.location}`]).then((res: MailchimpResponse) => {

@@ -4,15 +4,10 @@ import 'isomorphic-fetch'
 
 // import * as Sentry from '@sentry/nextjs';
 /* eslint-disable no-underscore-dangle */
-import { applyMiddleware, compose, createStore } from 'redux'
-import { apiMiddleware } from 'redux-api-middleware'
+import { compose, createStore } from 'redux'
 import * as Sentry from '@sentry/react'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import thunk from 'redux-thunk'
-import requestHeaders from './middleware/requestHeaders'
-import oauth from './middleware/oauth'
-import logger from './middleware/logger'
 import rootReducer from './ducks'
 import { clientInitialState } from './ducks/client'
 
@@ -29,16 +24,9 @@ const sentryReduxEnhancer = Sentry.createReduxEnhancer({
   // Optionally pass options
 })
 
-export const getMiddlewares = () => [oauth, requestHeaders, apiMiddleware, thunk]
-
-const middlewares = getMiddlewares()
 const isBrowser = typeof window !== 'undefined'
 
-if (process.env.ENVIRONMENT !== 'PRODUCTION') {
-  middlewares.push(logger)
-}
-
-const functionsToCompose = [applyMiddleware(...middlewares), sentryReduxEnhancer]
+const functionsToCompose = [sentryReduxEnhancer]
 
 // eslint-disable-next-line
 if (isBrowser) {
@@ -56,7 +44,7 @@ const makeConfiguredStore = (reducer: any, initialState: any) => {
   }
   const persistedReducer = persistReducer(persistConfig, reducer)
 
-  return createStore(persistedReducer, initialState, compose(...functionsToCompose))
+  return createStore(persistedReducer, initialState, compose(sentryReduxEnhancer))
 }
 
 const configureStore = (

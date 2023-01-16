@@ -72,11 +72,11 @@ export const HeroImageUpload: FunctionComponent<HeroImageUploadProps> = ({ type,
                 if (updateProgress) updateProgress(progress)
               },
               (error) => {
-                console.log('Got error', error)
+                // console.log('Got error', error)
                 return reject(new Error('unable_to_upload'))
               },
               () => {
-                console.log('Uploaded!')
+                // console.log('Uploaded!')
                 uploadTask.snapshot.ref
                   .getDownloadURL()
                   .then((url) => resolve(url))
