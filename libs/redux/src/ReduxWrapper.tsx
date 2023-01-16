@@ -13,7 +13,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { showWorkerUpdateModal, workerUpdateInitialState } from './ducks/workerUpdateReady'
 import { clientInitialState } from './ducks/client'
 import configureStore from './configureStore'
-import { globalAlertsInitialState } from './ducks/globalAlerts'
 
 const initialState = process.env['BROWSER']
   ? window.__INITIAL_STATE__
@@ -21,7 +20,6 @@ const initialState = process.env['BROWSER']
       firestore: {} as typeof FirestoreReducer,
       firebase: {} as FirebaseReducer.Reducer<any, any>,
       client: clientInitialState,
-      globalAlerts: globalAlertsInitialState,
       workerUpdateReady: workerUpdateInitialState,
     }
 const { store, persistor } = configureStore(initialState)

@@ -10,7 +10,7 @@ import {
   SendInviteForm,
   UserMediaObject,
 } from '@getpackup-group/components'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import {
   white,
   zIndexDropdown,
@@ -71,7 +71,7 @@ export const UserSearch: FunctionComponent<UserSearchProps> = ({
   activeTrip,
   isSearchBarDisabled,
 }) => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const [showManualShareModal, setShowManualShareModal] = useState<boolean>(false)
 
   const InviteButton = ({

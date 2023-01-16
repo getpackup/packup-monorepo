@@ -11,7 +11,8 @@ import {
   Modal,
   Row,
 } from '@getpackup-group/components'
-import { RootState, addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
+import { AppState } from '@getpackup-group/redux'
 import {
   TabOptions,
   gearListCategories,
@@ -46,7 +47,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
   const router = useRouter()
 
   const { activePackingListTab, personalListScrollPosition, sharedListScrollPosition } =
-    useSelector((state: RootState) => state.client)
+    useSelector((state: AppState) => state.client)
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const size = useWindowSize()
@@ -81,12 +82,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
           router.push(`/trips/${props.tripId}`)
         })
         .catch((err) => {
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
     return null
@@ -187,12 +183,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                   })
                 })
                 .catch((err) => {
-                  dispatch(
-                    addAlert({
-                      type: 'danger',
-                      message: err.message,
-                    })
-                  )
+                  toast.error(err.message)
                   trackEvent('Packing List Item Edited Failure', {
                     ...activeItem,
                     ...values,

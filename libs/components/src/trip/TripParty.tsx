@@ -20,7 +20,8 @@ import {
   ReinviteUserToTripModal,
   RemoveUserFromTripModal,
 } from '@getpackup-group/components'
-import { RootState, addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
+import { AppState } from '@getpackup-group/redux'
 import { brandDanger, baseSpacer, halfSpacer } from '@getpackup-group/styles'
 import {
   acceptedTripMembersOnly,
@@ -33,7 +34,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useState } from 'react'
 import { FaSignOutAlt, FaUserPlus, FaUserTimes } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import ReactTooltip from 'react-tooltip'
 
@@ -42,9 +43,9 @@ type TripPartyProps = {
 }
 
 export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const profile = useSelector((state: RootState) => state.firebase.profile)
-  const users = useSelector((state: RootState) => state.firestore.data['users'])
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const users = useSelector((state: AppState) => state.firestore.data['users'])
   const [isSearchBarDisabled, setIsSearchBarDisabled] = useState(false)
   const [showManualShareModal, setShowManualShareModal] = useState<boolean>(false)
   const [leaveTripModalIsOpen, setLeaveTripModalIsOpen] = useState(false)
@@ -54,7 +55,6 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
   const [userToReinvite, setUserToReinvite] = useState<TripMember | undefined>(undefined)
 
   const firebase = useFirebase()
-  const dispatch = useDispatch()
   const { asPath } = useRouter()
 
   const updateTrip = (memberId: string, memberEmail: string, greetingName: string) => {
@@ -70,12 +70,7 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
           ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}`
           : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}`
       )
-      dispatch(
-        addAlert({
-          type: 'danger',
-          message: `At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`,
-        })
-      )
+      toast.error(`At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`)
       return
     }
     if (activeTrip) {
@@ -98,7 +93,6 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
             invitedBy: profile.username,
             email: memberEmail,
             greetingName: greetingName || '',
-            dispatch,
           })
           setIsSearchBarDisabled(false)
         })
@@ -108,12 +102,7 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
             userAttemptedToAdd: memberId,
             error: err,
           })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
           setIsSearchBarDisabled(false)
         })
     }

@@ -8,11 +8,10 @@ import {
   NotificationDot,
   PageContainer,
   Row,
-  // SignupForm,
   GearClosetIcon,
   Button,
 } from '..'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import {
   brandPrimary,
   brandSecondary,
@@ -105,9 +104,9 @@ const BottomNav = styled.nav`
 `
 
 export const Footer = () => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const profile = useSelector((state: RootState) => state.firebase.profile)
-  const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const loggedInUser = auth && auth.isLoaded && !auth.isEmpty
   const size = useWindowSize()
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'

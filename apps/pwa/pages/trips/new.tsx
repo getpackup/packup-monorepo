@@ -17,18 +17,18 @@ import {
   HorizontalRule,
   Input,
   PageContainer,
-  // Seo,
   UserMediaObject,
   UserSearch,
   StyledLabel,
 } from '@getpackup-group/components'
-
-import { AppState, addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
+import { AppState } from '@getpackup-group/redux'
 import {
   getSeason,
   requiredField,
   trackEvent,
   sendTripInvitationEmail,
+  useLoggedInUser,
 } from '@getpackup-group/utils'
 
 import axios from 'axios'
@@ -37,7 +37,7 @@ import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 
 type MembersToInviteType = { uid: string; email: string; greetingName: string }[]
@@ -46,10 +46,8 @@ export default function NewTripSummary() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const profile = useSelector((state: AppState) => state.firebase.profile)
   const users = useSelector((state: AppState) => state.firestore.data.users)
-  const loggedInUser = useSelector((state: AppState) => state.firestore.ordered.loggedInUser)
-  const activeLoggedInUser = loggedInUser && loggedInUser.length > 0 ? loggedInUser[0] : undefined
+  const activeLoggedInUser = useLoggedInUser()
   const firebase = useFirebase()
-  const dispatch = useDispatch()
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -79,12 +77,8 @@ export default function NewTripSummary() {
           ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new`
           : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new`
       )
-      dispatch(
-        addAlert({
-          type: 'danger',
-          message: `At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`,
-        })
-      )
+      toast.error(`At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`)
+
       return
     }
 
@@ -130,7 +124,6 @@ export default function NewTripSummary() {
             invitedBy: profile.username,
             email: member.email,
             greetingName: member.greetingName,
-            dispatch,
           })
         })
         trackEvent('New Trip Submit Successful', { values: { ...values } })
@@ -138,12 +131,7 @@ export default function NewTripSummary() {
       })
       .catch((err) => {
         trackEvent('New Trip Submit Unsuccessful', { values: { ...values }, error: err })
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
   }
 

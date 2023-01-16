@@ -11,7 +11,7 @@ import {
   GearClosetIcon,
 } from '..'
 import yak from '../../images/yak.svg'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import {
   brandPrimary,
   brandSecondary,
@@ -184,13 +184,13 @@ const TopNavIconWrapper = styled.nav`
 `
 
 export const Navbar: FunctionComponent<unknown> = () => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const profile = useSelector((state: RootState) => state.firebase.profile)
-  const loggedInUser = useSelector((state: RootState) => state.firestore.ordered.loggedInUser)
-  const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const loggedInUser = useSelector((state: AppState) => state.firestore.ordered['loggedInUser'])
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const router = useRouter()
   const { activePackingListTab, personalListScrollPosition, sharedListScrollPosition } =
-    useSelector((state: RootState) => state.client)
+    useSelector((state: AppState) => state.client)
 
   useFirestoreConnect([
     { collection: 'users', where: ['uid', '==', auth.uid || ''], storeAs: 'loggedInUser' },

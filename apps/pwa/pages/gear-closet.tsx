@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import { TripType } from '@getpackup-group/common'
 import {
   GearListEnumType,
@@ -25,13 +26,13 @@ import {
   multiSelectStyles,
 } from '@getpackup-group/components'
 import { usePersonalGear } from '@getpackup-group/hooks'
-import { AppState, addAlert } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import { lightGray, halfSpacer, inputPaddingY } from '@getpackup-group/styles'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { FaFolderOpen, FaInfoCircle, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
@@ -48,15 +49,9 @@ export type GroupedChannelOption = {
   readonly options: readonly SelectGearListCategoryOption[]
 }
 
-// type Category =
-//   | { value: string; label: string }
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   | CommonProps<OptionType | OptionType[], boolean, any>
-
 export default function GearCloset() {
   const size = useWindowSize()
   const firebase = useFirebase()
-  const dispatch = useDispatch()
   const router = useRouter()
   const personalGear = usePersonalGear()
   const auth = useSelector((state: AppState) => state.firebase.auth)
@@ -139,12 +134,7 @@ export default function GearCloset() {
       })
       .then()
       .catch((err) => {
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
     setCategoriesToAdd([])
   }
@@ -225,12 +215,7 @@ export default function GearCloset() {
       })
       .catch((err) => {
         trackEvent('Gear Closet Item Delete Failure', { ...item, err })
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
     setItemToBeDeleted(undefined)
     setModalIsOpen(false)

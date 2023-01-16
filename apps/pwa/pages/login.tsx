@@ -13,7 +13,7 @@ import {
   Row,
   // Seo,
 } from '@getpackup-group/components'
-import { RootState, addAlert, removeAttemptedPrivatePage } from '@getpackup-group/redux'
+import { AppState, removeAttemptedPrivatePage } from '@getpackup-group/redux'
 import { trackEvent, requiredField } from '@getpackup-group/utils'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
@@ -22,11 +22,12 @@ import React, { useState, useEffect } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
+import toast from 'react-hot-toast'
 
 export default function Login() {
   const firebase = useFirebase()
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const client = useSelector((state: RootState) => state.client)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const client = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -84,12 +85,7 @@ export default function Login() {
                         error: err,
                         email: values.email,
                       })
-                      dispatch(
-                        addAlert({
-                          type: 'danger',
-                          message: err.message,
-                        })
-                      )
+                      toast.error(err.message)
                     })
                     .finally(() => {
                       setIsLoading(false)

@@ -1,14 +1,9 @@
-import { addAlert } from '@getpackup-group/redux'
+import { toast } from 'react-hot-toast'
 import { trackEvent } from '@getpackup-group/utils'
-import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
 import { Button } from '../button/Button'
 import { Heading } from '../heading/Heading'
 
 export const SendInviteForm = (): JSX.Element => {
-  const dispatch = useDispatch()
-  const { asPath } = useRouter()
-
   const title = 'Create an account on Packup so we can collaborate on trips!'
   const text = `Hey, sign up for an account on Packup so we can coordinate trip details together 😎 ${
     window.location.origin || 'https://getpackup.com'
@@ -24,12 +19,7 @@ export const SendInviteForm = (): JSX.Element => {
             url: window.location.origin,
           })
           .then(() => {
-            dispatch(
-              addAlert({
-                message: 'Hopefully they join soon so you can collaborate on your trip 👍',
-                type: 'success',
-              })
-            )
+            toast.success('Hopefully they join soon so you can collaborate on your trip 👍')
             trackEvent('Send Invite to New User Successful')
           })
           .catch((err) => {
@@ -37,12 +27,7 @@ export const SendInviteForm = (): JSX.Element => {
           })
       }
     } catch (err) {
-      dispatch(
-        addAlert({
-          message: 'Sorry, something went wrong. Please try again later.',
-          type: 'danger',
-        })
-      )
+      toast.error('Sorry, something went wrong. Please try again later.')
       trackEvent('Send Invite to New User Failed', {
         canShareEnabled: typeof navigator.share === 'function',
       })

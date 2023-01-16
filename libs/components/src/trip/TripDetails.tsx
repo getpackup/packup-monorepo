@@ -15,7 +15,8 @@ import {
   TripNavigation,
   UserMediaObject,
 } from '@getpackup-group/components'
-import { RootState, addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
+import { AppState } from '@getpackup-group/redux'
 import {
   createOptionsFromArrayOfObjects,
   formattedDate,
@@ -50,7 +51,7 @@ export const TripDetails: FunctionComponent<TripDetailsProps> = ({ activeTrip, u
   const firebase = useFirebase()
   const dispatch = useDispatch()
 
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
 
   useFirestoreConnect([
     {
@@ -91,12 +92,7 @@ export const TripDetails: FunctionComponent<TripDetailsProps> = ({ activeTrip, u
             ...updatedValues,
           })
           setIsLoading(false)
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }

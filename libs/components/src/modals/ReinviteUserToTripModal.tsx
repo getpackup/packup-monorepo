@@ -1,10 +1,9 @@
 import { TripMember, TripMemberStatus, TripType } from '@getpackup-group/common'
 import { Button, Column, Heading, Modal, Row } from '@getpackup-group/components'
-import { addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
 import { sendTripInvitationEmail, trackEvent } from '@getpackup-group/utils'
 import { FunctionComponent } from 'react'
 import { FaCheck } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 
 type ReinviteUserToTripModalProps = {
@@ -27,7 +26,6 @@ export const ReinviteUserToTripModal: FunctionComponent<ReinviteUserToTripModalP
   greetingName,
 }) => {
   const firebase = useFirebase()
-  const dispatch = useDispatch()
 
   const reinviteToTrip = () => {
     if (trip.tripId && tripMember) {
@@ -54,7 +52,6 @@ export const ReinviteUserToTripModal: FunctionComponent<ReinviteUserToTripModalP
             invitedBy: profile.username,
             email: tripMemberEmail,
             greetingName,
-            dispatch,
           })
 
           setModalIsOpen(false)
@@ -66,12 +63,7 @@ export const ReinviteUserToTripModal: FunctionComponent<ReinviteUserToTripModalP
             uid: tripMember.uid,
             error: err,
           })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }

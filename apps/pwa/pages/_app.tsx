@@ -1,3 +1,4 @@
+import { FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa'
 import React, { useMemo } from 'react'
 import { minify } from 'terser'
 import { AppProps } from 'next/app'
@@ -13,6 +14,8 @@ import { IconContext } from 'react-icons'
 import {
   baseSpacer,
   borderRadius,
+  brandDanger,
+  brandInfo,
   brandSecondary,
   brandSuccess,
   breakpoints,
@@ -28,11 +31,12 @@ import {
   white,
   z1Shadow,
 } from '@getpackup-group/styles'
-import { AddToHomeScreenBanner, GlobalAlerts, Navbar, Footer } from '@getpackup-group/components'
+import { AddToHomeScreenBanner, Navbar, Footer } from '@getpackup-group/components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Modal from 'react-modal'
 import '../webfonts.css'
+import { Toaster } from 'react-hot-toast'
 
 function setColorsByTheme() {
   const colors = '🌈'
@@ -161,7 +165,32 @@ function App({ Component, pageProps }: AppProps) {
                     <Component {...pageProps} />
                   </AppContainer>
                 </PageBody>
-                <GlobalAlerts />
+                <Toaster
+                  position="bottom-right"
+                  toastOptions={{
+                    success: {
+                      style: {
+                        backgroundColor: brandSuccess,
+                        color: white,
+                      },
+                      icon: <FaCheckCircle size={quadrupleSpacer} />,
+                    },
+                    error: {
+                      style: {
+                        backgroundColor: brandDanger,
+                        color: white,
+                      },
+                      icon: <FaExclamationCircle size={quadrupleSpacer} />,
+                    },
+                    blank: {
+                      style: {
+                        backgroundColor: brandInfo,
+                        color: white,
+                      },
+                      icon: <FaInfoCircle size={quadrupleSpacer} />,
+                    },
+                  }}
+                />
                 {pathname !== '/' && <Footer />}
               </LayoutWrapper>
 

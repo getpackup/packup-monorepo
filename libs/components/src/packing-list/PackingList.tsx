@@ -10,7 +10,7 @@ import {
 } from '@getpackup-group/components'
 
 import {
-  RootState,
+  AppState,
   setActivePackingListFilter,
   setActivePackingListTab,
   setPersonalListScrollPosition,
@@ -104,14 +104,14 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   tripId,
   tripIsLoaded,
 }) => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const gearList = useSelector((state: RootState) => state.firestore.data.packingList)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const gearList = useSelector((state: AppState) => state.firestore.data['packingList'])
   const {
     activePackingListFilter,
     activePackingListTab,
     personalListScrollPosition,
     sharedListScrollPosition,
-  } = useSelector((state: RootState) => state.client)
+  } = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
 

@@ -1,4 +1,4 @@
-import { RootState, removeAttemptedPrivatePage } from '@getpackup-group/redux'
+import { AppState, removeAttemptedPrivatePage } from '@getpackup-group/redux'
 import {
   brandPrimary,
   baseBorderStyle,
@@ -9,9 +9,8 @@ import {
   fontSizeBase,
 } from '@getpackup-group/styles'
 import { useRouter } from 'next/router'
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'
 import { onAuthStateChanged } from 'firebase/auth'
 import 'firebaseui/dist/firebaseui.css'
@@ -85,9 +84,8 @@ export const FirebaseAuthWrapper = ({ className, uiCallback }: Props) => {
   const app = getApp()
   const auth = getAuth(app)
 
-  const firebase = useFirebase()
   const dispatch = useDispatch()
-  const client = useSelector((state: RootState) => state.client)
+  const client = useSelector((state: AppState) => state.client)
   const router = useRouter()
 
   const signInProviders =

@@ -13,9 +13,7 @@ import thunk from 'redux-thunk'
 import requestHeaders from './middleware/requestHeaders'
 import oauth from './middleware/oauth'
 import logger from './middleware/logger'
-import errorCatcher from './middleware/errorCatcher'
 import rootReducer from './ducks'
-import { globalAlertsInitialState } from './ducks/globalAlerts'
 import { clientInitialState } from './ducks/client'
 
 // Can't get it to work from types folder
@@ -30,7 +28,7 @@ const sentryReduxEnhancer = Sentry.createReduxEnhancer({
   // Optionally pass options
 })
 
-export const getMiddlewares = () => [oauth, requestHeaders, apiMiddleware, errorCatcher, thunk]
+export const getMiddlewares = () => [oauth, requestHeaders, apiMiddleware, thunk]
 
 const middlewares = getMiddlewares()
 const isBrowser = typeof window !== 'undefined'
@@ -65,7 +63,6 @@ const configureStore = (
     | string
     | {
         client: typeof clientInitialState
-        globalAlerts: typeof globalAlertsInitialState
       }
 ) => {
   const store = { ...makeConfiguredStore(rootReducer, initialState) }

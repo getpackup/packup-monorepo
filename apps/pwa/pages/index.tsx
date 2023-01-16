@@ -1,9 +1,10 @@
+/* eslint-disable dot-notation */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useRouter } from 'next/router'
 import {
-  RootState,
+  AppState,
   setActivePackingListFilter,
   setActivePackingListTab,
 } from '@getpackup-group/redux'
@@ -34,9 +35,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 
 export default function Index() {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
-  const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
+  const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered['gearCloset'])
   const dispatch = useDispatch()
   const router = useRouter()
 

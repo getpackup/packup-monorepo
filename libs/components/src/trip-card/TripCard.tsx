@@ -10,7 +10,8 @@ import {
   TripHeaderImage,
   TripMemberAvatars,
 } from '@getpackup-group/components'
-import { RootState, addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
+import { AppState } from '@getpackup-group/redux'
 import {
   white,
   baseBorderStyle,
@@ -49,8 +50,8 @@ const StyledLineItem = styled.div`
 `
 
 export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, onClick }) => {
-  const users = useSelector((state: RootState) => state.firestore.data['users'])
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const users = useSelector((state: AppState) => state.firestore.data['users'])
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const router = useRouter()
@@ -87,12 +88,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             ...trip,
             acceptedMember: auth.uid,
           })
-          dispatch(
-            addAlert({
-              type: 'success',
-              message: `Excellent! Let's start thinking about whay you'll need to bring next 🤙`,
-            })
-          )
+          toast.success(`Excellent! Let's start thinking about what you'll need to bring next 🤙`)
           router.push(`/trips/${trip.tripId}/generator`)
         })
         .catch((err) => {
@@ -101,12 +97,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             acceptedMember: auth.uid,
             error: err,
           })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }
@@ -130,12 +121,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             ...trip,
             declinedMember: auth.uid,
           })
-          dispatch(
-            addAlert({
-              type: 'success',
-              message: `Bummer... You have successfully declined to go on the trip 😔`,
-            })
-          )
+          toast.success(`Bummer... You have successfully declined to go on the trip 😔`)
         })
         .catch((err) => {
           trackEvent('Trip Party Member Decline Failure', {
@@ -143,12 +129,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             declinedMember: auth.uid,
             error: err,
           })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }

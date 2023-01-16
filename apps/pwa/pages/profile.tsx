@@ -9,11 +9,10 @@ import {
   NegativeMarginContainer,
   PageContainer,
   Row,
-  // Seo,
   AvatarImageWrapper,
 } from '@getpackup-group/components'
-
-import { RootState, addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
+import { AppState } from '@getpackup-group/redux'
 import {
   brandDanger,
   offWhite,
@@ -29,8 +28,8 @@ import {
   isEmail,
   requiredField,
   requiredPhoneNumber,
+  useLoggedInUser,
 } from '@getpackup-group/utils'
-import { UserType } from '@getpackup-group/common'
 
 import { Field, Form, Formik } from 'formik'
 import Link from 'next/link'
@@ -59,14 +58,11 @@ const ProfileWrapper = styled.div`
 `
 
 export default function Profile() {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const router = useRouter()
-
-  const loggedInUser = useSelector((state: RootState) => state.firestore.ordered.loggedInUser)
-  const activeLoggedInUser: UserType =
-    loggedInUser && loggedInUser.length > 0 ? loggedInUser[0] : undefined
+  const activeLoggedInUser = useLoggedInUser()
 
   const [verifySent, setVerifySent] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -84,12 +80,7 @@ export default function Profile() {
       })
       .catch((err) => {
         trackEvent('Logout Failure', { location: 'Profile', error: err })
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
     // clear redux store http://react-redux-firebase.com/docs/auth.html#logout
     firebase.logout().then(() => {
@@ -103,12 +94,7 @@ export default function Profile() {
 
     if (!user) {
       trackEvent('Verify Email Attempted', { error: 'Not logged in' })
-      dispatch(
-        addAlert({
-          type: 'danger',
-          message: 'You are not currently signed in',
-        })
-      )
+      toast.error('You are not currently signed in')
       return
     }
     user
@@ -116,21 +102,11 @@ export default function Profile() {
       .then(() => {
         setVerifySent(true)
         trackEvent('Verify Email Sent')
-        dispatch(
-          addAlert({
-            type: 'success',
-            message: 'Verification email sent',
-          })
-        )
+        toast.error('Verification email sent')
       })
       .catch((err) => {
         trackEvent('Verify Email Send Failure')
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
   }
 
@@ -158,12 +134,7 @@ export default function Profile() {
         .catch((err) => {
           setIsLoading(false)
           trackEvent('Emergency Contact Removal Failure', { error: err })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }
@@ -249,18 +220,13 @@ export default function Profile() {
                       setSubmitting(false)
                       setIsLoading(false)
                       trackEvent('Profile Update Failure', { error: err, ...updateValues })
-                      dispatch(
-                        addAlert({
-                          type: 'danger',
-                          message: err.message,
-                        })
-                      )
+                      toast.error(err.message)
                     })
                 }}
               >
                 {({ setFieldValue, values, initialValues, errors, ...rest }) => (
                   <Form>
-                    <AvatarUpload loggedInUser={activeLoggedInUser} />
+                    <AvatarUpload />
                     <EditableInput
                       label="Name"
                       isLoading={isLoading}

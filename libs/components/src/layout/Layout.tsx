@@ -1,12 +1,7 @@
 // import 'animate.css';
 // import '@getpackup-group/styles/bootstrapCarousel.css'
 
-import {
-  ErrorBoundary,
-  // GlobalAlerts,
-  Navbar,
-  // ReactModal
-} from '..'
+import { ErrorBoundary, Navbar } from '..'
 import dynamic from 'next/dynamic'
 import { CssReset } from '@getpackup-group/styles'
 import {
@@ -20,10 +15,7 @@ import {
   UploadTheme,
 } from '@getpackup-group/styles'
 import Link from 'next/link'
-import React, {
-  FunctionComponent,
-  // useEffect
-} from 'react'
+import React, { FunctionComponent } from 'react'
 import CookieConsent from 'react-cookie-consent'
 import { IconContext } from 'react-icons'
 import styled from 'styled-components'
@@ -75,7 +67,6 @@ export const Layout: FunctionComponent<LayoutProps> = (props) => {
             {!props.hideFromCms && <AddToHomeScreenBanner />}
             {!props.hideFromCms && <Navbar />}
             <PageBody isHomePage={pathname === '/'}>{props.children}</PageBody>
-            {/* {!props.hideFromCms && <GlobalAlerts />} */}
             {!props.hideFromCms && pathname !== '/' && <Footer />}
           </LayoutWrapper>
 

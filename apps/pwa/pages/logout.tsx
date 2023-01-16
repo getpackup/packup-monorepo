@@ -1,5 +1,5 @@
 import { LoadingPage, PageContainer } from '@getpackup-group/components'
-import { addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
 import { trackEvent } from '@getpackup-group/utils'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
@@ -20,12 +20,7 @@ export default function Logout() {
         router.push('/login')
       })
       .catch((err) => {
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
     // clear redux store http://react-redux-firebase.com/docs/auth.html#logout
     firebase.logout().then(() => {

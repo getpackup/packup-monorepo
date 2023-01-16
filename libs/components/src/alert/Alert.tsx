@@ -8,7 +8,7 @@ import {
   FaLongArrowAltRight,
   FaTimes,
 } from 'react-icons/fa'
-import { animated } from 'react-spring'
+import { animated } from '@react-spring/web'
 import styled from 'styled-components'
 
 import { RelativeOrExternalLink } from '../relative-or-external-link/RelativeOrExternalLink'
