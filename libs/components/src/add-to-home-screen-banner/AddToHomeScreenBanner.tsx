@@ -33,7 +33,7 @@ export const AddToHomeScreenBanner: FunctionComponent = () => {
     return /iphone|ipad|ipod/.test(userAgent)
   }
 
-  let navigator: any
+  let navigator: typeof window.navigator & { standalone?: boolean }
 
   if (typeof window !== 'undefined' && window.navigator) {
     navigator = window.navigator

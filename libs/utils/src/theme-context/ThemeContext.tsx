@@ -11,7 +11,7 @@ export const ThemeContext = createContext({
   setColorMode: () => null,
 } as ContextType)
 
-export function ThemeProvider({ children }: { children: any }) {
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [colorMode, rawSetColorMode] = React.useState<string | undefined>(undefined)
 
   useEffect(() => {

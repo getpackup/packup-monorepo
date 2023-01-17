@@ -49,7 +49,7 @@ export interface ButtonProps {
   isLoading?: boolean
   style?: CSSProperties
   size?: 'small' | 'large'
-  children: any // TODO: change type
+  children: React.ReactNode
   onClick?(event: React.MouseEvent<HTMLButtonElement>): void
 }
 

@@ -17,7 +17,7 @@ import {
   quadrupleSpacer,
   tripleSpacer,
 } from '@getpackup-group/styles'
-import React, { FunctionComponent } from 'react'
+import React, { CSSProperties, FunctionComponent } from 'react'
 import styled, { css } from 'styled-components'
 
 interface HeadingProps {
@@ -30,9 +30,9 @@ interface HeadingProps {
   altStyle?: boolean
   onClick?: () => void
   withDecoration?: boolean
-  children: any // TODO specify concrete type
+  children: React.ReactNode
   mega?: boolean
-  style?: any
+  style?: CSSProperties
 }
 
 const renderFontSize = (as: HeadingProps['as'], altStyle: HeadingProps['altStyle']) => {

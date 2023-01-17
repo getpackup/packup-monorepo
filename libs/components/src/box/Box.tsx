@@ -19,7 +19,7 @@ interface BoxProps {
   }
   onClick?: () => void
   style?: CSSProperties
-  children: any // TODO: specify more concrete type once we know it
+  children: React.ReactNode
 }
 
 const renderShadow = (zindex: number) => {

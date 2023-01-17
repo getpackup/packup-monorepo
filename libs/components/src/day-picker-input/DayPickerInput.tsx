@@ -4,21 +4,19 @@ import {
   baseBorderStyle,
   baseSpacer,
   borderRadius,
-  doubleSpacer,
   brandPrimary,
   brandPrimaryRGB,
-  textColor,
   white,
 } from '@getpackup-group/styles'
 import format from 'date-fns/format'
 import { FunctionComponent, useEffect, useState } from 'react'
-import { DayPicker, DateRange, addToRange, isDateBeforeType } from 'react-day-picker'
+import { DayPicker, DateRange } from 'react-day-picker'
 import styled from 'styled-components'
 
 type DayPickerInputProps = {
   initialValues: any
   values: any
-  setFieldValue: (field: string, value: any) => void
+  setFieldValue: (field: string, value: string | undefined) => void
   setFieldTouched: (field: string) => void
   label: string
   hiddenLabel?: boolean

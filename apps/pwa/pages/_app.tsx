@@ -31,7 +31,7 @@ import {
   white,
   z1Shadow,
 } from '@getpackup-group/styles'
-import { AddToHomeScreenBanner, Navbar, Footer } from '@getpackup-group/components'
+import { AddToHomeScreenBanner, Navbar, Footer, ErrorBoundary } from '@getpackup-group/components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Modal from 'react-modal'
@@ -152,75 +152,77 @@ function App({ Component, pageProps }: AppProps) {
         <MagicScriptTag />
       </Head>
       <ReduxWrapper>
-        <HelmetProvider>
-          <ThemeProvider>
-            <CssReset />
-            <UploadTheme />
-            <IconContext.Provider value={iconStyle as CSSProperties}>
-              <LayoutWrapper>
-                <AddToHomeScreenBanner />
-                <Navbar />
-                <PageBody>
-                  <AppContainer>
-                    <Component {...pageProps} />
-                  </AppContainer>
-                </PageBody>
-                <Toaster
-                  position="bottom-right"
-                  toastOptions={{
-                    success: {
-                      style: {
-                        backgroundColor: brandSuccess,
-                        color: white,
+        <ErrorBoundary>
+          <HelmetProvider>
+            <ThemeProvider>
+              <CssReset />
+              <UploadTheme />
+              <IconContext.Provider value={iconStyle as CSSProperties}>
+                <LayoutWrapper>
+                  <AddToHomeScreenBanner />
+                  <Navbar />
+                  <PageBody>
+                    <AppContainer>
+                      <Component {...pageProps} />
+                    </AppContainer>
+                  </PageBody>
+                  <Toaster
+                    position="bottom-right"
+                    toastOptions={{
+                      success: {
+                        style: {
+                          backgroundColor: brandSuccess,
+                          color: white,
+                        },
+                        icon: <FaCheckCircle size={quadrupleSpacer} />,
                       },
-                      icon: <FaCheckCircle size={quadrupleSpacer} />,
-                    },
-                    error: {
-                      style: {
-                        backgroundColor: brandDanger,
-                        color: white,
+                      error: {
+                        style: {
+                          backgroundColor: brandDanger,
+                          color: white,
+                        },
+                        icon: <FaExclamationCircle size={quadrupleSpacer} />,
                       },
-                      icon: <FaExclamationCircle size={quadrupleSpacer} />,
-                    },
-                    blank: {
-                      style: {
-                        backgroundColor: brandInfo,
-                        color: white,
+                      blank: {
+                        style: {
+                          backgroundColor: brandInfo,
+                          color: white,
+                        },
+                        icon: <FaInfoCircle size={quadrupleSpacer} />,
                       },
-                      icon: <FaInfoCircle size={quadrupleSpacer} />,
-                    },
-                  }}
-                />
-                {pathname !== '/' && <Footer />}
-              </LayoutWrapper>
+                    }}
+                  />
+                  {pathname !== '/' && <Footer />}
+                </LayoutWrapper>
 
-              <CookieConsent
-                location="bottom"
-                buttonText="Accept"
-                cookieName="packup-gdpr-google-analytics"
-                style={{
-                  backgroundColor: brandSecondary,
-                }}
-                buttonStyle={{
-                  backgroundColor: brandSuccess,
-                  color: white,
-                  fontSize: '80%',
-                  borderRadius,
-                  fontWeight: 'bold',
-                  padding: `${quarterSpacer} ${threeQuarterSpacer}`,
-                }}
-              >
-                <small>
-                  This site uses cookies to enhance the user experience. Visit our{' '}
-                  <Link href="/privacy" style={{ color: white, textDecoration: 'underline' }}>
-                    Privacy page
-                  </Link>{' '}
-                  to learn more.
-                </small>
-              </CookieConsent>
-            </IconContext.Provider>
-          </ThemeProvider>
-        </HelmetProvider>
+                <CookieConsent
+                  location="bottom"
+                  buttonText="Accept"
+                  cookieName="packup-gdpr-google-analytics"
+                  style={{
+                    backgroundColor: brandSecondary,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: brandSuccess,
+                    color: white,
+                    fontSize: '80%',
+                    borderRadius,
+                    fontWeight: 'bold',
+                    padding: `${quarterSpacer} ${threeQuarterSpacer}`,
+                  }}
+                >
+                  <small>
+                    This site uses cookies to enhance the user experience. Visit our{' '}
+                    <Link href="/privacy" style={{ color: white, textDecoration: 'underline' }}>
+                      Privacy page
+                    </Link>{' '}
+                    to learn more.
+                  </small>
+                </CookieConsent>
+              </IconContext.Provider>
+            </ThemeProvider>
+          </HelmetProvider>
+        </ErrorBoundary>
       </ReduxWrapper>
     </>
   )
