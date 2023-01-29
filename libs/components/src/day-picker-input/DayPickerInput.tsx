@@ -6,12 +6,15 @@ import {
   borderRadius,
   brandPrimary,
   brandPrimaryRGB,
+  breakpoints,
+  screenSizes,
   white,
 } from '@getpackup-group/styles'
 import format from 'date-fns/format'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { DayPicker, DateRange } from 'react-day-picker'
 import styled from 'styled-components'
+import { useWindowSize } from '@getpackup-group/utils'
 
 type DayPickerInputProps = {
   initialValues: any
@@ -69,6 +72,8 @@ export const DayPickerInput: FunctionComponent<DayPickerInputProps> = ({
     }
   }, [range])
 
+  const windowSize = useWindowSize()
+
   return (
     <>
       {!hiddenLabel && <StyledLabel required>{label}</StyledLabel>}
@@ -78,7 +83,9 @@ export const DayPickerInput: FunctionComponent<DayPickerInputProps> = ({
           defaultMonth={initialValues.startDate ? new Date(initialValues.startDate) : new Date()}
           selected={range}
           onSelect={setRange}
-          numberOfMonths={2}
+          numberOfMonths={
+            windowSize && windowSize.width && windowSize.width < screenSizes.medium ? 1 : 2
+          }
           fromDate={new Date()}
         />
         {!range?.from && !range?.to && (

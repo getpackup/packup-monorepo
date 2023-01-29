@@ -76,13 +76,11 @@ export default function ChecklistId() {
   return (
     <>
       <Head>
-        <title>Trip Party</title>
+        <title>Edit Packing List Item | Packup</title>
       </Head>
 
       <PageContainer>
         <EditPackingListItem
-          tripId={id}
-          checklistId={checklistId}
           users={users}
           packingList={packingList || []}
           loggedInUserUid={auth.uid}

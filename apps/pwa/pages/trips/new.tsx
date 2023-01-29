@@ -1,4 +1,3 @@
-import Script from 'next/script'
 import Head from 'next/head'
 import {
   UserType,
@@ -160,11 +159,6 @@ export default function NewTripSummary() {
         <Head>
           <title>New Trip | Packup</title>
         </Head>
-
-        <Script
-          async
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places`}
-        />
 
         <Formik
           validateOnMount

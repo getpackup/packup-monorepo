@@ -222,7 +222,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
         ? setSharedListScrollPosition(window.pageYOffset)
         : setPersonalListScrollPosition(window.pageYOffset)
     )
-    router.push(`/trips/${tripId}/checklist/${itemId}`)
+    router.push(`/trips/${tripId}/${itemId}`)
   }
 
   const itemIsShared = props.item.packedBy.some((item) => item.isShared)

@@ -31,8 +31,7 @@ export const TripHeaderImage = ({ trip }: TripHeaderImageProps): JSX.Element => 
     >
       {trip ? (
         <>
-          {/* Aspect ratio is 16/4 or these images, but 5 works better because it isnt 100% full width, it's in a PageContainer with a max width */}
-          {trip.headerImage && <HeroImage staticImgSrc={trip.headerImage} aspectRatio={5} />}
+          {trip.headerImage && <HeroImage src={trip.headerImage} aspectRatio={4} />}
           {!trip.headerImage && !!trip.lat && !!trip.lng && (
             <StaticMapImage
               lat={trip.lat}

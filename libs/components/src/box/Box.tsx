@@ -1,5 +1,5 @@
-import { white } from '@getpackup-group/styles'
-import { baseBorderStyle, z1Shadow, z2Shadow, z3Shadow, z4Shadow } from '@getpackup-group/styles'
+import { boxShadow, white, z1Shadow } from '@getpackup-group/styles'
+import { baseBorderStyle, borderRadius } from '@getpackup-group/styles'
 import { baseSpacer, breakpoints, doubleSpacer, quadrupleSpacer } from '@getpackup-group/styles'
 import { ImageProps } from 'next/image'
 import React, { CSSProperties, FunctionComponent } from 'react'
@@ -22,28 +22,15 @@ interface BoxProps {
   children: React.ReactNode
 }
 
-const renderShadow = (zindex: number) => {
-  switch (zindex) {
-    case 1:
-      return z1Shadow
-    case 2:
-      return z2Shadow
-    case 3:
-      return z3Shadow
-    case 4:
-      return z4Shadow
-    default:
-      return z1Shadow
-  }
-}
-
 const StyledBox = styled.div<BoxProps>`
   padding: ${baseSpacer};
+  border-radius: ${borderRadius};
   margin-bottom: ${baseSpacer};
-  border: ${baseBorderStyle};
-  /* box-shadow: ${(props) => props.zindex && renderShadow(props.zindex)}; */
+  // border: ${baseBorderStyle};
+  // box-shadow: 0 6px 14px 0 rgb(0 0 0 / 6%);
+  box-shadow: ${boxShadow};
   text-align: ${(props) => props.textAlign};
-  height: ${(props) => (props.height ? `${props.height}px` : `calc(100% - ${baseSpacer})`)};
+  // height: ${(props) => (props.height ? `${props.height}px` : `calc(100% - ${baseSpacer})`)};
   background: ${(props) =>
     props.bgSrc
       ? `url(${props.bgSrc.childImageSharp.fluid.src}) center center / cover no-repeat`
@@ -56,10 +43,6 @@ const StyledBox = styled.div<BoxProps>`
       position: relative;
       padding-bottom: ${quadrupleSpacer};
     `}
-
-  &:hover {
-    /* box-shadow: ${(props) => props.zindex && props.onClick && renderShadow(props.zindex + 1)}; */
-  }
 
   @media only screen and (min-width: ${breakpoints.sm}) {
     padding: ${(props) => (props.largePadding ? quadrupleSpacer : doubleSpacer)};

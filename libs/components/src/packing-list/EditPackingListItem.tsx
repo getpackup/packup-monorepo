@@ -8,6 +8,7 @@ import {
   Heading,
   HorizontalRule,
   Input,
+  LoadingPage,
   Modal,
   Row,
 } from '@getpackup-group/components'
@@ -32,8 +33,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 
 type EditPackingListItemProps = {
-  tripId?: string
-  checklistId?: string
   users: { [key: string]: UserType }
   packingList: PackingListItemType[]
   loggedInUserUid: string
@@ -63,7 +62,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
 
   const activeItem: PackingListItemType =
     props.packingList &&
-    props.packingList.find((item: PackingListItemType) => item.id === props.checklistId)!
+    props.packingList.find((item: PackingListItemType) => item.id === router.query['checklistId'])!
 
   const removeItem = (isSharedItem: boolean) => {
     if (isSharedItem) {
@@ -73,13 +72,13 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
       return firebase
         .firestore()
         .collection('trips')
-        .doc(props.tripId)
+        .doc(router.query['tripId']! as string)
         .collection('packing-list')
         .doc(activeItem?.id)
         .delete()
         .then(() => {
           trackEvent('Packing List Item Removed', { ...activeItem })
-          router.push(`/trips/${props.tripId}`)
+          router.push(`/trips/${router.query['tripId']! as string}`)
         })
         .catch((err) => {
           toast.error(err.message)
@@ -97,12 +96,12 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
       )
     }
     // TODO: does router push mess up scroll position?
-    router.push(`/trips/${props.tripId}`)
+    router.push(`/trips/${router.query['tripId']! as string}`)
   }
 
-  if (!props.checklistId || !activeItem) {
+  if (!router.query['checklistId'] || !activeItem) {
     // TODO: better failure state than "select an item to edit" below
-    return <p>couldnt find item</p>
+    return <LoadingPage />
   }
   return (
     <div>
@@ -165,7 +164,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
               firebase
                 .firestore()
                 .collection('trips')
-                .doc(props.tripId)
+                .doc(router.query['tripId']! as string)
                 .collection('packing-list')
                 .doc(activeItem?.id)
                 .update(updateValues)

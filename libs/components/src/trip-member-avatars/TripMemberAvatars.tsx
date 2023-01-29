@@ -46,7 +46,7 @@ export const TripMemberAvatars = ({ trip, users }: TripMemberAvatarsProps): JSX.
                   />
                 )
               })}
-          {users && tripMembers.length > TRIP_PARTY_AVATARS_TO_SHOW && (
+          {users && tripMembers && tripMembers.length > TRIP_PARTY_AVATARS_TO_SHOW && (
             <Avatar
               // never want to show +1, because then we could have just rendered the photo.
               // Instead, lets add another so its always at least +2

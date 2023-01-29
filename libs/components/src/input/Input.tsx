@@ -168,6 +168,7 @@ export const StyledLabel = styled.label<{
   hiddenLabel?: boolean
   invalid?: boolean
   required?: boolean
+  ariaLabel?: string
 }>`
   display: flex;
   line-height: 1.75;
@@ -479,7 +480,10 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           )
         inputTypeToRender = (
           <>
-            <StyledLabel htmlFor={props.id || props.name}>
+            <StyledLabel
+              htmlFor={props.id || props.name}
+              ariaLabel={typeof props.label === 'string' ? props.label : undefined}
+            >
               <StyledToggle
                 {...field}
                 {...props}
@@ -499,7 +503,12 @@ export const Input: FunctionComponent<InputProps> = (props) => {
     case 'toggle':
       inputTypeToRender = (
         <>
-          <StyledLabel htmlFor={props.id || props.name}>{props.label}</StyledLabel>
+          <StyledLabel
+            htmlFor={props.id || props.name}
+            ariaLabel={typeof props.label === 'string' ? props.label : undefined}
+          >
+            {props.label}
+          </StyledLabel>
           <StyledToggle
             {...field}
             {...props}
@@ -524,6 +533,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           {...field}
           {...props}
           {...meta}
+          ariaDescribedby={`${props.name}-error-id`}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             field.onChange(event.target.name)(formatPhoneNumberValue(event.target.value))
           }}
@@ -664,6 +674,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           hiddenLabel={props.hiddenLabel}
           invalid={meta && meta.touched && meta.error != null}
           required={props.required || false}
+          ariaLabel={typeof props.label === 'string' ? props.label : undefined}
         >
           {props.label}
         </StyledLabel>
@@ -671,7 +682,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
       {inputTypeToRender}
       {props.helpText && <small>{props.helpText}</small>}
       {meta && meta.touched && meta.error && !props.square && (
-        <StyledErrorMessage>{meta.error}</StyledErrorMessage>
+        <StyledErrorMessage id={`${props.name}-error-id`}>{meta.error}</StyledErrorMessage>
       )}
     </InputWrapper>
   )

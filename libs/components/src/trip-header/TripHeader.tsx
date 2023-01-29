@@ -147,7 +147,7 @@ export const TripHeader: FunctionComponent<TripHeaderProps> = ({ trip, userIsTri
                 })
               }
             >
-              Edit
+              Details
             </Button>
             <Button
               type="link"

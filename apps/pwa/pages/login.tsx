@@ -1,37 +1,76 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {
   Box,
-  Button,
   Column,
   FirebaseAuthWrapper,
-  FlexContainer,
   Heading,
-  HorizontalRule,
-  Input,
+  SignupForm,
+  LoginForm,
   PageContainer,
   Row,
-  // Seo,
 } from '@getpackup-group/components'
-import { AppState, removeAttemptedPrivatePage } from '@getpackup-group/redux'
-import { trackEvent, requiredField } from '@getpackup-group/utils'
-import { Field, Form, Formik } from 'formik'
+import { AppState } from '@getpackup-group/redux'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
-import { FaArrowRight } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
-import { useFirebase } from 'react-redux-firebase'
-import toast from 'react-hot-toast'
+import { useSelector } from 'react-redux'
+import Head from 'next/head'
+import styled from 'styled-components'
+import {
+  baseBorderStyle,
+  baseSpacer,
+  brandPrimary,
+  doubleSpacer,
+  fontSizeH5,
+  fontSizeSmall,
+  halfSpacer,
+  textColor,
+  textColorLight,
+  white,
+} from '@getpackup-group/styles'
+
+const Tabs = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  cursor: pointer;
+  margin-bottom: ${baseSpacer};
+`
+
+const Tab = styled.div`
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  border-bottom: 4px solid;
+  border-bottom-color: ${(props: { active: boolean }) =>
+    props.active ? brandPrimary : 'transparent'};
+  cursor: pointer;
+  // font-size: ${fontSizeH5};
+  color: ${(props) => (props.active ? brandPrimary : textColor)};
+  padding: ${halfSpacer} 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+`
+
+const Divider = styled.div`
+  border-bottom: ${baseBorderStyle};
+  line-height: 0;
+  margin: ${doubleSpacer} 0;
+  width: 100%;
+  text-align: center;
+
+  & span {
+    background: ${white};
+    color: ${textColorLight};
+    padding: 0 ${baseSpacer};
+    font-size: ${fontSizeSmall};
+    font-weight: bold;
+  }
+`
 
 export default function Login() {
-  const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const client = useSelector((state: AppState) => state.client)
-  const dispatch = useDispatch()
+
   const router = useRouter()
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login')
 
   useEffect(() => {
     if (!!auth && auth.isLoaded && !auth.isEmpty) {
@@ -39,128 +78,38 @@ export default function Login() {
     }
   }, [auth, router])
 
-  const initialValues = {
-    email: '',
-    password: '',
-  }
-
   return (
-    <PageContainer withVerticalPadding>
-      {/* // TODO fix SEO */}
-      {/* <Seo title="Log In" /> */}
-      <Box>
-        <Heading align="center">Log In</Heading>
-        <p style={{ textAlign: 'center' }}>
-          to access your digital gear inventory and custom packing lists
-        </p>
-        <HorizontalRule />
-        <Row>
-          <Column xs={10} xsOffset={1} sm={8} smOffset={2} md={5} mdOffset={1} lg={4} lgOffset={1}>
-            <FlexContainer height="100%">
-              <Formik
-                validateOnMount
-                initialValues={initialValues}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                  setIsLoading(true)
-                  firebase
-                    .auth()
-                    .signInWithEmailAndPassword(values.email, values.password)
-                    .then(() => {
-                      if (client.location) {
-                        trackEvent('User Logged In and Needed Redirection', {
-                          location: client.location,
-                          email: values.email,
-                        })
-                        dispatch(removeAttemptedPrivatePage())
-                        router.push(client.location)
-                      } else {
-                        trackEvent('User Logged In', {
-                          email: values.email,
-                        })
-                        router.push('/')
-                      }
-                    })
-                    .catch((err) => {
-                      trackEvent('User Log In Failure', {
-                        error: err,
-                        email: values.email,
-                      })
-                      toast.error(err.message)
-                    })
-                    .finally(() => {
-                      setIsLoading(false)
-                      setSubmitting(false)
-                    })
-
-                  resetForm()
-                }}
-              >
-                {({ isSubmitting, isValid }) => (
-                  <Form>
-                    <Field
-                      as={Input}
-                      type="email"
-                      name="email"
-                      label="Email"
-                      validate={requiredField}
-                      required
-                      hiddenLabel
-                    />
-                    <Field
-                      as={Input}
-                      type="password"
-                      name="password"
-                      label="Password"
-                      validate={requiredField}
-                      required
-                      hiddenLabel
-                    />
-
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting || !isValid || isLoading}
-                      isLoading={isLoading}
-                      block
-                    >
-                      {isLoading ? 'Logging In' : 'Log In'}
-                    </Button>
-
-                    <Button
-                      type="link"
-                      to="/forgot-password"
-                      color="text"
-                      block
-                      onClick={() =>
-                        trackEvent('Forgot Password Clicked', { location: 'Login Page' })
-                      }
-                    >
-                      Forgot Password?
-                    </Button>
-
-                    <p style={{ textAlign: 'center' }}>
-                      <small>
-                        Don&apos;t have an account yet?{' '}
-                        <Link href="/signup">
-                          <span
-                            onClick={() =>
-                              trackEvent('Sign Up Now Link Clicked', { location: 'Login Page' })
-                            }
-                          >
-                            Sign up now <FaArrowRight />
-                          </span>
-                        </Link>
-                      </small>
-                    </p>
-                  </Form>
-                )}
-              </Formik>
-            </FlexContainer>
-          </Column>
-          <Column xs={10} xsOffset={1} sm={8} smOffset={2} md={5} lg={4} lgOffset={2}>
+    <PageContainer>
+      <Head>
+        <title>Log In | Packup</title>
+      </Head>
+      <Row>
+        <Column sm={8} smOffset={2} md={6} mdOffset={3}>
+          <Tabs>
+            <Tab active={activeTab === 'login'} onClick={() => setActiveTab('login')}>
+              Login
+            </Tab>
+            <Tab active={activeTab === 'signup'} onClick={() => setActiveTab('signup')}>
+              Signup
+            </Tab>
+          </Tabs>
+          <Box>
+            <Heading align="center" as="h2">
+              {activeTab === 'signup' ? 'Hello there! ' : 'Welcome Back'}
+            </Heading>
+            <p style={{ textAlign: 'center' }}>
+              {activeTab === 'signup'
+                ? 'Create an account to keep track of your gear and start planning your first trip today.'
+                : 'Login to access your digital gear inventory and custom packing lists for your adventures'}
+            </p>
+            {activeTab === 'signup' ? <SignupForm /> : <LoginForm />}
+            <Divider>
+              <span>OR</span>
+            </Divider>
             <FirebaseAuthWrapper />
-          </Column>
-        </Row>
-      </Box>
+          </Box>
+        </Column>
+      </Row>
     </PageContainer>
   )
 }

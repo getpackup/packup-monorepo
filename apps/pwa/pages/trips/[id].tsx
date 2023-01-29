@@ -96,7 +96,7 @@ export default function TripById() {
   return (
     <>
       <Head>
-        <title>{activeTrip?.name || 'Trip Summary'}</title>
+        <title key="title">{activeTrip?.name || 'Trip Summary'}</title>
       </Head>
 
       <PageContainer>

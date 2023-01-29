@@ -27,7 +27,7 @@ type HeroImageUploadProps = {
 }
 
 const HeroImageUploadWrapper = styled.div`
-  margin-bottom: ${baseSpacer};
+  // margin-bottom: ${baseSpacer};
 `
 
 const HeroImageUploadPicker = styled.div`
@@ -126,7 +126,7 @@ export const HeroImageUpload: FunctionComponent<HeroImageUploadProps> = ({ type,
   return (
     <HeroImageUploadWrapper>
       {image ? (
-        <HeroImage staticImgSrc={image as string} justifyContent="flex-end" alignItems="flex-end">
+        <HeroImage src={image} justifyContent="flex-end" alignItems="flex-end" aspectRatio={5}>
           <Button
             color="tertiary"
             size="small"

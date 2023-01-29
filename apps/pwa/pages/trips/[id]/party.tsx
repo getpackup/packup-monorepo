@@ -57,7 +57,7 @@ export default function Party() {
   return (
     <>
       <Head>
-        <title>Trip Party</title>
+        <title>Trip Party | Packup</title>
       </Head>
 
       <PageContainer>

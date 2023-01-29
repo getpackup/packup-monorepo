@@ -64,20 +64,19 @@ const StyledFirebaseAuthWrapper = styled.div`
 `
 
 // see https://github.com/firebase/firebaseui-web-react/pull/173 for more info
-interface Props {
+interface FirebaseAuthWrapperProps {
   // The Firebase UI Web UI Config object.
   // See: https://github.com/firebase/firebaseui-web#configuration
   // uiConfig: auth.Config
   // Callback that will be passed the FirebaseUi instance before it is
   // started. This allows access to certain configuration options such as
   // disableAutoSignIn().
-  uiCallback?(ui: auth.AuthUI): void
+  // uiCallback?(ui: auth.AuthUI): void
   // The Firebase App auth instance to use.
   // firebaseAuth: any // As firebaseui-web
-  className?: string
 }
 
-export const FirebaseAuthWrapper = ({ className, uiCallback }: Props) => {
+export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
   const [firebaseui, setFirebaseui] = useState<typeof import('firebaseui') | null>(null)
   const [userSignedIn, setUserSignedIn] = useState(false)
   const elementRef = useRef(null)
@@ -88,15 +87,12 @@ export const FirebaseAuthWrapper = ({ className, uiCallback }: Props) => {
   const client = useSelector((state: AppState) => state.client)
   const router = useRouter()
 
-  const signInProviders =
-    typeof window !== 'undefined'
-      ? [
-          GoogleAuthProvider.PROVIDER_ID,
-          FacebookAuthProvider.PROVIDER_ID,
-          TwitterAuthProvider.PROVIDER_ID,
-          GithubAuthProvider.PROVIDER_ID,
-        ]
-      : []
+  const signInProviders = [
+    GoogleAuthProvider.PROVIDER_ID,
+    FacebookAuthProvider.PROVIDER_ID,
+    TwitterAuthProvider.PROVIDER_ID,
+    GithubAuthProvider.PROVIDER_ID,
+  ]
 
   const uiConfig = {
     signInFlow: 'popup',
@@ -136,7 +132,7 @@ export const FirebaseAuthWrapper = ({ className, uiCallback }: Props) => {
     })
 
     // Trigger the callback if any was set.
-    if (uiCallback) uiCallback(firebaseUiWidget)
+    // if (uiCallback) uiCallback(firebaseUiWidget)
 
     // Render the firebaseUi Widget.
     // @ts-ignore
@@ -150,7 +146,7 @@ export const FirebaseAuthWrapper = ({ className, uiCallback }: Props) => {
 
   return (
     <StyledFirebaseAuthWrapper>
-      <div className={className} ref={elementRef} />
+      <div ref={elementRef} />
     </StyledFirebaseAuthWrapper>
   )
 }
