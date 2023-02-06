@@ -39,6 +39,7 @@ import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import Head from 'next/head'
 import { createColumnHelper } from '@tanstack/react-table'
+import styled from 'styled-components'
 
 type SelectGearListCategoryOption = {
   readonly value: keyof ActivityTypes
@@ -50,11 +51,15 @@ export type GroupedChannelOption = {
   readonly options: readonly SelectGearListCategoryOption[]
 }
 
+const DropdownLink = styled.span`
+  padding: 8px 16px;
+`
+
 export default function GearCloset() {
   const size = useWindowSize()
   const firebase = useFirebase()
   const router = useRouter()
-  const personalGear = usePersonalGear()
+  const personalGear: string | Array<GearItemType> = usePersonalGear()
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered.trips)
@@ -163,7 +168,7 @@ export default function GearCloset() {
   ]
 
   const sortedGearList = () =>
-    auth?.uid && personalGear?.length > 0
+    auth?.uid && typeof personalGear !== 'string' && personalGear?.length > 0
       ? [...(personalGear as Array<GearItemType>)].sort((a: GearItemType, b: GearItemType) =>
           a.name?.localeCompare(b.name)
         )
@@ -254,45 +259,48 @@ export default function GearCloset() {
                 data-tip="An at-a-glance look at all of your gear, categorized and tagged to generate packing
     lists on future trips. Keep track of item weight, quanities, and notes for
     each item."
-                data-for="info"
-              />
-              <ReactTooltip
-                id="info"
-                place="top"
-                type="dark"
-                effect="solid"
-                className="tooltip customTooltip customTooltip200"
-              />
-            </div>
-            <div>
-              <DropdownMenu width={290}>
-                <Link href="/gear-closet/new">
+              data-for="info"
+            />
+            <ReactTooltip
+              id="info"
+              place="top"
+              type="dark"
+              effect="solid"
+              className="tooltip customTooltip customTooltip200"
+            />
+          </div>
+          <div>
+            <DropdownMenu width={290}>
+              <Link href="/gear-closet/new">
+                <DropdownLink>
                   <FaPlusCircle /> Add New Item
-                </Link>
-                <button
-                  onClick={() => {
-                    setAddNewCategoryModalIsOpen(true)
-                    trackEvent('Add New Tag to Gear Closet Clicked')
-                  }}
-                  type="button"
-                >
-                  <FaFolderOpen /> Add New Category
-                </button>
-              </DropdownMenu>
-            </div>
-          </FlexContainer>
-        )}
-        <p>
-          <Button
-            type="link"
-            to="/gear-closet/new"
-            iconLeft={<FaPlusCircle />}
-            size="small"
-            onClick={() => trackEvent('New Gear Closet Item Button clicked')}
-          >
-            Add New Item
-          </Button>
-        </p>
+                </DropdownLink>
+              </Link>
+              <button
+                onClick={() => {
+                  setAddNewCategoryModalIsOpen(true)
+                  trackEvent('Add New Tag to Gear Closet Clicked')
+                }}
+                type="button"
+              >
+                <FaFolderOpen /> Add New Category
+              </button>
+            </DropdownMenu>
+          </div>
+        </FlexContainer>
+      )}
+      <p>
+        <Button
+          type="link"
+          to="/gear-closet/new"
+          iconLeft={<FaPlusCircle />}
+          size="small"
+          onClick={() => trackEvent('New Gear Closet Item Button clicked')}
+        >
+          Add New Item
+        </Button>
+      </p>
+
 
         {isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && (
           <Table
