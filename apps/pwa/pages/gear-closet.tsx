@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import toast from 'react-hot-toast'
 import { TripType } from '@getpackup-group/common'
 import {
@@ -39,7 +40,6 @@ import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import Head from 'next/head'
 import { createColumnHelper } from '@tanstack/react-table'
-import styled from 'styled-components'
 
 type SelectGearListCategoryOption = {
   readonly value: keyof ActivityTypes
@@ -50,10 +50,6 @@ export type GroupedChannelOption = {
   readonly label: string
   readonly options: readonly SelectGearListCategoryOption[]
 }
-
-const DropdownLink = styled.span`
-  padding: 8px 16px;
-`
 
 export default function GearCloset() {
   const size = useWindowSize()
@@ -259,48 +255,47 @@ export default function GearCloset() {
                 data-tip="An at-a-glance look at all of your gear, categorized and tagged to generate packing
     lists on future trips. Keep track of item weight, quanities, and notes for
     each item."
-              data-for="info"
-            />
-            <ReactTooltip
-              id="info"
-              place="top"
-              type="dark"
-              effect="solid"
-              className="tooltip customTooltip customTooltip200"
-            />
-          </div>
-          <div>
-            <DropdownMenu width={290}>
-              <Link href="/gear-closet/new">
-                <DropdownLink>
-                  <FaPlusCircle /> Add New Item
-                </DropdownLink>
-              </Link>
-              <button
-                onClick={() => {
-                  setAddNewCategoryModalIsOpen(true)
-                  trackEvent('Add New Tag to Gear Closet Clicked')
-                }}
-                type="button"
-              >
-                <FaFolderOpen /> Add New Category
-              </button>
-            </DropdownMenu>
-          </div>
-        </FlexContainer>
-      )}
-      <p>
-        <Button
-          type="link"
-          to="/gear-closet/new"
-          iconLeft={<FaPlusCircle />}
-          size="small"
-          onClick={() => trackEvent('New Gear Closet Item Button clicked')}
-        >
-          Add New Item
-        </Button>
-      </p>
-
+                data-for="info"
+              />
+              <ReactTooltip
+                id="info"
+                place="top"
+                type="dark"
+                effect="solid"
+                className="tooltip customTooltip customTooltip200"
+              />
+            </div>
+            <div>
+              <DropdownMenu width={290}>
+                <Link href="/gear-closet/new" legacyBehavior passHref>
+                  <a>
+                    <FaPlusCircle /> Add New Item
+                  </a>
+                </Link>
+                <button
+                  onClick={() => {
+                    setAddNewCategoryModalIsOpen(true)
+                    trackEvent('Add New Tag to Gear Closet Clicked')
+                  }}
+                  type="button"
+                >
+                  <FaFolderOpen /> Add New Category
+                </button>
+              </DropdownMenu>
+            </div>
+          </FlexContainer>
+        )}
+        <p>
+          <Button
+            type="link"
+            to="/gear-closet/new"
+            iconLeft={<FaPlusCircle />}
+            size="small"
+            onClick={() => trackEvent('New Gear Closet Item Button clicked')}
+          >
+            Add New Item
+          </Button>
+        </p>
 
         {isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && (
           <Table
@@ -369,7 +364,7 @@ export default function GearCloset() {
 
           <p>
             Getting into a new sport or activity, or upgrading your gear? Select any category that
-            applies to gear you own!
+            applies to gear you own.
           </p>
           <Select<SelectGearListCategoryOption, true, GroupedChannelOption>
             className="react-select"
@@ -382,17 +377,16 @@ export default function GearCloset() {
               setCategoriesToAdd(options as React.SetStateAction<SelectGearListCategoryOption[]>)
             }
           />
-          {categoriesToAdd?.length > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'end', paddingTop: inputPaddingY }}>
-              <Button
-                type="button"
-                iconLeft={<FaPlusCircle />}
-                onClick={() => saveAddedCategories()}
-              >
-                Save
-              </Button>
-            </div>
-          )}
+          <div style={{ display: 'flex', justifyContent: 'end', paddingTop: inputPaddingY }}>
+            <Button
+              type="button"
+              iconLeft={<FaPlusCircle />}
+              disabled={categoriesToAdd.length === 0}
+              onClick={() => saveAddedCategories()}
+            >
+              Save
+            </Button>
+          </div>
         </Modal>
       </Box>
     </PageContainer>

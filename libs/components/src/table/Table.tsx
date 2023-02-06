@@ -41,6 +41,7 @@ import {
 import { useRouter } from 'next/router'
 import { mergeQueryParams } from '@getpackup-group/utils'
 import Pagination from './Pagination'
+import Skeleton from 'react-loading-skeleton'
 
 const StyledTable = styled.table`
   margin-bottom: ${baseSpacer};
@@ -93,6 +94,10 @@ export function Table({
     columns,
     state: {
       sorting,
+      pagination: {
+        pageSize: 25,
+        pageIndex: 0,
+      },
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -147,19 +152,31 @@ export function Table({
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <StyledTr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <StyledTd key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </StyledTd>
-                  )
-                })}
-              </StyledTr>
-            )
-          })}
+          {data.length === 0
+            ? Array.from({ length: 25 }).map((_, index) => (
+                // Loading state
+                <StyledTr key={index}>
+                  <StyledTd>
+                    <Skeleton count={1} width={`${Math.random() * (70 - 20) + 20}%`} />
+                  </StyledTd>
+                  <StyledTd>
+                    <Skeleton count={1} width={`${Math.random() * (70 - 20) + 20}%`} />
+                  </StyledTd>
+                </StyledTr>
+              ))
+            : table.getRowModel().rows.map((row) => {
+                return (
+                  <StyledTr key={row.id}>
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <StyledTd key={cell.id}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </StyledTd>
+                      )
+                    })}
+                  </StyledTr>
+                )
+              })}
         </tbody>
       </StyledTable>
       {hasPagination && (

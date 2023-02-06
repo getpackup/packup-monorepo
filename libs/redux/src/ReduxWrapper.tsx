@@ -6,6 +6,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/compat/firestore'
+import 'firebase/compat/storage'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { FirebaseReducer, FirestoreReducer, ReactReduxFirebaseProvider } from 'react-redux-firebase'

@@ -20,10 +20,11 @@ import {
   baseSpacerUnit,
   doubleSpacer,
   sextupleSpacer,
+  quadrupleSpacer,
 } from '@getpackup-group/styles'
 import {
   trackEvent,
-  // useWindowSize,
+  useWindowSize,
   validateUsername,
   isEmail,
   requiredField,
@@ -46,9 +47,9 @@ export const EmailWrapper = styled.div`
   width: 100%;
 `
 
-const ProfileWrapper = styled.div`
+const ProfileWrapper = styled.div<{ isSmallScreen: boolean }>`
   & form {
-    transform: translateY(-${sextupleSpacer});
+    transform: translateY(-${(props) => (props.isSmallScreen ? quadrupleSpacer : sextupleSpacer)});
   }
 
   & ${AvatarImageWrapper} {
@@ -66,7 +67,7 @@ export default function Profile() {
   const [verifySent, setVerifySent] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  // const { isExtraSmallScreen } = useWindowSize()
+  const { isSmallScreen } = useWindowSize()
 
   const logout = () => {
     // log out the user
@@ -144,16 +145,16 @@ export default function Profile() {
         <title>Profile | Packup</title>
       </Head>
       {auth && activeLoggedInUser && (
-        <ProfileWrapper>
+        <ProfileWrapper isSmallScreen={isSmallScreen}>
           <HeroImageUpload
             type="profile"
             id={auth.uid}
             image={activeLoggedInUser.profileHeaderImage}
           />
 
-          <Row>
-            <Column md={8} mdOffset={2}>
-              <Box>
+          <Box>
+            <Row>
+              <Column md={8} mdOffset={2}>
                 <Formik
                   validateOnMount
                   initialValues={{
@@ -418,9 +419,9 @@ export default function Profile() {
                     </Form>
                   )}
                 </Formik>
-              </Box>
-            </Column>
-          </Row>
+              </Column>
+            </Row>
+          </Box>
         </ProfileWrapper>
       )}
     </PageContainer>

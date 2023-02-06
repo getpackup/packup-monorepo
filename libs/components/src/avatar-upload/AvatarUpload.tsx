@@ -6,7 +6,7 @@ import {
   doubleSpacer,
   tripleSpacer,
 } from '@getpackup-group/styles'
-import { trackEvent, useLoggedInUser } from '@getpackup-group/utils'
+import { trackEvent, useLoggedInUser, useWindowSize } from '@getpackup-group/utils'
 import React, { FunctionComponent, useEffect, useMemo } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -41,6 +41,8 @@ export const AvatarUpload: FunctionComponent<{}> = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const firebase = useFirebase()
   const activeLoggedInUser = useLoggedInUser()
+
+  const size = useWindowSize()
 
   const uploader = useMemo(
     () =>
@@ -96,7 +98,7 @@ export const AvatarUpload: FunctionComponent<{}> = () => {
     <AvatarUploadWrapper>
       <Avatar
         src={activeLoggedInUser?.photoURL}
-        size="xl"
+        size={size.isSmallScreen ? 'lg' : 'xl'}
         gravatarEmail={activeLoggedInUser?.email}
       />
       <EditButton type="button" onClick={() => uploader.open()}>

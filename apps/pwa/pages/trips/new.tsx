@@ -126,7 +126,7 @@ export default function NewTripSummary() {
           })
         })
         trackEvent('New Trip Submit Successful', { values: { ...values } })
-        router.push(`/trips/${docRef.id}/add-trip-image`)
+        router.push(`/trips/${docRef.id}/image`)
       })
       .catch((err) => {
         trackEvent('New Trip Submit Unsuccessful', { values: { ...values }, error: err })

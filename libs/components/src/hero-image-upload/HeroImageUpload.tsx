@@ -6,19 +6,8 @@ import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import { useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'
-import {
-  Camera,
-  Crop,
-  Facebook,
-  Flip,
-  Instagram,
-  Local,
-  Reddit,
-  Twitter,
-  URL,
-  Uppload,
-  en,
-} from 'uppload'
+
+import { Camera, Crop, Flip, Instagram, Local, Uppload, en, Unsplash } from 'uppload'
 
 type HeroImageUploadProps = {
   type: 'trip' | 'profile'
@@ -89,7 +78,14 @@ export const HeroImageUpload: FunctionComponent<HeroImageUploadProps> = ({ type,
   )
 
   useEffect(() => {
-    uploader.use([new Local()])
+    uploader.use([
+      new Local(),
+      new Camera(),
+      // TODO: implment unsplash manually outside of this component so we can pull in metadata
+      // and properly attribute image owners. Needed for production api limits at https://unsplash.com/oauth/applications
+      new Unsplash(process.env['NX_UNSPLASH_ACCESS_KEY'] as string),
+      new Instagram(),
+    ])
     uploader.use([new Crop({ aspectRatio: 16 / 4 }), new Flip()])
   }, [uploader])
 
@@ -122,6 +118,20 @@ export const HeroImageUpload: FunctionComponent<HeroImageUploadProps> = ({ type,
     setIsLoading(false)
     uploader.close()
   })
+
+  useEffect(
+    // need to remove the upploadModal from the document when this component unmounts
+    // otherwise it gets in a weird state and can mount multiple times
+    () =>
+      function cleanup() {
+        const upploadModal = document.querySelector('.uppload-container')
+
+        if (upploadModal) {
+          upploadModal.remove()
+        }
+      },
+    []
+  )
 
   return (
     <HeroImageUploadWrapper>

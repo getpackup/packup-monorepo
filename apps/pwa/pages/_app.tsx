@@ -5,8 +5,6 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ThemeProvider } from '@getpackup-group/utils'
 import { ReduxWrapper } from '@getpackup-group/redux'
-import 'firebase/app'
-import 'firebase/auth'
 import styled, { CSSProperties } from 'styled-components'
 import CookieConsent from 'react-cookie-consent'
 import { IconContext } from 'react-icons'
@@ -27,7 +25,6 @@ import {
   threeQuarterSpacer,
   UploadTheme,
   white,
-  z1Shadow,
 } from '@getpackup-group/styles'
 import { AddToHomeScreenBanner, Navbar, Footer, ErrorBoundary } from '@getpackup-group/components'
 import Link from 'next/link'
@@ -110,27 +107,17 @@ function FallbackStyles() {
 }
 
 const LayoutWrapper = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // min-height: 100vh;
-  // width: 100vw;
-  // overflow: hidden;
-
   /* grid container settings */
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
-  // grid-template-areas: 'header' 'main' 'footer';
   height: 100vh;
 `
 
 const PageBody = styled.main`
-  // grid-area: main;
   overflow: auto;
-  // flex: 1;
   // padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
   // padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
-  // min-height: 100vh;
 `
 
 const AppContainer = styled.div`
@@ -140,7 +127,6 @@ const AppContainer = styled.div`
   background-color: ${offWhite};
   // background-color: var(--color-background);
   min-height: 100vh;
-  // box-shadow: ${z1Shadow};
 `
 
 Modal.setAppElement('#__next')
@@ -161,74 +147,74 @@ function App({ Component, pageProps }: AppProps) {
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places&callback=googleMapsLoaded`}
       />
       <ReduxWrapper>
-        <ErrorBoundary>
-          <ThemeProvider>
-            <CssReset />
-            <UploadTheme />
-            <IconContext.Provider value={iconStyle as CSSProperties}>
-              <LayoutWrapper>
-                <AddToHomeScreenBanner />
-                <Navbar />
-                <PageBody>
-                  <AppContainer>
+        <ThemeProvider>
+          <CssReset />
+          <UploadTheme />
+          <IconContext.Provider value={iconStyle as CSSProperties}>
+            <LayoutWrapper>
+              <AddToHomeScreenBanner />
+              <Navbar />
+              <PageBody>
+                <AppContainer>
+                  <ErrorBoundary>
                     <Component {...pageProps} />
-                  </AppContainer>
-                </PageBody>
-                <Footer />
-              </LayoutWrapper>
-              <Toaster
-                position="bottom-right"
-                toastOptions={{
-                  success: {
-                    style: {
-                      backgroundColor: brandSuccess,
-                      color: white,
-                    },
-                    icon: <FaCheckCircle size={quadrupleSpacer} />,
+                  </ErrorBoundary>
+                </AppContainer>
+              </PageBody>
+              <Footer />
+            </LayoutWrapper>
+            <Toaster
+              position="bottom-right"
+              toastOptions={{
+                success: {
+                  style: {
+                    backgroundColor: brandSuccess,
+                    color: white,
                   },
-                  error: {
-                    style: {
-                      backgroundColor: brandDanger,
-                      color: white,
-                    },
-                    icon: <FaExclamationCircle size={quadrupleSpacer} />,
+                  icon: <FaCheckCircle size={quadrupleSpacer} />,
+                },
+                error: {
+                  style: {
+                    backgroundColor: brandDanger,
+                    color: white,
                   },
-                  blank: {
-                    style: {
-                      backgroundColor: brandInfo,
-                      color: white,
-                    },
-                    icon: <FaInfoCircle size={quadrupleSpacer} />,
+                  icon: <FaExclamationCircle size={quadrupleSpacer} />,
+                },
+                blank: {
+                  style: {
+                    backgroundColor: brandInfo,
+                    color: white,
                   },
-                }}
-              />
-              <CookieConsent
-                location="bottom"
-                buttonText="Accept"
-                cookieName="packup-gdpr-google-analytics"
-                style={{
-                  backgroundColor: brandSecondary,
-                }}
-                buttonStyle={{
-                  backgroundColor: brandSuccess,
-                  color: white,
-                  fontSize: '80%',
-                  borderRadius,
-                  fontWeight: 'bold',
-                  padding: `${quarterSpacer} ${threeQuarterSpacer}`,
-                }}
-              >
-                <small>
-                  This site uses cookies to enhance the user experience. Visit our{' '}
-                  <Link href="/privacy" style={{ color: white, textDecoration: 'underline' }}>
-                    Privacy page
-                  </Link>{' '}
-                  to learn more.
-                </small>
-              </CookieConsent>
-            </IconContext.Provider>
-          </ThemeProvider>
-        </ErrorBoundary>
+                  icon: <FaInfoCircle size={quadrupleSpacer} />,
+                },
+              }}
+            />
+            <CookieConsent
+              location="bottom"
+              buttonText="Accept"
+              cookieName="packup-gdpr-google-analytics"
+              style={{
+                backgroundColor: brandSecondary,
+              }}
+              buttonStyle={{
+                backgroundColor: brandSuccess,
+                color: white,
+                fontSize: '80%',
+                borderRadius,
+                fontWeight: 'bold',
+                padding: `${quarterSpacer} ${threeQuarterSpacer}`,
+              }}
+            >
+              <small>
+                This site uses cookies to enhance the user experience. Visit our{' '}
+                <Link href="/privacy" style={{ color: white, textDecoration: 'underline' }}>
+                  Privacy page
+                </Link>{' '}
+                to learn more.
+              </small>
+            </CookieConsent>
+          </IconContext.Provider>
+        </ThemeProvider>
       </ReduxWrapper>
     </>
   )
