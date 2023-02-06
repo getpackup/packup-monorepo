@@ -1,84 +1,39 @@
 import { TripMemberStatus, TripType } from '@getpackup-group/common'
-import {
-  Avatar,
-  Column,
-  FlexContainer,
-  Heading,
-  HorizontalRule,
-  NotificationDot,
-  PageContainer,
-  Row,
-  // SignupForm,
-  GearClosetIcon,
-  Button,
-} from '..'
-import { RootState } from '@getpackup-group/redux'
+import { Avatar, NotificationDot, GearClosetIcon } from '..'
+import { AppState } from '@getpackup-group/redux'
 import {
   brandPrimary,
-  brandSecondary,
   textColor,
   white,
   zIndexSmallScreenFooter,
   baseBorderStyle,
-  visuallyHiddenStyle,
-  baseSpacer,
   halfSpacer,
   quadrupleSpacer,
   fontSizeH3,
-  fontSizeSmall,
-  brandSecondaryHover,
 } from '@getpackup-group/styles'
-import { ThemeContext, trackEvent, useWindowSize } from '@getpackup-group/utils'
+import { useWindowSize } from '@getpackup-group/utils'
 import Link from 'next/link'
-import React from 'react'
-import { FaCalendar, FaFacebook, FaInstagram, FaTwitter, FaUserLock } from 'react-icons/fa'
+import { FaCalendar, FaUserLock } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded } from 'react-redux-firebase'
 import styled from 'styled-components'
 
-const StyledFooter = styled.footer`
-  background-color: ${brandSecondary};
-  // background-color: var(--color-secondary);
-  color: ${white};
-  padding: ${quadrupleSpacer} 0;
-  font-size: ${fontSizeSmall};
-  & a {
-    color: ${white};
-    opacity: 0.8;
-
-    &:hover,
-    &:focus {
-      color: ${white};
-      opacity: 1;
-    }
-  }
-`
-
-const Social = styled.a`
-  margin-right: ${baseSpacer};
-`
-
-const HiddenText = styled.span`
-  ${visuallyHiddenStyle};
-`
-
-const SignupFormWrapper = styled.div`
-  padding: ${quadrupleSpacer} 0;
-  background-color: ${brandSecondaryHover};
-  text-align: center;
-`
-
-const BottomNav = styled.nav`
-  position: fixed;
+const BottomNav = styled.footer`
+  // grid-area: footer;
+  // position: fixed;
   z-index: ${zIndexSmallScreenFooter};
   bottom: 0;
   min-height: calc(${quadrupleSpacer} + 1px); /* min height plus 1px border top */
   left: 0;
   right: 0;
-  display: flex;
+  display: block;
   background-color: ${white};
   border-top: ${baseBorderStyle};
   padding-bottom: env(safe-area-inset-bottom);
+
+  & nav {
+    display: flex;
+  }
 
   & a {
     border-top: 2px solid transparent;
@@ -105,14 +60,12 @@ const BottomNav = styled.nav`
 `
 
 export const Footer = () => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const profile = useSelector((state: RootState) => state.firebase.profile)
-  const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const loggedInUser = auth && auth.isLoaded && !auth.isEmpty
   const size = useWindowSize()
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
-
-  const { colorMode, setColorMode } = React.useContext(ThemeContext)
 
   const nonArchivedTrips: TripType[] =
     isLoaded(trips) && Array.isArray(trips) && trips && trips.length > 0
@@ -128,177 +81,27 @@ export const Footer = () => {
 
   const isInOnboardingFlow = pathname.includes('onboarding')
 
-  const isPartiallyActive = ({ isPartiallyCurrent }: { isPartiallyCurrent: boolean }) => {
-    return isPartiallyCurrent ? { className: 'active' } : {}
-  }
-
-  if (!auth.isLoaded) {
+  if (!auth.isLoaded || !size.isSmallScreen) {
     return null
   }
 
   return (
     <>
-      {!loggedInUser && (
-        <>
-          <SignupFormWrapper id="signup">
-            <PageContainer>
-              <Heading as="h1" inverse align="center">
-                Plan your first trip today
-              </Heading>
-
-              <Button type="link" to="/signup">
-                Get Started
-              </Button>
-            </PageContainer>
-          </SignupFormWrapper>
-
-          <StyledFooter>
-            <PageContainer>
-              <Row>
-                <Column md={3} lg={6}>
-                  <Heading>
-                    <Link href="/">packup</Link>
-                  </Heading>
-                  <p>Get outside faster and safer.</p>
-                </Column>
-                <Column sm={4} md={3} lg={2}>
-                  <p>
-                    <Link href="/">
-                      <span onClick={() => trackEvent('Footer Link Click', { link: 'Home' })}>
-                        Home
-                      </span>
-                    </Link>
-                  </p>
-                  <p>
-                    <Link href={'/signup'}>
-                      <span onClick={() => trackEvent('Footer Link Click', { link: 'Sign Up' })}>
-                        Sign Up
-                      </span>
-                    </Link>
-                  </p>
-                </Column>
-                <Column sm={4} md={3} lg={2}>
-                  <p>
-                    <Link href={'/blog'}>
-                      <span onClick={() => trackEvent('Footer Link Click', { link: 'Blog' })}>
-                        Blog
-                      </span>
-                    </Link>
-                  </p>
-                  <p>
-                    <Link href={'/about'}>
-                      <span onClick={() => trackEvent('Footer Link Click', { link: 'About' })}>
-                        About
-                      </span>
-                    </Link>
-                  </p>
-                </Column>
-                <Column sm={4} md={3} lg={2}>
-                  <p>
-                    <Link href={'/contact'}>
-                      <span
-                        onClick={() => trackEvent('Footer Link Click', { link: 'Send a message' })}
-                      >
-                        Send a Message
-                      </span>
-                    </Link>
-                  </p>
-                  <p>
-                    <a
-                      href="https://reddit.com/r/packup"
-                      onClick={() => trackEvent('Footer Link Click', { link: 'Send a message' })}
-                    >
-                      Community
-                    </a>
-                  </p>
-                  {/* <p>
-                    {colorMode ? (
-                      // eslint-disable-next-line jsx-a11y/label-has-associated-control
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={colorMode === 'dark'}
-                          onChange={(ev) => {
-                            setColorMode(ev.target.checked ? 'dark' : 'light');
-                          }}
-                        />{' '}
-                        {colorMode === 'dark' ? `🌝` : `🌞`}
-                      </label>
-                    ) : null}
-                  </p> */}
-                </Column>
-              </Row>
-              <HorizontalRule />
-              <FlexContainer justifyContent="space-between">
-                <nav>
-                  <Social
-                    href="https://www.instagram.com/getpackup/"
-                    target="_blank"
-                    rel="noopener"
-                    onClick={() => trackEvent('Footer Link Click', { link: 'Instagram' })}
-                  >
-                    <FaInstagram />
-                    <HiddenText>Instagram</HiddenText>
-                  </Social>
-                  <Social
-                    href="https://www.facebook.com/getpackup"
-                    target="_blank"
-                    rel="noopener"
-                    onClick={() => trackEvent('Footer Link Click', { link: 'Facebook' })}
-                  >
-                    <FaFacebook />
-                    <HiddenText>Facebook</HiddenText>
-                  </Social>
-                  <Social
-                    href="https://twitter.com/getpackup"
-                    target="_blank"
-                    rel="noopener"
-                    onClick={() => trackEvent('Footer Link Click', { link: 'Twitter' })}
-                  >
-                    <FaTwitter />
-                    <HiddenText>Twitter</HiddenText>
-                  </Social>
-                </nav>
-                <small>
-                  <Link href={'/privacy'}>
-                    <span onClick={() => trackEvent('Footer Link Click', { link: 'Privacy' })}>
-                      Privacy
-                    </span>
-                  </Link>{' '}
-                  <Link href={'/terms'}>
-                    <span onClick={() => trackEvent('Footer Link Click', { link: 'Terms of Use' })}>
-                      Terms of Use
-                    </span>
-                  </Link>{' '}
-                  {`Copyright © Packup Technologies, Ltd. ${new Date().getFullYear()}`}
-                </small>
-              </FlexContainer>
-            </PageContainer>
-          </StyledFooter>
-        </>
-      )}
-      {size.isSmallScreen && loggedInUser && !isInOnboardingFlow && (
+      {loggedInUser && !isInOnboardingFlow && (
         <BottomNav>
-          <Link
-            href={'/'}
-            // getProps={isPartiallyActive}
-            onClick={() =>
-              trackEvent('Logged In Small Screen Footer Link Click', { link: 'Trips' })
-            }
-          >
-            <FaCalendar />
-            {pendingTrips.length > 0 && <NotificationDot top={`-${halfSpacer}`} right="0" />}
-          </Link>
-          <Link
-            href={'/gear-closet'}
-            // getProps={isPartiallyActive}
-            onClick={() =>
-              trackEvent('Logged In Small Screen Footer Link Click', { link: 'Gear Closet' })
-            }
-          >
-            <GearClosetIcon size={15} />
-          </Link>
-          {/* TODO: when shopping list is ready <Link
+          <nav>
+            <Link href="/" legacyBehavior passHref>
+              <a className={pathname === '/' || pathname.includes('trips') ? 'active' : undefined}>
+                <FaCalendar />
+                {pendingTrips.length > 0 && <NotificationDot top={`-${halfSpacer}`} right="0" />}
+              </a>
+            </Link>
+            <Link href="/gear-closet" legacyBehavior passHref>
+              <a className={pathname.includes('gear-closet') ? 'active' : undefined}>
+                <GearClosetIcon size={15} />
+              </a>
+            </Link>
+            {/* TODO: when shopping list is ready <Link
             href="/app/shopping-list"
             getProps={isPartiallyActive}
             onClick={() =>
@@ -307,23 +110,19 @@ export const Footer = () => {
           >
             <FaShoppingCart />
           </Link> */}
-          {profile.isAdmin && (
-            <Link
-              href={'/admin/gear-list'}
-              // getProps={isPartiallyActive}
-            >
-              <FaUserLock />
+            {profile.isAdmin && (
+              <Link href="/admin/gear-list" legacyBehavior passHref>
+                <a className={pathname.includes('admin') ? 'active' : undefined}>
+                  <FaUserLock />
+                </a>
+              </Link>
+            )}
+            <Link href="/profile" legacyBehavior passHref>
+              <a className={pathname.includes('profile') ? 'active' : undefined}>
+                <Avatar src={profile.photoURL} size="xs" gravatarEmail={profile.email} />
+              </a>
             </Link>
-          )}
-          <Link
-            href={'/profile'}
-            // getProps={isPartiallyActive}
-            onClick={() =>
-              trackEvent('Logged In Small Screen Footer Link Click', { link: 'Profile' })
-            }
-          >
-            <Avatar src={profile.photoURL} size="xs" gravatarEmail={profile.email} />
-          </Link>
+          </nav>
         </BottomNav>
       )}
     </>

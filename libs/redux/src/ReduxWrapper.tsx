@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable dot-notation */
 import firebase from 'firebase/compat/app'
@@ -10,18 +11,17 @@ import { Provider } from 'react-redux'
 import { FirebaseReducer, FirestoreReducer, ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import { PersistGate } from 'redux-persist/integration/react'
+import { UserType } from '@getpackup-group/common'
 import { showWorkerUpdateModal, workerUpdateInitialState } from './ducks/workerUpdateReady'
 import { clientInitialState } from './ducks/client'
 import configureStore from './configureStore'
-import { globalAlertsInitialState } from './ducks/globalAlerts'
 
 const initialState = process.env['BROWSER']
   ? window.__INITIAL_STATE__
   : {
       firestore: {} as typeof FirestoreReducer,
-      firebase: {} as FirebaseReducer.Reducer<any, any>,
+      firebase: {} as FirebaseReducer.Profile<UserType>,
       client: clientInitialState,
-      globalAlerts: globalAlertsInitialState,
       workerUpdateReady: workerUpdateInitialState,
     }
 const { store, persistor } = configureStore(initialState)

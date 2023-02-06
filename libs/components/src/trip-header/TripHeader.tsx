@@ -11,7 +11,7 @@ import {
   LeaveTheTripModal,
   TripDeleteModal,
 } from '@getpackup-group/components'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import {
   baseAndAHalfSpacer,
   baseSpacer,
@@ -33,7 +33,7 @@ type TripHeaderProps = {
 }
 
 export const TripHeader: FunctionComponent<TripHeaderProps> = ({ trip, userIsTripOwner }) => {
-  const users = useSelector((state: RootState) => state.firestore.data.users)
+  const users = useSelector((state: AppState) => state.firestore.data['users'])
 
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false)
   const [leaveTripModalIsOpen, setLeaveTripModalIsOpen] = useState(false)
@@ -60,9 +60,7 @@ export const TripHeader: FunctionComponent<TripHeaderProps> = ({ trip, userIsTri
           {trip ? (
             <>
               <FaRegCalendar />{' '}
-              {trip.tripLength === 21
-                ? formattedDate(new Date(trip.startDate.seconds * 1000))
-                : formattedDateRange(trip.startDate.seconds * 1000, trip.endDate.seconds * 1000)}
+              {formattedDateRange(trip.startDate.seconds * 1000, trip.endDate.seconds * 1000)}
             </>
           ) : (
             <Skeleton count={1} />
@@ -149,7 +147,7 @@ export const TripHeader: FunctionComponent<TripHeaderProps> = ({ trip, userIsTri
                 })
               }
             >
-              Edit
+              Details
             </Button>
             <Button
               type="link"

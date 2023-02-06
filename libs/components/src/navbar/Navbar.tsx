@@ -11,7 +11,7 @@ import {
   GearClosetIcon,
 } from '..'
 import yak from '../../images/yak.svg'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import {
   brandPrimary,
   brandSecondary,
@@ -32,7 +32,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Spin as Hamburger } from 'hamburger-react'
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { FaCalendar, FaChevronLeft, FaShoppingCart, FaUserLock } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
@@ -41,9 +40,10 @@ import { AvatarImageWrapper } from '..'
 import Image from 'next/image'
 
 const StyledNavbar = styled.header`
-  position: fixed;
-  left: 0;
-  right: 0;
+  // grid-area: header;
+  // position: fixed;
+  // left: 0;
+  // right: 0;
   // background: var(--color-secondary);
   background: ${brandSecondary};
   min-height: ${quadrupleSpacer};
@@ -92,49 +92,13 @@ const StyledNavbar = styled.header`
   }
 `
 
-const NavLink = styled(Link)`
-  padding: 0 ${halfSpacer};
-  &:last-child {
-    margin-right: -${halfSpacer};
-  }
-`
-
-const StyledMenuToggle = styled.div`
-  cursor: pointer;
+const IconLinkWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
   width: ${quadrupleSpacer};
   height: ${quadrupleSpacer};
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`
-
-const StyledMenu = styled.nav`
-  position: absolute;
-  transform: translateX(${(props: { menuIsOpen: boolean }) => (props.menuIsOpen ? 0 : '100vw')});
-  top: ${quadrupleSpacer};
-  right: 0;
-  left: 0;
-  height: 100vh;
-  transition: all 0.2s ease-in-out;
-  line-height: initial;
-
-  & a,
-  & a:visited {
-    padding: 0;
-    display: block;
-    color: ${brandTertiary};
-  }
-
-  & a:hover,
-  & a:focus {
-    color: ${brandPrimary};
-    display: block;
-  }
-`
-
-const IconLinkWrapper = styled.div`
-  display: flex;
-  width: ${tripleSpacer};
   & a {
     flex: 1;
     display: flex;
@@ -184,13 +148,13 @@ const TopNavIconWrapper = styled.nav`
 `
 
 export const Navbar: FunctionComponent<unknown> = () => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const profile = useSelector((state: RootState) => state.firebase.profile)
-  const loggedInUser = useSelector((state: RootState) => state.firestore.ordered.loggedInUser)
-  const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const loggedInUser = useSelector((state: AppState) => state.firestore.ordered['loggedInUser'])
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const router = useRouter()
   const { activePackingListTab, personalListScrollPosition, sharedListScrollPosition } =
-    useSelector((state: RootState) => state.client)
+    useSelector((state: AppState) => state.client)
 
   useFirestoreConnect([
     { collection: 'users', where: ['uid', '==', auth.uid || ''], storeAs: 'loggedInUser' },
@@ -208,70 +172,41 @@ export const Navbar: FunctionComponent<unknown> = () => {
       trip.tripMembers[auth.uid].status === TripMemberStatus.Pending
   )
 
-  const pathname = typeof window !== 'undefined' ? window?.location.pathname : '/'
+  const pathname = typeof window !== 'undefined' ? router.pathname : '/'
 
-  const [menuIsOpen, setMenuIsOpen] = useState(false)
-  const [pageTitle, setPageTitle] = useState('')
-
-  const onHelmetChange = ({ title }: { title: string }) => {
-    if (title !== undefined) {
-      setPageTitle(title.replace(' | Packup', ''))
-    }
-  }
-
-  const menuDropdown = useRef<HTMLDivElement>(null)
-  const hamburgerButton = useRef<HTMLDivElement>(null)
   const size = useWindowSize()
-
-  const handleProfileDropdownClick = (e: MouseEvent) => {
-    if (menuDropdown && menuDropdown.current && menuDropdown.current.contains(e.target as Node)) {
-      return // inside click
-    }
-    if (
-      hamburgerButton &&
-      hamburgerButton.current &&
-      hamburgerButton.current.contains(e.target as Node)
-    ) {
-      return // let event bubble to Hamburger toggle method
-    }
-    setMenuIsOpen(false) // outside click, close the menu
-  }
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleProfileDropdownClick)
-
-    return () => {
-      document.removeEventListener('mousedown', handleProfileDropdownClick)
-    }
-  }, [])
-
-  const toggleMenu = () => {
-    setMenuIsOpen(false)
-  }
 
   const isAuthenticated = auth && !auth.isEmpty
 
+  const pageTitle = document.title.replace(' | Packup', '')
   const truncatedPageTitle = pageTitle.length > 25 ? `${pageTitle.substring(0, 25)}...` : pageTitle
-  const routeHasParent = pathname.split('/').length >= 4
+  const routeHasParent = pathname.split('/').length >= 3
+  const oneLevelUpUrl = pathname
+    .split('/')
+    .slice(0, -1)
+    .join('/')
+    // todo probably need to account for gear closet ids as well?
+    .replace('[id]', router.query['id'] as string)
+
+  const parentPageUrl = oneLevelUpUrl === '/trips' ? '/' : oneLevelUpUrl
 
   // TODO: better way to do this?
   // if on a checklist or gear closet item page, we want to be able to do navigate(-1) on the back button below
-  const checklistOrGearClosetItemRegex = new RegExp('/checklist|gear-closet|gear-list/*')
-  const routeIsChecklistOrGearClosetItem = checklistOrGearClosetItemRegex.test(pathname)
+  // const checklistOrGearClosetItemRegex = new RegExp('/checklist|gear-closet|gear-list/*')
+  // const routeIsChecklistOrGearClosetItem = checklistOrGearClosetItemRegex.test(pathname)
 
   const tripGenRegex = new RegExp('/add-trip-image|generator')
   const routeIsPartOfTripGenProcess = tripGenRegex.test(pathname)
 
   const isInOnboardingFlow = pathname.includes('onboarding')
 
-  // TODO: remove when fixing firestore to work with user auth
-  auth.isLoaded = true
-
   return (
     <StyledNavbar role="navigation" aria-label="main-navigation">
-      <Helmet onChangeClientState={onHelmetChange} />
       <PageContainer>
-        <FlexContainer justifyContent="space-between" alignItems="center">
+        <FlexContainer
+          justifyContent={size.isSmallScreen ? 'center' : 'space-between'}
+          alignItems="center"
+        >
           {!size.isSmallScreen && auth.isLoaded && (
             <Heading
               noMargin
@@ -287,148 +222,57 @@ export const Navbar: FunctionComponent<unknown> = () => {
             </Heading>
           )}
           {size.isSmallScreen && auth.isLoaded && !isAuthenticated && (
-            <Heading noMargin>
-              <Link
-                href="/"
-                onClick={() => trackEvent('Navbar SmallScreen Logo Clicked', { isAuthenticated })}
-              >
+            <Heading
+              noMargin
+              onClick={() => trackEvent('Navbar SmallScreen Logo Clicked', { isAuthenticated })}
+            >
+              <Link href="/" legacyBehavior>
                 <a>
-                  <Image src={yak} alt="" width={tripleSpacer} />
-                  packup
+                  <Image src={yak} alt="" width={tripleSpacer} height={27} /> packup
                 </a>
               </Link>
             </Heading>
           )}
           {isAuthenticated && size.isSmallScreen && auth.isLoaded && (
-            <IconLinkWrapper>
+            <>
               {routeHasParent && !routeIsPartOfTripGenProcess && (
-                <Link
-                  href="../"
-                  onClick={() => {
-                    trackEvent('Navbar SmallScreen Back Button Clicked')
-                    if (routeIsChecklistOrGearClosetItem) {
-                      if (personalListScrollPosition || sharedListScrollPosition) {
-                        scrollToPosition(
-                          activePackingListTab === TabOptions.Personal
-                            ? personalListScrollPosition
-                            : sharedListScrollPosition
-                        )
-                      }
-                      router.back()
-                    }
-                  }}
-                >
-                  <FaChevronLeft />
-                </Link>
+                <IconLinkWrapper>
+                  <Link href={parentPageUrl} legacyBehavior passHref>
+                    <a>
+                      <FaChevronLeft />
+                    </a>
+                  </Link>
+                </IconLinkWrapper>
               )}
-            </IconLinkWrapper>
-          )}
-          {isAuthenticated && size.isSmallScreen && auth.isLoaded && (
-            <Heading noMargin altStyle as="h2">
-              {truncatedPageTitle}
-            </Heading>
-          )}
-          {isAuthenticated && size.isSmallScreen && auth.isLoaded && <IconLinkWrapper />}
-          {size.isSmallScreen && !isAuthenticated && auth.isLoaded && (
-            <StyledMenuToggle ref={hamburgerButton}>
-              <Hamburger
-                color={white}
-                toggled={menuIsOpen}
-                toggle={() => {
-                  trackEvent('Navbar Hamburger Toggled')
-                  setMenuIsOpen(!menuIsOpen)
-                }}
-              />
-            </StyledMenuToggle>
+            </>
           )}
 
-          {size.isSmallScreen && !isAuthenticated && auth.isLoaded && (
-            <StyledMenu id="navMenu" menuIsOpen={menuIsOpen} ref={menuDropdown}>
-              <Box>
-                <NavLink
-                  href="/blog"
-                  onClick={() => {
-                    trackEvent('Navbar SmallScreen Link Clicked', { link: 'Blog' })
-                    toggleMenu()
-                  }}
-                >
-                  Blog
-                </NavLink>
-                <HorizontalRule compact />
-                <NavLink
-                  href="/about"
-                  onClick={() => {
-                    trackEvent('Navbar SmallScreen Link Clicked', { link: 'About' })
-                    toggleMenu()
-                  }}
-                >
-                  About
-                </NavLink>
-                <HorizontalRule compact />
-                <NavLink
-                  href="/contact"
-                  onClick={() => {
-                    trackEvent('Navbar SmallScreen Link Clicked', { link: 'Contact' })
-                    toggleMenu()
-                  }}
-                >
-                  Contact
-                </NavLink>
-                <HorizontalRule compact />
-                <NavLink
-                  href="/login"
-                  onClick={() => {
-                    trackEvent('Navbar SmallScreen Link Clicked', { link: 'Login' })
-                    toggleMenu()
-                  }}
-                >
-                  Log In
-                </NavLink>
-                <HorizontalRule compact />
-                <NavLink
-                  href="/signup"
-                  onClick={() => {
-                    trackEvent('Navbar SmallScreen Link Clicked', { link: 'Sign Up' })
-                    toggleMenu()
-                  }}
-                >
-                  Sign Up
-                </NavLink>
-              </Box>
-            </StyledMenu>
+          {isAuthenticated && size.isSmallScreen && auth.isLoaded && (
+            <>
+              {truncatedPageTitle === 'Packup' ? (
+                <Image src={yak} alt="" width={tripleSpacer} height={27} />
+              ) : (
+                <Heading noMargin altStyle as="h2">
+                  {truncatedPageTitle}
+                </Heading>
+              )}
+            </>
           )}
-          {!size.isSmallScreen && !isAuthenticated && auth.isLoaded && (
-            <FlexContainer as="nav">
-              {/*<NavLink href="/blog">Blog</NavLink>*/}
-              {/*<NavLink href="/about">About</NavLink>*/}
-              {/*<NavLink href="/contact">Contact</NavLink>*/}
-              <Button type="link" to="/login" color="secondary">
-                Log In
-              </Button>
-              &nbsp;
-              <Button type="link" to="/signup">
-                Sign Up
-              </Button>
-            </FlexContainer>
-          )}
+
           {!size.isSmallScreen && isAuthenticated && auth.isLoaded && !isInOnboardingFlow && (
             <TopNavIconWrapper>
-              <Link
-                href={'/'}
-                // getProps={isPartiallyActive}
-              >
+              <Link href={'/'}>
                 <a
+                  className={pathname === '/' || pathname.includes('trips') ? 'active' : undefined}
                   onClick={() => trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Trips' })}
                 >
                   <FaCalendar style={{ marginRight: halfSpacer }} /> Trips
                   {pendingTrips.length > 0 && <NotificationDot top={halfSpacer} right="0" />}
                 </a>
               </Link>
-              <Link
-                href={'/gear-closet'}
-                // getProps={isPartiallyActive}
-              >
+              <Link href={'/gear-closet'}>
                 <a
+                  className={pathname.includes('/gear-closet') ? 'active' : undefined}
                   onClick={() =>
                     trackEvent('Navbar LoggedInUser Link Clicked', { link: 'gear-closet' })
                   }
@@ -458,21 +302,16 @@ export const Navbar: FunctionComponent<unknown> = () => {
                 />
               </Link> */}
               {profile.isAdmin && (
-                <Link
-                  href={'/admin/gear-list'}
-                  // getProps={isPartiallyActive}
-                >
-                  <a>
+                <Link href={'/admin/gear-list'}>
+                  <a className={pathname.includes('/admin') ? 'active' : undefined}>
                     <FaUserLock /> Admin
                   </a>
                 </Link>
               )}
               {loggedInUser && loggedInUser.length > 0 && (
-                <Link
-                  href={'/profile'}
-                  // getProps={isPartiallyActive}
-                >
+                <Link href={'/profile'}>
                   <a
+                    className={pathname.includes('/profile') ? 'active' : undefined}
                     onClick={() =>
                       trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Profile' })
                     }

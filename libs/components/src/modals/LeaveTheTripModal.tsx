@@ -1,6 +1,7 @@
 import { PackingListItemType, TripMemberStatus, TripType } from '@getpackup-group/common'
 import { Button, Column, Heading, Modal, Row } from '@getpackup-group/components'
-import { RootState, addAlert } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
 import { brandInfo } from '@getpackup-group/styles'
 import { pluralize, trackEvent } from '@getpackup-group/utils'
 import { useRouter } from 'next/router'
@@ -20,9 +21,9 @@ export const LeaveTheTripModal: FunctionComponent<LeaveTheTripModalProps> = ({
   trip,
   setModalIsOpen,
 }) => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const packingList: PackingListItemType[] = useSelector(
-    (state: RootState) => state.firestore.ordered.packingList
+    (state: AppState) => state.firestore.ordered['packingList']
   )
   const firebase = useFirebase()
   const dispatch = useDispatch()
@@ -60,12 +61,7 @@ export const LeaveTheTripModal: FunctionComponent<LeaveTheTripModalProps> = ({
         })
         .catch((err) => {
           trackEvent('User Left Trip Failure', { tripId: trip.tripId, uid: auth.uid, error: err })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }

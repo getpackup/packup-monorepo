@@ -2,7 +2,7 @@ import { PackingListItemType, TripType } from '@getpackup-group/common'
 import { useRouter } from 'next/router'
 
 import { NoTripFound, PageContainer, EditPackingListItem } from '@getpackup-group/components'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 
 import { trackEvent } from '@getpackup-group/utils'
 
@@ -12,13 +12,13 @@ import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import Head from 'next/head'
 
 export default function ChecklistId() {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const users = useSelector((state: RootState) => state.firestore.data.users)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const users = useSelector((state: AppState) => state.firestore.data.users)
   const activeTripById: Array<TripType> = useSelector(
-    (state: RootState) => state.firestore.ordered.activeTripById
+    (state: AppState) => state.firestore.ordered.activeTripById
   )
   const packingList: PackingListItemType[] = useSelector(
-    (state: RootState) => state.firestore.ordered.packingList
+    (state: AppState) => state.firestore.ordered.packingList
   )
 
   const router = useRouter()
@@ -76,13 +76,11 @@ export default function ChecklistId() {
   return (
     <>
       <Head>
-        <title>Trip Party</title>
+        <title>Edit Packing List Item | Packup</title>
       </Head>
 
       <PageContainer>
         <EditPackingListItem
-          tripId={id}
-          checklistId={checklistId}
           users={users}
           packingList={packingList || []}
           loggedInUserUid={auth.uid}

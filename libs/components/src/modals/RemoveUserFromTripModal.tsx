@@ -1,6 +1,6 @@
 import { TripMemberStatus, TripType } from '@getpackup-group/common'
 import { Button, Column, Heading, Modal, Row } from '@getpackup-group/components'
-import { addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
 import { trackEvent } from '@getpackup-group/utils'
 import { FunctionComponent } from 'react'
 import { FaSignOutAlt } from 'react-icons/fa'
@@ -44,12 +44,7 @@ export const RemoveUserFromTripModal: FunctionComponent<RemoveUserFromTripModalP
         .catch((err) => {
           setModalIsOpen(false)
           trackEvent('Removed User From Trip Failure', { tripId: trip.tripId, uid, error: err })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }

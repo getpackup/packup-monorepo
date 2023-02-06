@@ -19,6 +19,8 @@ export const visuallyHiddenStyle = `
   white-space: nowrap; /* added line */
 `
 
+export const boxShadow = `0 6px 14px 0 rgb(0 0 0 / 6%)`
+export const boxShadowHover = `0 3px 7px 0 rgb(0 0 0 / 12%)`
 export const z1Shadow = `0 1px ${quarterSpacer} 0 rgba(0,0,0,0.2)`
 export const z2Shadow = `0 ${quarterSpacer} ${halfSpacer} 0 rgba(0,0,0,0.2)`
 export const z3Shadow = `0 ${halfSpacer} ${baseSpacer} rgba(0,0,0,0.2)`

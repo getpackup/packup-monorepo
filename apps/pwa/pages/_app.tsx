@@ -1,10 +1,10 @@
+import { FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa'
 import React, { useMemo } from 'react'
 import { minify } from 'terser'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ThemeProvider } from '@getpackup-group/utils'
 import { ReduxWrapper } from '@getpackup-group/redux'
-import { HelmetProvider } from 'react-helmet-async'
 import 'firebase/app'
 import 'firebase/auth'
 import styled, { CSSProperties } from 'styled-components'
@@ -13,9 +13,10 @@ import { IconContext } from 'react-icons'
 import {
   baseSpacer,
   borderRadius,
+  brandDanger,
+  brandInfo,
   brandSecondary,
   brandSuccess,
-  breakpoints,
   COLORS,
   COLOR_MODE_KEY,
   CssReset,
@@ -28,11 +29,13 @@ import {
   white,
   z1Shadow,
 } from '@getpackup-group/styles'
-import { AddToHomeScreenBanner, GlobalAlerts, Navbar, Footer } from '@getpackup-group/components'
+import { AddToHomeScreenBanner, Navbar, Footer, ErrorBoundary } from '@getpackup-group/components'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import Modal from 'react-modal'
 import '../webfonts.css'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { Toaster } from 'react-hot-toast'
+import Script from 'next/script'
 
 function setColorsByTheme() {
   const colors = '🌈'
@@ -107,48 +110,58 @@ function FallbackStyles() {
 }
 
 const LayoutWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  // display: flex;
+  // flex-direction: column;
+  // min-height: 100vh;
+  // width: 100vw;
+  // overflow: hidden;
+
+  /* grid container settings */
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  // grid-template-areas: 'header' 'main' 'footer';
+  height: 100vh;
 `
 
 const PageBody = styled.main`
-  flex: 1;
-  padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
-  padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
+  // grid-area: main;
+  overflow: auto;
+  // flex: 1;
+  // padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
+  // padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
+  // min-height: 100vh;
 `
 
 const AppContainer = styled.div`
   padding: ${baseSpacer} 0;
   margin-right: auto;
   margin-left: auto;
-  max-width: ${breakpoints.xl};
   background-color: ${offWhite};
   // background-color: var(--color-background);
   min-height: 100vh;
-  box-shadow: ${z1Shadow};
+  // box-shadow: ${z1Shadow};
 `
 
 Modal.setAppElement('#__next')
 
 function App({ Component, pageProps }: AppProps) {
-  const router = useRouter()
-
-  const { pathname } = router
-
   const iconStyle = useMemo(() => ({ style: { position: 'relative' } }), [])
 
   return (
     <>
       <Head>
-        <title>Expert packing lists for camping and outdoor adventure | Packup</title>
+        <title>Packup</title>
         <FallbackStyles />
         <MagicScriptTag />
       </Head>
+      <Script id="googleMapsLoaded">{`window.googleMapsLoaded = function() {}`}</Script>
+      <Script
+        async
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places&callback=googleMapsLoaded`}
+      />
       <ReduxWrapper>
-        <HelmetProvider>
+        <ErrorBoundary>
           <ThemeProvider>
             <CssReset />
             <UploadTheme />
@@ -161,10 +174,34 @@ function App({ Component, pageProps }: AppProps) {
                     <Component {...pageProps} />
                   </AppContainer>
                 </PageBody>
-                <GlobalAlerts />
-                {pathname !== '/' && <Footer />}
+                <Footer />
               </LayoutWrapper>
-
+              <Toaster
+                position="bottom-right"
+                toastOptions={{
+                  success: {
+                    style: {
+                      backgroundColor: brandSuccess,
+                      color: white,
+                    },
+                    icon: <FaCheckCircle size={quadrupleSpacer} />,
+                  },
+                  error: {
+                    style: {
+                      backgroundColor: brandDanger,
+                      color: white,
+                    },
+                    icon: <FaExclamationCircle size={quadrupleSpacer} />,
+                  },
+                  blank: {
+                    style: {
+                      backgroundColor: brandInfo,
+                      color: white,
+                    },
+                    icon: <FaInfoCircle size={quadrupleSpacer} />,
+                  },
+                }}
+              />
               <CookieConsent
                 location="bottom"
                 buttonText="Accept"
@@ -191,7 +228,7 @@ function App({ Component, pageProps }: AppProps) {
               </CookieConsent>
             </IconContext.Provider>
           </ThemeProvider>
-        </HelmetProvider>
+        </ErrorBoundary>
       </ReduxWrapper>
     </>
   )

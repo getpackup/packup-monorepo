@@ -2,8 +2,8 @@
 // we compose them using this function below
 // from https://medium.com/@hasibsahibzada/formik-composed-field-level-validation-e40d6380b2d7
 export const customFieldLevelValidation = (
-  value: string | Array<string>,
-  validations: Array<any>
+  value: string,
+  validations: Array<(value: string) => string | undefined>
 ) => {
   // eslint-disable-next-line no-restricted-syntax
   for (const validation of validations) {

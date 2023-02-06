@@ -1,15 +1,11 @@
-import { PreviewCompatibleImage } from '@getpackup-group/components'
-import { white, zIndexHeroImage, baseSpacer } from '@getpackup-group/styles'
-import { useWindowSize } from '@getpackup-group/utils'
-/* eslint-disable no-nested-ternary */
+import { white, zIndexHeroImage, baseSpacer, lightGray } from '@getpackup-group/styles'
 import React, { FunctionComponent } from 'react'
 import styled, { CSSProperties } from 'styled-components'
+import Image from 'next/image'
 
 // TODO fix any types
 type HeroImageProps = {
-  imgSrc?: any
-  mobileImgSrc?: any
-  staticImgSrc?: string
+  src: string
   aspectRatio?: number
   justifyContent?: CSSProperties['justifyContent']
   alignItems?: CSSProperties['alignItems']
@@ -22,6 +18,8 @@ const HeroImageWrapper = styled.div`
   min-height: ${(props: { aspectRatio?: number; fullHeight?: boolean }) =>
     !props.fullHeight && props.aspectRatio ? `calc(100vw / ${props.aspectRatio})` : 'initial'};
   height: ${(props) => (props.fullHeight ? '100vh' : 'auto')};
+  background-color: ${lightGray};
+  background-image: url('/images/topo.png');
 `
 
 const ChildrenWrapper = styled.div`
@@ -30,8 +28,8 @@ const ChildrenWrapper = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  justify-content: ${(props: HeroImageProps) => props.justifyContent || 'center'};
-  align-items: ${(props: HeroImageProps) => props.alignItems || 'center'};
+  justify-content: ${(props: Omit<HeroImageProps, 'src'>) => props.justifyContent || 'center'};
+  align-items: ${(props) => props.alignItems || 'center'};
   height: 100%;
   text-align: center;
   color: ${white};
@@ -47,42 +45,16 @@ const ChildrenWrapper = styled.div`
 `
 
 export const HeroImage: FunctionComponent<HeroImageProps> = ({
-  imgSrc,
+  src,
   children,
-  mobileImgSrc,
-  staticImgSrc,
   aspectRatio,
   justifyContent,
   alignItems,
   fullHeight,
 }) => {
-  const size = useWindowSize()
-
   return (
-    <HeroImageWrapper
-      fullHeight={fullHeight}
-      aspectRatio={
-        aspectRatio || // if a specific aspectRatio is passed in use that, otherwise use fluid image ratios. default to 16/9 if nothing is there
-        (size.isExtraSmallScreen && mobileImgSrc
-          ? mobileImgSrc.fluid.aspectRatio
-          : imgSrc && imgSrc.fluid
-          ? imgSrc.fluid.aspectRatio
-          : undefined)
-      }
-    >
-      <PreviewCompatibleImage
-        imageInfo={{
-          image:
-            imgSrc || mobileImgSrc // if imgSrc or mobileImgSrc, use one of those, otherwise that means a staticImgSrc was passed in
-              ? size.isExtraSmallScreen && mobileImgSrc
-                ? mobileImgSrc
-                : imgSrc
-              : (staticImgSrc as string),
-          alt: '',
-        }}
-        layout="fill"
-        // height={fullHeight ? '100vh' : 'auto'}
-      />
+    <HeroImageWrapper fullHeight={fullHeight} aspectRatio={aspectRatio}>
+      <Image src={src} layout="fill" />
       <ChildrenWrapper justifyContent={justifyContent} alignItems={alignItems}>
         {children}
       </ChildrenWrapper>

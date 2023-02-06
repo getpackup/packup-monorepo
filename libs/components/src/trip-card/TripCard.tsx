@@ -10,7 +10,8 @@ import {
   TripHeaderImage,
   TripMemberAvatars,
 } from '@getpackup-group/components'
-import { RootState, addAlert } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
+import { AppState } from '@getpackup-group/redux'
 import {
   white,
   baseBorderStyle,
@@ -18,6 +19,9 @@ import {
   baseSpacer,
   halfSpacer,
   quarterSpacer,
+  boxShadow,
+  z1Shadow,
+  boxShadowHover,
 } from '@getpackup-group/styles'
 import { trackEvent, formattedDate, formattedDateRange } from '@getpackup-group/utils'
 import Link from 'next/link'
@@ -38,10 +42,15 @@ type TripCardProps = {
 const StyledTripWrapper = styled.div<{ isPending?: boolean }>`
   padding: ${baseSpacer};
   margin-bottom: ${baseSpacer};
-  border: ${baseBorderStyle};
+  // border: ${baseBorderStyle};
   cursor: ${(props) => (props.isPending ? 'initial' : 'pointer')};
   background-color: ${white};
+  box-shadow: ${boxShadow};
   // background-color: var(--color-backgroundAlt);
+
+  &:hover {
+    box-shadow: ${boxShadowHover};
+  }
 `
 
 const StyledLineItem = styled.div`
@@ -49,8 +58,8 @@ const StyledLineItem = styled.div`
 `
 
 export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, onClick }) => {
-  const users = useSelector((state: RootState) => state.firestore.data.users)
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const users = useSelector((state: AppState) => state.firestore.data['users'])
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const router = useRouter()
@@ -87,12 +96,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             ...trip,
             acceptedMember: auth.uid,
           })
-          dispatch(
-            addAlert({
-              type: 'success',
-              message: `Excellent! Let's start thinking about whay you'll need to bring next 🤙`,
-            })
-          )
+          toast.success(`Excellent! Let's start thinking about what you'll need to bring next 🤙`)
           router.push(`/trips/${trip.tripId}/generator`)
         })
         .catch((err) => {
@@ -101,12 +105,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             acceptedMember: auth.uid,
             error: err,
           })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }
@@ -130,12 +129,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             ...trip,
             declinedMember: auth.uid,
           })
-          dispatch(
-            addAlert({
-              type: 'success',
-              message: `Bummer... You have successfully declined to go on the trip 😔`,
-            })
-          )
+          toast.success(`Bummer... You have successfully declined to go on the trip 😔`)
         })
         .catch((err) => {
           trackEvent('Trip Party Member Decline Failure', {
@@ -143,12 +137,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             declinedMember: auth.uid,
             error: err,
           })
-          dispatch(
-            addAlert({
-              type: 'danger',
-              message: err.message,
-            })
-          )
+          toast.error(err.message)
         })
     }
   }
@@ -184,7 +173,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
       <TripHeaderImage trip={trip} />
 
       <FlexContainer justifyContent="space-between" flexWrap="nowrap">
-        <Heading as="h3" altStyle noMargin>
+        <Heading as="h3" altStyle>
           {trip && trip.name ? (
             <>
               {isPending ? (
@@ -209,14 +198,10 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
         <FlexContainer flexWrap="nowrap" alignItems="flex-start" justifyContent="flex-start">
           <FaRegCalendar style={{ marginRight: halfSpacer, top: quarterSpacer, flexShrink: 0 }} />
           {trip && trip.startDate ? (
-            <>
-              {trip.tripLength === 21
-                ? formattedDate(new Date(trip.startDate.seconds * 1000))
-                : formattedDateRange(trip.startDate.seconds * 1000, trip.endDate.seconds * 1000)}
-            </>
+            <>{formattedDateRange(trip.startDate.seconds * 1000, trip.endDate.seconds * 1000)}</>
           ) : (
             <div style={{ flex: 1 }}>
-              <Skeleton count={1} width="50%" />
+              <Skeleton count={1} width={`${Math.random() * (70 - 20) + 20}%`} />
             </div>
           )}
         </FlexContainer>
@@ -229,7 +214,7 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
             trip.startingPoint
           ) : (
             <div style={{ flex: 1 }}>
-              <Skeleton count={1} width="65%" />
+              <Skeleton count={1} width={`${Math.random() * (90 - 30) + 30}%`} />
             </div>
           )}
         </FlexContainer>
@@ -242,13 +227,11 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
         }}
       >
         <HorizontalScroller>
-          {trip ? (
+          {trip && trip.tags && trip.tags.length > 0 ? (
             <>
-              {trip.tags &&
-                trip.tags.length > 0 &&
-                trip.tags.map((tag: string) => (
-                  <Pill key={`${tag}tag`} text={tag} color="neutral" />
-                ))}
+              {trip.tags.map((tag: string) => (
+                <Pill key={`${tag}tag`} text={tag} color="neutral" />
+              ))}
             </>
           ) : (
             <>
@@ -259,8 +242,8 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
                 <Skeleton
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
-                  // random widths between 48 and 128
-                  width={Math.floor(Math.random() * (128 - 48 + 1) + 48)}
+                  // random widths between 48 and 128px
+                  width={Math.floor(Math.random() * (128 - 48) + 48)}
                   height={baseAndAHalfSpacer}
                   style={{
                     marginRight: halfSpacer,

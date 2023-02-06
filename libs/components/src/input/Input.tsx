@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import 'react-geosuggest/module/geosuggest.css'
 
-import poweredByGoogle from '../../images/powered_by_google_on_white_hdpi.png'
 import {
   brandDanger,
   brandDangerRGB,
@@ -168,6 +168,7 @@ export const StyledLabel = styled.label<{
   hiddenLabel?: boolean
   invalid?: boolean
   required?: boolean
+  ariaLabel?: string
 }>`
   display: flex;
   line-height: 1.75;
@@ -479,7 +480,10 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           )
         inputTypeToRender = (
           <>
-            <StyledLabel htmlFor={props.id || props.name}>
+            <StyledLabel
+              htmlFor={props.id || props.name}
+              ariaLabel={typeof props.label === 'string' ? props.label : undefined}
+            >
               <StyledToggle
                 {...field}
                 {...props}
@@ -499,7 +503,12 @@ export const Input: FunctionComponent<InputProps> = (props) => {
     case 'toggle':
       inputTypeToRender = (
         <>
-          <StyledLabel htmlFor={props.id || props.name}>{props.label}</StyledLabel>
+          <StyledLabel
+            htmlFor={props.id || props.name}
+            ariaLabel={typeof props.label === 'string' ? props.label : undefined}
+          >
+            {props.label}
+          </StyledLabel>
           <StyledToggle
             {...field}
             {...props}
@@ -524,7 +533,8 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           {...field}
           {...props}
           {...meta}
-          onChange={(event) => {
+          ariaDescribedby={`${props.name}-error-id`}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             field.onChange(event.target.name)(formatPhoneNumberValue(event.target.value))
           }}
         />
@@ -539,12 +549,12 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           {...field}
           {...props}
           {...meta}
-          onKeyDown={(event) => {
+          onKeyDown={(event: React.KeyboardEvent) => {
             if (event.key === ' ') {
               event.preventDefault()
             }
           }}
-          onChange={(event) => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             field.onChange(event.target.name)(event.target.value.replace(/\s/g, '').toLowerCase())
           }}
         />
@@ -631,7 +641,12 @@ export const Input: FunctionComponent<InputProps> = (props) => {
             </>
           )}
           <p style={{ margin: 0, float: 'right' }}>
-            <img src={poweredByGoogle} alt="powered by Google" style={{ height: 18 }} />
+            <Image
+              src="/images/powered_by_google_on_white.png"
+              alt="powered by Google"
+              height={18}
+              width={144}
+            />
           </p>
         </>
       )
@@ -659,6 +674,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
           hiddenLabel={props.hiddenLabel}
           invalid={meta && meta.touched && meta.error != null}
           required={props.required || false}
+          ariaLabel={typeof props.label === 'string' ? props.label : undefined}
         >
           {props.label}
         </StyledLabel>
@@ -666,7 +682,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
       {inputTypeToRender}
       {props.helpText && <small>{props.helpText}</small>}
       {meta && meta.touched && meta.error && !props.square && (
-        <StyledErrorMessage>{meta.error}</StyledErrorMessage>
+        <StyledErrorMessage id={`${props.name}-error-id`}>{meta.error}</StyledErrorMessage>
       )}
     </InputWrapper>
   )

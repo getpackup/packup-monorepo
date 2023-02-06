@@ -2,7 +2,7 @@ import { TripType } from '@getpackup-group/common'
 import { useRouter } from 'next/router'
 
 import { NoTripFound, PageContainer, TripParty } from '@getpackup-group/components'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 
 import { trackEvent } from '@getpackup-group/utils'
 
@@ -12,9 +12,9 @@ import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import Head from 'next/head'
 
 export default function Party() {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const activeTripById: Array<TripType> = useSelector(
-    (state: RootState) => state.firestore.ordered.activeTripById
+    (state: AppState) => state.firestore.ordered.activeTripById
   )
   const router = useRouter()
   // the trip ID
@@ -57,7 +57,7 @@ export default function Party() {
   return (
     <>
       <Head>
-        <title>Trip Party</title>
+        <title>Trip Party | Packup</title>
       </Head>
 
       <PageContainer>

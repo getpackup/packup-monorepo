@@ -49,7 +49,7 @@ export interface ButtonProps {
   isLoading?: boolean
   style?: CSSProperties
   size?: 'small' | 'large'
-  children: any // TODO: change type
+  children: React.ReactNode
   onClick?(event: React.MouseEvent<HTMLButtonElement>): void
 }
 
@@ -288,17 +288,15 @@ export const Button: FunctionComponent<ButtonProps> = ({
         {...rest}
       >
         {!to.startsWith('sms') && !to.includes('mailto') ? (
-          <Link href={to}>
-            <span>
-              {iconLeft}&nbsp;{children}&nbsp;{iconRight}
-            </span>
-          </Link>
-        ) : (
-          <Link href={to}>
+          <Link href={to} legacyBehavior passHref>
             <a>
               {iconLeft}&nbsp;{children}&nbsp;{iconRight}
             </a>
           </Link>
+        ) : (
+          <a href={to}>
+            {iconLeft}&nbsp;{children}&nbsp;{iconRight}
+          </a>
         )}
       </StyledLink>
     )

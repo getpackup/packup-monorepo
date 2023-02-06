@@ -23,6 +23,14 @@ export type TripMember = {
   invitedBy?: string
 }
 
+export type TripMemberFormType = Omit<
+  TripMember,
+  'invitedAt' | 'declinedAt' | 'acceptedAt' | 'removedAt'
+> & {
+  invitedAt: Date
+  acceptedAt?: Date
+}
+
 export type TripType = {
   owner: string
   tripId: string
@@ -45,7 +53,12 @@ export type TripType = {
   collapsedCategories?: { [key: string]: string[] }
 }
 
-export type TripFormType = Omit<TripType, 'startDate' | 'endDate'> & {
+export type TripFormType = Omit<
+  TripType,
+  'startDate' | 'endDate' | 'created' | 'updated' | 'tripMembers' | 'tags' | 'collapsedCategories'
+> & {
   startDate: string | Date | undefined
   endDate: string | Date | undefined
+  created?: string | Date | undefined | firebase.firestore.Timestamp
+  updated?: string | Date | undefined | firebase.firestore.Timestamp
 }

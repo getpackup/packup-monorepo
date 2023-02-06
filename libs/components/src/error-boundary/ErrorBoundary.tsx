@@ -4,7 +4,7 @@ import { trackEvent } from '@getpackup-group/utils'
 import React, { Component } from 'react'
 
 interface Props {
-  children: any
+  children: React.ReactNode
 }
 
 export class ErrorBoundary extends Component<Props, {}> {

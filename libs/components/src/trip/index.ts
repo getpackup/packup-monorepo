@@ -1,5 +1,4 @@
 export * from './Breadcrumbs'
 export * from './SendInviteForm'
-export * from './TripDetails'
 export * from './TripParty'
 export * from './TripNavigation'

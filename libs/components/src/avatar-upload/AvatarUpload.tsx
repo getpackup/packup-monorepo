@@ -1,4 +1,4 @@
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import {
   textColor,
   white,
@@ -6,26 +6,13 @@ import {
   doubleSpacer,
   tripleSpacer,
 } from '@getpackup-group/styles'
-import { trackEvent } from '@getpackup-group/utils'
-/* eslint-disable no-console */
+import { trackEvent, useLoggedInUser } from '@getpackup-group/utils'
 import React, { FunctionComponent, useEffect, useMemo } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'
-import {
-  Camera,
-  Crop,
-  Facebook,
-  Flip,
-  Instagram,
-  Local,
-  Reddit,
-  Twitter,
-  URL,
-  Uppload,
-  en,
-} from 'uppload'
+import { Crop, Flip, Local, Uppload, en } from 'uppload'
 
 import { Avatar } from '../avatar/Avatar'
 
@@ -50,9 +37,10 @@ const EditButton = styled.button`
   align-items: center;
 `
 
-export const AvatarUpload: FunctionComponent<{ loggedInUser: any }> = ({ loggedInUser }) => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+export const AvatarUpload: FunctionComponent<{}> = () => {
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const firebase = useFirebase()
+  const activeLoggedInUser = useLoggedInUser()
 
   const uploader = useMemo(
     () =>
@@ -74,11 +62,11 @@ export const AvatarUpload: FunctionComponent<{ loggedInUser: any }> = ({ loggedI
                 if (updateProgress) updateProgress(progress)
               },
               (error) => {
-                console.log('Got error', error)
+                // console.log('Got error', error)
                 return reject(new Error('unable_to_upload'))
               },
               () => {
-                console.log('Uploaded!')
+                // console.log('Uploaded!')
                 uploadTask.snapshot.ref
                   .getDownloadURL()
                   .then((url) => resolve(url))
@@ -106,7 +94,11 @@ export const AvatarUpload: FunctionComponent<{ loggedInUser: any }> = ({ loggedI
 
   return (
     <AvatarUploadWrapper>
-      <Avatar src={loggedInUser.photoURL} size="xl" gravatarEmail={loggedInUser.email} />
+      <Avatar
+        src={activeLoggedInUser?.photoURL}
+        size="xl"
+        gravatarEmail={activeLoggedInUser?.email}
+      />
       <EditButton type="button" onClick={() => uploader.open()}>
         <FaCamera color={textColor} style={{ flexShrink: 0 }} />
       </EditButton>

@@ -43,7 +43,7 @@ interface ColumnProps {
   mdSpacer?: boolean
   lgSpacer?: boolean
   xlSpacer?: boolean
-  children: any // TODO: might want to narrow that down later
+  children: React.ReactNode
 }
 
 const bottomSpacer = `

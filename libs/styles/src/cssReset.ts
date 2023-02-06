@@ -289,16 +289,20 @@ export const CssReset = createGlobalStyle`
     background: ${brandPrimaryHover};
   }
 
+  // TODO: remove colors and use vars
   :-ms-input-placeholder {
     color: var(--color-lightGray);
+    color: ${lightGray};
   }
 
   ::-ms-input-placeholder {
     color: var(--color-lightGray);
+    color: ${lightGray};
   }
 
   ::placeholder {
     color: var(--color-lightGray);
+    color: ${lightGray};
     opacity: 1; /* Firefox */
   }
   .accordion *:focus {

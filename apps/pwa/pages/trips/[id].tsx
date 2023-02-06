@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { NoTripFound, PageContainer, PackingList } from '@getpackup-group/components'
 import {
-  RootState,
+  AppState,
   setActivePackingListFilter,
   setActivePackingListTab,
   setPersonalListScrollPosition,
@@ -20,12 +20,12 @@ import Head from 'next/head'
 
 export default function TripById() {
   const dispatch = useDispatch()
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const activeTripById: Array<TripType> = useSelector(
-    (state: RootState) => state.firestore.ordered.activeTripById
+    (state: AppState) => state.firestore.ordered.activeTripById
   )
   const packingList: PackingListItemType[] = useSelector(
-    (state: RootState) => state.firestore.ordered.packingList
+    (state: AppState) => state.firestore.ordered.packingList
   )
 
   const router = useRouter()
@@ -96,7 +96,7 @@ export default function TripById() {
   return (
     <>
       <Head>
-        <title>{activeTrip?.name || 'Trip Summary'}</title>
+        <title key="title">{activeTrip?.name || 'Trip Summary'}</title>
       </Head>
 
       <PageContainer>

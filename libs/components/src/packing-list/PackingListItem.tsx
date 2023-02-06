@@ -12,11 +12,11 @@ import {
   Pill,
 } from '@getpackup-group/components'
 import {
-  RootState,
+  AppState,
   setPersonalListScrollPosition,
   setSharedListScrollPosition,
-  addAlert,
 } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
 
 import {
   brandDanger,
@@ -104,8 +104,7 @@ const firebaseConnection = (firebase: ExtendedFirebaseInstance, tripId: string, 
 const callbackDelay = 350
 
 export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) => {
-  const users: UserType[] = useSelector((state: RootState) => state.firestore.ordered.users)
-  // const auth = useSelector((state: RootState) => state.firebase.auth);
+  const users: UserType[] = useSelector((state: AppState) => state.firestore.ordered['users'])
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const size = useWindowSize()
@@ -132,12 +131,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
           item: props.item,
           isPacked: values[props.item.id].isPacked,
         })
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
   }
 
@@ -156,12 +150,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
           item: props.item,
           error: err,
         })
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
   }
 
@@ -193,12 +182,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
           item: props.item,
           error: err,
         })
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        )
+        toast.error(err.message)
       })
   }
 
@@ -238,7 +222,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
         ? setSharedListScrollPosition(window.pageYOffset)
         : setPersonalListScrollPosition(window.pageYOffset)
     )
-    router.push(`/trips/${tripId}/checklist/${itemId}`)
+    router.push(`/trips/${tripId}/${itemId}`)
   }
 
   const itemIsShared = props.item.packedBy.some((item) => item.isShared)

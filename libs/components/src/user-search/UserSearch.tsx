@@ -10,7 +10,7 @@ import {
   SendInviteForm,
   UserMediaObject,
 } from '@getpackup-group/components'
-import { RootState } from '@getpackup-group/redux'
+import { AppState } from '@getpackup-group/redux'
 import {
   white,
   zIndexDropdown,
@@ -32,6 +32,7 @@ import {
   connectSearchBox,
   connectStateResults,
 } from 'react-instantsearch-dom'
+import { BasicDoc, StateResultsProvided } from 'react-instantsearch-core'
 import Skeleton from 'react-loading-skeleton'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -56,7 +57,7 @@ const ScrollableHitsWrapper = styled.div`
   background-color: ${white};
 `
 
-const StyledSearchBox = styled.input`
+const StyledSearchBox = styled.input<any>`
   ${sharedStyles};
 `
 
@@ -71,7 +72,7 @@ export const UserSearch: FunctionComponent<UserSearchProps> = ({
   activeTrip,
   isSearchBarDisabled,
 }) => {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const [showManualShareModal, setShowManualShareModal] = useState<boolean>(false)
 
   const InviteButton = ({
@@ -149,13 +150,18 @@ export const UserSearch: FunctionComponent<UserSearchProps> = ({
   )
 
   const Results = connectStateResults(
-    // extra props are passed in through connectInfiniteHits(Results) down below,
-    // but typescript doesnt like it and I can figure out the typing right now :)
-    ({ searchResults, isSearchStalled, searching, error, searchState, props }) => {
-      const loading = isSearchStalled || searching
-      const hasResults = searchResults && searchResults.nbHits !== 0
+    (
+      props: StateResultsProvided<BasicDoc> & {
+        hasMore: boolean
+        refineNext: () => void
+        hits: any
+      }
+    ) => {
+      const loading = props.isSearchStalled || props.searching
+      const hasResults = props.searchResults && props.searchResults.nbHits !== 0
       const hasEmptyQuery =
-        !Object.prototype.hasOwnProperty.call(searchState, 'query') || searchState.query === ''
+        !Object.prototype.hasOwnProperty.call(props.searchState, 'query') ||
+        props.searchState.query === ''
 
       const [sentryRef, { rootRef }] = useInfiniteScroll({
         loading,
@@ -173,7 +179,7 @@ export const UserSearch: FunctionComponent<UserSearchProps> = ({
                 toggle display to stop infinite loop caused by hits 
                 https://github.com/algolia/react-instantsearch/issues/137#issuecomment-349385276
               */}
-              <div style={{ display: searching ? 'none' : 'block' }}>
+              <div style={{ display: props.searching ? 'none' : 'block' }}>
                 {hasResults &&
                   props.hits &&
                   props.hits.length >= 1 &&
@@ -188,7 +194,7 @@ export const UserSearch: FunctionComponent<UserSearchProps> = ({
               {!loading && !props.hasMore && hasResults && (
                 <>
                   <p style={{ textAlign: 'center' }}>
-                    No more results found for <strong>{searchState.query}</strong>.
+                    No more results found for <strong>{props.searchState.query}</strong>.
                   </p>
                   <ClearRefinementsButton clearsQuery />
                 </>
@@ -217,13 +223,13 @@ export const UserSearch: FunctionComponent<UserSearchProps> = ({
             </>
           )}
 
-          {!loading && error && (
+          {!loading && props.error && (
             <Alert type="info" message="Something went wrong, please try again later" />
           )}
-          {!loading && !error && !hasResults && !hasEmptyQuery && (
+          {!loading && !props.error && !hasResults && !hasEmptyQuery && (
             <>
               <p style={{ textAlign: 'center' }}>
-                No results found for <strong>{searchState.query}</strong>.
+                No results found for <strong>{props.searchState.query}</strong>.
               </p>
               <ClearRefinementsButton clearsQuery />
             </>
@@ -245,7 +251,7 @@ export const UserSearch: FunctionComponent<UserSearchProps> = ({
     <StyledSearchBox
       type="search"
       value={currentRefinement}
-      onChange={(event) => refine(event.currentTarget.value)}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) => refine(event.currentTarget.value)}
       placeholder="Search by username, email, or real name..."
       autoComplete="off"
       autoCorrect="off"

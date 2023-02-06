@@ -1,5 +1,7 @@
 import React from 'react'
 /**
+ * NOTE: This requires `@sentry/nextjs` version 7.3.0 or higher.
+ *
  * This page is loaded by Nextjs:
  *  - on the server, when data-fetching methods throw or reject
  *  - on the client, when `getInitialProps` throws or rejects
@@ -13,11 +15,17 @@ import React from 'react'
  */
 
 import * as Sentry from '@sentry/nextjs'
+import type { NextPage } from 'next'
+import type { ErrorProps } from 'next/error'
 import NextErrorComponent from 'next/error'
 
-function CustomErrorComponent(props) {
-  return <NextErrorComponent statusCode={props.statusCode} />
-}
+// If you're using a Nextjs version prior to 12.2.1, uncomment this to
+// compensate for https://github.com/vercel/next.js/issues/8592
+// Sentry.captureUnderscoreErrorException(props);
+// eslint-disable-next-line react/function-component-definition
+const CustomErrorComponent: NextPage<ErrorProps> = (props) => (
+  <NextErrorComponent statusCode={props.statusCode} />
+)
 
 CustomErrorComponent.getInitialProps = async (contextData) => {
   // In case this is running in a serverless function, await this in order to give Sentry

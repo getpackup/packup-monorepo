@@ -9,7 +9,7 @@ interface FlexContainerProps {
   height?: string
   style?: {}
   as?: string
-  children: any
+  children: React.ReactNode
 }
 
 export const FlexContainer: FunctionComponent<FlexContainerProps> = styled.div<FlexContainerProps>`

@@ -1,6 +1,6 @@
 import { FlexContainer, Input, InputWrapper } from '@getpackup-group/components'
-import { RootState, addAlert } from '@getpackup-group/redux'
-
+import { AppState } from '@getpackup-group/redux'
+import toast from 'react-hot-toast'
 import {
   brandPrimary,
   offWhite,
@@ -58,7 +58,7 @@ export const PackingListAddItem: FunctionComponent<PackingListItemProps> = ({
 }) => {
   const firebase = useFirebase()
   const dispatch = useDispatch()
-  const auth = useSelector((state: RootState) => state.firebase.auth)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
 
   return (
     <PackingListItemWrapper>
@@ -112,12 +112,7 @@ export const PackingListAddItem: FunctionComponent<PackingListItemProps> = ({
                 tripId,
                 error: err,
               })
-              await dispatch(
-                addAlert({
-                  type: 'danger',
-                  message: 'Faled to add item, please try again',
-                })
-              )
+              toast.error('Failed to add item, please try again')
             }
           }
         }}

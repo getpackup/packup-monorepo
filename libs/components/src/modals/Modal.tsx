@@ -8,7 +8,7 @@ import {
   halfSpacer,
   screenSizes,
 } from '@getpackup-group/styles'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, ComponentType } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import ReactModal from 'react-modal'
 import styled from 'styled-components'
@@ -39,9 +39,11 @@ const CloseIcon = styled.span`
   cursor: pointer;
 `
 
+const ModalSafeForReact18 = ReactModal as ComponentType<ReactModal['props']>
+
 export const Modal: FunctionComponent<ModalProps> = (props) => {
   return (
-    <ReactModal
+    <ModalSafeForReact18
       isOpen={props.isOpen}
       onRequestClose={props.toggleModal}
       shouldCloseOnOverlayClick
@@ -83,7 +85,7 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
         </CloseIcon>
       )}
       {props.children}
-    </ReactModal>
+    </ModalSafeForReact18>
   )
 }
 

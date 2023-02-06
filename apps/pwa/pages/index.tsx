@@ -1,9 +1,10 @@
+/* eslint-disable dot-notation */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useRouter } from 'next/router'
 import {
-  RootState,
+  AppState,
   setActivePackingListFilter,
   setActivePackingListTab,
 } from '@getpackup-group/redux'
@@ -34,9 +35,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 
 export default function Index() {
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const trips: Array<TripType> = useSelector((state: RootState) => state.firestore.ordered.trips)
-  const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
+  const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered['gearCloset'])
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -74,7 +75,7 @@ export default function Index() {
                     .flat()
                 : [],
             ].flat(),
-            auth.uid,
+            auth.uid || [],
           ]),
         ].slice(0, 9),
       ],
@@ -160,14 +161,12 @@ export default function Index() {
 
   if (!isLoaded(trips) || !trips) {
     return (
-      <>
+      <PageContainer>
         {Array.from({ length: 5 }).map((_, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <Box key={`loadingTrip${index}`}>
-            <TripCard trip={{} as TripType} />
-          </Box>
+          <TripCard trip={{} as TripType} key={`loadingTrip${index}`} />
         ))}
-      </>
+      </PageContainer>
     )
   }
 
@@ -182,37 +181,44 @@ export default function Index() {
         <Head>
           <title>My Trips | Packup</title>
         </Head>
-        <Row>
-          <Column md={8} mdOffset={2}>
-            <div style={{ textAlign: 'center', margin: doubleSpacer }}>
-              <Heading align="center">New here? 🤔</Heading>
-              <p>
-                Looks like you don&apos;t have any gear in your gear closet, or any trips planned
-                yet!
-              </p>
-              <Button type="link" to="/app/onboarding" iconRight={<FaArrowRight />} color="success">
-                Let&apos;s Get Started!
-              </Button>
-              <br />
-              <br />
-              <br />
-              <p>
-                <small>
-                  Already started your gear closet, but still seeing this? Let&apos;s try to load
-                  your data again.
-                </small>
-              </p>
-              <Button
-                type="button"
-                onClick={() => window.location.reload()}
-                color="tertiary"
-                iconLeft={<FaRedo />}
-              >
-                Refresh
-              </Button>
-            </div>
-          </Column>
-        </Row>
+        <Box>
+          <Row>
+            <Column md={8} mdOffset={2}>
+              <div style={{ textAlign: 'center', margin: doubleSpacer }}>
+                <Heading align="center">New here? 🤔</Heading>
+                <p>
+                  Looks like you don&apos;t have any gear in your gear closet, or any trips planned
+                  yet!
+                </p>
+                <Button
+                  type="link"
+                  to="/app/onboarding"
+                  iconRight={<FaArrowRight />}
+                  color="success"
+                >
+                  Let&apos;s Get Started!
+                </Button>
+                <br />
+                <br />
+                <br />
+                <p>
+                  <small>
+                    Already started your gear closet, but still seeing this? Let&apos;s try to load
+                    your data again.
+                  </small>
+                </p>
+                <Button
+                  type="button"
+                  onClick={() => window.location.reload()}
+                  color="tertiary"
+                  iconLeft={<FaRedo />}
+                >
+                  Refresh
+                </Button>
+              </div>
+            </Column>
+          </Row>
+        </Box>
       </PageContainer>
     )
   }

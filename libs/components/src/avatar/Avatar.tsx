@@ -115,13 +115,16 @@ export const Avatar: FunctionComponent<AvatarProps> = (props) => {
   const gravatarUrl =
     props.gravatarEmail &&
     `https://www.gravatar.com/avatar/${Md5.hashStr(props.gravatarEmail)}?d=identicon&s=192`
+
+  if (!props.src && !props.staticContent && !props.gravatarEmail) return null
+
   return (
     <AvatarImageWrapper
       size={props.size || 'sm'}
       bottomMargin={props.bottomMargin || false}
       rightMargin={props.rightMargin || false}
     >
-      {props.staticContent && (!props.src || !gravatarUrl) ? (
+      {props.staticContent ? (
         <>
           <StaticContentWrapper
             size={props.size || 'sm'}
@@ -139,13 +142,20 @@ export const Avatar: FunctionComponent<AvatarProps> = (props) => {
           />
         </>
       ) : (
-        <>
+        <div data-tip={props.username || ''} data-for={props.src + 'avatar'}>
           <Image
             src={props.src || (gravatarUrl as string)}
             width={renderSize(props.size)}
             height={renderSize(props.size)}
           />
-        </>
+          <ReactTooltip
+            id={props.src + 'avatar'}
+            place="top"
+            type="dark"
+            effect="solid"
+            className="tooltip customTooltip"
+          />
+        </div>
       )}
     </AvatarImageWrapper>
   )
