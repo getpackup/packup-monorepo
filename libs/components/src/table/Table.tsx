@@ -26,7 +26,6 @@ import {
   getSortedRowModel,
 } from '@tanstack/react-table'
 import { GearItemType } from '@getpackup-group/common'
-import { Button, FlexContainer } from '..'
 import styled from 'styled-components'
 import {
   baseBorderStyle,

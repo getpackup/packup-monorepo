@@ -149,7 +149,6 @@ const TopNavIconWrapper = styled.nav`
 
 export const Navbar: FunctionComponent<unknown> = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const profile = useSelector((state: AppState) => state.firebase.profile)
   const loggedInUser = useSelector((state: AppState) => state.firestore.ordered['loggedInUser'])
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const router = useRouter()
@@ -301,31 +300,26 @@ export const Navbar: FunctionComponent<unknown> = () => {
                   }}
                 />
               </Link> */}
-              {profile.isAdmin && (
-                <Link href={'/admin/gear-list'}>
-                  <a className={pathname.includes('/admin') ? 'active' : undefined}>
-                    <FaUserLock /> Admin
-                  </a>
-                </Link>
-              )}
-              {loggedInUser && loggedInUser.length > 0 && (
-                <Link href={'/profile'}>
-                  <a
-                    className={pathname.includes('/profile') ? 'active' : undefined}
-                    onClick={() =>
-                      trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Profile' })
-                    }
-                  >
+              <Link href={'/profile'}>
+                <a
+                  className={pathname.includes('/profile') ? 'active' : undefined}
+                  onClick={() =>
+                    trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Profile' })
+                  }
+                >
+                  {!loggedInUser ? (
+                    <Avatar staticContent="" size="sm" username={undefined} />
+                  ) : (
                     <Avatar
-                      src={loggedInUser[0].photoURL as string}
+                      src={loggedInUser[0].photoURL}
                       size="xs"
-                      gravatarEmail={loggedInUser[0].email as string}
+                      gravatarEmail={loggedInUser[0].email}
                       rightMargin
-                    />{' '}
-                    Profile
-                  </a>
-                </Link>
-              )}
+                    />
+                  )}{' '}
+                  Profile
+                </a>
+              </Link>
             </TopNavIconWrapper>
           )}
         </FlexContainer>
