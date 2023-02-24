@@ -123,20 +123,11 @@ const StyledErrorMessage = styled.div`
 `
 
 const StyledSelect = styled(Select)`
-  & > div:first-child {
+  & > div:first-of-type {
     ${(props: { invalid?: boolean }) =>
       props.invalid &&
       `
-      border: 2px solid ${brandDanger};
-  `}
-  }
-`
-
-const StyledAsyncSelect = styled(AsyncSelect)`
-  & > div:first-child {
-    ${(props: { invalid?: boolean }) =>
-      props.invalid &&
-      `
+      box-shadow: 0 0 0 ${borderRadius} rgba(${brandDangerRGB},.25);
       border: 2px solid ${brandDanger};
   `}
   }
@@ -423,44 +414,10 @@ export const Input: FunctionComponent<InputProps> = (props) => {
             value={setValue(field.value)}
             options={props.options}
             name={props.name}
-            // onChange={(option: OptionType) => onChange(option)}
+            onChange={(option: OptionType) => onChange(option)}
             onBlur={() => props.setFieldTouched(props.name)}
             isDisabled={props.disabled}
-            // invalid={meta && meta.touched && meta.error}
-          />
-        )
-      }
-      break
-    case 'async-select':
-      {
-        const onChange = (option: OptionType[] | OptionType) => {
-          props.setFieldValue(
-            field.name,
-            // eslint-disable-next-line no-nested-ternary
-            props.isMulti
-              ? option
-                ? (option as OptionType[]).map((item: OptionType) => item.value)
-                : []
-              : (option as OptionType).value
-          )
-        }
-
-        inputTypeToRender = (
-          <StyledAsyncSelect
-            components={props.components}
-            className="react-select"
-            loadOptions={props.loadOptions}
-            cacheOptions
-            defaultOptions={props.defaultOptions || true}
-            styles={multiSelectStyles}
-            isMulti={props.isMulti}
-            menuPlacement="auto"
-            placeholder={props.placeholder || 'Start typing...'}
-            // onChange={(option: OptionType) => onChange(option)}
-            name={props.name}
-            onBlur={() => props.setFieldTouched(props.name)}
-            isDisabled={props.disabled}
-            // invalid={meta && meta.touched && meta.error}
+            invalid={meta && meta.touched && meta.error}
           />
         )
       }

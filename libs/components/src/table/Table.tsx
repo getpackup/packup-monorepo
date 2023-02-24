@@ -82,7 +82,7 @@ export function Table({
 }: {
   data: GearItemType[]
   columns: ColumnDef<GearItemType>[]
-  hasPagination: boolean
+  hasPagination?: boolean
 }) {
   const router = useRouter()
   // const { search, currentPage, sortColumn, sortDirection, tag } = router.query
@@ -94,16 +94,16 @@ export function Table({
     columns,
     state: {
       sorting,
-      pagination: {
-        pageSize: 25,
-        pageIndex: 0,
-      },
+      // pagination: {
+      //   pageSize: 25,
+      //   pageIndex: 0,
+      // },
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     // getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
     // initialState: {
     //   // pagination: {
     //   //   // currentPage is 1-indexed

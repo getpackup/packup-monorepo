@@ -29,10 +29,19 @@ export const usePersonalGear = () => {
     },
   ])
 
-  const masterGear = fetchedMasterGear ?? []
-  const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
-  const gearClosetRemovals = fetchedGearCloset?.[0]?.removals ?? []
-  const gearClosetAdditions = fetchedGearClosetAdditions ?? []
+  const masterGear = useMemo(() => fetchedMasterGear ?? [], [fetchedMasterGear])
+  const gearClosetCategories: Array<keyof ActivityTypes> = useMemo(
+    () => fetchedGearCloset?.[0]?.categories ?? [],
+    [fetchedGearCloset]
+  )
+  const gearClosetRemovals = useMemo(
+    () => fetchedGearCloset?.[0]?.removals ?? [],
+    [fetchedGearCloset]
+  )
+  const gearClosetAdditions = useMemo(
+    () => fetchedGearClosetAdditions ?? [],
+    [fetchedGearClosetAdditions]
+  )
 
   // Only regenerate this data if the master gear, gear closet removals, or gear closet additions change
   const personalGear = useMemo(() => {

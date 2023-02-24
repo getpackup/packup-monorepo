@@ -26,10 +26,18 @@ import {
   Table,
   multiSelectStyles,
   Box,
+  IconWrapper,
 } from '@getpackup-group/components'
 import { usePersonalGear } from '@getpackup-group/hooks'
 import { AppState } from '@getpackup-group/redux'
-import { lightGray, halfSpacer, inputPaddingY } from '@getpackup-group/styles'
+import {
+  lightGray,
+  halfSpacer,
+  inputPaddingY,
+  brandDanger,
+  brandPrimary,
+  lightestGray,
+} from '@getpackup-group/styles'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -49,6 +57,34 @@ type SelectGearListCategoryOption = {
 export type GroupedChannelOption = {
   readonly label: string
   readonly options: readonly SelectGearListCategoryOption[]
+}
+
+function RowActions(props) {
+  // console.log(row)
+  return (
+    <FlexContainer justifyContent="flex-end" flexWrap="nowrap">
+      <IconWrapper
+        onClick={() => props.router.push(`/gear-closet/${props.row.original.id}`)}
+        hoverColor={brandPrimary}
+        color={lightestGray}
+      >
+        <FaPencilAlt />
+      </IconWrapper>
+      <IconWrapper
+        onClick={() => {
+          props.setModalIsOpen(true)
+          props.setItemToBeDeleted(props.row.original)
+        }}
+        hoverColor={brandDanger}
+        color={lightestGray}
+        style={{
+          marginLeft: halfSpacer,
+        }}
+      >
+        <FaTrash />
+      </IconWrapper>
+    </FlexContainer>
+  )
 }
 
 export default function GearCloset() {
@@ -158,8 +194,15 @@ export default function GearCloset() {
     columnHelper.display({
       id: 'actions',
       header: '',
-      enableSorting: false,
-      // cell: (props) => <div>{console.log(props)}</div>,
+      // eslint-disable-next-line react/no-unstable-nested-components
+      cell: (props) => (
+        <RowActions
+          row={props.row}
+          router={router}
+          setModalIsOpen={setModalIsOpen}
+          setItemToBeDeleted={setItemToBeDeleted}
+        />
+      ),
     }),
   ]
 
@@ -172,21 +215,21 @@ export default function GearCloset() {
 
   const data = sortedGearList().map((item: GearItemType) => ({
     ...item,
-    actions: [
-      {
-        label: <FaPencilAlt />,
-        to: `/gear-closet/${item.id}`,
-        color: 'primaryOutline',
-      },
-      {
-        label: <FaTrash />,
-        color: 'dangerOutline',
-        onClick: () => {
-          setModalIsOpen(true)
-          setItemToBeDeleted(item)
-        },
-      },
-    ],
+    // actions: [
+    //   {
+    //     label: <FaPencilAlt />,
+    //     to: `/gear-closet/${item.id}`,
+    //     color: 'primaryOutline',
+    //   },
+    //   {
+    //     label: <FaTrash />,
+    //     color: 'dangerOutline',
+    //     onClick: () => {
+    //       setModalIsOpen(true)
+    //       setItemToBeDeleted(item)
+    //     },
+    //   },
+    // ],
   }))
 
   const deleteItem = (item: GearItemType) => {
@@ -221,10 +264,6 @@ export default function GearCloset() {
       })
     setItemToBeDeleted(undefined)
     setModalIsOpen(false)
-  }
-
-  if (!auth || !auth.isLoaded) {
-    return <LoadingPage />
   }
 
   return (
@@ -301,7 +340,7 @@ export default function GearCloset() {
           <Table
             columns={columns}
             data={data || []}
-            hasPagination
+            // hasPagination
             // hasSorting
             // hasFiltering
             // rowsPerPage={25}

@@ -16,7 +16,6 @@ import {
   Column,
   Heading,
   PageContainer,
-  LoadingPage,
   Row,
   TripCard,
 } from '@getpackup-group/components'
@@ -154,10 +153,6 @@ export default function Index() {
       router.push('/login')
     }
   }, [auth, router])
-
-  if (!auth || !auth.isLoaded) {
-    return <LoadingPage />
-  }
 
   if (!isLoaded(trips) || !trips) {
     return (

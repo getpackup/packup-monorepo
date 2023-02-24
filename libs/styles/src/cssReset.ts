@@ -11,7 +11,6 @@ import {
   brandPrimary,
   brandPrimaryHover,
   brandSecondary,
-  gray,
   headingsColor,
   lightGray,
   textColor,
@@ -280,12 +279,12 @@ export const CssReset = createGlobalStyle`
   }
 
   ::-moz-selection {
-    color: var(--color-background);
-      background: ${brandPrimaryHover};
+    color: ${white};
+    background: ${brandPrimaryHover};
   }
 
   ::selection {
-    color: var(--color-background);
+    color: ${white};
     background: ${brandPrimaryHover};
   }
 

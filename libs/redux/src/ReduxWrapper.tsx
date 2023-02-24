@@ -7,15 +7,22 @@ import 'firebase/compat/auth'
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
-import React from 'react'
-import { Provider } from 'react-redux'
-import { FirebaseReducer, FirestoreReducer, ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import * as React from 'react'
+import { Provider, useSelector } from 'react-redux'
+import {
+  FirebaseReducer,
+  FirestoreReducer,
+  ReactReduxFirebaseProvider,
+  isLoaded,
+} from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import { PersistGate } from 'redux-persist/integration/react'
 import { UserType } from '@getpackup-group/common'
+import { LoadingPage } from '@getpackup-group/components'
 import { showWorkerUpdateModal, workerUpdateInitialState } from './ducks/workerUpdateReady'
 import { clientInitialState } from './ducks/client'
 import configureStore from './configureStore'
+import { AppState } from '.'
 
 const initialState = process.env['BROWSER']
   ? window.__INITIAL_STATE__
@@ -78,18 +85,26 @@ if (process.env['ENVIRONMENT'] === 'DEVELOP') {
   // eslint-disable-next-line no-console
   // console.log(`Development Env: Using Firestore Emulator`);
   // firebase.firestore().useEmulator('localhost', 8083);
+  firebase.firestore()
 } else {
   firebase.firestore()
 }
 
 export const onWorkerUpdateReady = () => store.dispatch(showWorkerUpdateModal())
 
-export function ReduxWrapper(props) {
+function AuthIsLoaded({ children }: { children: React.ReactNode }): JSX.Element {
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  if (!isLoaded(auth)) return <LoadingPage />
+  return children as JSX.Element
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ReduxWrapper(props: any) {
   return (
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <PersistGate loading={null} persistor={persistor}>
-          {props.children}
+          <AuthIsLoaded>{props.children}</AuthIsLoaded>
         </PersistGate>
       </ReactReduxFirebaseProvider>
     </Provider>
