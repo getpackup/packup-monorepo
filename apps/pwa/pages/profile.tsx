@@ -36,7 +36,7 @@ import { Field, Form, Formik } from 'formik'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { FaSignOutAlt, FaTrash } from 'react-icons/fa'
+import { FaSignOutAlt, FaTrash, FaUserLock } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
@@ -59,6 +59,7 @@ const ProfileWrapper = styled.div<{ isSmallScreen: boolean }>`
 
 export default function Profile() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const router = useRouter()
@@ -413,9 +414,15 @@ export default function Profile() {
                         onClick={logout}
                         iconLeft={<FaSignOutAlt />}
                         color="dangerOutline"
+                        rightSpacer
                       >
                         Logout
                       </Button>
+                      {profile.isAdmin && (
+                        <Button type="link" to="/admin/gear-list" iconLeft={<FaUserLock />}>
+                          Admin
+                        </Button>
+                      )}
                     </Form>
                   )}
                 </Formik>

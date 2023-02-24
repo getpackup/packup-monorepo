@@ -59,16 +59,13 @@ export type GroupedChannelOption = {
 }
 
 function RowActions(props) {
-  // console.log(row)
   return (
     <FlexContainer justifyContent="flex-end" flexWrap="nowrap">
-      <IconWrapper
-        onClick={() => props.router.push(`/gear-closet/${props.row.original.id}`)}
-        hoverColor={brandPrimary}
-        color={lightestGray}
-      >
-        <FaPencilAlt />
-      </IconWrapper>
+      <Link href={`/gear-closet/${props.row.original.id}`}>
+        <IconWrapper hoverColor={brandPrimary} color={lightestGray}>
+          <FaPencilAlt />
+        </IconWrapper>
+      </Link>
       <IconWrapper
         onClick={() => {
           props.setModalIsOpen(true)
