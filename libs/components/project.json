@@ -4,13 +4,6 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@angular-devkit/build-angular:tslint",
-      "options": {
-        "tsConfig": ["libs/components/tsconfig.lib.json", "libs/components/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "!libs/components/**/*"]
-      }
-    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/components"],
