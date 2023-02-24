@@ -417,7 +417,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
             onChange={(option: OptionType) => onChange(option)}
             onBlur={() => props.setFieldTouched(props.name)}
             isDisabled={props.disabled}
-            invalid={meta && meta.touched && meta.error}
+            invalid={Boolean(meta && meta.touched && meta.error)}
           />
         )
       }
