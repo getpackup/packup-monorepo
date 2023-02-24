@@ -177,7 +177,6 @@ export default function GearCloset() {
     setCategoriesToAdd([])
   }
 
-  // const personalGearIsLoading = personalGear === 'loading'
   const columnHelper = createColumnHelper<GearItemType>()
 
   const columns = [

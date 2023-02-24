@@ -13,7 +13,7 @@ export type GearItemType = {
   id: string
   name: string
   category: string
-  created?: firebase.firestore.Timestamp
+  created?: firebase.firestore.Timestamp | Date | string
   updated?: firebase.firestore.Timestamp
   essential: boolean
   isCustomGearItem?: boolean
