@@ -1,4 +1,4 @@
-import { GearItemType } from '@getpackup-group/common'
+// import { GearItemType } from '@getpackup-group/common'
 import {
   Button,
   CollapsibleBox,
@@ -53,7 +53,7 @@ export default function GearClosetAddItem() {
 
   const router = useRouter()
 
-  const initialValues: Partial<GearItemType> = {
+  const initialValues = {
     id: '',
     name: '',
     category: '',
@@ -171,7 +171,6 @@ export default function GearClosetAddItem() {
                     required
                   />
                 </Column>
-                {console.log(values)}
                 <Column sm={6}>
                   <Field
                     as={Input}

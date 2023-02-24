@@ -47,7 +47,6 @@ import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase
 import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import Head from 'next/head'
-import { createColumnHelper } from '@tanstack/react-table'
 
 type SelectGearListCategoryOption = {
   readonly value: keyof ActivityTypes
@@ -60,16 +59,13 @@ export type GroupedChannelOption = {
 }
 
 function RowActions(props) {
-  // console.log(row)
   return (
     <FlexContainer justifyContent="flex-end" flexWrap="nowrap">
-      <IconWrapper
-        onClick={() => props.router.push(`/gear-closet/${props.row.original.id}`)}
-        hoverColor={brandPrimary}
-        color={lightestGray}
-      >
-        <FaPencilAlt />
-      </IconWrapper>
+      <Link href={`/gear-closet/${props.row.original.id}`}>
+        <IconWrapper hoverColor={brandPrimary} color={lightestGray}>
+          <FaPencilAlt />
+        </IconWrapper>
+      </Link>
       <IconWrapper
         onClick={() => {
           props.setModalIsOpen(true)
@@ -177,9 +173,6 @@ export default function GearCloset() {
     setCategoriesToAdd([])
   }
 
-  // const personalGearIsLoading = personalGear === 'loading'
-  const columnHelper = createColumnHelper<GearItemType>()
-
   const columns = [
     {
       accessorKey: 'name',
@@ -191,9 +184,8 @@ export default function GearCloset() {
       header: 'Category',
       enableSorting: true,
     },
-    columnHelper.display({
+    {
       id: 'actions',
-      header: '',
       // eslint-disable-next-line react/no-unstable-nested-components
       cell: (props) => (
         <RowActions
@@ -203,34 +195,17 @@ export default function GearCloset() {
           setItemToBeDeleted={setItemToBeDeleted}
         />
       ),
-    }),
+    },
   ]
 
-  const sortedGearList = () =>
+  const data =
     auth?.uid && typeof personalGear !== 'string' && personalGear?.length > 0
       ? [...(personalGear as Array<GearItemType>)].sort((a: GearItemType, b: GearItemType) =>
           a.name?.localeCompare(b.name)
         )
       : []
 
-  const data = sortedGearList().map((item: GearItemType) => ({
-    ...item,
-    // actions: [
-    //   {
-    //     label: <FaPencilAlt />,
-    //     to: `/gear-closet/${item.id}`,
-    //     color: 'primaryOutline',
-    //   },
-    //   {
-    //     label: <FaTrash />,
-    //     color: 'dangerOutline',
-    //     onClick: () => {
-    //       setModalIsOpen(true)
-    //       setItemToBeDeleted(item)
-    //     },
-    //   },
-    // ],
-  }))
+  // const data = sortedGearList()
 
   const deleteItem = (item: GearItemType) => {
     const deleteType = () => {
