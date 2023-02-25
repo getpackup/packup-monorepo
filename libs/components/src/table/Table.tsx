@@ -1,30 +1,17 @@
 import { useState } from 'react'
+import { FaSort, FaSortAlphaDown, FaSortAlphaUp } from 'react-icons/fa'
 import {
-  FaAngleDoubleLeft,
-  FaAngleDoubleRight,
-  FaAngleLeft,
-  FaAngleRight,
-  FaChevronRight,
-  FaPencilAlt,
-  FaSort,
-  FaSortAlphaDown,
-  FaSortAlphaUp,
-  FaTrash,
-} from 'react-icons/fa'
-import {
-  Column,
-  Table as ReactTable,
-  PaginationState,
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   ColumnDef,
-  OnChangeFn,
   flexRender,
   SortingState,
   getSortedRowModel,
+  FilterFn,
 } from '@tanstack/react-table'
+import { RankingInfo, rankItem } from '@tanstack/match-sorter-utils'
 import { GearItemType } from '@getpackup-group/common'
 import styled from 'styled-components'
 import {
@@ -37,10 +24,22 @@ import {
   textColorLight,
   white,
 } from '@getpackup-group/styles'
-import { useRouter } from 'next/router'
-import { mergeQueryParams } from '@getpackup-group/utils'
 import Pagination from './Pagination'
 import Skeleton from 'react-loading-skeleton'
+import Filter from './Filter'
+import { FlexContainer } from '../flex-container/FlexContainer'
+import { Button } from '../button/Button'
+import { Column } from '../column/Column'
+import { Row } from '../row/Row'
+
+declare module '@tanstack/table-core' {
+  interface FilterFns {
+    fuzzy: FilterFn<unknown>
+  }
+  interface FilterMeta {
+    itemRank: RankingInfo
+  }
+}
 
 const StyledTable = styled.table`
   margin-bottom: ${baseSpacer};
@@ -74,6 +73,19 @@ const StyledTh = styled.th`
   text-transform: uppercase;
 `
 
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value)
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  })
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed
+}
+
 export function Table({
   data,
   columns,
@@ -83,32 +95,34 @@ export function Table({
   columns: ColumnDef<GearItemType>[]
   hasPagination?: boolean
 }) {
-  const router = useRouter()
-  // const { search, currentPage, sortColumn, sortDirection, tag } = router.query
-
   const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState('')
 
   const table = useReactTable({
     data,
     columns,
-    state: {
-      sorting,
-      // pagination: {
-      //   pageSize: 25,
-      //   pageIndex: 0,
-      // },
+    filterFns: {
+      fuzzy: fuzzyFilter,
     },
+    initialState: {
+      sorting,
+      pagination: hasPagination
+        ? {
+            pageSize: 25,
+            pageIndex: 0,
+          }
+        : undefined,
+    },
+    state: {
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: fuzzyFilter,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    // getFilteredRowModel: getFilteredRowModel(),
-    // getPaginationRowModel: getPaginationRowModel(),
-    // initialState: {
-    //   // pagination: {
-    //   //   // currentPage is 1-indexed
-    //   //   pageIndex: currentPage ? Number(currentPage) - 1 : 0,
-    //   // },
-    // },
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
   })
 
   const currentPage = table.getState().pagination.pageIndex + 1
@@ -116,6 +130,11 @@ export function Table({
 
   return (
     <>
+      <Row>
+        <Column sm={4} smOffset={8} md={3} mdOffset={9}>
+          <Filter value={globalFilter ?? ''} onChange={(value) => setGlobalFilter(String(value))} />
+        </Column>
+      </Row>
       <StyledTable>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -178,6 +197,16 @@ export function Table({
               })}
         </tbody>
       </StyledTable>
+      {table.getPrePaginationRowModel().rows.length === 0 && (
+        <FlexContainer flexDirection="column">
+          <p>
+            No results found for <strong>{globalFilter}</strong>
+          </p>
+          <Button type="button" color="tertiary" size="small" onClick={() => setGlobalFilter('')}>
+            Clear
+          </Button>
+        </FlexContainer>
+      )}
       {hasPagination && (
         <Pagination table={table} currentPage={currentPage} pageCount={pageCount} />
       )}
