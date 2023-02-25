@@ -213,7 +213,11 @@ export const Navbar: FunctionComponent<unknown> = () => {
               <Link href={isAuthenticated ? '/' : '/login'}>
                 <a>
                   <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
-                  {size.isSmallScreen && !isAuthenticated ? '' : <>packup</>}
+                  {size.isSmallScreen && !isAuthenticated ? (
+                    ''
+                  ) : (
+                    <span style={{ position: 'relative', top: '-4px' }}>packup</span>
+                  )}
                 </a>
               </Link>
             </Heading>

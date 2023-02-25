@@ -205,7 +205,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                 <Alert
                   type="info"
                   message="This item is considered one of the 10 Essential items."
-                  callToActionLink="/blog/2021-03-29-the-ten-essentials/"
+                  callToActionLink="https://getpackup.com/blog/2021-03-29-the-ten-essentials/"
                   callToActionLinkText="Learn more"
                 />
               )}

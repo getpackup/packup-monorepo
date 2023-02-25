@@ -164,43 +164,43 @@ export default function Details() {
               userIsTripOwner={isUserTripOwner(activeTrip, auth.uid)}
             />
             <HeroImageUpload type="trip" image={activeTrip.headerImage} id={activeTrip.tripId} />
-            <Formik
-              validateOnMount
-              initialValues={
-                {
-                  ...activeTrip,
-                  startDate: new Date(activeTrip.startDate.seconds * 1000),
-                  endDate: new Date(activeTrip.endDate.seconds * 1000),
-                  activityTags: [...onlyActivityTags],
-                  accommodationAndKitchenTags: [...onlyAccommodationOrCampKitchenTags],
-                  otherConsiderationTags: [...onlyOtherConsiderationsTags],
-                } as TripFormType & {
-                  activityTags?: string[]
-                  accommodationAndKitchenTags?: string[]
-                  otherConsiderationTags?: string[]
+            <Box>
+              <Formik
+                validateOnMount
+                initialValues={
+                  {
+                    ...activeTrip,
+                    startDate: new Date(activeTrip.startDate.seconds * 1000),
+                    endDate: new Date(activeTrip.endDate.seconds * 1000),
+                    activityTags: [...onlyActivityTags],
+                    accommodationAndKitchenTags: [...onlyAccommodationOrCampKitchenTags],
+                    otherConsiderationTags: [...onlyOtherConsiderationsTags],
+                  } as TripFormType & {
+                    activityTags?: string[]
+                    accommodationAndKitchenTags?: string[]
+                    otherConsiderationTags?: string[]
+                  }
                 }
-              }
-              onSubmit={(values, { setSubmitting }) => {
-                const valuesToSave = {
-                  ...values,
-                  tags: [
-                    ...(values.activityTags || []),
-                    ...(values.accommodationAndKitchenTags || []),
-                    ...(values.otherConsiderationTags || []),
-                  ],
-                }
-                delete valuesToSave.activityTags
-                delete valuesToSave.accommodationAndKitchenTags
-                delete valuesToSave.otherConsiderationTags
-                updateTrip(valuesToSave)
-                setSubmitting(false)
-              }}
-            >
-              {({ values, setFieldValue, setFieldTouched, initialValues, ...rest }) => (
-                <Form autoComplete="off">
-                  <Row>
-                    <Column lg={8}>
-                      <Box>
+                onSubmit={(values, { setSubmitting }) => {
+                  const valuesToSave = {
+                    ...values,
+                    tags: [
+                      ...(values.activityTags || []),
+                      ...(values.accommodationAndKitchenTags || []),
+                      ...(values.otherConsiderationTags || []),
+                    ],
+                  }
+                  delete valuesToSave.activityTags
+                  delete valuesToSave.accommodationAndKitchenTags
+                  delete valuesToSave.otherConsiderationTags
+                  updateTrip(valuesToSave)
+                  setSubmitting(false)
+                }}
+              >
+                {({ values, setFieldValue, setFieldTouched, initialValues, ...rest }) => (
+                  <Form autoComplete="off">
+                    <Row>
+                      <Column md={7} lg={8}>
                         <EditableInput
                           label="Trip Name"
                           isLoading={isLoading}
@@ -371,10 +371,8 @@ export default function Details() {
                             {...rest}
                           />
                         </EditableInput>
-                      </Box>
-                    </Column>
-                    <Column lg={4}>
-                      <Box>
+                      </Column>
+                      <Column md={4} mdOffset={1} lg={3} lgOffset={1}>
                         <p>
                           <strong>Created</strong>
                         </p>
@@ -416,12 +414,12 @@ export default function Details() {
                               </Fragment>
                             )
                           })}
-                      </Box>
-                    </Column>
-                  </Row>
-                </Form>
-              )}
-            </Formik>
+                      </Column>
+                    </Row>
+                  </Form>
+                )}
+              </Formik>
+            </Box>
           </>
         )}
       </PageContainer>

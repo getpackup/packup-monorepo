@@ -1,7 +1,7 @@
 import { TripType } from '@getpackup-group/common'
 import { useRouter } from 'next/router'
 
-import { NoTripFound, PageContainer, TripParty } from '@getpackup-group/components'
+import { Box, NoTripFound, PageContainer, TripParty } from '@getpackup-group/components'
 import { AppState } from '@getpackup-group/redux'
 
 import { trackEvent } from '@getpackup-group/utils'
@@ -62,9 +62,13 @@ export default function Party() {
 
       <PageContainer>
         <TripParty activeTrip={activeTrip} />
-      </PageContainer>
 
-      {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && <NoTripFound />}
+        {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && (
+          <Box>
+            <NoTripFound />
+          </Box>
+        )}
+      </PageContainer>
     </>
   )
 }

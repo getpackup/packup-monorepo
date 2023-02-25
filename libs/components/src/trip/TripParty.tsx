@@ -228,6 +228,10 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
       <PageContainer>
         {typeof activeTrip !== 'undefined' && (
           <>
+            <TripNavigation
+              activeTrip={activeTrip}
+              userIsTripOwner={isUserTripOwner(activeTrip, auth.uid)}
+            />
             <LeaveTheTripModal
               setModalIsOpen={setLeaveTripModalIsOpen}
               modalIsOpen={leaveTripModalIsOpen}
@@ -263,58 +267,57 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
                   greetingName={users[userToReinvite.uid].displayName}
                 />
               )}
-            <TripNavigation
-              activeTrip={activeTrip}
-              userIsTripOwner={isUserTripOwner(activeTrip, auth.uid)}
-            />
-            <UserSearch
-              activeTrip={activeTrip}
-              isSearchBarDisabled={isSearchBarDisabled}
-              updateTrip={updateTrip}
-            />
 
-            {Object.values(activeTrip.tripMembers).length > 0 ? (
-              <Box>
-                <p>
-                  <strong>Trip Party</strong>
-                </p>
-                <div
-                  style={{
-                    margin: `${halfSpacer} 0 ${baseSpacer}`,
-                  }}
-                >
-                  {Object.values(activeTrip?.tripMembers)
-                    .sort((a, b) => a.invitedAt.seconds - b.invitedAt.seconds)
-                    .map((tripMember, index) => {
-                      const matchingUser: UserType =
-                        users && users[tripMember.uid] ? users[tripMember.uid] : undefined
-                      if (!matchingUser) return null
-                      return (
-                        <div key={matchingUser.uid}>
-                          <UserMediaObject
-                            user={matchingUser}
-                            showSecondaryContent
-                            action={getStatusPill(matchingUser.uid)}
-                          />
-                          {index !== Object.keys(activeTrip?.tripMembers).length - 1 && (
-                            <HorizontalRule compact />
-                          )}
-                        </div>
-                      )
-                    })}
+            <Box>
+              <UserSearch
+                activeTrip={activeTrip}
+                isSearchBarDisabled={isSearchBarDisabled}
+                updateTrip={updateTrip}
+              />
+
+              {Object.values(activeTrip.tripMembers).length > 0 ? (
+                <>
+                  <p>
+                    <strong>Trip Party</strong>
+                  </p>
+                  <div
+                    style={{
+                      margin: `${halfSpacer} 0 ${baseSpacer}`,
+                    }}
+                  >
+                    {Object.values(activeTrip?.tripMembers)
+                      .sort((a, b) => a.invitedAt.seconds - b.invitedAt.seconds)
+                      .map((tripMember, index) => {
+                        const matchingUser: UserType =
+                          users && users[tripMember.uid] ? users[tripMember.uid] : undefined
+                        if (!matchingUser) return null
+                        return (
+                          <div key={matchingUser.uid}>
+                            <UserMediaObject
+                              user={matchingUser}
+                              showSecondaryContent
+                              action={getStatusPill(matchingUser.uid)}
+                            />
+                            {index !== Object.keys(activeTrip?.tripMembers).length - 1 && (
+                              <HorizontalRule compact />
+                            )}
+                          </div>
+                        )
+                      })}
+                  </div>
+                </>
+              ) : (
+                <div style={{ textAlign: 'center' }}>
+                  <p>
+                    <strong>No trip party members yet!</strong>
+                  </p>
+                  <p>
+                    While going alone is definitely rad, if you are going with others, find them
+                    above and add them to your trip.
+                  </p>
                 </div>
-              </Box>
-            ) : (
-              <Box textAlign="center">
-                <p>
-                  <strong>No trip party members yet!</strong>
-                </p>
-                <p>
-                  While going alone is definitely rad, if you are going with others, find them above
-                  and add them to your trip.
-                </p>
-              </Box>
-            )}
+              )}
+            </Box>
           </>
         )}
       </PageContainer>

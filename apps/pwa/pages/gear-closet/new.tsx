@@ -1,6 +1,7 @@
 // import { GearItemType } from '@getpackup-group/common'
 import {
   Button,
+  Box,
   CollapsibleBox,
   Column,
   FormErrors,
@@ -124,21 +125,21 @@ export default function GearClosetAddItem() {
       <Head>
         <title>Add Gear Closet Item</title>
       </Head>
-      {!size.isSmallScreen && (
-        <Button
-          type="button"
-          onClick={() => {
-            router.push('/gear-closet')
-            trackEvent('Add Gear Closet Item Back to All Gear Click')
-          }}
-          color="text"
-          iconLeft={<FaChevronLeft />}
-        >
-          Back to All Gear
-        </Button>
-      )}
+      <Box>
+        {!size.isSmallScreen && (
+          <Button
+            type="button"
+            onClick={() => {
+              router.push('/gear-closet')
+              trackEvent('Add Gear Closet Item Back to All Gear Click')
+            }}
+            color="text"
+            iconLeft={<FaChevronLeft />}
+          >
+            Back to All Gear
+          </Button>
+        )}
 
-      <>
         <Heading altStyle as="h2">
           Add Gear Item
         </Heading>
@@ -320,7 +321,7 @@ export default function GearClosetAddItem() {
             </Form>
           )}
         </Formik>
-      </>
+      </Box>
     </PageContainer>
   )
 }

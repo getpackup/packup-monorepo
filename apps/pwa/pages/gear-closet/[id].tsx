@@ -12,6 +12,7 @@ import {
   Modal,
   PageContainer,
   Row,
+  Box,
 } from '@getpackup-group/components'
 import { usePersonalGear } from '@getpackup-group/hooks'
 import { AppState } from '@getpackup-group/redux'
@@ -193,253 +194,255 @@ export default function GearClosetEditItem() {
       <Head>
         <title>Edit Gear Closet Item</title>
       </Head>
-      {!size.isSmallScreen && (
-        <Button
-          type="button"
-          onClick={() => {
-            router.push('/gear-closet')
-            trackEvent('Edit Gear Closet Item Back to All Gear Click', {
-              ...activeItem,
-            })
-          }}
-          color="text"
-          iconLeft={<FaChevronLeft />}
-        >
-          Back to All Gear
-        </Button>
-      )}
+      <Box>
+        {!size.isSmallScreen && (
+          <Button
+            type="button"
+            onClick={() => {
+              router.push('/gear-closet')
+              trackEvent('Edit Gear Closet Item Back to All Gear Click', {
+                ...activeItem,
+              })
+            }}
+            color="text"
+            iconLeft={<FaChevronLeft />}
+          >
+            Back to All Gear
+          </Button>
+        )}
 
-      {activeItem && (
-        <>
-          <Heading>Edit Gear Item</Heading>
-          {activeItem.essential && (
-            <Alert
-              type="info"
-              message="This item is considered one of the 10 Essential items."
-              callToActionLink="/blog/2021-03-29-the-ten-essentials/"
-              callToActionLinkText="Learn more"
-            />
-          )}
-          <Formik validateOnMount initialValues={initialValues} onSubmit={onSubmit}>
-            {({ values, isSubmitting, isValid, setFieldValue, dirty, ...rest }) => (
-              <Form>
-                <Row>
-                  <Column sm={6}>
-                    <Field
-                      as={Input}
-                      type="text"
-                      name="name"
-                      label="Item Name"
-                      validate={requiredField}
-                      required
-                    />
-                  </Column>
-                  <Column sm={6}>
-                    <Field
-                      as={Input}
-                      type="select"
-                      name="category"
-                      label="Category"
-                      options={gearListCategories}
-                      validate={requiredSelect}
-                      setFieldValue={setFieldValue}
-                      {...rest}
-                      required
-                    />
-                  </Column>
-                  <Column sm={6}>
-                    <Field
-                      as={Input}
-                      type="number"
-                      name="quantity"
-                      label="Quantity"
-                      setFieldValue={setFieldValue}
-                    />
-                  </Column>
-                  <Column sm={6}>
-                    <Row>
-                      <Column xs={8}>
-                        <Field as={Input} type="text" name="weight" label="Weight" />
-                      </Column>
-                      <Column xs={4}>
-                        <Field
-                          as={Input}
-                          type="select"
-                          name="weightUnit"
-                          label="Unit"
-                          options={[
-                            {
-                              value: 'g',
-                              label: 'g',
-                            },
-                            {
-                              value: 'kg',
-                              label: 'kg',
-                            },
-                            {
-                              value: 'oz',
-                              label: 'oz',
-                            },
-                            {
-                              value: 'lb',
-                              label: 'lb',
-                            },
-                          ]}
-                          setFieldValue={setFieldValue}
-                          {...rest}
-                        />
-                      </Column>
-                    </Row>
-                  </Column>
-                </Row>
-                <Field as={Input} type="textarea" name="description" label="Description" />
-                {getFilteredCategories(gearListActivities).length > 0 && (
-                  <CollapsibleBox
-                    title="Activities"
-                    defaultClosed
-                    subtitle={getSelectedCount(gearListActivities, values)}
-                  >
-                    <Row>
-                      {getFilteredCategories(gearListActivities).map((item) => (
-                        <Column xs={6} md={4} lg={3} key={item.name}>
-                          <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+        {activeItem && (
+          <>
+            <Heading>Edit Gear Item</Heading>
+            {activeItem.essential && (
+              <Alert
+                type="info"
+                message="This item is considered one of the 10 Essential items."
+                callToActionLink="https://getpackup.com/blog/2021-03-29-the-ten-essentials/"
+                callToActionLinkText="Learn more"
+              />
+            )}
+            <Formik validateOnMount initialValues={initialValues} onSubmit={onSubmit}>
+              {({ values, isSubmitting, isValid, setFieldValue, dirty, ...rest }) => (
+                <Form>
+                  <Row>
+                    <Column sm={6}>
+                      <Field
+                        as={Input}
+                        type="text"
+                        name="name"
+                        label="Item Name"
+                        validate={requiredField}
+                        required
+                      />
+                    </Column>
+                    <Column sm={6}>
+                      <Field
+                        as={Input}
+                        type="select"
+                        name="category"
+                        label="Category"
+                        options={gearListCategories}
+                        validate={requiredSelect}
+                        setFieldValue={setFieldValue}
+                        {...rest}
+                        required
+                      />
+                    </Column>
+                    <Column sm={6}>
+                      <Field
+                        as={Input}
+                        type="number"
+                        name="quantity"
+                        label="Quantity"
+                        setFieldValue={setFieldValue}
+                      />
+                    </Column>
+                    <Column sm={6}>
+                      <Row>
+                        <Column xs={8}>
+                          <Field as={Input} type="text" name="weight" label="Weight" />
                         </Column>
-                      ))}
-                    </Row>
-                  </CollapsibleBox>
-                )}
-                {getFilteredCategories(gearListAccommodations).length > 0 && (
-                  <CollapsibleBox
-                    title="Accommodations"
-                    defaultClosed
-                    subtitle={getSelectedCount(gearListAccommodations, values)}
-                  >
-                    <Row>
-                      {getFilteredCategories(gearListAccommodations).map((item) => (
-                        <Column xs={6} md={4} lg={3} key={item.name}>
-                          <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+                        <Column xs={4}>
+                          <Field
+                            as={Input}
+                            type="select"
+                            name="weightUnit"
+                            label="Unit"
+                            options={[
+                              {
+                                value: 'g',
+                                label: 'g',
+                              },
+                              {
+                                value: 'kg',
+                                label: 'kg',
+                              },
+                              {
+                                value: 'oz',
+                                label: 'oz',
+                              },
+                              {
+                                value: 'lb',
+                                label: 'lb',
+                              },
+                            ]}
+                            setFieldValue={setFieldValue}
+                            {...rest}
+                          />
                         </Column>
-                      ))}
-                    </Row>
-                  </CollapsibleBox>
-                )}
-                {getFilteredCategories(gearListCampKitchen).length > 0 && (
-                  <CollapsibleBox
-                    title="Camp Kitchen"
-                    defaultClosed
-                    subtitle={getSelectedCount(gearListCampKitchen, values)}
-                  >
-                    <Row>
-                      {getFilteredCategories(gearListCampKitchen).map((item) => (
-                        <Column xs={6} md={4} lg={3} key={item.name}>
-                          <Field as={Input} type="checkbox" name={item.name} label={item.label} />
-                        </Column>
-                      ))}
-                    </Row>
-                  </CollapsibleBox>
-                )}
-                {getFilteredCategories(gearListCampKitchen).length > 0 && (
-                  <CollapsibleBox
-                    title="Other Considerations"
-                    defaultClosed
-                    subtitle={getSelectedCount(gearListOtherConsiderations, values)}
-                  >
-                    <Row>
-                      {getFilteredCategories(gearListOtherConsiderations).map((item) => (
-                        <Column xs={6} md={4} lg={3} key={item.name}>
-                          <Field as={Input} type="checkbox" name={item.name} label={item.label} />
-                        </Column>
-                      ))}
-                    </Row>
-                  </CollapsibleBox>
-                )}
-                <HorizontalRule />
-                <FlexContainer justifyContent="space-between">
-                  <p>
-                    <Button
-                      color="success"
-                      rightSpacer
-                      type="submit"
-                      disabled={isSubmitting || !isValid || !dirty || values === initialValues}
-                      isLoading={isLoading}
-                      iconLeft={<FaCheckCircle />}
+                      </Row>
+                    </Column>
+                  </Row>
+                  <Field as={Input} type="textarea" name="description" label="Description" />
+                  {getFilteredCategories(gearListActivities).length > 0 && (
+                    <CollapsibleBox
+                      title="Activities"
+                      defaultClosed
+                      subtitle={getSelectedCount(gearListActivities, values)}
                     >
-                      Update Item
-                    </Button>
+                      <Row>
+                        {getFilteredCategories(gearListActivities).map((item) => (
+                          <Column xs={6} md={4} lg={3} key={item.name}>
+                            <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+                          </Column>
+                        ))}
+                      </Row>
+                    </CollapsibleBox>
+                  )}
+                  {getFilteredCategories(gearListAccommodations).length > 0 && (
+                    <CollapsibleBox
+                      title="Accommodations"
+                      defaultClosed
+                      subtitle={getSelectedCount(gearListAccommodations, values)}
+                    >
+                      <Row>
+                        {getFilteredCategories(gearListAccommodations).map((item) => (
+                          <Column xs={6} md={4} lg={3} key={item.name}>
+                            <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+                          </Column>
+                        ))}
+                      </Row>
+                    </CollapsibleBox>
+                  )}
+                  {getFilteredCategories(gearListCampKitchen).length > 0 && (
+                    <CollapsibleBox
+                      title="Camp Kitchen"
+                      defaultClosed
+                      subtitle={getSelectedCount(gearListCampKitchen, values)}
+                    >
+                      <Row>
+                        {getFilteredCategories(gearListCampKitchen).map((item) => (
+                          <Column xs={6} md={4} lg={3} key={item.name}>
+                            <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+                          </Column>
+                        ))}
+                      </Row>
+                    </CollapsibleBox>
+                  )}
+                  {getFilteredCategories(gearListCampKitchen).length > 0 && (
+                    <CollapsibleBox
+                      title="Other Considerations"
+                      defaultClosed
+                      subtitle={getSelectedCount(gearListOtherConsiderations, values)}
+                    >
+                      <Row>
+                        {getFilteredCategories(gearListOtherConsiderations).map((item) => (
+                          <Column xs={6} md={4} lg={3} key={item.name}>
+                            <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+                          </Column>
+                        ))}
+                      </Row>
+                    </CollapsibleBox>
+                  )}
+                  <HorizontalRule />
+                  <FlexContainer justifyContent="space-between">
+                    <p>
+                      <Button
+                        color="success"
+                        rightSpacer
+                        type="submit"
+                        disabled={isSubmitting || !isValid || !dirty || values === initialValues}
+                        isLoading={isLoading}
+                        iconLeft={<FaCheckCircle />}
+                      >
+                        Update Item
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          router.push('/gear-closet')
+                          trackEvent('Edit Gear Closet Item Cancel Click', {
+                            ...activeItem,
+                          })
+                        }}
+                        color="text"
+                      >
+                        Cancel
+                      </Button>
+                    </p>
+                    <p>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setModalIsOpen(true)
+                          setItemToBeDeleted(activeItem)
+                        }}
+                        color="danger"
+                      >
+                        Delete
+                      </Button>
+                    </p>
+                  </FlexContainer>
+                </Form>
+              )}
+            </Formik>
+
+            {itemToBeDeleted && (
+              <Modal
+                toggleModal={() => {
+                  setItemToBeDeleted(undefined)
+                  setModalIsOpen(false)
+                }}
+                isOpen={modalIsOpen}
+              >
+                <Heading>Are you sure?</Heading>
+                <p>
+                  Are you sure you want to delete <strong>{itemToBeDeleted.name}</strong>? This
+                  action cannot be undone.
+                </p>
+                <Row>
+                  <Column xs={6}>
                     <Button
                       type="button"
                       onClick={() => {
-                        router.push('/gear-closet')
-                        trackEvent('Edit Gear Closet Item Cancel Click', {
-                          ...activeItem,
-                        })
+                        setItemToBeDeleted(undefined)
+                        setModalIsOpen(false)
                       }}
-                      color="text"
+                      color="primaryOutline"
+                      block
                     >
                       Cancel
                     </Button>
-                  </p>
-                  <p>
+                  </Column>
+                  <Column xs={6}>
                     <Button
                       type="button"
-                      onClick={() => {
-                        setModalIsOpen(true)
-                        setItemToBeDeleted(activeItem)
-                      }}
+                      onClick={() => deleteItem(itemToBeDeleted)}
+                      block
                       color="danger"
+                      iconLeft={<FaTrash />}
                     >
                       Delete
                     </Button>
-                  </p>
-                </FlexContainer>
-              </Form>
+                  </Column>
+                </Row>
+              </Modal>
             )}
-          </Formik>
-
-          {itemToBeDeleted && (
-            <Modal
-              toggleModal={() => {
-                setItemToBeDeleted(undefined)
-                setModalIsOpen(false)
-              }}
-              isOpen={modalIsOpen}
-            >
-              <Heading>Are you sure?</Heading>
-              <p>
-                Are you sure you want to delete <strong>{itemToBeDeleted.name}</strong>? This action
-                cannot be undone.
-              </p>
-              <Row>
-                <Column xs={6}>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setItemToBeDeleted(undefined)
-                      setModalIsOpen(false)
-                    }}
-                    color="primaryOutline"
-                    block
-                  >
-                    Cancel
-                  </Button>
-                </Column>
-                <Column xs={6}>
-                  <Button
-                    type="button"
-                    onClick={() => deleteItem(itemToBeDeleted)}
-                    block
-                    color="danger"
-                    iconLeft={<FaTrash />}
-                  >
-                    Delete
-                  </Button>
-                </Column>
-              </Row>
-            </Modal>
-          )}
-        </>
-      )}
-      {(!activeItem || !isLoaded) && <LoadingPage />}
+          </>
+        )}
+        {(!activeItem || !isLoaded) && <LoadingPage />}
+      </Box>
     </PageContainer>
   )
 }
