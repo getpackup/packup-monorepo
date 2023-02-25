@@ -1,7 +1,7 @@
 import { PackingListItemType, TripType } from '@getpackup-group/common'
 import { useRouter } from 'next/router'
 
-import { NoTripFound, PageContainer, PackingList } from '@getpackup-group/components'
+import { NoTripFound, PageContainer, PackingList, Box } from '@getpackup-group/components'
 import {
   AppState,
   setActivePackingListFilter,
@@ -100,15 +100,16 @@ export default function TripById() {
       </Head>
 
       <PageContainer>
-        <PackingList
-          packingList={packingList || []}
-          tripId={id}
-          trip={activeTrip}
-          tripIsLoaded={isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip)}
-        />
+        <Box>
+          <PackingList
+            packingList={packingList || []}
+            tripId={id}
+            trip={activeTrip}
+            tripIsLoaded={isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip)}
+          />
+          {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && <NoTripFound />}
+        </Box>
       </PageContainer>
-
-      {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && <NoTripFound />}
     </>
   )
 }

@@ -31,7 +31,6 @@ import {
 import { usePersonalGear } from '@getpackup-group/hooks'
 import { AppState } from '@getpackup-group/redux'
 import {
-  lightGray,
   halfSpacer,
   inputPaddingY,
   brandDanger,
@@ -41,11 +40,10 @@ import {
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { FaFolderOpen, FaInfoCircle, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
+import { FaFolderOpen, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import Select from 'react-select'
-import ReactTooltip from 'react-tooltip'
 import Head from 'next/head'
 
 type SelectGearListCategoryOption = {
@@ -245,7 +243,7 @@ export default function GearCloset() {
     <PageContainer>
       <Box>
         <Head>
-          <title>Gear Closet | Packup</title>
+          <title>Gear | Packup</title>
         </Head>
 
         {isLoaded(trips) && trips.length === 0 && (
@@ -259,26 +257,17 @@ export default function GearCloset() {
 
         {isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && (
           <FlexContainer justifyContent="space-between" alignItems="flex-start" flexWrap="nowrap">
-            <div>
-              <Heading altStyle style={{ display: 'inline' }}>
-                Gear Closet
-              </Heading>
-              <FaInfoCircle
-                color={lightGray}
-                style={{ marginLeft: halfSpacer }}
-                data-tip="An at-a-glance look at all of your gear, categorized and tagged to generate packing
-    lists on future trips. Keep track of item weight, quanities, and notes for
-    each item."
-                data-for="info"
-              />
-              <ReactTooltip
-                id="info"
-                place="top"
-                type="dark"
-                effect="solid"
-                className="tooltip customTooltip customTooltip200"
-              />
-            </div>
+            <p>
+              <Button
+                type="link"
+                to="/gear-closet/new"
+                iconLeft={<FaPlusCircle />}
+                size="small"
+                onClick={() => trackEvent('New Gear Closet Item Button clicked')}
+              >
+                Add New Item
+              </Button>
+            </p>
             <div>
               <DropdownMenu width={290}>
                 <Link href="/gear-closet/new" legacyBehavior passHref>
@@ -299,17 +288,6 @@ export default function GearCloset() {
             </div>
           </FlexContainer>
         )}
-        <p>
-          <Button
-            type="link"
-            to="/gear-closet/new"
-            iconLeft={<FaPlusCircle />}
-            size="small"
-            onClick={() => trackEvent('New Gear Closet Item Button clicked')}
-          >
-            Add New Item
-          </Button>
-        </p>
 
         {isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && (
           <Table

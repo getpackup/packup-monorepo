@@ -1,14 +1,11 @@
 import { PackingListItemType, TripType } from '@getpackup-group/common'
 import { useRouter } from 'next/router'
-
-import { NoTripFound, PageContainer, EditPackingListItem } from '@getpackup-group/components'
-import { AppState } from '@getpackup-group/redux'
-
-import { trackEvent } from '@getpackup-group/utils'
-
 import React from 'react'
+import { PageContainer, EditPackingListItem, Box } from '@getpackup-group/components'
+import { AppState } from '@getpackup-group/redux'
+import { trackEvent } from '@getpackup-group/utils'
 import { useSelector } from 'react-redux'
-import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
+import { useFirestoreConnect } from 'react-redux-firebase'
 import Head from 'next/head'
 
 export default function ChecklistId() {
@@ -80,15 +77,16 @@ export default function ChecklistId() {
       </Head>
 
       <PageContainer>
-        <EditPackingListItem
-          users={users}
-          packingList={packingList || []}
-          loggedInUserUid={auth.uid}
-          activeTrip={activeTrip}
-        />
+        <Box>
+          <EditPackingListItem
+            users={users}
+            packingList={packingList || []}
+            loggedInUserUid={auth.uid}
+            activeTrip={activeTrip}
+            checklistId={checklistId}
+          />
+        </Box>
       </PageContainer>
-
-      {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && <NoTripFound />}
     </>
   )
 }

@@ -30,6 +30,7 @@ import {
   quadrupleSpacer,
   threeQuarterSpacer,
   fontSizeH5,
+  doubleSpacer,
 } from '@getpackup-group/styles'
 import {
   PackingListFilterOptions,
@@ -55,17 +56,17 @@ type PackingListProps = {
 
 const StickyWrapper = styled.div`
   position: relative;
-  margin: 0 -${halfSpacer};
+  margin: 0 -${baseSpacer};
   @media only screen and (min-width: ${breakpoints.sm}) {
     /* match values from PageContainer which increase on viewports above breakpoint.sm */
-    margin: 0 -${baseSpacer};
+    margin: 0 -${doubleSpacer};
   }
 `
 
 const StickyInner = styled.div`
   left: 0;
   right: 0;
-  max-width: ${breakpoints.xl};
+  max-width: calc(${breakpoints.xl} - ${doubleSpacer});
   margin: 0 auto;
   ${(props: { isSticky: boolean }) =>
     props.isSticky &&
@@ -191,12 +192,17 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   }, [])
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+    const container = document.querySelector('main')
+    if (container) {
+      container.addEventListener('scroll', handleScroll, false)
+    }
 
     return () => {
-      window.removeEventListener('scroll', () => handleScroll)
+      if (container) {
+        container.removeEventListener('scroll', handleScroll)
+      }
     }
-  }, [stickyRef, setSticky])
+  }, [])
 
   const handleTabClick = (tab: TabOptions) => {
     if (stickyRef && stickyRef.current) {

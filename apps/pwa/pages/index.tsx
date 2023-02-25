@@ -154,17 +154,6 @@ export default function Index() {
     }
   }, [auth, router])
 
-  if (!isLoaded(trips) || !trips) {
-    return (
-      <PageContainer>
-        {Array.from({ length: 5 }).map((_, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <TripCard trip={{} as TripType} key={`loadingTrip${index}`} />
-        ))}
-      </PageContainer>
-    )
-  }
-
   if (
     isLoaded(fetchedGearCloset) &&
     fetchedGearCloset.length === 0 &&
@@ -223,82 +212,84 @@ export default function Index() {
       <Head>
         <title>My Trips | Packup</title>
       </Head>
-      {isLoaded(trips) && isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && (
-        <Row>
-          <Column sm={4}>
-            <p>
-              <Button
-                type="link"
-                to="/trips/new"
-                iconLeft={<FaPlusCircle />}
-                block
+      <Box>
+        <p>
+          <Button
+            type="link"
+            to="/trips/new"
+            iconLeft={<FaPlusCircle />}
+            onClick={() => trackEvent('New Trip Button clicked', { location: 'Trips Page Header' })}
+          >
+            New Trip
+          </Button>
+        </p>
+
+        {(!isLoaded(trips) || !trips) && (
+          <>
+            {Array.from({ length: 5 }).map((_, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <TripCard trip={{} as TripType} key={`loadingTrip${index}`} />
+            ))}
+          </>
+        )}
+
+        {pendingTrips.length > 0 && (
+          <>
+            <Heading as="h2" altStyle>
+              Pending Trip Invitations
+            </Heading>
+            {pendingTrips.map((trip) => renderTrip(trip, true))}
+          </>
+        )}
+
+        {/* IN PROGRESS */}
+        {inProgressTrips.length > 0 && (
+          <>
+            <Heading as="h2" altStyle>
+              Trips in Progress
+            </Heading>
+            {inProgressTrips.map((trip) => renderTrip(trip))}
+          </>
+        )}
+
+        {/* UPCOMING */}
+        {upcomingTrips.length > 0 && (
+          <>
+            <Heading as="h2" altStyle>
+              Upcoming Trips
+            </Heading>
+            {upcomingTrips.map((trip) => renderTrip(trip))}
+          </>
+        )}
+
+        {/* NO TRIPS AT ALL, BUT HAS GEAR CLOSET */}
+        {((isLoaded(trips) && !upcomingTrips) || trips?.length === 0) && (
+          <Box>
+            No upcoming trips planned currently,{' '}
+            <Link href="/trips/new">
+              <a
                 onClick={() =>
-                  trackEvent('New Trip Button clicked', { location: 'Trips Page Header' })
+                  trackEvent('New Trip Button clicked', {
+                    location: 'Trips Page Create One Now',
+                  })
                 }
               >
-                New Trip
-              </Button>
-            </p>
-          </Column>
-        </Row>
-      )}
+                create one now! <FaArrowRight />
+              </a>
+            </Link>
+          </Box>
+        )}
 
-      {pendingTrips.length > 0 && (
-        <>
-          <Heading as="h2" altStyle>
-            Pending Trip Invitations
-          </Heading>
-          {pendingTrips.map((trip) => renderTrip(trip, true))}
-        </>
-      )}
-
-      {/* IN PROGRESS */}
-      {inProgressTrips.length > 0 && (
-        <>
-          <Heading as="h2" altStyle>
-            Trips in Progress
-          </Heading>
-          {inProgressTrips.map((trip) => renderTrip(trip))}
-        </>
-      )}
-
-      {/* UPCOMING */}
-      {upcomingTrips.length > 0 && (
-        <>
-          <Heading as="h2" altStyle>
-            Upcoming Trips
-          </Heading>
-          {upcomingTrips.map((trip) => renderTrip(trip))}
-        </>
-      )}
-
-      {/* NO TRIPS AT ALL, BUT HAS GEAR CLOSET */}
-      {((isLoaded(trips) && !upcomingTrips) || trips.length === 0) && (
-        <Box>
-          No upcoming trips planned currently,{' '}
-          <Link href="/trips/new">
-            <a
-              onClick={() =>
-                trackEvent('New Trip Button clicked', {
-                  location: 'Trips Page Create One Now',
-                })
-              }
-            >
-              create one now! <FaArrowRight />
-            </a>
-          </Link>
-        </Box>
-      )}
-
-      {/* PAST TRIPS */}
-      {pastTrips.length > 0 && (
-        <>
-          <Heading as="h2" altStyle>
-            Past Trips
-          </Heading>
-          {pastTrips.map((trip) => renderTrip(trip))}
-        </>
-      )}
+        {/* PAST TRIPS */}
+        {pastTrips.length > 0 && (
+          <>
+            <Heading as="h2" altStyle>
+              Past Trips
+            </Heading>
+            {pastTrips.map((trip) => renderTrip(trip))}
+          </>
+        )}
+      </Box>
     </PageContainer>
   )
 }

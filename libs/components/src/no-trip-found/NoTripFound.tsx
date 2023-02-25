@@ -7,18 +7,14 @@ type NoTripFoundProps = {}
 export const NoTripFound: FunctionComponent<NoTripFoundProps> = () => {
   return (
     <>
-      <PageContainer>
-        <Box textAlign="center">
-          <Heading>Are You Lost?</Heading>
-          <p>
-            We couldn&apos;t find that trip for some reason, are you sure you should be on this
-            page? Try viewing your list of trips again.
-          </p>
-          <Button type="link" to="/trips" iconLeft={<FaCalendar />}>
-            View My Trips
-          </Button>
-        </Box>
-      </PageContainer>
+      <Heading>Are You Lost?</Heading>
+      <p>
+        We couldn&apos;t find that trip for some reason, are you sure you should be on this page?
+        Try viewing your list of trips again.
+      </p>
+      <Button type="link" to="/" iconLeft={<FaCalendar />}>
+        View My Trips
+      </Button>
     </>
   )
 }

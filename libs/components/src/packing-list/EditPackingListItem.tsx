@@ -26,21 +26,21 @@ import {
 } from '@getpackup-group/utils'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaTrash } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
+import { useRouter } from 'next/router'
 
 type EditPackingListItemProps = {
   users: { [key: string]: UserType }
   packingList: PackingListItemType[]
   loggedInUserUid: string
   activeTrip?: TripType
+  checklistId?: string
 }
 
 export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = (props) => {
-  const dispatch = useDispatch()
   const firebase = useFirebase()
 
   const router = useRouter()
@@ -62,7 +62,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
 
   const activeItem: PackingListItemType =
     props.packingList &&
-    props.packingList.find((item: PackingListItemType) => item.id === router.query['checklistId'])!
+    props.packingList.find((item: PackingListItemType) => item.id === props.checklistId)!
 
   const removeItem = (isSharedItem: boolean) => {
     if (isSharedItem) {
@@ -72,7 +72,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
       return firebase
         .firestore()
         .collection('trips')
-        .doc(router.query['tripId']! as string)
+        .doc(props.activeTrip?.tripId)
         .collection('packing-list')
         .doc(activeItem?.id)
         .delete()
@@ -96,7 +96,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
       )
     }
     // TODO: does router push mess up scroll position?
-    router.push(`/trips/${router.query['tripId']! as string}`)
+    router.push(`/trips/${props.activeTrip?.tripId}`)
   }
 
   if (!router.query['checklistId'] || !activeItem) {

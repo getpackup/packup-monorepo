@@ -22,6 +22,7 @@ import {
   boxShadow,
   z1Shadow,
   boxShadowHover,
+  doubleSpacer,
 } from '@getpackup-group/styles'
 import { trackEvent, formattedDate, formattedDateRange } from '@getpackup-group/utils'
 import Link from 'next/link'
@@ -41,7 +42,9 @@ type TripCardProps = {
 
 const StyledTripWrapper = styled.div<{ isPending?: boolean }>`
   padding: ${baseSpacer};
-  margin-bottom: ${baseSpacer};
+  border-radius: ${doubleSpacer};
+  overflow: hidden;
+  margin-bottom: ${doubleSpacer};
   // border: ${baseBorderStyle};
   cursor: ${(props) => (props.isPending ? 'initial' : 'pointer')};
   background-color: ${white};

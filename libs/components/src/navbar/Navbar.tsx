@@ -152,8 +152,6 @@ export const Navbar: FunctionComponent<unknown> = () => {
   const loggedInUser = useSelector((state: AppState) => state.firestore.ordered['loggedInUser'])
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const router = useRouter()
-  const { activePackingListTab, personalListScrollPosition, sharedListScrollPosition } =
-    useSelector((state: AppState) => state.client)
 
   useFirestoreConnect([
     { collection: 'users', where: ['uid', '==', auth.uid || ''], storeAs: 'loggedInUser' },
@@ -276,7 +274,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
                     trackEvent('Navbar LoggedInUser Link Clicked', { link: 'gear-closet' })
                   }
                 >
-                  <GearClosetIcon size={17} style={{ marginRight: halfSpacer }} /> Gear Closet
+                  <GearClosetIcon size={17} style={{ marginRight: halfSpacer }} /> Gear
                 </a>
               </Link>
               {/* TODO: when shopping list is ready
