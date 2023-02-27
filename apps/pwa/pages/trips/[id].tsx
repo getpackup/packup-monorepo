@@ -9,9 +9,8 @@ import {
   setPersonalListScrollPosition,
   setSharedListScrollPosition,
 } from '@packup/redux'
-
-import { PackingListFilterOptions, TabOptions, trackEvent, useActiveTrip } from '@packup/utils'
-
+import { PackingListFilterOptions, TabOptions, trackEvent } from '@packup/utils'
+import { useActiveTrip } from '@packup/hooks'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'

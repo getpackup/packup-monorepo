@@ -30,8 +30,8 @@ import {
   requiredField,
   createOptionsFromArrayOfObjects,
   formattedDateRange,
-  useActiveTrip,
 } from '@packup/utils'
+import { useActiveTrip } from '@packup/hooks'
 import { endOfDay, startOfDay } from 'date-fns'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'

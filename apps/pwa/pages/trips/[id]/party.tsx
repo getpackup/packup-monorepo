@@ -1,10 +1,8 @@
 import { useRouter } from 'next/router'
-
 import { Box, NoTripFound, PageContainer, TripParty } from '@packup/components'
 import { AppState } from '@packup/redux'
-
-import { trackEvent, useActiveTrip } from '@packup/utils'
-
+import { trackEvent } from '@packup/utils'
+import { useActiveTrip } from '@packup/hooks'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'

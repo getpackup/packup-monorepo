@@ -6,7 +6,8 @@ import { TripType } from '@packup/common'
 export const useActiveTrip = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const activeTripById: TripType[] = useSelector(
-    (state: AppState) => state.firestore.ordered.activeTripById
+    // eslint-disable-next-line dot-notation
+    (state: AppState) => state.firestore.ordered['activeTripById']
   )
 
   const isTripOwner: boolean =
