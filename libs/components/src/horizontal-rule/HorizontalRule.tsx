@@ -1,5 +1,5 @@
-import { baseBorderStyle } from '@getpackup-group/styles'
-import { doubleSpacer, halfSpacer } from '@getpackup-group/styles'
+import { baseBorderStyle } from '@packup/styles'
+import { doubleSpacer, halfSpacer } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 

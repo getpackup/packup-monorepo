@@ -1,4 +1,4 @@
-import { GearItemType, TripType } from '@getpackup-group/common'
+import { GearItemType } from '@packup/common'
 import {
   Alert,
   Box,
@@ -14,18 +14,11 @@ import {
   Row,
   IconCheckboxLabel,
   IconWrapperLabel,
-} from '@getpackup-group/components'
-import { usePersonalGear } from '@getpackup-group/hooks'
+} from '@packup/components'
 import Head from 'next/head'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 import toast from 'react-hot-toast'
-import {
-  lightGray,
-  baseSpacer,
-  doubleSpacer,
-  sextupleSpacer,
-  tripleSpacer,
-} from '@getpackup-group/styles'
+import { lightGray, baseSpacer, doubleSpacer, sextupleSpacer, tripleSpacer } from '@packup/styles'
 import {
   ActivityTypes,
   allGearListItems,
@@ -36,8 +29,8 @@ import {
   gearListOtherConsiderations,
   trackEvent,
   GearListEnumType,
-  useLoggedInUser,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
+import { usePersonalGear, useLoggedInUser, useActiveTrip } from '@packup/hooks'
 
 import { Field, Form, Formik, FormikHelpers } from 'formik'
 import { uniq, uniqBy } from 'lodash'
@@ -99,14 +92,9 @@ const generateGearList = (
 
 export default function TripGenerator() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const activeTripById: Array<TripType> = useSelector(
-    (state: AppState) => state.firestore.ordered.activeTripById
-  )
+  const activeTrip = useActiveTrip()
   const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
   const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
-
-  const activeTrip: TripType | undefined =
-    activeTripById && activeTripById.length > 0 ? activeTripById[0] : undefined
 
   const router = useRouter()
   const activeLoggedInUser = useLoggedInUser()

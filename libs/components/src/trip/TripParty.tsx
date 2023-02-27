@@ -4,7 +4,7 @@ import {
   TripMemberStatus,
   TripType,
   UserType,
-} from '@getpackup-group/common'
+} from '@packup/common'
 import {
   Box,
   HorizontalRule,
@@ -19,16 +19,16 @@ import {
   LeaveTheTripModal,
   ReinviteUserToTripModal,
   RemoveUserFromTripModal,
-} from '@getpackup-group/components'
+} from '@packup/components'
 import toast from 'react-hot-toast'
-import { AppState } from '@getpackup-group/redux'
-import { brandDanger, baseSpacer, halfSpacer } from '@getpackup-group/styles'
+import { AppState } from '@packup/redux'
+import { brandDanger, baseSpacer, halfSpacer } from '@packup/styles'
 import {
   acceptedTripMembersOnly,
   isUserTripOwner,
   sendTripInvitationEmail,
   trackEvent,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 import axios from 'axios'
 import Head from 'next/head'
 import { useRouter } from 'next/router'

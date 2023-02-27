@@ -1,10 +1,4 @@
-import {
-  baseSpacer,
-  breakpoints,
-  doubleSpacer,
-  halfSpacer,
-  quadrupleSpacer,
-} from '@getpackup-group/styles'
+import { baseSpacer, breakpoints, doubleSpacer, halfSpacer, quadrupleSpacer } from '@packup/styles'
 import styled from 'styled-components'
 
 interface PageContainerProps {
@@ -16,8 +10,8 @@ export const PageContainer = styled.div`
   position: relative;
   margin-right: auto;
   margin-left: auto;
-  padding-right: ${halfSpacer};
-  padding-left: ${halfSpacer};
+  padding-right: 0;
+  padding-left: 0;
   width: 100%;
   max-width: ${breakpoints.xl};
   ${(props: PageContainerProps) => props.withVerticalPadding && `padding-top: ${doubleSpacer};`}

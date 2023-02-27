@@ -1,12 +1,7 @@
-import { AppState } from '@getpackup-group/redux'
-import {
-  textColor,
-  white,
-  baseBorderStyle,
-  doubleSpacer,
-  tripleSpacer,
-} from '@getpackup-group/styles'
-import { trackEvent, useLoggedInUser, useWindowSize } from '@getpackup-group/utils'
+import { useLoggedInUser, useWindowSize } from '@packup/hooks'
+import { AppState } from '@packup/redux'
+import { textColor, white, baseBorderStyle, doubleSpacer, tripleSpacer } from '@packup/styles'
+import { trackEvent } from '@packup/utils'
 import React, { FunctionComponent, useEffect, useMemo } from 'react'
 import { FaCamera } from 'react-icons/fa'
 import { useSelector } from 'react-redux'

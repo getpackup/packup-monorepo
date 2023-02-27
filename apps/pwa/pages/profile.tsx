@@ -10,9 +10,9 @@ import {
   Row,
   AvatarImageWrapper,
   Box,
-} from '@getpackup-group/components'
+} from '@packup/components'
 import toast from 'react-hot-toast'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 import {
   brandDanger,
   offWhite,
@@ -21,16 +21,14 @@ import {
   doubleSpacer,
   sextupleSpacer,
   quadrupleSpacer,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import {
   trackEvent,
-  useWindowSize,
   validateUsername,
   isEmail,
   requiredField,
   requiredPhoneNumber,
-  useLoggedInUser,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 
 import { Field, Form, Formik } from 'formik'
 import Link from 'next/link'
@@ -42,6 +40,7 @@ import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
 import styled from 'styled-components'
 import Head from 'next/head'
+import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 
 export const EmailWrapper = styled.div`
   width: 100%;

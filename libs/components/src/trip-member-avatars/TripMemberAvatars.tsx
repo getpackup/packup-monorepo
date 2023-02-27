@@ -1,6 +1,6 @@
-import { TripType, UserType, TRIP_PARTY_AVATARS_TO_SHOW } from '@getpackup-group/common'
-import { Avatar, StackedAvatars } from '@getpackup-group/components'
-import { acceptedTripMembersOnly } from '@getpackup-group/utils'
+import { TripType, UserType, TRIP_PARTY_AVATARS_TO_SHOW } from '@packup/common'
+import { Avatar, StackedAvatars } from '@packup/components'
+import { acceptedTripMembersOnly } from '@packup/utils'
 
 type TripMemberAvatarsProps = {
   trip: TripType

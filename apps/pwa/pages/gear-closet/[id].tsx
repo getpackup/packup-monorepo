@@ -1,4 +1,4 @@
-import { GearItemType } from '@getpackup-group/common'
+import { GearItemType } from '@packup/common'
 import {
   Alert,
   Button,
@@ -13,9 +13,9 @@ import {
   PageContainer,
   Row,
   Box,
-} from '@getpackup-group/components'
-import { usePersonalGear } from '@getpackup-group/hooks'
-import { AppState } from '@getpackup-group/redux'
+} from '@packup/components'
+import { usePersonalGear, useWindowSize } from '@packup/hooks'
+import { AppState } from '@packup/redux'
 import {
   gearListAccommodations,
   gearListActivities,
@@ -23,12 +23,11 @@ import {
   gearListCategories,
   gearListOtherConsiderations,
   trackEvent,
-  useWindowSize,
   requiredField,
   requiredSelect,
   ActivityTypes,
   GearListEnumType,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 import toast from 'react-hot-toast'
 import { Field, Form, Formik, FormikHelpers } from 'formik'
 import { useRouter } from 'next/router'

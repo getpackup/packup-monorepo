@@ -1,4 +1,4 @@
-import { TripMemberStatus, TripType } from '@getpackup-group/common'
+import { TripMemberStatus, TripType } from '@packup/common'
 
 export const isUserTripOwner = (trip: TripType | undefined, uid: string) =>
   trip &&

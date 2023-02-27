@@ -1,9 +1,9 @@
-import { PackingListItemType, TripType } from '@getpackup-group/common'
+import { PackingListItemType } from '@packup/common'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { PageContainer, EditPackingListItem, Box } from '@getpackup-group/components'
-import { AppState } from '@getpackup-group/redux'
-import { trackEvent } from '@getpackup-group/utils'
+import { PageContainer, EditPackingListItem, Box } from '@packup/components'
+import { AppState } from '@packup/redux'
+import { trackEvent, useActiveTrip } from '@packup/utils'
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
 import Head from 'next/head'
@@ -11,9 +11,7 @@ import Head from 'next/head'
 export default function ChecklistId() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const users = useSelector((state: AppState) => state.firestore.data.users)
-  const activeTripById: Array<TripType> = useSelector(
-    (state: AppState) => state.firestore.ordered.activeTripById
-  )
+  const activeTrip = useActiveTrip()
   const packingList: PackingListItemType[] = useSelector(
     (state: AppState) => state.firestore.ordered.packingList
   )
@@ -22,17 +20,6 @@ export default function ChecklistId() {
   // the trip ID
   const id = router.query.id as string
   const checklistId = router.query.checklistId as string
-
-  const isTripOwner: boolean =
-    activeTripById && activeTripById.length > 0 && activeTripById[0].owner === auth.uid
-
-  const activeTrip: TripType | undefined =
-    (activeTripById &&
-      activeTripById.length > 0 &&
-      Object.keys(activeTripById[0].tripMembers).some((member) => member === auth.uid)) ||
-    isTripOwner
-      ? activeTripById[0]
-      : undefined
 
   useFirestoreConnect([
     {

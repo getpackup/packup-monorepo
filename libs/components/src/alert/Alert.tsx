@@ -1,5 +1,5 @@
-import { brandDanger, brandInfo, brandSuccess, white } from '@getpackup-group/styles'
-import { baseSpacer, borderRadius, doubleSpacer, halfSpacer } from '@getpackup-group/styles'
+import { brandDanger, brandInfo, brandSuccess, white } from '@packup/styles'
+import { baseSpacer, borderRadius, doubleSpacer, halfSpacer } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 import {
   FaCheckCircle,

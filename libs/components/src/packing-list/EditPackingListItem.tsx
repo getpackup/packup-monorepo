@@ -1,4 +1,4 @@
-import { PackedByUserType, PackingListItemType, TripType, UserType } from '@getpackup-group/common'
+import { PackedByUserType, PackingListItemType, TripType, UserType } from '@packup/common'
 import {
   Alert,
   AutoSave,
@@ -11,9 +11,9 @@ import {
   LoadingPage,
   Modal,
   Row,
-} from '@getpackup-group/components'
+} from '@packup/components'
 import toast from 'react-hot-toast'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 import {
   TabOptions,
   gearListCategories,
@@ -22,8 +22,7 @@ import {
   requiredField,
   requiredSelect,
   trackEvent,
-  useWindowSize,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -31,6 +30,7 @@ import { FaChevronLeft, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
+import { useWindowSize } from '@packup/hooks'
 
 type EditPackingListItemProps = {
   users: { [key: string]: UserType }

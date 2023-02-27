@@ -1,6 +1,6 @@
-import { TripMemberStatus, TripType } from '@getpackup-group/common'
+import { TripMemberStatus, TripType } from '@packup/common'
 import { Avatar, NotificationDot, GearClosetIcon } from '..'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 import {
   brandPrimary,
   textColor,
@@ -10,8 +10,8 @@ import {
   halfSpacer,
   quadrupleSpacer,
   fontSizeH3,
-} from '@getpackup-group/styles'
-import { useWindowSize } from '@getpackup-group/utils'
+} from '@packup/styles'
+import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import Link from 'next/link'
 import { FaCalendar, FaUserLock } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -19,8 +19,7 @@ import { isLoaded } from 'react-redux-firebase'
 import styled from 'styled-components'
 
 const BottomNav = styled.footer`
-  // grid-area: footer;
-  // position: fixed;
+  position: fixed;
   z-index: ${zIndexSmallScreenFooter};
   bottom: 0;
   min-height: calc(${quadrupleSpacer} + 1px); /* min height plus 1px border top */
@@ -63,7 +62,7 @@ export const Footer = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const profile = useSelector((state: AppState) => state.firebase.profile)
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
-  const loggedInUser = auth && auth.isLoaded && !auth.isEmpty
+  const activeLoggedInUser = useLoggedInUser()
   const size = useWindowSize()
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
 
@@ -87,7 +86,7 @@ export const Footer = () => {
 
   return (
     <>
-      {loggedInUser && !isInOnboardingFlow && (
+      {activeLoggedInUser && !isInOnboardingFlow && (
         <BottomNav>
           <nav>
             <Link href="/" legacyBehavior passHref>

@@ -1,11 +1,6 @@
-import { TripType } from '@getpackup-group/common'
-import {
-  HeroImage,
-  NegativeMarginContainer,
-  NoiseRings,
-  StaticMapImage,
-} from '@getpackup-group/components'
-import { brandSecondary, lightestGray, baseSpacerUnit } from '@getpackup-group/styles'
+import { TripType } from '@packup/common'
+import { HeroImage, NegativeMarginContainer, NoiseRings, StaticMapImage } from '@packup/components'
+import { brandSecondary, lightestGray, baseSpacerUnit } from '@packup/styles'
 import styled from 'styled-components'
 
 type TripHeaderImageProps = {
@@ -33,14 +28,7 @@ export const TripHeaderImage = ({ trip }: TripHeaderImageProps): JSX.Element => 
         <>
           {trip.headerImage && <HeroImage src={trip.headerImage} aspectRatio={4} />}
           {!trip.headerImage && !!trip.lat && !!trip.lng && (
-            <StaticMapImage
-              lat={trip.lat}
-              lng={trip.lng}
-              height="100%"
-              width="100%"
-              zoom={10}
-              label={trip.startingPoint}
-            />
+            <StaticMapImage lat={trip.lat} lng={trip.lng} height="100%" width="100%" zoom={10} />
           )}
           {!trip.headerImage && !trip.lat && !trip.lng && (
             <PlaceholderImageWrapper backgroundColor={brandSecondary}>

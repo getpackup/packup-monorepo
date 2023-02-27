@@ -1,20 +1,18 @@
-import { TripType } from '@getpackup-group/common'
 import {
   FlexContainer,
   Heading,
   HeroImageUpload,
   LoadingPage,
   PageContainer,
-} from '@getpackup-group/components'
+} from '@packup/components'
 import Head from 'next/head'
-import { AppState } from '@getpackup-group/redux'
 import toast from 'react-hot-toast'
-import { baseSpacer } from '@getpackup-group/styles'
-import { trackEvent, usePrevious } from '@getpackup-group/utils'
+import { baseSpacer } from '@packup/styles'
+import { trackEvent } from '@packup/utils'
+import { useActiveTrip, usePrevious } from '@packup/hooks'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components'
 
@@ -29,9 +27,7 @@ const ImageOption = styled.img`
 `
 
 export default function AddTripHeaderImage(props: TripHeaderImageProps) {
-  const activeTripById: Array<TripType> = useSelector(
-    (state: AppState) => state.firestore.ordered.activeTripById
-  )
+  const activeTrip = useActiveTrip()
 
   const router = useRouter()
 
@@ -43,9 +39,6 @@ export default function AddTripHeaderImage(props: TripHeaderImageProps) {
     },
   ])
   const firebase = useFirebase()
-
-  const activeTrip: TripType | undefined =
-    activeTripById && activeTripById.length > 0 ? activeTripById[0] : undefined
 
   const prevValue = usePrevious(activeTrip?.headerImage)
   useEffect(() => {

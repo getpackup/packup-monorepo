@@ -1,4 +1,4 @@
-import { TripMemberStatus, TripType } from '@getpackup-group/common'
+import { TripMemberStatus, TripType } from '@packup/common'
 import {
   Button,
   Column,
@@ -9,9 +9,9 @@ import {
   Row,
   TripHeaderImage,
   TripMemberAvatars,
-} from '@getpackup-group/components'
+} from '@packup/components'
 import toast from 'react-hot-toast'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 import {
   white,
   baseBorderStyle,
@@ -23,8 +23,8 @@ import {
   z1Shadow,
   boxShadowHover,
   doubleSpacer,
-} from '@getpackup-group/styles'
-import { trackEvent, formattedDate, formattedDateRange } from '@getpackup-group/utils'
+} from '@packup/styles'
+import { trackEvent, formattedDate, formattedDateRange } from '@packup/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useMemo } from 'react'
@@ -43,6 +43,8 @@ type TripCardProps = {
 const StyledTripWrapper = styled.div<{ isPending?: boolean }>`
   padding: ${baseSpacer};
   border-radius: ${doubleSpacer};
+  // fix for safari not clipping with border-radius
+  -webkit-transform: translateZ(0);
   overflow: hidden;
   margin-bottom: ${doubleSpacer};
   // border: ${baseBorderStyle};

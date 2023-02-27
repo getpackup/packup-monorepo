@@ -1,6 +1,6 @@
 import { StyledInput } from '../input/Input'
 import { useState, useEffect } from 'react'
-import { baseSpacer } from '@getpackup-group/styles'
+import { baseSpacer } from '@packup/styles'
 
 export default function Filter({
   value: initialValue,

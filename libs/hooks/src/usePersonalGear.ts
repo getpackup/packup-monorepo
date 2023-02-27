@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
-import { ActivityTypes, GearItemType } from '@getpackup-group/utils'
-import { AppState } from '@getpackup-group/redux'
+import { ActivityTypes, GearItemType } from '@packup/utils'
+import { AppState } from '@packup/redux'
 import uniqBy from 'lodash/uniqBy'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'

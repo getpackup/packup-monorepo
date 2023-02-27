@@ -7,7 +7,7 @@ import {
   doubleSpacer,
   halfSpacer,
   screenSizes,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import { FunctionComponent, ComponentType } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import ReactModal from 'react-modal'

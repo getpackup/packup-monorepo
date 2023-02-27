@@ -11,7 +11,7 @@ import {
   quarterSpacer,
   threeQuarterSpacer,
   fontSizeSmall,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import Link from 'next/link'
 import React, { CSSProperties, FunctionComponent } from 'react'
 import styled from 'styled-components'

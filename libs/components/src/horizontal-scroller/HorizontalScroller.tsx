@@ -1,4 +1,4 @@
-import { baseSpacer, baseBorderStyle } from '@getpackup-group/styles'
+import { baseSpacer, baseBorderStyle } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
@@ -28,20 +28,6 @@ const HorizontalScrollerWrapper = styled.ul`
 
   & span {
     flex-shrink: 0;
-
-    /* hacky fix for padding at the end of the list */
-    & :last-child {
-      position: relative;
-    }
-
-    &:last-child::after {
-      position: absolute;
-      left: 100%;
-      height: 1px;
-      width: ${baseSpacer};
-      display: block;
-      content: '';
-    }
   }
 `
 

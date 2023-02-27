@@ -1,4 +1,4 @@
-import { Box, Button, Heading, PageContainer } from '@getpackup-group/components'
+import { Box, Button, Heading, PageContainer } from '@packup/components'
 import React, { FunctionComponent } from 'react'
 import { FaCalendar } from 'react-icons/fa'
 

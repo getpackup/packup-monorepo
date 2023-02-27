@@ -1,12 +1,12 @@
-import { PackingListItemType, TripType } from '@getpackup-group/common'
+import { PackingListItemType, TripType } from '@packup/common'
 import {
   CollapsibleBox,
   FlexContainer,
   PackingListAddItem,
   PackingListItem,
-} from '@getpackup-group/components'
-import { baseAndAHalfSpacer, halfSpacer } from '@getpackup-group/styles'
-import { pluralize, trackEvent } from '@getpackup-group/utils'
+} from '@packup/components'
+import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
+import { pluralize, trackEvent } from '@packup/utils'
 import React, { FunctionComponent } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { FirebaseReducer, useFirebase } from 'react-redux-firebase'

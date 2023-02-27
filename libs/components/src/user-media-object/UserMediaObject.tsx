@@ -1,5 +1,5 @@
-import { UserType } from '@getpackup-group/common'
-import { textColorLight, halfSpacer } from '@getpackup-group/styles'
+import { UserType } from '@packup/common'
+import { textColorLight, halfSpacer } from '@packup/styles'
 import { Avatar, AvatarProps } from '../avatar/Avatar'
 import { FlexContainer } from '../flex-container/FlexContainer'
 import React, { FunctionComponent } from 'react'

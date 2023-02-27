@@ -1,4 +1,4 @@
-import { Alert } from '@getpackup-group/components'
+import { Alert } from '@packup/components'
 import { FormikErrors } from 'formik'
 import { isEmpty } from 'lodash'
 import React, { FunctionComponent } from 'react'

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import toast from 'react-hot-toast'
-import { TripType } from '@getpackup-group/common'
+import { TripType } from '@packup/common'
 import {
   GearListEnumType,
   GearItemType,
@@ -10,8 +10,7 @@ import {
   gearListCampKitchen,
   gearListOtherConsiderations,
   trackEvent,
-  useWindowSize,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 import {
   Alert,
   Button,
@@ -27,16 +26,10 @@ import {
   multiSelectStyles,
   Box,
   IconWrapper,
-} from '@getpackup-group/components'
-import { usePersonalGear } from '@getpackup-group/hooks'
-import { AppState } from '@getpackup-group/redux'
-import {
-  halfSpacer,
-  inputPaddingY,
-  brandDanger,
-  brandPrimary,
-  lightestGray,
-} from '@getpackup-group/styles'
+} from '@packup/components'
+import { usePersonalGear, useWindowSize } from '@packup/hooks'
+import { AppState } from '@packup/redux'
+import { halfSpacer, inputPaddingY, brandDanger, brandPrimary, lightestGray } from '@packup/styles'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'

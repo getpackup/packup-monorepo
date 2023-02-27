@@ -1,4 +1,4 @@
-import { Box, FlexContainer, Heading, IconWrapper } from '@getpackup-group/components'
+import { Box, FlexContainer, Heading, IconWrapper } from '@packup/components'
 import React, { FunctionComponent, useState } from 'react'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 import { useMeasure } from 'react-use'

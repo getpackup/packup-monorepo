@@ -1,5 +1,5 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { ActivityTypes } from '@getpackup-group/utils'
+import { ActivityTypes } from '@packup/utils'
 import firebase from 'firebase/compat'
 
 export type GearClosetType = {

@@ -2,7 +2,7 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from
 import { Table as ReactTable } from '@tanstack/react-table'
 
 import { Button, FlexContainer } from '..'
-import { GearItemType } from '@getpackup-group/common'
+import { GearItemType } from '@packup/common'
 
 type PaginationProps = {
   currentPage: number

@@ -1,6 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { white, doubleSpacer } from '@getpackup-group/styles'
+import { white, doubleSpacer } from '@packup/styles'
 import mapboxgl from 'mapbox-gl'
 /* eslint-disable import/no-unresolved */
 import React, { FunctionComponent } from 'react'

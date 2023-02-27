@@ -1,4 +1,4 @@
-import { PackingListFilterOptions, TabOptions } from '@getpackup-group/utils'
+import { PackingListFilterOptions, TabOptions } from '@packup/utils'
 import { ClientActions, ClientStoreType } from './client.d'
 
 export const ADD_ATTEMPTED_PRIVATE_PAGE = 'ADD_ATTEMPTED_PRIVATE_PAGE'

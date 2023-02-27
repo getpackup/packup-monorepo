@@ -1,6 +1,6 @@
 import React from 'react'
-import { Box, Button, Column, Heading, PageContainer, Row } from '@getpackup-group/components'
-import { trackEvent } from '@getpackup-group/utils'
+import { Box, Button, Column, Heading, PageContainer, Row } from '@packup/components'
+import { trackEvent } from '@packup/utils'
 import Head from 'next/head'
 
 export default function NotFound() {

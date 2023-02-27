@@ -1,5 +1,5 @@
-import { lightestGray, white } from '@getpackup-group/styles'
-import { zIndexAvatarImageAfter } from '@getpackup-group/styles'
+import { lightestGray, white } from '@packup/styles'
+import { zIndexAvatarImageAfter } from '@packup/styles'
 import {
   baseSpacer,
   borderRadiusCircle,
@@ -9,8 +9,8 @@ import {
   quadrupleSpacer,
   sextupleSpacer,
   tripleSpacer,
-} from '@getpackup-group/styles'
-import { fontSizeSmall } from '@getpackup-group/styles'
+} from '@packup/styles'
+import { fontSizeSmall } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled, { CSSProperties } from 'styled-components'

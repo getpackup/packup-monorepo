@@ -30,8 +30,8 @@ import {
   fontSizeH6,
   fontSizeSmall,
   lineHeightBase,
-} from '@getpackup-group/styles'
-import { formatPhoneNumberValue } from '@getpackup-group/utils'
+} from '@packup/styles'
+import { formatPhoneNumberValue } from '@packup/utils'
 import { FieldMetaProps, FormikHelpers, useField } from 'formik'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import Geosuggest, { QueryType, Suggest } from 'react-geosuggest'

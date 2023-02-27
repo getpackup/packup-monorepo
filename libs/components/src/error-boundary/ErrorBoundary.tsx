@@ -1,6 +1,6 @@
 import { Box, Button, Column, Heading, PageContainer, Row } from '../index'
 import * as Sentry from '@sentry/nextjs'
-import { trackEvent } from '@getpackup-group/utils'
+import { trackEvent } from '@packup/utils'
 import React, { Component } from 'react'
 
 interface Props {

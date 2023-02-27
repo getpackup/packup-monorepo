@@ -1,4 +1,4 @@
-import { PackingListItemType, TripType } from '@getpackup-group/common'
+import { PackingListItemType, TripType } from '@packup/common'
 import {
   Box,
   Button,
@@ -7,7 +7,7 @@ import {
   PackingListFilters,
   ProgressBar,
   TripHeader,
-} from '@getpackup-group/components'
+} from '@packup/components'
 
 import {
   AppState,
@@ -15,7 +15,7 @@ import {
   setActivePackingListTab,
   setPersonalListScrollPosition,
   setSharedListScrollPosition,
-} from '@getpackup-group/redux'
+} from '@packup/redux'
 
 import {
   zIndexNavbar,
@@ -31,7 +31,7 @@ import {
   threeQuarterSpacer,
   fontSizeH5,
   doubleSpacer,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import {
   PackingListFilterOptions,
   TabOptions,
@@ -40,7 +40,7 @@ import {
   groupPackingList,
   isUserTripOwner,
   scrollToPosition,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 import { useRouter } from 'next/router'
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { FaRegCheckSquare, FaUsers } from 'react-icons/fa'

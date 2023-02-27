@@ -7,8 +7,8 @@ import {
   LoginForm,
   PageContainer,
   Row,
-} from '@getpackup-group/components'
-import { AppState } from '@getpackup-group/redux'
+} from '@packup/components'
+import { AppState } from '@packup/redux'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -25,7 +25,7 @@ import {
   textColor,
   textColorLight,
   white,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 
 const Tabs = styled.div`
   display: flex;

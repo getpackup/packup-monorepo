@@ -1,5 +1,5 @@
 import { toast } from 'react-hot-toast'
-import { trackEvent } from '@getpackup-group/utils'
+import { trackEvent } from '@packup/utils'
 import { Button } from '../button/Button'
 import { Heading } from '../heading/Heading'
 

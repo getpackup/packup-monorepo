@@ -1,6 +1,6 @@
 import ReactTooltip from 'react-tooltip'
 import { Button, Input } from '../'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 import {
   trackEvent,
   requiredField,
@@ -8,7 +8,7 @@ import {
   validateUsername,
   requiredPassword,
   passwordRulesString,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
 import { useState } from 'react'

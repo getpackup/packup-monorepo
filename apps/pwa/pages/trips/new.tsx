@@ -5,7 +5,7 @@ import {
   TripMemberStatus,
   MAX_TRIP_PARTY_SIZE,
   TripMemberFormType,
-} from '@getpackup-group/common'
+} from '@packup/common'
 import {
   Box,
   Button,
@@ -19,16 +19,10 @@ import {
   UserMediaObject,
   UserSearch,
   StyledLabel,
-} from '@getpackup-group/components'
+} from '@packup/components'
 import toast from 'react-hot-toast'
-import { AppState } from '@getpackup-group/redux'
-import {
-  getSeason,
-  requiredField,
-  trackEvent,
-  sendTripInvitationEmail,
-  useLoggedInUser,
-} from '@getpackup-group/utils'
+import { AppState } from '@packup/redux'
+import { getSeason, requiredField, trackEvent, sendTripInvitationEmail } from '@packup/utils'
 
 import axios from 'axios'
 import { endOfDay, startOfDay, differenceInCalendarDays } from 'date-fns'
@@ -38,6 +32,7 @@ import React, { useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+import { useLoggedInUser } from '@packup/hooks'
 
 type MembersToInviteType = { uid: string; email: string; greetingName: string }[]
 
@@ -72,7 +67,7 @@ export default function NewTripSummary() {
       setIsSearchBarDisabled(true)
       // send us a slack message so we can follow up
       axios.get(
-        process.env.GATSBY_SITE_URL === 'https://getpackup.com'
+        process.env.NX_SITE_URL === 'https://packupapp.com'
           ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new`
           : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new`
       )
@@ -152,162 +147,164 @@ export default function NewTripSummary() {
 
   return (
     <PageContainer>
-      <Heading altStyle as="h2">
-        Create New Trip
-      </Heading>
-      <>
-        <Head>
-          <title>New Trip | Packup</title>
-        </Head>
+      <Box>
+        <Heading altStyle as="h2">
+          Create New Trip
+        </Heading>
+        <>
+          <Head>
+            <title>New Trip | Packup</title>
+          </Head>
 
-        <Formik
-          validateOnMount
-          initialValues={initialValues}
-          onSubmit={(values, { setSubmitting }) => {
-            const valuesWithSeason = {
-              ...values,
-              startDate: startOfDay(new Date(values.startDate as string)),
-              endDate: endOfDay(new Date(values.endDate as string)),
-              tripLength: differenceInCalendarDays(
-                new Date(values.startDate),
-                new Date(values.endDate)
-              ),
-              season: getSeason(values.lat, values.lng, values.startDate as string),
-            }
-            trackEvent('New Trip Submit Button Clicked', valuesWithSeason)
+          <Formik
+            validateOnMount
+            initialValues={initialValues}
+            onSubmit={(values, { setSubmitting }) => {
+              const valuesWithSeason = {
+                ...values,
+                startDate: startOfDay(new Date(values.startDate as string)),
+                endDate: endOfDay(new Date(values.endDate as string)),
+                tripLength: differenceInCalendarDays(
+                  new Date(values.startDate),
+                  new Date(values.endDate)
+                ),
+                season: getSeason(values.lat, values.lng, values.startDate as string),
+              }
+              trackEvent('New Trip Submit Button Clicked', valuesWithSeason)
 
-            addNewTrip(valuesWithSeason)
+              addNewTrip(valuesWithSeason)
 
-            setSubmitting(false)
-          }}
-        >
-          {({
-            isSubmitting,
-            isValid,
-            values,
-            setFieldValue,
-            dirty,
-            errors,
-            setFieldTouched,
-            touched,
-            ...rest
-          }) => (
-            <Form autoComplete="off">
-              <Field
-                as={Input}
-                type="text"
-                name="name"
-                label="Trip Name"
-                validate={requiredField}
-                required
-                autoComplete="off"
-                maxLength={50}
-              />
+              setSubmitting(false)
+            }}
+          >
+            {({
+              isSubmitting,
+              isValid,
+              values,
+              setFieldValue,
+              dirty,
+              errors,
+              setFieldTouched,
+              touched,
+              ...rest
+            }) => (
+              <Form autoComplete="off">
+                <Field
+                  as={Input}
+                  type="text"
+                  name="name"
+                  label="Trip Name"
+                  validate={requiredField}
+                  required
+                  autoComplete="off"
+                  maxLength={50}
+                />
 
-              <DayPickerInput
-                label="Trip Date"
-                initialValues={initialValues}
-                values={values}
-                setFieldValue={setFieldValue}
-                setFieldTouched={setFieldTouched}
-              />
+                <DayPickerInput
+                  label="Trip Date"
+                  initialValues={initialValues}
+                  values={values}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
+                />
 
-              <Field as={Input} type="textarea" name="description" label="Description" />
+                <Field as={Input} type="textarea" name="description" label="Description" />
 
-              <Field
-                as={Input}
-                type="geosuggest"
-                types={[]}
-                name="startingPoint"
-                label="Trip Location"
-                validate={requiredField}
-                required
-                setFieldValue={setFieldValue}
-                setFieldTouched={setFieldTouched}
-                {...rest}
-              />
+                <Field
+                  as={Input}
+                  type="geosuggest"
+                  types={[]}
+                  name="startingPoint"
+                  label="Trip Location"
+                  validate={requiredField}
+                  required
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
+                  {...rest}
+                />
 
-              <StyledLabel>Trip Party</StyledLabel>
+                <StyledLabel>Trip Party</StyledLabel>
 
-              <Box>
-                {activeLoggedInUser && (
-                  <UserMediaObject user={activeLoggedInUser} showSecondaryContent />
-                )}
-                {membersToInvite.length > 0 && <HorizontalRule compact />}
-                {membersToInvite.length > 0 &&
-                  membersToInvite.map((tripMember, index) => {
-                    const matchingUser: UserType =
-                      users && users[tripMember.uid] ? users[tripMember.uid] : undefined
-                    if (!matchingUser) return null
-                    return (
-                      <div key={matchingUser.uid}>
-                        <UserMediaObject
-                          user={matchingUser}
-                          showSecondaryContent
-                          action={
-                            <Button
-                              type="button"
-                              color="tertiary"
-                              size="small"
-                              onClick={() =>
-                                setMembersToInvite((prevState) =>
-                                  prevState.filter((_, i) => i !== index)
-                                )
-                              }
-                            >
-                              Remove
-                            </Button>
-                          }
-                        />
-                        {index !== membersToInvite.length - 1 && <HorizontalRule compact />}
-                      </div>
-                    )
-                  })}
-              </Box>
-              <UserSearch
-                activeTrip={undefined}
-                updateTrip={(uid, email, greetingName) => {
-                  updateTripMembers(uid, email, greetingName)
-                }}
-                isSearchBarDisabled={isSearchBarDisabled}
-              />
+                <Box>
+                  {activeLoggedInUser && (
+                    <UserMediaObject user={activeLoggedInUser} showSecondaryContent />
+                  )}
+                  {membersToInvite.length > 0 && <HorizontalRule compact />}
+                  {membersToInvite.length > 0 &&
+                    membersToInvite.map((tripMember, index) => {
+                      const matchingUser: UserType =
+                        users && users[tripMember.uid] ? users[tripMember.uid] : undefined
+                      if (!matchingUser) return null
+                      return (
+                        <div key={matchingUser.uid}>
+                          <UserMediaObject
+                            user={matchingUser}
+                            showSecondaryContent
+                            action={
+                              <Button
+                                type="button"
+                                color="tertiary"
+                                size="small"
+                                onClick={() =>
+                                  setMembersToInvite((prevState) =>
+                                    prevState.filter((_, i) => i !== index)
+                                  )
+                                }
+                              >
+                                Remove
+                              </Button>
+                            }
+                          />
+                          {index !== membersToInvite.length - 1 && <HorizontalRule compact />}
+                        </div>
+                      )
+                    })}
+                </Box>
+                <UserSearch
+                  activeTrip={undefined}
+                  updateTrip={(uid, email, greetingName) => {
+                    updateTripMembers(uid, email, greetingName)
+                  }}
+                  isSearchBarDisabled={isSearchBarDisabled}
+                />
 
-              <HorizontalRule />
+                <HorizontalRule />
 
-              <FormErrors dirty={dirty} errors={errors} />
-              <FlexContainer justifyContent="space-between">
-                <Button
-                  type="link"
-                  to="../"
-                  color="tertiary"
-                  rightSpacer
-                  iconLeft={<FaChevronLeft />}
-                  onClick={() =>
-                    trackEvent('New Trip Form Cancelled', {
-                      values: { ...values },
-                      errors: { ...errors },
-                      touched: { ...touched },
-                      dirty,
-                      isValid,
-                    })
-                  }
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={isSubmitting || !isValid || isLoading}
-                  isLoading={isLoading}
-                  color="success"
-                  iconRight={<FaChevronRight />}
-                >
-                  Continue
-                </Button>
-              </FlexContainer>
-            </Form>
-          )}
-        </Formik>
-      </>
+                <FormErrors dirty={dirty} errors={errors} />
+                <FlexContainer justifyContent="space-between">
+                  <Button
+                    type="link"
+                    to="../"
+                    color="tertiary"
+                    rightSpacer
+                    iconLeft={<FaChevronLeft />}
+                    onClick={() =>
+                      trackEvent('New Trip Form Cancelled', {
+                        values: { ...values },
+                        errors: { ...errors },
+                        touched: { ...touched },
+                        dirty,
+                        isValid,
+                      })
+                    }
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting || !isValid || isLoading}
+                    isLoading={isLoading}
+                    color="success"
+                    iconRight={<FaChevronRight />}
+                  >
+                    Continue
+                  </Button>
+                </FlexContainer>
+              </Form>
+            )}
+          </Formik>
+        </>
+      </Box>
     </PageContainer>
   )
 }

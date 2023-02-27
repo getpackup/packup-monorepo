@@ -15,7 +15,7 @@ export const RelativeOrExternalLink: FunctionComponent<RelativeOrExternalLinkPro
 }) => {
   // This assumes that any internal link (intended for Next)
   // will start with exactly one slash, and that anything else is external.
-  const internal = /getpackup.com/.test(to) || /^\/(?!\/)/.test(to)
+  const internal = /packupapp.com/.test(to) || /^\/(?!\/)/.test(to)
   // Use NextJs Link for internal links, and <a> for others
   if (internal) {
     return (

@@ -1,4 +1,4 @@
-import { TripType } from '@getpackup-group/common'
+import { TripType } from '@packup/common'
 import {
   Button,
   DropdownMenu,
@@ -10,16 +10,16 @@ import {
   TripMemberAvatars,
   LeaveTheTripModal,
   TripDeleteModal,
-} from '@getpackup-group/components'
-import { AppState } from '@getpackup-group/redux'
+} from '@packup/components'
+import { AppState } from '@packup/redux'
 import {
   baseAndAHalfSpacer,
   baseSpacer,
   decupleSpacer,
   doubleSpacer,
   halfSpacer,
-} from '@getpackup-group/styles'
-import { formattedDate, formattedDateRange, trackEvent } from '@getpackup-group/utils'
+} from '@packup/styles'
+import { formattedDate, formattedDateRange, trackEvent } from '@packup/utils'
 import Link from 'next/link'
 import { FunctionComponent, useState } from 'react'
 import { FaMapMarkerAlt, FaRegCalendar, FaSignOutAlt, FaTrash } from 'react-icons/fa'

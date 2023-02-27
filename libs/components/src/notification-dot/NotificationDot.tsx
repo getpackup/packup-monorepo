@@ -1,5 +1,5 @@
-import { brandNotification } from '@getpackup-group/styles'
-import { baseSpacer } from '@getpackup-group/styles'
+import { brandNotification } from '@packup/styles'
+import { baseSpacer } from '@packup/styles'
 import styled, { keyframes } from 'styled-components'
 
 const pulse = keyframes`

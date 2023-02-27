@@ -9,8 +9,8 @@ import {
   lightGray,
   textColor,
   white,
-} from '@getpackup-group/styles'
-import { baseBorderStyle, disabledStyle } from '@getpackup-group/styles'
+} from '@packup/styles'
+import { baseBorderStyle, disabledStyle } from '@packup/styles'
 import {
   baseAndAHalfSpacer,
   baseSpacer,
@@ -20,8 +20,8 @@ import {
   inputHeight,
   quarterSpacer,
   threeQuarterSpacer,
-} from '@getpackup-group/styles'
-import { fontFamilySansSerif, fontSizeBase } from '@getpackup-group/styles'
+} from '@packup/styles'
+import { fontFamilySansSerif, fontSizeBase } from '@packup/styles'
 import Link from 'next/link'
 import React, { CSSProperties, FunctionComponent } from 'react'
 import styled, { css } from 'styled-components'

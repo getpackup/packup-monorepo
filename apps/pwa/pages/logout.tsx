@@ -1,6 +1,6 @@
-import { LoadingPage, PageContainer } from '@getpackup-group/components'
+import { LoadingPage, PageContainer } from '@packup/components'
 import toast from 'react-hot-toast'
-import { trackEvent } from '@getpackup-group/utils'
+import { trackEvent } from '@packup/utils'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'

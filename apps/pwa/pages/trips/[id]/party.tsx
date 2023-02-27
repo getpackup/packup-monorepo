@@ -1,10 +1,9 @@
-import { TripType } from '@getpackup-group/common'
 import { useRouter } from 'next/router'
 
-import { Box, NoTripFound, PageContainer, TripParty } from '@getpackup-group/components'
-import { AppState } from '@getpackup-group/redux'
+import { Box, NoTripFound, PageContainer, TripParty } from '@packup/components'
+import { AppState } from '@packup/redux'
 
-import { trackEvent } from '@getpackup-group/utils'
+import { trackEvent, useActiveTrip } from '@packup/utils'
 
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -13,23 +12,10 @@ import Head from 'next/head'
 
 export default function Party() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const activeTripById: Array<TripType> = useSelector(
-    (state: AppState) => state.firestore.ordered.activeTripById
-  )
+  const activeTrip = useActiveTrip()
   const router = useRouter()
   // the trip ID
   const id = router.query.id as string
-
-  const isTripOwner: boolean =
-    activeTripById && activeTripById.length > 0 && activeTripById[0].owner === auth.uid
-
-  const activeTrip: TripType | undefined =
-    (activeTripById &&
-      activeTripById.length > 0 &&
-      Object.keys(activeTripById[0].tripMembers).some((member) => member === auth.uid)) ||
-    isTripOwner
-      ? activeTripById[0]
-      : undefined
 
   useFirestoreConnect([
     {
@@ -63,7 +49,7 @@ export default function Party() {
       <PageContainer>
         <TripParty activeTrip={activeTrip} />
 
-        {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && (
+        {isLoaded(activeTrip) && (isEmpty(activeTrip) || !activeTrip) && (
           <Box>
             <NoTripFound />
           </Box>

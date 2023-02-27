@@ -1,5 +1,5 @@
-import { FlexContainer, Input, InputWrapper } from '@getpackup-group/components'
-import { AppState } from '@getpackup-group/redux'
+import { FlexContainer, Input, InputWrapper } from '@packup/components'
+import { AppState } from '@packup/redux'
 import toast from 'react-hot-toast'
 import {
   brandPrimary,
@@ -8,9 +8,9 @@ import {
   baseBorderStyle,
   doubleSpacer,
   halfSpacer,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 
-import { trackEvent } from '@getpackup-group/utils'
+import { trackEvent } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import React, { FunctionComponent } from 'react'
 import { FaPlus } from 'react-icons/fa'

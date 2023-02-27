@@ -1,10 +1,10 @@
-import { screenSizes } from '@getpackup-group/styles'
-import { useEffect, useState } from 'react'
+import { screenSizes } from '@packup/styles'
+import { useEffect, useState, useCallback } from 'react'
 
 export const useWindowSize = () => {
   const isClient = typeof window === 'object'
 
-  const getSize = () => {
+  const getSize = useCallback(() => {
     const width = isClient ? window.innerWidth : undefined
 
     return {
@@ -14,7 +14,7 @@ export const useWindowSize = () => {
       isSmallScreen: isClient ? width && width < screenSizes.medium : false,
       isLargeScreen: isClient ? width && width > screenSizes.large : false,
     }
-  }
+  }, [isClient])
 
   const [windowSize, setWindowSize] = useState(getSize)
 
@@ -29,7 +29,7 @@ export const useWindowSize = () => {
 
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, []) // Empty array ensures that effect is only run on mount and unmount
+  }, [getSize, isClient]) // Empty array ensures that effect is only run on mount and unmount
 
   return windowSize
 }

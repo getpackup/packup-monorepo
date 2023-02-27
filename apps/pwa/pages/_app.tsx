@@ -3,13 +3,12 @@ import React, { useMemo } from 'react'
 import { minify } from 'terser'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import { ThemeProvider } from '@getpackup-group/utils'
-import { ReduxWrapper } from '@getpackup-group/redux'
+import { ThemeProvider } from '@packup/utils'
+import { ReduxWrapper } from '@packup/redux'
 import styled, { CSSProperties } from 'styled-components'
 import CookieConsent from 'react-cookie-consent'
 import { IconContext } from 'react-icons'
 import {
-  baseSpacer,
   borderRadius,
   brandDanger,
   brandInfo,
@@ -25,8 +24,14 @@ import {
   threeQuarterSpacer,
   UploadTheme,
   white,
-} from '@getpackup-group/styles'
-import { AddToHomeScreenBanner, Navbar, Footer, ErrorBoundary } from '@getpackup-group/components'
+} from '@packup/styles'
+import {
+  AddToHomeScreenBanner,
+  Navbar,
+  FeedbackModal,
+  Footer,
+  ErrorBoundary,
+} from '@packup/components'
 import Link from 'next/link'
 import Modal from 'react-modal'
 import '../webfonts.css'
@@ -107,7 +112,6 @@ function FallbackStyles() {
 }
 
 const LayoutWrapper = styled.div`
-  /* grid container settings */
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
@@ -115,13 +119,13 @@ const LayoutWrapper = styled.div`
 `
 
 const PageBody = styled.main`
-  overflow: auto;
-  // padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
-  // padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
+  padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
 `
 
 const AppContainer = styled.div`
-  padding: ${baseSpacer} 0;
   margin-right: auto;
   margin-left: auto;
   background-color: ${offWhite};
@@ -158,6 +162,7 @@ function App({ Component, pageProps }: AppProps) {
                 <AppContainer>
                   <ErrorBoundary>
                     <Component {...pageProps} />
+                    <FeedbackModal />
                   </ErrorBoundary>
                 </AppContainer>
               </PageBody>

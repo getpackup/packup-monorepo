@@ -12,8 +12,8 @@ whilst all of them common components and libraries from the same repository.
 
 1. Clone repository and install dependencies
 ```shell
-gh repo clone getpackup/getpackup-group
-cd getpackup-group
+git clone https://github.com/getpackup/packup-monorepo.git
+cd packup-monorepo
 npm
 ```
 2. Get environment set up for development by creating `.env` in relevant projects
@@ -49,7 +49,7 @@ Run `nx g @nrwl/react:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
-Libraries are shareable across libraries and applications. They can be imported from `@getpackup-group/mylib`.
+Libraries are shareable across libraries and applications. They can be imported from `@packup/mylib`.
 
 ### Development server
 

@@ -1,4 +1,4 @@
-import { Button } from '@getpackup-group/components'
+import { Button } from '@packup/components'
 import {
   borderColor,
   brandPrimary,
@@ -13,7 +13,7 @@ import {
   borderRadius,
   halfSpacer,
   quarterSpacer,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { FaEllipsisH } from 'react-icons/fa'
 import styled from 'styled-components'

@@ -1,4 +1,4 @@
-import { TripMemberStatus, TripType } from '@getpackup-group/common'
+import { TripMemberStatus, TripType } from '@packup/common'
 import {
   Avatar,
   Box,
@@ -11,7 +11,7 @@ import {
   GearClosetIcon,
 } from '..'
 import yak from '../../images/yak.svg'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 import {
   brandPrimary,
   brandSecondary,
@@ -26,24 +26,24 @@ import {
   fontSizeBase,
   fontSizeSmall,
   headingsFontFamily,
-} from '@getpackup-group/styles'
-import { TabOptions, scrollToPosition, trackEvent, useWindowSize } from '@getpackup-group/utils'
+} from '@packup/styles'
+import { trackEvent } from '@packup/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Spin as Hamburger } from 'hamburger-react'
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
-import { FaCalendar, FaChevronLeft, FaShoppingCart, FaUserLock } from 'react-icons/fa'
+
+import React, { FunctionComponent } from 'react'
+import { FaCalendar, FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components'
 import { AvatarImageWrapper } from '..'
 import Image from 'next/image'
+import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 
 const StyledNavbar = styled.header`
-  // grid-area: header;
-  // position: fixed;
-  // left: 0;
-  // right: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
   // background: var(--color-secondary);
   background: ${brandSecondary};
   min-height: ${quadrupleSpacer};
@@ -149,7 +149,7 @@ const TopNavIconWrapper = styled.nav`
 
 export const Navbar: FunctionComponent<unknown> = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const loggedInUser = useSelector((state: AppState) => state.firestore.ordered['loggedInUser'])
+
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const router = useRouter()
 
@@ -171,6 +171,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
   const pathname = typeof window !== 'undefined' ? router.pathname : '/'
 
+  const activeLoggedInUser = useLoggedInUser()
   const size = useWindowSize()
 
   const isAuthenticated = auth && !auth.isEmpty
@@ -309,13 +310,13 @@ export const Navbar: FunctionComponent<unknown> = () => {
                     trackEvent('Navbar LoggedInUser Link Clicked', { link: 'Profile' })
                   }
                 >
-                  {!loggedInUser ? (
+                  {!activeLoggedInUser ? (
                     <Avatar staticContent="" size="sm" username={undefined} />
                   ) : (
                     <Avatar
-                      src={loggedInUser[0].photoURL}
+                      src={activeLoggedInUser?.photoURL}
                       size="xs"
-                      gravatarEmail={loggedInUser[0].email}
+                      gravatarEmail={activeLoggedInUser?.email}
                       rightMargin
                     />
                   )}{' '}

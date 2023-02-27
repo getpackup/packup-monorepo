@@ -12,7 +12,7 @@ import {
   FilterFn,
 } from '@tanstack/react-table'
 import { RankingInfo, rankItem } from '@tanstack/match-sorter-utils'
-import { GearItemType } from '@getpackup-group/common'
+import { GearItemType } from '@packup/common'
 import styled from 'styled-components'
 import {
   baseBorderStyle,
@@ -23,7 +23,7 @@ import {
   quarterSpacer,
   textColorLight,
   white,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import Pagination from './Pagination'
 import Skeleton from 'react-loading-skeleton'
 import Filter from './Filter'
@@ -180,6 +180,7 @@ export function Table({
                   <StyledTd>
                     <Skeleton count={1} width={`${Math.random() * (70 - 20) + 20}%`} />
                   </StyledTd>
+                  <StyledTd></StyledTd>
                 </StyledTr>
               ))
             : table.getRowModel().rows.map((row) => {

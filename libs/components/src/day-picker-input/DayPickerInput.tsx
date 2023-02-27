@@ -1,5 +1,5 @@
 import 'react-day-picker/dist/style.css'
-import { Alert, Button, StyledLabel } from '@getpackup-group/components'
+import { Alert, Button, StyledLabel } from '@packup/components'
 import {
   baseBorderStyle,
   baseSpacer,
@@ -9,12 +9,12 @@ import {
   breakpoints,
   screenSizes,
   white,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import format from 'date-fns/format'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { DayPicker, DateRange } from 'react-day-picker'
 import styled from 'styled-components'
-import { useWindowSize } from '@getpackup-group/utils'
+import { useWindowSize } from '@packup/hooks'
 
 type DayPickerInputProps = {
   initialValues: any

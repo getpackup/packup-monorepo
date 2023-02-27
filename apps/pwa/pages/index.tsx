@@ -3,30 +3,18 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useRouter } from 'next/router'
-import {
-  AppState,
-  setActivePackingListFilter,
-  setActivePackingListTab,
-} from '@getpackup-group/redux'
+import { AppState, setActivePackingListFilter, setActivePackingListTab } from '@packup/redux'
 import Head from 'next/head'
-import { TripMemberStatus, TripType } from '@getpackup-group/common'
-import {
-  Box,
-  Button,
-  Column,
-  Heading,
-  PageContainer,
-  Row,
-  TripCard,
-} from '@getpackup-group/components'
-import { doubleSpacer } from '@getpackup-group/styles'
+import { TripMemberStatus, TripType } from '@packup/common'
+import { Box, Button, Column, Heading, PageContainer, Row, TripCard } from '@packup/components'
+import { doubleSpacer } from '@packup/styles'
 import {
   isAfterToday,
   isBeforeToday,
   PackingListFilterOptions,
   TabOptions,
   trackEvent,
-} from '@getpackup-group/utils'
+} from '@packup/utils'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { FaArrowRight, FaPlusCircle, FaRedo } from 'react-icons/fa'

@@ -1,13 +1,13 @@
-import { TripType } from '@getpackup-group/common'
+import { TripType } from '@packup/common'
 import {
   Breadcrumbs,
   DropdownMenu,
   FlexContainer,
   LeaveTheTripModal,
   TripDeleteModal,
-} from '@getpackup-group/components'
-import { baseSpacer } from '@getpackup-group/styles'
-import { trackEvent } from '@getpackup-group/utils'
+} from '@packup/components'
+import { baseSpacer } from '@packup/styles'
+import { trackEvent } from '@packup/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useState } from 'react'

@@ -1,6 +1,6 @@
-import { Button, HeroImage } from '@getpackup-group/components'
-import { baseSpacer, halfSpacer, borderColor, offWhite, white } from '@getpackup-group/styles'
-import { trackEvent } from '@getpackup-group/utils'
+import { Button, HeroImage } from '@packup/components'
+import { baseSpacer, halfSpacer, borderColor, offWhite, white } from '@packup/styles'
+import { trackEvent } from '@packup/utils'
 /* eslint-disable no-console */
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import { FaCamera } from 'react-icons/fa'

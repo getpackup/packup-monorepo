@@ -16,7 +16,7 @@ import {
   lineHeightSmall,
   quadrupleSpacer,
   tripleSpacer,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import React, { CSSProperties, FunctionComponent } from 'react'
 import styled, { css } from 'styled-components'
 

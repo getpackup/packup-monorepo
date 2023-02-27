@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { TripFormType, TripType, UserType } from '@getpackup-group/common'
+import { TripFormType, UserType } from '@packup/common'
 import {
   Box,
   Column,
@@ -15,9 +15,9 @@ import {
   StaticMapImage,
   TripNavigation,
   UserMediaObject,
-} from '@getpackup-group/components'
+} from '@packup/components'
 import toast from 'react-hot-toast'
-import { AppState } from '@getpackup-group/redux'
+import { AppState } from '@packup/redux'
 
 import {
   gearListAccommodations,
@@ -30,7 +30,8 @@ import {
   requiredField,
   createOptionsFromArrayOfObjects,
   formattedDateRange,
-} from '@getpackup-group/utils'
+  useActiveTrip,
+} from '@packup/utils'
 import { endOfDay, startOfDay } from 'date-fns'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
@@ -42,23 +43,10 @@ import { isEmpty, isLoaded, useFirebase, useFirestoreConnect } from 'react-redux
 export default function Details() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const users = useSelector((state: AppState) => state.firestore.data.users)
-  const activeTripById: Array<TripType> = useSelector(
-    (state: AppState) => state.firestore.ordered.activeTripById
-  )
+  const activeTrip = useActiveTrip()
   const router = useRouter()
   // the trip ID
   const id = router.query.id as string
-
-  const isTripOwner: boolean =
-    activeTripById && activeTripById.length > 0 && activeTripById[0].owner === auth.uid
-
-  const activeTrip: TripType | undefined =
-    (activeTripById &&
-      activeTripById.length > 0 &&
-      Object.keys(activeTripById[0].tripMembers).some((member) => member === auth.uid)) ||
-    isTripOwner
-      ? activeTripById[0]
-      : undefined
 
   useFirestoreConnect([
     {
@@ -424,7 +412,7 @@ export default function Details() {
         )}
       </PageContainer>
 
-      {isLoaded(activeTripById) && (isEmpty(activeTripById) || !activeTrip) && <NoTripFound />}
+      {isLoaded(activeTrip) && (isEmpty(activeTrip) || !activeTrip) && <NoTripFound />}
     </>
   )
 }

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { TripType } from '@getpackup-group/common'
+import { TripType } from '@packup/common'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
 import { stringify } from 'query-string'
@@ -23,10 +23,10 @@ export const sendTripInvitationEmail = ({
     subject: `${invitedBy} has invited you on a trip`,
     username: invitedBy,
     tripId,
-    isTestEnv: String(window.location.origin !== 'https://getpackup.com'),
+    isTestEnv: String(window.location.origin !== 'https://packupapp.com'),
   })
   const invitationUrl =
-    window.location.origin === 'https://getpackup.com'
+    window.location.origin === 'https://packupapp.com'
       ? `https://us-central1-getpackup.cloudfunctions.net/sendTripInvitationEmail?${queryParams}`
       : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/sendTripInvitationEmail?${queryParams}`
 

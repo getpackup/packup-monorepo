@@ -15,12 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@getpackup-group/common": ["libs/common/src/index.ts"],
-      "@getpackup-group/components": ["libs/components/src/index.ts"],
-      "@getpackup-group/hooks": ["libs/hooks/src/index.ts"],
-      "@getpackup-group/redux": ["libs/redux/src/index.ts"],
-      "@getpackup-group/styles": ["libs/styles/src/index.ts"],
-      "@getpackup-group/utils": ["libs/utils/src/index.ts"]
+      "@packup/common": ["libs/common/src/index.ts"],
+      "@packup/components": ["libs/components/src/index.ts"],
+      "@packup/hooks": ["libs/hooks/src/index.ts"],
+      "@packup/redux": ["libs/redux/src/index.ts"],
+      "@packup/styles": ["libs/styles/src/index.ts"],
+      "@packup/utils": ["libs/utils/src/index.ts"]
     },
     "typeRoots": ["types", "node_modules/@types"],
     "types": ["@string-mask", "@window", "node"]

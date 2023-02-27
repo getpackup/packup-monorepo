@@ -1,4 +1,4 @@
-import { lightestGray } from '@getpackup-group/styles'
+import { lightestGray } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 
 type ProgressBarProps = {

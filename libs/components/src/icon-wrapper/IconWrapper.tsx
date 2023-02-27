@@ -1,4 +1,4 @@
-import { brandPrimary, textColor, doubleSpacer } from '@getpackup-group/styles'
+import { brandPrimary, textColor, doubleSpacer } from '@packup/styles'
 import styled from 'styled-components'
 
 export const IconWrapper = styled.div<{ color?: string; hoverColor?: string }>`

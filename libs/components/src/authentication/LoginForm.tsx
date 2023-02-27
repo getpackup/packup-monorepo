@@ -9,8 +9,8 @@ import {
   PageContainer,
   Row,
 } from '../'
-import { AppState, removeAttemptedPrivatePage } from '@getpackup-group/redux'
-import { trackEvent, requiredField, requiredEmail } from '@getpackup-group/utils'
+import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
+import { trackEvent, requiredField, requiredEmail } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -32,7 +32,7 @@ import {
   textColor,
   textColorLight,
   white,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 export const LoginForm = () => {
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)

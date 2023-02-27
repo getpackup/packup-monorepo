@@ -6,7 +6,7 @@ import {
   SET_PERSONAL_LIST_SCROLL_POSITION,
   SET_SHARED_LIST_SCROLL_POSITION,
 } from './client'
-import { PackingListFilterOptions, TabOptions } from '@getpackup-group/utils'
+import { PackingListFilterOptions, TabOptions } from '@packup/utils'
 
 export type ClientStoreType = {
   location?: string

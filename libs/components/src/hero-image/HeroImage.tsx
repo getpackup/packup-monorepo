@@ -1,4 +1,4 @@
-import { white, zIndexHeroImage, baseSpacer, lightGray } from '@getpackup-group/styles'
+import { white, zIndexHeroImage, baseSpacer, lightGray } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 import styled, { CSSProperties } from 'styled-components'
 import Image from 'next/image'

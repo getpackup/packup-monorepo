@@ -17,8 +17,8 @@ import {
 } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import { PersistGate } from 'redux-persist/integration/react'
-import { UserType } from '@getpackup-group/common'
-import { LoadingPage } from '@getpackup-group/components'
+import { UserType } from '@packup/common'
+import { LoadingPage } from '@packup/components'
 import { showWorkerUpdateModal, workerUpdateInitialState } from './ducks/workerUpdateReady'
 import { clientInitialState } from './ducks/client'
 import configureStore from './configureStore'
@@ -48,31 +48,31 @@ const rrfProps = {
 
 const firebaseConfig = {
   apiKey:
-    process.env['NX_SITE_URL'] === 'https://getpackup.com'
+    process.env['NX_SITE_URL'] === 'https://packupapp.com'
       ? process.env['NX_FIREBASE_API_KEY']
       : process.env['NX_FIREBASE_TEST_API_KEY'],
   authDomain:
-    process.env['NX_SITE_URL'] === 'https://getpackup.com'
+    process.env['NX_SITE_URL'] === 'https://packupapp.com'
       ? process.env['NX_FIREBASE_AUTH_DOMAIN']
       : process.env['NX_FIREBASE_TEST_AUTH_DOMAIN'],
   databaseURL:
-    process.env['NX_SITE_URL'] === 'https://getpackup.com'
+    process.env['NX_SITE_URL'] === 'https://packupapp.com'
       ? process.env['NX_FIREBASE_DATABASE_URL']
       : process.env['NX_FIREBASE_TEST_DATABASE_URL'],
   projectId:
-    process.env['NX_SITE_URL'] === 'https://getpackup.com'
+    process.env['NX_SITE_URL'] === 'https://packupapp.com'
       ? process.env['NX_FIREBASE_PROJECT_ID']
       : process.env['NX_FIREBASE_TEST_PROJECT_ID'],
   storageBucket:
-    process.env['NX_SITE_URL'] === 'https://getpackup.com'
+    process.env['NX_SITE_URL'] === 'https://packupapp.com'
       ? process.env['NX_FIREBASE_STORAGE_BUCKET']
       : process.env['NX_FIREBASE_TEST_STORAGE_BUCKET'],
   messagingSenderId:
-    process.env['NX_SITE_URL'] === 'https://getpackup.com'
+    process.env['NX_SITE_URL'] === 'https://packupapp.com'
       ? process.env['NX_FIREBASE_MESSAGING_SENDER_ID']
       : process.env['NX_FIREBASE_TEST_MESSAGING_SENDER_ID'],
   appId:
-    process.env['NX_SITE_URL'] === 'https://getpackup.com'
+    process.env['NX_SITE_URL'] === 'https://packupapp.com'
       ? process.env['NX_FIREBASE_APP_ID']
       : process.env['NX_FIREBASE_TEST_APP_ID'],
 }

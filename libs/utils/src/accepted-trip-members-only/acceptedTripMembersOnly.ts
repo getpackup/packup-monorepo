@@ -1,4 +1,4 @@
-import { TripMemberStatus, TripType } from '@getpackup-group/common'
+import { TripMemberStatus, TripType } from '@packup/common'
 
 // eslint-disable-next-line import/prefer-default-export
 export const acceptedTripMembersOnly = (trip: TripType) =>

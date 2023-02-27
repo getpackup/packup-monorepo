@@ -1,5 +1,5 @@
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { UserType } from '@getpackup-group/common'
+import { UserType } from '@packup/common'
 import { FirebaseReducer, firebaseReducer, FirestoreReducer } from 'react-redux-firebase'
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore'

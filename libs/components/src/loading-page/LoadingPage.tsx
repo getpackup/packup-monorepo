@@ -1,7 +1,7 @@
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
-import { FlexContainer, Heading, PageContainer } from '@getpackup-group/components'
-import { brandPrimary, octupleSpacer } from '@getpackup-group/styles'
+import { FlexContainer, Heading, PageContainer } from '@packup/components'
+import { brandPrimary, octupleSpacer } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 import Loader from 'react-loader-spinner'
 

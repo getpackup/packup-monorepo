@@ -1,4 +1,4 @@
-import { darkSpinner, lightSpinner } from '@getpackup-group/styles'
+import { darkSpinner, lightSpinner } from '@packup/styles'
 import React, { FunctionComponent } from 'react'
 import styled, {
   CSSProperties,

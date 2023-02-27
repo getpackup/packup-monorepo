@@ -1,6 +1,6 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { PackingListItemType } from '@getpackup-group/common'
-import { TabOptions } from '@getpackup-group/utils'
+import { PackingListItemType } from '@packup/common'
+import { TabOptions } from '@packup/utils'
 import groupBy from 'lodash/groupBy'
 
 export const groupPackingList = (

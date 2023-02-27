@@ -1,4 +1,4 @@
-import { AppState, removeAttemptedPrivatePage } from '@getpackup-group/redux'
+import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
 import {
   brandPrimary,
   baseBorderStyle,
@@ -7,7 +7,7 @@ import {
   halfSpacer,
   fontFamilySansSerif,
   fontSizeBase,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

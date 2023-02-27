@@ -1,6 +1,6 @@
 import 'react-swipeable-list/dist/styles.css'
 
-import { PackingListItemType, UserType } from '@getpackup-group/common'
+import { PackingListItemType, UserType } from '@packup/common'
 
 import {
   Avatar,
@@ -10,12 +10,8 @@ import {
   IconWrapper,
   Input,
   Pill,
-} from '@getpackup-group/components'
-import {
-  AppState,
-  setPersonalListScrollPosition,
-  setSharedListScrollPosition,
-} from '@getpackup-group/redux'
+} from '@packup/components'
+import { AppState, setPersonalListScrollPosition, setSharedListScrollPosition } from '@packup/redux'
 import toast from 'react-hot-toast'
 
 import {
@@ -26,9 +22,9 @@ import {
   offWhite,
   baseBorderStyle,
   halfSpacer,
-} from '@getpackup-group/styles'
+} from '@packup/styles'
 
-import { trackEvent, useWindowSize } from '@getpackup-group/utils'
+import { trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useState } from 'react'
@@ -50,6 +46,7 @@ import {
 } from 'react-swipeable-list'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
+import { useWindowSize } from '@packup/hooks'
 
 type PackingListItemProps = {
   tripId: string

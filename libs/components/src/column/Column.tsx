@@ -1,4 +1,4 @@
-import { baseSpacer, baseSpacerUnit, breakpoints } from '@getpackup-group/styles'
+import { baseSpacer, baseSpacerUnit, breakpoints } from '@packup/styles'
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 

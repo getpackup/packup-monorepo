@@ -1,5 +1,5 @@
 import React, { createContext, useEffect } from 'react'
-import { COLORS, COLOR_MODE_KEY, INITIAL_COLOR_MODE_CSS_PROP } from '@getpackup-group/styles'
+import { COLORS, COLOR_MODE_KEY, INITIAL_COLOR_MODE_CSS_PROP } from '@packup/styles'
 
 type ContextType = {
   colorMode: string | undefined

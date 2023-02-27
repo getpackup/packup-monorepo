@@ -1,6 +1,6 @@
 import 'instantsearch.css/themes/satellite.css'
 
-import { TripType, UserType } from '@getpackup-group/common'
+import { TripType, UserType } from '@packup/common'
 import {
   Alert,
   Button,
@@ -9,8 +9,8 @@ import {
   Modal,
   SendInviteForm,
   UserMediaObject,
-} from '@getpackup-group/components'
-import { AppState } from '@getpackup-group/redux'
+} from '@packup/components'
+import { AppState } from '@packup/redux'
 import {
   white,
   zIndexDropdown,
@@ -19,8 +19,8 @@ import {
   baseSpacer,
   doubleSpacer,
   halfSpacer,
-} from '@getpackup-group/styles'
-import { alogliaSearch, trackEvent } from '@getpackup-group/utils'
+} from '@packup/styles'
+import { alogliaSearch, trackEvent } from '@packup/utils'
 import { Fragment, FunctionComponent, useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import {

@@ -1,5 +1,5 @@
-import { Button, FlexContainer, FormErrors, HorizontalRule } from '@getpackup-group/components'
-import { trackEvent } from '@getpackup-group/utils'
+import { Button, FlexContainer, FormErrors, HorizontalRule } from '@packup/components'
+import { trackEvent } from '@packup/utils'
 import { useFormikContext } from 'formik'
 import React, { FunctionComponent, useState } from 'react'
 
