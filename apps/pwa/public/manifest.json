@@ -9,12 +9,6 @@
   "theme_color": "#0b2b44",
   "orientation": "portrait",
   "categories": ["packing", "outdoors", "productivity", "safety"],
-  "protocol_handlers": [
-    {
-      "protocol": "web+packup",
-      "url": "?uri=%s"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Add New Trip",

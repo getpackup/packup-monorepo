@@ -48,12 +48,19 @@ export default class CustomDocument extends Document {
           <meta name="msapplication-tap-highlight" content="no" />
           <meta name="theme-color" content="#0b2b44" />
 
-          <link rel="preload" href="/fonts/packup-bold-webfont.woff2" as="font" type="font/woff2" />
+          <link
+            rel="preload"
+            href="/fonts/packup-bold-webfont.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="true"
+          />
           <link
             rel="preload"
             href="fonts/packup-regular-webfont.woff2"
             as="font"
             type="font/woff2"
+            crossOrigin="true"
           />
 
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />

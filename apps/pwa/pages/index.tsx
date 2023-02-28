@@ -28,13 +28,6 @@ export default function Index() {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const { uri } = router.query
-
-  if (uri) {
-    alert(`uri is ${uri}`)
-    router.push((uri as string).replace('https://packupapp.com/?uri=web+packup', ''))
-  }
-
   useFirestoreConnect([
     {
       collection: 'trips',
