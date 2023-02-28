@@ -235,7 +235,9 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
           {trip && trip.tags && trip.tags.length > 0 ? (
             <>
               {trip.tags.map((tag: string) => (
-                <Pill key={`${tag}tag`} text={tag} color="neutral" />
+                <li key={`${tag}tag`}>
+                  <Pill text={tag} color="neutral" />
+                </li>
               ))}
             </>
           ) : (

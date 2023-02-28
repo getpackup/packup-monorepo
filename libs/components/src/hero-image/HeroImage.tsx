@@ -54,7 +54,7 @@ export const HeroImage: FunctionComponent<HeroImageProps> = ({
 }) => {
   return (
     <HeroImageWrapper fullHeight={fullHeight} aspectRatio={aspectRatio}>
-      <Image src={src} layout="fill" />
+      <Image src={src} layout="fill" alt="" />
       <ChildrenWrapper justifyContent={justifyContent} alignItems={alignItems}>
         {children}
       </ChildrenWrapper>

@@ -33,8 +33,9 @@ export default class CustomDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="application-name" content="Packup" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -46,6 +47,14 @@ export default class CustomDocument extends Document {
           <meta name="msapplication-TileColor" content="#B35900" />
           <meta name="msapplication-tap-highlight" content="no" />
           <meta name="theme-color" content="#B35900" />
+
+          <link rel="preload" href="/fonts/packup-bold-webfont.woff2" as="font" type="font/woff2" />
+          <link
+            rel="preload"
+            href="fonts/packup-regular-webfont.woff2"
+            as="font"
+            type="font/woff2"
+          />
 
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />

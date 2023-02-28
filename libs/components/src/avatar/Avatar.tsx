@@ -147,6 +147,7 @@ export const Avatar: FunctionComponent<AvatarProps> = (props) => {
             src={props.src || (gravatarUrl as string)}
             width={renderSize(props.size)}
             height={renderSize(props.size)}
+            alt={props.username || 'user avatar'}
           />
           <ReactTooltip
             id={props.src + 'avatar'}
