@@ -11,7 +11,7 @@
   "categories": ["packing", "outdoors", "productivity", "safety"],
   "protocol_handlers": [
     {
-      "protocol": "packup",
+      "protocol": "web+packup",
       "url": "/%s"
     }
   ],
