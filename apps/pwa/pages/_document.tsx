@@ -46,7 +46,7 @@ export default class CustomDocument extends Document {
           <meta name="msapplication-config" content="/icons/browserconfig.xml" />
           <meta name="msapplication-TileColor" content="#B35900" />
           <meta name="msapplication-tap-highlight" content="no" />
-          <meta name="theme-color" content="#B35900" />
+          <meta name="theme-color" content="#0b2b44" />
 
           <link rel="preload" href="/fonts/packup-bold-webfont.woff2" as="font" type="font/woff2" />
           <link
