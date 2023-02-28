@@ -31,7 +31,8 @@ export default function Index() {
   const { uri } = router.query
 
   if (uri) {
-    router.push((uri as string).replace('web+packup:', ''))
+    alert(`uri is ${uri}`)
+    router.push((uri as string).replace('https://packupapp.com/?uri=web+packup', ''))
   }
 
   useFirestoreConnect([
