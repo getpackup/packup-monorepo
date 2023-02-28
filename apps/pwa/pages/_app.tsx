@@ -147,7 +147,6 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <Script id="googleMapsLoaded">{`window.googleMapsLoaded = function() {}`}</Script>
       <Script
-        async
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places&callback=googleMapsLoaded`}
       />
       <ReduxWrapper>
