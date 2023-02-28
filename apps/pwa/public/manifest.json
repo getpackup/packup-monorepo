@@ -11,8 +11,8 @@
   "categories": ["packing", "outdoors", "productivity", "safety"],
   "protocol_handlers": [
     {
-      "protocol": "web+packupapp",
-      "url": "/?url=%s"
+      "protocol": "packup",
+      "url": "/%s"
     }
   ],
   "shortcuts": [
@@ -32,7 +32,7 @@
       "name": "View All Trips",
       "short_name": "All Trips",
       "description": "View the list of all your trips",
-      "url": "/trips",
+      "url": "/",
       "icons": [
         {
           "src": "/images/shortcut-trips.png",
@@ -81,7 +81,7 @@
     },
     {
       "purpose": "maskable",
-      "src": "android-launchericon-144-144.png",
+      "src": "icons/android-launchericon-144-144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
