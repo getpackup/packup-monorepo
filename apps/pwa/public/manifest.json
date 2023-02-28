@@ -12,7 +12,7 @@
   "protocol_handlers": [
     {
       "protocol": "web+packup",
-      "url": "https://packupapp.com/?uri=%s"
+      "url": "?uri=%s"
     }
   ],
   "shortcuts": [
