@@ -65,7 +65,7 @@ const sentryWebpackPluginOptions = {
 }
 
 const withPWA = require('next-pwa')({
-  dest: 'public'
+  dest: 'public',
 })
 
 // Make sure adding Sentry options is the last code to run before exporting, to

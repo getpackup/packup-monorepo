@@ -7,12 +7,7 @@
   "background_color": "#f3f3f3",
   "theme_color": "#0b2b44",
   "orientation": "portrait",
-  "categories": [
-    "packing",
-    "outdoors",
-    "productivity",
-    "safety"
-  ],
+  "categories": ["packing", "outdoors", "productivity", "safety"],
   "shortcuts": [
     {
       "name": "Add New Trip",
