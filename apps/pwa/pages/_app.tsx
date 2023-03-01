@@ -142,6 +142,7 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Packup</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <FallbackStyles />
         <MagicScriptTag />
       </Head>

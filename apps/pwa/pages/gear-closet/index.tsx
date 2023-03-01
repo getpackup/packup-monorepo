@@ -196,8 +196,6 @@ export default function GearCloset() {
         )
       : []
 
-  // const data = sortedGearList()
-
   const deleteItem = (item: GearItemType) => {
     const deleteType = () => {
       if (item.isCustomGearItem) {

@@ -13,7 +13,7 @@ import {
 } from '@packup/styles'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import Link from 'next/link'
-import { FaCalendar, FaUserLock } from 'react-icons/fa'
+import { FaCalendar } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded } from 'react-redux-firebase'
 import styled from 'styled-components'
@@ -92,7 +92,11 @@ export const Footer = () => {
             <Link href="/" legacyBehavior passHref>
               <a className={pathname === '/' || pathname.includes('trips') ? 'active' : undefined}>
                 <FaCalendar />
-                {pendingTrips.length > 0 && <NotificationDot top={`-${halfSpacer}`} right="0" />}
+                {pendingTrips.length > 0 && (
+                  <NotificationDot top={`-${halfSpacer}`} right="0">
+                    {pendingTrips.length > 9 ? '9+' : pendingTrips.length}
+                  </NotificationDot>
+                )}
               </a>
             </Link>
             <Link href="/gear-closet" legacyBehavior passHref>
@@ -109,13 +113,7 @@ export const Footer = () => {
           >
             <FaShoppingCart />
           </Link> */}
-            {profile.isAdmin && (
-              <Link href="/admin/gear-list" legacyBehavior passHref>
-                <a className={pathname.includes('admin') ? 'active' : undefined}>
-                  <FaUserLock />
-                </a>
-              </Link>
-            )}
+
             <Link href="/profile" legacyBehavior passHref>
               <a className={pathname.includes('profile') ? 'active' : undefined}>
                 <Avatar src={profile.photoURL} size="xs" gravatarEmail={profile.email} />

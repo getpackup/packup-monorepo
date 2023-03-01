@@ -4,7 +4,7 @@ import 'isomorphic-fetch'
 
 // import * as Sentry from '@sentry/nextjs';
 /* eslint-disable no-underscore-dangle */
-import { compose, createStore } from 'redux'
+import { compose, createStore, applyMiddleware } from 'redux'
 import * as Sentry from '@sentry/react'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -26,7 +26,7 @@ const sentryReduxEnhancer = Sentry.createReduxEnhancer({
 
 const isBrowser = typeof window !== 'undefined'
 
-const functionsToCompose = [sentryReduxEnhancer]
+const functionsToCompose = [applyMiddleware(...[]), sentryReduxEnhancer]
 
 // eslint-disable-next-line
 if (isBrowser) {
@@ -44,7 +44,7 @@ const makeConfiguredStore = (reducer: any, initialState: any) => {
   }
   const persistedReducer = persistReducer(persistConfig, reducer)
 
-  return createStore(persistedReducer, initialState, compose(sentryReduxEnhancer))
+  return createStore(persistedReducer, initialState, compose(...functionsToCompose))
 }
 
 const configureStore = (

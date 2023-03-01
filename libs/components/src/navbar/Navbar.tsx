@@ -1,21 +1,10 @@
 import { TripMemberStatus, TripType } from '@packup/common'
-import {
-  Avatar,
-  Box,
-  Button,
-  FlexContainer,
-  Heading,
-  HorizontalRule,
-  NotificationDot,
-  PageContainer,
-  GearClosetIcon,
-} from '..'
+import { Avatar, FlexContainer, Heading, NotificationDot, PageContainer, GearClosetIcon } from '..'
 import yak from '../../images/yak.svg'
 import { AppState } from '@packup/redux'
 import {
   brandPrimary,
   brandSecondary,
-  brandTertiary,
   white,
   zIndexNavbar,
   baseSpacer,
@@ -31,7 +20,7 @@ import { trackEvent } from '@packup/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { FaCalendar, FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
@@ -149,9 +138,9 @@ const TopNavIconWrapper = styled.nav`
 
 export const Navbar: FunctionComponent<unknown> = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const router = useRouter()
+  const [truncatedPageTitle, setTruncatedPageTitle] = useState('')
 
   useFirestoreConnect([
     { collection: 'users', where: ['uid', '==', auth.uid || ''], storeAs: 'loggedInUser' },
@@ -176,8 +165,11 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
   const isAuthenticated = auth && !auth.isEmpty
 
-  const pageTitle = document.title.replace(' | Packup', '')
-  const truncatedPageTitle = pageTitle.length > 25 ? `${pageTitle.substring(0, 25)}...` : pageTitle
+  useEffect(() => {
+    const pageTitle = document.title.replace(' | Packup', '')
+    setTruncatedPageTitle(pageTitle.length > 25 ? `${pageTitle.substring(0, 25)}...` : pageTitle)
+  }, [router.pathname])
+
   const routeHasParent = pathname.split('/').length >= 3
   const oneLevelUpUrl = pathname
     .split('/')
