@@ -1,6 +1,7 @@
 {
   "name": "packup",
   "id": "/",
+  "dir": "ltr",
   "description": "Adventure made easy. Pack with confidence with a trip generator for any occasion, create and share collaborative packing lists, and learn from others and view the trips they packed for.",
   "short_name": "packup",
   "lang": "en",
@@ -8,7 +9,59 @@
   "background_color": "#f3f3f3",
   "theme_color": "#0b2b44",
   "orientation": "portrait",
+  "scope": "https://packupapp.com/",
   "categories": ["packing", "outdoors", "productivity", "safety"],
+  "screenshots": [
+    {
+      "src": "/images/screenshots/1.jpg",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "All your trips, just one tap away"
+    },
+    {
+      "src": "/images/screenshots/2.jpg",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Seamlesss login, sign in with email or an existing provider"
+    },
+    {
+      "src": "/images/screenshots/3.jpg",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Manage gear in your custom gear closet"
+    },
+    {
+      "src": "/images/screenshots/4.jpg",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Invite your friends, coordinate on trips with your party members"
+    },
+    {
+      "src": "/images/screenshots/5.jpg",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Assign items, no more double packing items"
+    },
+    {
+      "src": "/images/screenshots/6.jpg",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Custom packing lists, build out dynamic lists for every unique adventure"
+    },
+    {
+      "src": "/images/screenshots/7.jpg",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Trip details, everything you need to know, in one spot"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Add New Trip",
@@ -17,8 +70,8 @@
       "url": "/trips/new",
       "icons": [
         {
-          "src": "/images/shortcut-add-trip.png",
-          "sizes": "192x192"
+          "src": "/images/shortcut-add-trip96.png",
+          "sizes": "96x96"
         }
       ]
     },
@@ -29,8 +82,8 @@
       "url": "/",
       "icons": [
         {
-          "src": "/images/shortcut-trips.png",
-          "sizes": "192x192"
+          "src": "/images/shortcut-trips96.png",
+          "sizes": "96x96"
         }
       ]
     },
@@ -41,8 +94,8 @@
       "url": "/profile",
       "icons": [
         {
-          "src": "/images/shortcut-profile.png",
-          "sizes": "192x192"
+          "src": "/images/shortcut-profile96.png",
+          "sizes": "96x96"
         }
       ]
     }
