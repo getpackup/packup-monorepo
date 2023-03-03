@@ -67,7 +67,7 @@ export default function NewTripSummary() {
       setIsSearchBarDisabled(true)
       // send us a slack message so we can follow up
       axios.get(
-        process.env.NX_SITE_URL === 'https://packupapp.com'
+        process.env.NODE_ENV === 'development'
           ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new`
           : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new`
       )
