@@ -1,5 +1,5 @@
 export enum ScrollTimeout {
-  default = 167, // in milliseconds
+  default = 1000, // in milliseconds
 }
 
 export enum PackingListFilterOptions {

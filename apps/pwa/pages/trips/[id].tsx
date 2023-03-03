@@ -74,7 +74,7 @@ export default function TripById() {
         },
       })
     }
-  }, [dispatch])
+  }, [dispatch, id])
 
   if (!id) {
     trackEvent('Trip By Id Had No Id')

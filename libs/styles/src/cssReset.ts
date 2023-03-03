@@ -64,7 +64,7 @@ export const CssReset = createGlobalStyle`
   optgroup{font-weight:bold}
   table{border-collapse:collapse;border-spacing:0}
   td,th{padding:0}
-  html{box-sizing:border-box;height:100%}*,*:before,*:after{box-sizing:inherit}
+  html{box-sizing:border-box;}*,*:before,*:after{box-sizing:inherit}
   @at-root{@-moz-viewport{width:device-width}
   @-ms-viewport{width:device-width}
   @-o-viewport{width:device-width}
@@ -77,7 +77,15 @@ export const CssReset = createGlobalStyle`
     --sar: env(safe-area-inset-right);
     --sab: env(safe-area-inset-bottom);
     --sal: env(safe-area-inset-left);
-}
+  }
+
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    // height: 100%;
+    overflow-x: hidden;
+  }
 
   html {
     font-size: 16px;
@@ -91,7 +99,6 @@ export const CssReset = createGlobalStyle`
     font-size: calc(14px + .35vw); /* Responsive base font size */
     line-height: calc(21px + 1.05vw); /* Responsive Vertical Rhythm */
     color: ${textColor};
-    overflow-x: hidden;
     background-color: ${white};
     background-image: url('/images/topo.png');
     background-size: 500px;
