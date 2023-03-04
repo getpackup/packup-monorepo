@@ -1,5 +1,5 @@
 import { PackingListItemType } from '@packup/common'
-import { Box,EditPackingListItem, PageContainer } from '@packup/components'
+import { Box, EditPackingListItem, PageContainer } from '@packup/components'
 import { useActiveTrip } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import { trackEvent } from '@packup/utils'

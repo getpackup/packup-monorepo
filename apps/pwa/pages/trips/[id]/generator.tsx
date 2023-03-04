@@ -15,7 +15,7 @@ import {
   PageContainer,
   Row,
 } from '@packup/components'
-import { useActiveTrip,useLoggedInUser, usePersonalGear } from '@packup/hooks'
+import { useActiveTrip, useLoggedInUser, usePersonalGear } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import { baseSpacer, doubleSpacer, lightGray, sextupleSpacer, tripleSpacer } from '@packup/styles'
 import {

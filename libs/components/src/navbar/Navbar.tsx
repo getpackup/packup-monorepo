@@ -243,13 +243,9 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
           {isAuthenticated && size.isSmallScreen && auth.isLoaded && (
             <>
-              {truncatedPageTitle === 'Packup' ? (
-                <Image src={yak} alt="" width={tripleSpacer} height={27} />
-              ) : (
-                <Heading noMargin altStyle as="h2">
-                  {truncatedPageTitle}
-                </Heading>
-              )}
+              <Heading noMargin altStyle as="h2">
+                {truncatedPageTitle}
+              </Heading>
             </>
           )}
 

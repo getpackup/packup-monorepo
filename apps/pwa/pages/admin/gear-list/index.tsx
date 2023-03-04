@@ -12,7 +12,7 @@ import {
   Table,
 } from '@packup/components'
 import { AppState } from '@packup/redux'
-import { brandDanger, brandPrimary, halfSpacer,lightestGray } from '@packup/styles'
+import { brandDanger, brandPrimary, halfSpacer, lightestGray } from '@packup/styles'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'

@@ -1,5 +1,5 @@
 import { PackingListItemType } from '@packup/common'
-import { Box,NoTripFound, PackingList, PageContainer } from '@packup/components'
+import { Box, NoTripFound, PackingList, PageContainer } from '@packup/components'
 import { useActiveTrip } from '@packup/hooks'
 import {
   AppState,

@@ -47,6 +47,10 @@ export const FeedbackModal = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [sent, setSent] = useState(false)
 
+  if (!activeLoggedInUser) {
+    return null
+  }
+
   return (
     <>
       <FeedbackLink

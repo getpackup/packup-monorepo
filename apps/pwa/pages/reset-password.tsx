@@ -1,5 +1,5 @@
-import { Alert, Box, Button, Heading, Input,PageContainer } from '@packup/components'
-import { passwordRulesString, requiredPassword,trackEvent } from '@packup/utils'
+import { Alert, Box, Button, Heading, Input, PageContainer } from '@packup/components'
+import { passwordRulesString, requiredPassword, trackEvent } from '@packup/utils'
 import * as Sentry from '@sentry/nextjs'
 import { Field, Form, Formik, FormikHelpers } from 'formik'
 import Head from 'next/head'
