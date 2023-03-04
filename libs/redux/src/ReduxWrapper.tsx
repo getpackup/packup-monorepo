@@ -48,31 +48,31 @@ const rrfProps = {
 
 const firebaseConfig = {
   apiKey:
-    process.env['NODE_ENV'] === 'development'
+    process.env['NODE_ENV'] !== 'development'
       ? process.env['NX_FIREBASE_API_KEY']
       : process.env['NX_FIREBASE_TEST_API_KEY'],
   authDomain:
-    process.env['NODE_ENV'] === 'development'
+    process.env['NODE_ENV'] !== 'development'
       ? process.env['NX_FIREBASE_AUTH_DOMAIN']
       : process.env['NX_FIREBASE_TEST_AUTH_DOMAIN'],
   databaseURL:
-    process.env['NODE_ENV'] === 'development'
+    process.env['NODE_ENV'] !== 'development'
       ? process.env['NX_FIREBASE_DATABASE_URL']
       : process.env['NX_FIREBASE_TEST_DATABASE_URL'],
   projectId:
-    process.env['NODE_ENV'] === 'development'
+    process.env['NODE_ENV'] !== 'development'
       ? process.env['NX_FIREBASE_PROJECT_ID']
       : process.env['NX_FIREBASE_TEST_PROJECT_ID'],
   storageBucket:
-    process.env['NODE_ENV'] === 'development'
+    process.env['NODE_ENV'] !== 'development'
       ? process.env['NX_FIREBASE_STORAGE_BUCKET']
       : process.env['NX_FIREBASE_TEST_STORAGE_BUCKET'],
   messagingSenderId:
-    process.env['NODE_ENV'] === 'development'
+    process.env['NODE_ENV'] !== 'development'
       ? process.env['NX_FIREBASE_MESSAGING_SENDER_ID']
       : process.env['NX_FIREBASE_TEST_MESSAGING_SENDER_ID'],
   appId:
-    process.env['NODE_ENV'] === 'development'
+    process.env['NODE_ENV'] !== 'development'
       ? process.env['NX_FIREBASE_APP_ID']
       : process.env['NX_FIREBASE_TEST_APP_ID'],
 }
