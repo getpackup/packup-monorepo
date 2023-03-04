@@ -10,6 +10,7 @@ import {
   halfSpacer,
   quadrupleSpacer,
   fontSizeH3,
+  sextupleSpacer,
 } from '@packup/styles'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import Link from 'next/link'
@@ -18,11 +19,10 @@ import { useSelector } from 'react-redux'
 import { isLoaded } from 'react-redux-firebase'
 import styled from 'styled-components'
 
-const BottomNav = styled.footer`
+const BottomNav = styled.footer<{ isPwa: boolean }>`
   position: fixed;
   z-index: ${zIndexSmallScreenFooter};
   bottom: 0;
-  min-height: calc(${quadrupleSpacer} + 1px); /* min height plus 1px border top */
   left: 0;
   right: 0;
   display: block;
@@ -32,6 +32,9 @@ const BottomNav = styled.footer`
 
   & nav {
     display: flex;
+    min-height: calc(
+      ${({ isPwa }) => (isPwa ? sextupleSpacer : quadrupleSpacer)} + 1px
+    ); /* min height plus 1px border top */
   }
 
   & a {
@@ -40,7 +43,7 @@ const BottomNav = styled.footer`
     justify-content: center;
     align-items: center;
     flex: 1;
-    height: ${quadrupleSpacer};
+    // height: 100%;
     color: ${textColor};
     // color: var(--color-text);
     transition: all 0.2s ease-in-out;
@@ -66,6 +69,31 @@ export const Footer = () => {
   const size = useWindowSize()
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '/'
 
+  const isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase()
+    return /iphone|ipad|ipod/.test(userAgent)
+  }
+
+  let navigator: typeof window.navigator & { standalone?: boolean }
+
+  if (typeof window !== 'undefined' && window.navigator) {
+    navigator = window.navigator
+  }
+
+  const isInStandaloneMode = () => 'standalone' in navigator && navigator.standalone
+
+  const getPWADisplayMode = () => {
+    // https://web.dev/customize-install/#detect-launch-type
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+    if (document.referrer.startsWith('android-app://')) {
+      return 'twa'
+    }
+    if (navigator.standalone || isStandalone) {
+      return 'standalone'
+    }
+    return 'browser'
+  }
+
   const nonArchivedTrips: TripType[] =
     isLoaded(trips) && Array.isArray(trips) && trips && trips.length > 0
       ? trips.filter((trip: TripType) => trip.archived !== true)
@@ -87,7 +115,7 @@ export const Footer = () => {
   return (
     <>
       {activeLoggedInUser && !isInOnboardingFlow && (
-        <BottomNav>
+        <BottomNav isPwa={isInStandaloneMode() && getPWADisplayMode() === 'standalone'}>
           <nav>
             <Link href="/" legacyBehavior passHref>
               <a className={pathname === '/' || pathname.includes('trips') ? 'active' : undefined}>
