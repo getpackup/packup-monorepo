@@ -1,28 +1,30 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable dot-notation */
-import firebase from 'firebase/compat/app'
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/compat/auth'
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
+
+import { UserType } from '@packup/common'
+import { LoadingPage } from '@packup/components'
+import firebase from 'firebase/compat/app'
 import * as React from 'react'
 import { Provider, useSelector } from 'react-redux'
 import {
   FirebaseReducer,
   FirestoreReducer,
-  ReactReduxFirebaseProvider,
   isLoaded,
+  ReactReduxFirebaseProvider,
 } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import { PersistGate } from 'redux-persist/integration/react'
-import { UserType } from '@packup/common'
-import { LoadingPage } from '@packup/components'
-import { showWorkerUpdateModal, workerUpdateInitialState } from './ducks/workerUpdateReady'
-import { clientInitialState } from './ducks/client'
-import configureStore from './configureStore'
+
 import { AppState } from '.'
+import configureStore from './configureStore'
+import { clientInitialState } from './ducks/client'
+import { showWorkerUpdateModal, workerUpdateInitialState } from './ducks/workerUpdateReady'
 
 const initialState = process.env['BROWSER']
   ? window.__INITIAL_STATE__

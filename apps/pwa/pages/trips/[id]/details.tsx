@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { TripFormType, UserType } from '@packup/common'
 import {
   Box,
@@ -16,27 +15,27 @@ import {
   TripNavigation,
   UserMediaObject,
 } from '@packup/components'
-import toast from 'react-hot-toast'
+import { useActiveTrip } from '@packup/hooks'
 import { AppState } from '@packup/redux'
-
 import {
+  createOptionsFromArrayOfObjects,
+  formattedDateRange,
   gearListAccommodations,
   gearListActivities,
   gearListCampKitchen,
   gearListOtherConsiderations,
   getSeason,
   isUserTripOwner,
-  trackEvent,
   requiredField,
-  createOptionsFromArrayOfObjects,
-  formattedDateRange,
+  trackEvent,
 } from '@packup/utils'
-import { useActiveTrip } from '@packup/hooks'
 import { endOfDay, startOfDay } from 'date-fns'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { Fragment, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 

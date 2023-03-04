@@ -1,5 +1,6 @@
 import { GearItemType } from '@packup/common'
 import {
+  Box,
   Button,
   Column,
   FlexContainer,
@@ -9,18 +10,17 @@ import {
   PageContainer,
   Row,
   Table,
-  Box,
 } from '@packup/components'
 import { AppState } from '@packup/redux'
-import toast from 'react-hot-toast'
+import { brandDanger, brandPrimary, halfSpacer,lightestGray } from '@packup/styles'
 import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { brandPrimary, lightestGray, brandDanger, halfSpacer } from '@packup/styles'
 
 function RowActions(props) {
   return (

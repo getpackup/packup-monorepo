@@ -2,11 +2,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useRouter } from 'next/router'
-import { AppState, setActivePackingListFilter, setActivePackingListTab } from '@packup/redux'
-import Head from 'next/head'
 import { TripMemberStatus, TripType } from '@packup/common'
 import { Box, Button, Column, Heading, PageContainer, Row, TripCard } from '@packup/components'
+import { AppState, setActivePackingListFilter, setActivePackingListTab } from '@packup/redux'
 import { doubleSpacer } from '@packup/styles'
 import {
   isAfterToday,
@@ -15,7 +13,9 @@ import {
   TabOptions,
   trackEvent,
 } from '@packup/utils'
+import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { FaArrowRight, FaPlusCircle, FaRedo } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'

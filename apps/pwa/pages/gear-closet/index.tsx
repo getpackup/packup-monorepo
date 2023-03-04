@@ -1,43 +1,43 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import toast from 'react-hot-toast'
 import { TripType } from '@packup/common'
 import {
-  GearListEnumType,
-  GearItemType,
-  ActivityTypes,
-  gearListAccommodations,
-  gearListActivities,
-  gearListCampKitchen,
-  gearListOtherConsiderations,
-  trackEvent,
-} from '@packup/utils'
-import {
   Alert,
+  Box,
   Button,
   Column,
   DropdownMenu,
   FlexContainer,
   Heading,
+  IconWrapper,
   LoadingPage,
   Modal,
+  multiSelectStyles,
   PageContainer,
   Row,
   Table,
-  multiSelectStyles,
-  Box,
-  IconWrapper,
 } from '@packup/components'
 import { usePersonalGear, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
-import { halfSpacer, inputPaddingY, brandDanger, brandPrimary, lightestGray } from '@packup/styles'
-import { useRouter } from 'next/router'
+import { brandDanger, brandPrimary, halfSpacer, inputPaddingY, lightestGray } from '@packup/styles'
+import {
+  ActivityTypes,
+  GearItemType,
+  gearListAccommodations,
+  gearListActivities,
+  gearListCampKitchen,
+  GearListEnumType,
+  gearListOtherConsiderations,
+  trackEvent,
+} from '@packup/utils'
+import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { FaFolderOpen, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import Select from 'react-select'
-import Head from 'next/head'
 
 type SelectGearListCategoryOption = {
   readonly value: keyof ActivityTypes

@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router'
 import { Box, NoTripFound, PageContainer, TripParty } from '@packup/components'
+import { useActiveTrip } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import { trackEvent } from '@packup/utils'
-import { useActiveTrip } from '@packup/hooks'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
-import Head from 'next/head'
 
 export default function Party() {
   const auth = useSelector((state: AppState) => state.firebase.auth)

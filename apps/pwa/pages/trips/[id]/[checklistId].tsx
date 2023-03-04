@@ -1,13 +1,13 @@
 import { PackingListItemType } from '@packup/common'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { PageContainer, EditPackingListItem, Box } from '@packup/components'
+import { Box,EditPackingListItem, PageContainer } from '@packup/components'
+import { useActiveTrip } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import { trackEvent } from '@packup/utils'
-import { useActiveTrip } from '@packup/hooks'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
-import Head from 'next/head'
 
 export default function ChecklistId() {
   const auth = useSelector((state: AppState) => state.firebase.auth)

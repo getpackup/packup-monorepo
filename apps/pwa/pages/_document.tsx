@@ -1,13 +1,13 @@
 /* eslint-disable react/no-invalid-html-attribute */
-import React from 'react'
 import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
   DocumentContext,
   DocumentInitialProps,
+  Head,
+  Html,
+  Main,
+  NextScript,
 } from 'next/document'
+import React from 'react'
 import { ServerStyleSheet } from 'styled-components'
 
 export default class CustomDocument extends Document {

@@ -1,7 +1,7 @@
 // import { GearItemType } from '@packup/common'
 import {
-  Button,
   Box,
+  Button,
   CollapsibleBox,
   Column,
   FormErrors,
@@ -11,29 +11,29 @@ import {
   Row,
   StyledLabel,
 } from '@packup/components'
+import { useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
-import toast from 'react-hot-toast'
 import {
+  ActivityTypes,
+  activityTypesList,
   gearListAccommodations,
   gearListActivities,
   gearListCampKitchen,
   gearListCategories,
+  GearListEnumType,
   gearListOtherConsiderations,
-  trackEvent,
   requiredField,
   requiredSelect,
-  ActivityTypes,
-  activityTypesList,
-  GearListEnumType,
+  trackEvent,
 } from '@packup/utils'
 import { Field, Form, Formik, FormikHelpers } from 'formik'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { FaCheckCircle, FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-import Head from 'next/head'
-import { useWindowSize } from '@packup/hooks'
 
 export default function GearClosetAddItem() {
   const firebase = useFirebase()

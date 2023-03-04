@@ -1,10 +1,9 @@
-import Head from 'next/head'
 import {
-  UserType,
-  TripFormType,
-  TripMemberStatus,
   MAX_TRIP_PARTY_SIZE,
+  TripFormType,
   TripMemberFormType,
+  TripMemberStatus,
+  UserType,
 } from '@packup/common'
 import {
   Box,
@@ -16,23 +15,23 @@ import {
   HorizontalRule,
   Input,
   PageContainer,
+  StyledLabel,
   UserMediaObject,
   UserSearch,
-  StyledLabel,
 } from '@packup/components'
-import toast from 'react-hot-toast'
+import { useLoggedInUser } from '@packup/hooks'
 import { AppState } from '@packup/redux'
-import { getSeason, requiredField, trackEvent, sendTripInvitationEmail } from '@packup/utils'
-
+import { getSeason, requiredField, sendTripInvitationEmail, trackEvent } from '@packup/utils'
 import axios from 'axios'
-import { endOfDay, startOfDay, differenceInCalendarDays } from 'date-fns'
+import { differenceInCalendarDays, endOfDay, startOfDay } from 'date-fns'
 import { Field, Form, Formik } from 'formik'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-import { useLoggedInUser } from '@packup/hooks'
 
 type MembersToInviteType = { uid: string; email: string; greetingName: string }[]
 

@@ -1,21 +1,22 @@
-import { FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa'
-import React, { useMemo } from 'react'
-import { minify } from 'terser'
-import { AppProps } from 'next/app'
-import Head from 'next/head'
-import { ThemeProvider } from '@packup/utils'
+import '../webfonts.css'
+import 'react-loading-skeleton/dist/skeleton.css'
+
+import {
+  AddToHomeScreenBanner,
+  ErrorBoundary,
+  FeedbackModal,
+  Footer,
+  Navbar,
+} from '@packup/components'
 import { ReduxWrapper } from '@packup/redux'
-import styled, { CSSProperties } from 'styled-components'
-import CookieConsent from 'react-cookie-consent'
-import { IconContext } from 'react-icons'
 import {
   borderRadius,
   brandDanger,
   brandInfo,
   brandSecondary,
   brandSuccess,
-  COLORS,
   COLOR_MODE_KEY,
+  COLORS,
   CssReset,
   INITIAL_COLOR_MODE_CSS_PROP,
   offWhite,
@@ -25,19 +26,19 @@ import {
   UploadTheme,
   white,
 } from '@packup/styles'
-import {
-  AddToHomeScreenBanner,
-  Navbar,
-  FeedbackModal,
-  Footer,
-  ErrorBoundary,
-} from '@packup/components'
+import { ThemeProvider } from '@packup/utils'
+import { AppProps } from 'next/app'
+import Head from 'next/head'
 import Link from 'next/link'
-import Modal from 'react-modal'
-import '../webfonts.css'
-import 'react-loading-skeleton/dist/skeleton.css'
-import { Toaster } from 'react-hot-toast'
 import Script from 'next/script'
+import React, { useMemo } from 'react'
+import CookieConsent from 'react-cookie-consent'
+import { Toaster } from 'react-hot-toast'
+import { IconContext } from 'react-icons'
+import { FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa'
+import Modal from 'react-modal'
+import styled, { CSSProperties } from 'styled-components'
+import { minify } from 'terser'
 
 function setColorsByTheme() {
   const colors = '🌈'

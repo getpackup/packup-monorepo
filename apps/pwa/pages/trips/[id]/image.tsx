@@ -5,14 +5,14 @@ import {
   LoadingPage,
   PageContainer,
 } from '@packup/components'
-import Head from 'next/head'
-import toast from 'react-hot-toast'
+import { useActiveTrip, usePrevious } from '@packup/hooks'
 import { baseSpacer } from '@packup/styles'
 import { trackEvent } from '@packup/utils'
-import { useActiveTrip, usePrevious } from '@packup/hooks'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components'
 

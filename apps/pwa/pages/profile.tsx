@@ -1,5 +1,7 @@
 import {
+  AvatarImageWrapper,
   AvatarUpload,
+  Box,
   Button,
   Column,
   EditableInput,
@@ -8,39 +10,36 @@ import {
   Input,
   PageContainer,
   Row,
-  AvatarImageWrapper,
-  Box,
 } from '@packup/components'
-import toast from 'react-hot-toast'
+import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import {
-  brandDanger,
-  offWhite,
   baseSpacer,
   baseSpacerUnit,
+  brandDanger,
   doubleSpacer,
-  sextupleSpacer,
+  offWhite,
   quadrupleSpacer,
+  sextupleSpacer,
 } from '@packup/styles'
 import {
-  trackEvent,
-  validateUsername,
   isEmail,
   requiredField,
   requiredPhoneNumber,
+  trackEvent,
+  validateUsername,
 } from '@packup/utils'
-
 import { Field, Form, Formik } from 'formik'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { FaSignOutAlt, FaTrash, FaUserLock } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
 import styled from 'styled-components'
-import Head from 'next/head'
-import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 
 export const EmailWrapper = styled.div`
   width: 100%;

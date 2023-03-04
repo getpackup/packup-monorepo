@@ -1,4 +1,3 @@
-import React from 'react'
 /**
  * NOTE: This requires `@sentry/nextjs` version 7.3.0 or higher.
  *
@@ -13,11 +12,11 @@ import React from 'react'
  *  - https://nextjs.org/docs/api-reference/data-fetching/get-initial-props
  *  - https://reactjs.org/docs/error-boundaries.html
  */
-
 import * as Sentry from '@sentry/nextjs'
 import type { NextPage } from 'next'
 import type { ErrorProps } from 'next/error'
 import NextErrorComponent from 'next/error'
+import React from 'react'
 
 // If you're using a Nextjs version prior to 12.2.1, uncomment this to
 // compensate for https://github.com/vercel/next.js/issues/8592

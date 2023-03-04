@@ -1,6 +1,7 @@
 import { GearItemType } from '@packup/common'
 import {
   Alert,
+  Box,
   Button,
   CollapsibleBox,
   Column,
@@ -12,31 +13,30 @@ import {
   Modal,
   PageContainer,
   Row,
-  Box,
 } from '@packup/components'
 import { usePersonalGear, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import {
+  ActivityTypes,
   gearListAccommodations,
   gearListActivities,
   gearListCampKitchen,
   gearListCategories,
+  GearListEnumType,
   gearListOtherConsiderations,
-  trackEvent,
   requiredField,
   requiredSelect,
-  ActivityTypes,
-  GearListEnumType,
+  trackEvent,
 } from '@packup/utils'
-import toast from 'react-hot-toast'
 import { Field, Form, Formik, FormikHelpers } from 'formik'
-import { useRouter } from 'next/router'
 import omit from 'lodash/omit'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { FaCheckCircle, FaChevronLeft, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
-import Head from 'next/head'
 
 export default function GearClosetEditItem() {
   const firebase = useFirebase()

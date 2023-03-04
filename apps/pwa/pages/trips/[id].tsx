@@ -1,7 +1,6 @@
 import { PackingListItemType } from '@packup/common'
-import { useRouter } from 'next/router'
-
-import { NoTripFound, PageContainer, PackingList, Box } from '@packup/components'
+import { Box,NoTripFound, PackingList, PageContainer } from '@packup/components'
+import { useActiveTrip } from '@packup/hooks'
 import {
   AppState,
   setActivePackingListFilter,
@@ -10,12 +9,12 @@ import {
   setSharedListScrollPosition,
 } from '@packup/redux'
 import { PackingListFilterOptions, TabOptions, trackEvent } from '@packup/utils'
-import { useActiveTrip } from '@packup/hooks'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
-import Head from 'next/head'
 
 export default function TripById() {
   const dispatch = useDispatch()

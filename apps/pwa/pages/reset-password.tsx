@@ -1,14 +1,14 @@
-import { Alert, Box, PageContainer, Button, Heading, Input } from '@packup/components'
-import { trackEvent, passwordRulesString, requiredPassword } from '@packup/utils'
+import { Alert, Box, Button, Heading, Input,PageContainer } from '@packup/components'
+import { passwordRulesString, requiredPassword,trackEvent } from '@packup/utils'
+import * as Sentry from '@sentry/nextjs'
 import { Field, Form, Formik, FormikHelpers } from 'formik'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
-import { FaCaretRight, FaInfoCircle } from 'react-icons/fa'
 import toast from 'react-hot-toast'
+import { FaCaretRight, FaInfoCircle } from 'react-icons/fa'
 import { useFirebase } from 'react-redux-firebase'
 import ReactTooltip from 'react-tooltip'
-import * as Sentry from '@sentry/nextjs'
-import Head from 'next/head'
 
 type ResetFormType = {
   password: string

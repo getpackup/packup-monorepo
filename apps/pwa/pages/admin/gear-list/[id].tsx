@@ -2,10 +2,10 @@ import { GearItemType } from '@packup/common'
 import {
   Box,
   Button,
+  GearListItemForm,
   Heading,
   LoadingPage,
   PageContainer,
-  GearListItemForm,
 } from '@packup/components'
 import { AppState } from '@packup/redux'
 import Head from 'next/head'

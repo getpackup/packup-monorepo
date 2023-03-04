@@ -3,17 +3,12 @@ import {
   Column,
   FirebaseAuthWrapper,
   Heading,
-  SignupForm,
   LoginForm,
   PageContainer,
   Row,
+  SignupForm,
 } from '@packup/components'
 import { AppState } from '@packup/redux'
-import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import Head from 'next/head'
-import styled from 'styled-components'
 import {
   baseBorderStyle,
   baseSpacer,
@@ -26,6 +21,11 @@ import {
   textColorLight,
   white,
 } from '@packup/styles'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import React, { useEffect,useState } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 const Tabs = styled.div`
   display: flex;

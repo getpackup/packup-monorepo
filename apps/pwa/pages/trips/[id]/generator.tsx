@@ -8,34 +8,33 @@ import {
   FormErrors,
   Heading,
   IconCheckbox,
+  IconCheckboxLabel,
+  IconWrapperLabel,
   LoadingSpinner,
   Modal,
   PageContainer,
   Row,
-  IconCheckboxLabel,
-  IconWrapperLabel,
 } from '@packup/components'
-import Head from 'next/head'
+import { useActiveTrip,useLoggedInUser, usePersonalGear } from '@packup/hooks'
 import { AppState } from '@packup/redux'
-import toast from 'react-hot-toast'
-import { lightGray, baseSpacer, doubleSpacer, sextupleSpacer, tripleSpacer } from '@packup/styles'
+import { baseSpacer, doubleSpacer, lightGray, sextupleSpacer, tripleSpacer } from '@packup/styles'
 import {
   ActivityTypes,
   allGearListItems,
   gearListAccommodations,
   gearListActivities,
   gearListCampKitchen,
+  GearListEnumType,
   gearListKeys,
   gearListOtherConsiderations,
   trackEvent,
-  GearListEnumType,
 } from '@packup/utils'
-import { usePersonalGear, useLoggedInUser, useActiveTrip } from '@packup/hooks'
-
 import { Field, Form, Formik, FormikHelpers } from 'formik'
 import { uniq, uniqBy } from 'lodash'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { IconType } from 'react-icons'
 import { FaCheckCircle, FaPlusSquare } from 'react-icons/fa'
 import Skeleton from 'react-loading-skeleton'
