@@ -7,6 +7,7 @@ import {
   EditableInput,
   FlexContainer,
   HeroImageUpload,
+  HorizontalRule,
   Input,
   PageContainer,
   Row,
@@ -16,7 +17,9 @@ import { AppState } from '@packup/redux'
 import {
   baseSpacer,
   baseSpacerUnit,
+  borderRadius,
   brandDanger,
+  brandDangerRGB,
   doubleSpacer,
   offWhite,
   quadrupleSpacer,
@@ -35,7 +38,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaSignOutAlt, FaTrash, FaUserLock } from 'react-icons/fa'
+import { FaExclamationTriangle, FaSignOutAlt, FaTrash, FaUserLock } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
@@ -407,6 +410,24 @@ export default function Profile() {
                           validate={isEmail}
                         />
                       </EditableInput>
+                      <section
+                        style={{
+                          backgroundColor: `rgba(${brandDangerRGB}, .1)`,
+                          padding: baseSpacer,
+                          borderRadius,
+                        }}
+                      >
+                        <p style={{ color: brandDanger }}>
+                          <strong>
+                            <FaExclamationTriangle color={brandDanger} /> Danger Zone
+                          </strong>
+                        </p>
+                        <p>
+                          Need to deactivate your account?{' '}
+                          <Link href="/account-delete">Take care of that here</Link>
+                        </p>
+                      </section>
+                      <HorizontalRule />
                       <Button
                         type="button"
                         onClick={logout}

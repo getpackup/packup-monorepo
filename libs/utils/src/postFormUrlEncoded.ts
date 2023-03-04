@@ -3,7 +3,10 @@ const encode = (data: { [key: string]: unknown }) =>
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key] as string)}`)
     .join('&')
 
-export const postFormUrlEncoded = async (formName: string, values: Record<string, string>) =>
+export const postFormUrlEncoded = async (
+  formName: string,
+  values: Record<string, string | boolean>
+) =>
   fetch('https://packupapp.com/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

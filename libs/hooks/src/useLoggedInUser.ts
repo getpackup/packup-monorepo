@@ -1,7 +1,7 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { useSelector } from 'react-redux'
-import { AppState } from '@packup/redux'
 import { UserType } from '@packup/common'
+import { AppState } from '@packup/redux'
+import { useSelector } from 'react-redux'
 
 export const useLoggedInUser = () => {
   // eslint-disable-next-line dot-notation
