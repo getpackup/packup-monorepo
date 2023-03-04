@@ -31,7 +31,6 @@ import {
 } from '@packup/utils'
 import axios from 'axios'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { FunctionComponent, useState } from 'react'
 import { FaSignOutAlt, FaUserPlus, FaUserTimes } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -55,7 +54,6 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
   const [userToReinvite, setUserToReinvite] = useState<TripMember | undefined>(undefined)
 
   const firebase = useFirebase()
-  const { asPath } = useRouter()
 
   const updateTrip = (memberId: string, memberEmail: string, greetingName: string) => {
     // Object.values(acceptedTripMembersOnly(activeTrip)).length + 1 accounts for async data updates
@@ -66,7 +64,7 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
       setIsSearchBarDisabled(true)
       // send us a slack message so we can follow up
       axios.get(
-        asPath.includes('https://getpackup.com')
+        process.env.NODE_ENV === 'production'
           ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}`
           : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}`
       )

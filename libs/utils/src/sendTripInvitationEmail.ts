@@ -23,10 +23,10 @@ export const sendTripInvitationEmail = ({
     subject: `${invitedBy} has invited you on a trip`,
     username: invitedBy,
     tripId,
-    isTestEnv: String(window.location.origin !== 'https://packupapp.com'),
+    isTestEnv: process.env.NODE_ENV !== 'production',
   })
   const invitationUrl =
-    window.location.origin === 'https://packupapp.com'
+    process.env.NODE_ENV === 'production'
       ? `https://us-central1-getpackup.cloudfunctions.net/sendTripInvitationEmail?${queryParams}`
       : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/sendTripInvitationEmail?${queryParams}`
 

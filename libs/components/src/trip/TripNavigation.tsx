@@ -30,7 +30,7 @@ export const TripNavigation: FunctionComponent<TripNavigationProps> = ({
   const partyPageIsActive = pathname.includes('party')
 
   return (
-    <div style={{ marginBottom: baseSpacer }}>
+    <div style={{ padding: baseSpacer }}>
       <FlexContainer justifyContent="space-between" alignItems="center" flexWrap="nowrap">
         <Breadcrumbs trip={activeTrip} pathname={pathname} />
         <DropdownMenu>
