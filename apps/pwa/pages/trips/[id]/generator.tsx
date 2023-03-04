@@ -35,7 +35,6 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { IconType } from 'react-icons'
 import { FaCheckCircle, FaPlusSquare } from 'react-icons/fa'
 import Skeleton from 'react-loading-skeleton'
 import { useSelector } from 'react-redux'
@@ -208,13 +207,12 @@ export default function TripGenerator() {
       </div>
     ))
 
-  const renderDynamicIcon = (icon: IconType) => {
-    const Icon = icon
-    return <Icon color={lightGray} size={tripleSpacer} />
-  }
-
-  const updateUsersGearClosetCategories = (categoryToAdd: string) => {
+  const updateUsersGearClosetCategories = (
+    categoryToAdd: string,
+    setFieldValue: (name: string, value: boolean) => void
+  ) => {
     setGearClosetCategoriesIsLoading(true)
+    setFieldValue(categoryToAdd, true)
     setAddNewCategoryModalIsOpen(false)
     firebase
       .firestore()
@@ -253,7 +251,7 @@ export default function TripGenerator() {
               : {}
           }}
         >
-          {({ isSubmitting, isValid, errors, values }) => (
+          {({ isSubmitting, isValid, errors, values, setFieldValue }) => (
             <Form>
               <Row>
                 <Column md={8} mdOffset={2}>
@@ -405,6 +403,33 @@ export default function TripGenerator() {
                   </Row>
                 </Column>
               </Row>
+              <Modal
+                toggleModal={() => {
+                  setGearListType([])
+                  setAddNewCategoryModalIsOpen(false)
+                }}
+                isOpen={addNewCategoryModalIsOpen}
+              >
+                <Heading>Add New Category</Heading>
+                <strong style={{ textTransform: 'uppercase' }}>Select a Category</strong>
+                <Row>
+                  {getOtherCategories(gearListType).map((item) => (
+                    <Column xs={4} md={3} key={item.name}>
+                      <IconWrapperLabel
+                        onClick={() => updateUsersGearClosetCategories(item.name, setFieldValue)}
+                      >
+                        <Field
+                          as={IconCheckbox}
+                          icon={item.icon}
+                          checked={values[item.name] ?? false}
+                          name={item.name}
+                          label={item.label}
+                        />
+                      </IconWrapperLabel>
+                    </Column>
+                  ))}
+                </Row>
+              </Modal>
             </Form>
           )}
         </Formik>
@@ -420,31 +445,6 @@ export default function TripGenerator() {
             📝
           </p>
         </div>
-      </Modal>
-
-      <Modal
-        toggleModal={() => {
-          setGearListType([])
-          setAddNewCategoryModalIsOpen(false)
-        }}
-        isOpen={addNewCategoryModalIsOpen}
-      >
-        <Heading>Add New Category</Heading>
-        <strong style={{ textTransform: 'uppercase' }}>Select a Category</strong>
-        <Row>
-          {getOtherCategories(gearListType).map((item) => (
-            <Column xs={4} md={3} key={item.name}>
-              <IconWrapperLabel
-                onClick={() => {
-                  updateUsersGearClosetCategories(item.name)
-                }}
-              >
-                {renderDynamicIcon(item.icon)}
-                <IconCheckboxLabel>{item.label}</IconCheckboxLabel>
-              </IconWrapperLabel>
-            </Column>
-          ))}
-        </Row>
       </Modal>
     </PageContainer>
   )

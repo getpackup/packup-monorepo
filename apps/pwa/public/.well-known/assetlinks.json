@@ -1,6 +1,12 @@
-[{
-        "relation": ["delegate_permission/common.handle_all_urls"],
-        "target" : { "namespace": "android_app", "package_name": "com.packupapp.twa",
-                     "sha256_cert_fingerprints": ["A4:F3:50:AB:60:60:B9:33:F2:D4:CA:7A:5F:5B:53:90:F8:DE:70:77:E0:40:E6:4B:1C:FF:8D:2F:29:A9:27:75"] }
-      }
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.packupapp.twa",
+      "sha256_cert_fingerprints": [
+        "A4:F3:50:AB:60:60:B9:33:F2:D4:CA:7A:5F:5B:53:90:F8:DE:70:77:E0:40:E6:4B:1C:FF:8D:2F:29:A9:27:75"
+      ]
+    }
+  }
 ]
