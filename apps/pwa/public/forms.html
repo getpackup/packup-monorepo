@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- This file is used for Netlify to detect forms so we can submit data using postFormUrlEncoded function -->
+<html lang="en">
+  <head></head>
+  <body>
+    <form netlify name="feedback" method="post" netlify-honeypot="bot-field" data-netlify="true">
+      <input type="hidden" name="form-name" value="feedback" />
+      <input type="hidden" name="email" />
+      <input type="hidden" name="displayName" />
+      <input type="hidden" name="liked" />
+      <input type="hidden" name="disliked" />
+      <input type="hidden" name="differently" />
+      <input type="hidden" name="missing" />
+      <input type="hidden" name="message" />
+    </form>
+    <form
+      netlify
+      name="accountDelete"
+      method="post"
+      netlify-honeypot="bot-field"
+      data-netlify="true"
+    >
+      <input type="hidden" name="form-name" value="accountDelete" />
+
+      <input type="hidden" name="privacyConcerns" />
+      <input type="hidden" name="noLongerUseful" />
+      <input type="hidden" name="lessScreenTime" />
+      <input type="hidden" name="otherChoice" />
+      <input type="hidden" name="otherReason" />
+    </form>
+  </body>
+</html>

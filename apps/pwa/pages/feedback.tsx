@@ -13,8 +13,8 @@ export default function Feedback() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
 
   const initialValues = {
-    email: auth.email || '',
-    displayName: auth.displayName || '',
+    email: auth?.email || '',
+    displayName: auth?.displayName || '',
     liked: '',
     disliked: '',
     differently: '',
