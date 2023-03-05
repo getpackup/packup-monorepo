@@ -76,6 +76,13 @@ export default function AccountDelete() {
                         No hard feelings, we just want to use this feedback to improve. Select all
                         that apply.
                       </p>
+                      <input
+                        type="hidden"
+                        name="name"
+                        value={activeLoggedInUser?.displayName || ''}
+                      />
+                      <input type="hidden" name="email" value={activeLoggedInUser?.email || ''} />
+                      <input type="hidden" name="authEmail" value={auth?.email || ''} />
                       <Field
                         as={Input}
                         type="checkbox"
