@@ -1,4 +1,5 @@
 import { Box, FlexContainer, Heading, IconWrapper } from '@packup/components'
+import { baseSpacer, borderRadius, boxShadow, boxShadowHover } from '@packup/styles'
 import React, { FunctionComponent, useState } from 'react'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 import { useMeasure } from 'react-use'
@@ -12,6 +13,19 @@ type CollapsibleBoxProps = {
   enabled?: boolean
   children: React.ReactNode
 }
+
+const CollapsibleBoxWrapper = styled.div`
+  padding: ${baseSpacer};
+  border-radius: ${borderRadius};
+  margin-bottom: ${baseSpacer};
+  box-shadow: ${boxShadow};
+  background: var(--color-backgroundTertiary);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: ${boxShadowHover};
+  }
+`
 
 const StyledCollapsed = styled.div<{
   isCollapsed: boolean
@@ -47,14 +61,21 @@ export const CollapsibleBox: FunctionComponent<CollapsibleBoxProps> = ({
   }
 
   return (
-    <Box>
-      <FlexContainer justifyContent="space-between" alignItems="flex-start" flexWrap="nowrap">
+    <CollapsibleBoxWrapper>
+      <FlexContainer
+        justifyContent="space-between"
+        alignItems="flex-start"
+        flexWrap="nowrap"
+        style={{ cursor: 'pointer' }}
+        onClick={handleCollapse}
+        role="button"
+        onKeyDown={handleCollapse}
+      >
         <div
           style={{ cursor: 'pointer' }}
           onClick={handleCollapse}
           role="button"
-          onKeyPress={handleCollapse}
-          tabIndex={0}
+          onKeyDown={handleCollapse}
         >
           <Heading as="h3" altStyle noMargin>
             {title}
@@ -68,7 +89,7 @@ export const CollapsibleBox: FunctionComponent<CollapsibleBoxProps> = ({
         {enabled && (
           <IconWrapper
             onClick={handleCollapse}
-            onKeyPress={handleCollapse}
+            onKeyDown={handleCollapse}
             tabIndex={0}
             role="button"
           >
@@ -79,6 +100,6 @@ export const CollapsibleBox: FunctionComponent<CollapsibleBoxProps> = ({
       <StyledCollapsed isCollapsed={collapsed} height={height}>
         <div ref={ref}>{children}</div>
       </StyledCollapsed>
-    </Box>
+    </CollapsibleBoxWrapper>
   )
 }

@@ -23,7 +23,6 @@ import {
   brandPrimary,
   brandSuccess,
   textColor,
-  white,
   baseSpacer,
   breakpoints,
   halfSpacer,
@@ -78,7 +77,7 @@ const StickyInner = styled.div`
 `
 
 const Tabs = styled.div`
-  background-color: ${white};
+  background-color: var(--color-background);
   display: flex;
   justify-content: space-between;
   cursor: pointer;

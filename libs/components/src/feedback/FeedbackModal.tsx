@@ -1,6 +1,5 @@
 import { Button, Column, Heading, Input, Modal, Row } from '@packup/components'
 import {
-  brandTertiary,
   brandTertiaryHover,
   white,
   zIndexFeedbackButton,
@@ -10,7 +9,6 @@ import {
 import { postFormUrlEncoded } from '@packup/utils'
 import { requiredField } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import Link from 'next/link'
 import React, { useState } from 'react'
 import { FaBullhorn, FaCheck, FaTimes } from 'react-icons/fa'
 import ReactTooltip from 'react-tooltip'
@@ -38,7 +36,7 @@ const FeedbackLink = styled.div`
 
   @media only screen and (min-width: ${breakpoints.md}) {
     top: calc(72px + env(safe-area-inset-top));
-    background-color: ${brandTertiary};
+    background-color: var(--color-info);
   }
 `
 

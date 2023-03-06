@@ -52,7 +52,7 @@ const StyledTable = styled.table`
 const StyledTr = styled.tr`
   border-bottom: ${baseBorderStyle};
   &:hover {
-    background-color: ${white};
+    background-color: var(--color-background);
   }
 
   &:hover svg {
@@ -68,8 +68,8 @@ const StyledTd = styled.td`
 const StyledTh = styled.th`
   padding: ${halfSpacer} ${quarterSpacer};
   font-weight: bold;
-  border: ${baseBorderStyle};
-  background-color: ${lightestGray};
+  border: none;
+  background-color: var(--color-backgroundTertiary);
   text-transform: uppercase;
 `
 

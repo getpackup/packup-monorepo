@@ -1,14 +1,7 @@
 import { FlexContainer, Input, InputWrapper } from '@packup/components'
 import { AppState } from '@packup/redux'
 import toast from 'react-hot-toast'
-import {
-  brandPrimary,
-  offWhite,
-  textColor,
-  baseBorderStyle,
-  doubleSpacer,
-  halfSpacer,
-} from '@packup/styles'
+import { brandPrimary, baseBorderStyle, doubleSpacer, halfSpacer } from '@packup/styles'
 
 import { trackEvent } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
@@ -29,7 +22,7 @@ const PackingListItemWrapper = styled.li`
   border-bottom: ${baseBorderStyle};
   padding: ${halfSpacer};
   &:hover {
-    background-color: ${offWhite};
+    background-color: var(--color-backgroundAlt);
   }
 
   & ${InputWrapper} {
@@ -45,7 +38,7 @@ const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${textColor};
+  color: var(--color-text);
   &:hover {
     color: ${brandPrimary};
   }

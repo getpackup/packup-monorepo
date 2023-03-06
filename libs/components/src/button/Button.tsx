@@ -163,14 +163,14 @@ const secondaryButtonStyles = `
 `
 
 const tertiaryButtonStyles = `
-  background-color: ${white};
-  color: ${textColor};
+  background-color: var(--color-backgroundTertiary);
+  color: var(--color-text);
   border: ${baseBorderStyle};
 
   &:hover,
   &:focus {
-    color: ${textColor};
-    background-color: ${white};
+    color: var(--color-text);
+    background-color: var(--color-background);
   }
 `
 

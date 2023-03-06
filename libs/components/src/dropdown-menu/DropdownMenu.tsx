@@ -30,7 +30,7 @@ interface StyledDropDownProps {
 
 const StyledDropdown = styled.div<StyledDropDownProps>`
   position: absolute;
-  background-color: ${white};
+  background-color: var(--color-background);
   border: ${baseBorderStyle};
   box-shadow: ${z1Shadow};
   right: 0;
@@ -55,20 +55,20 @@ const StyledDropdown = styled.div<StyledDropDownProps>`
 
   &:after {
     border-color: transparent;
-    border-bottom-color: ${white};
+    border-bottom-color: var(--color-background);
     border-width: ${halfSpacer};
     margin-left: -${halfSpacer};
   }
   &:before {
     border-color: transparent;
-    border-bottom-color: ${borderColor};
+    border-bottom-color: var(--color-border);
     border-width: calc(${halfSpacer} + 1px);
     margin-left: calc(-${halfSpacer} - 1px);
   }
 
   & > a,
   & > button {
-    color: ${textColor};
+    color: var(--color-text);
     padding: ${halfSpacer} ${baseSpacer};
     display: block;
     border-bottom: ${baseBorderStyle};
@@ -86,7 +86,7 @@ const StyledDropdown = styled.div<StyledDropDownProps>`
   & > button:hover,
   & > button:focus {
     color: ${brandPrimary};
-    background-color: ${offWhite};
+    background-color: var(--color-backgroundAlt);
   }
 `
 
@@ -122,7 +122,7 @@ export const DropdownMenu: FunctionComponent<DropdownMenuProps> = ({ children, c
         color="tertiary"
         size="small"
       >
-        <FaEllipsisH size={baseSpacer} color={color || textColor} />
+        <FaEllipsisH size={baseSpacer} color={color || 'var(--color-text)'} />
       </Button>
       {dropdownOpen && <StyledDropdown width={width}>{children}</StyledDropdown>}
     </StyledDropdownWrapper>

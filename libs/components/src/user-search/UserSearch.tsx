@@ -12,13 +12,13 @@ import {
 } from '@packup/components'
 import { AppState } from '@packup/redux'
 import {
-  white,
   zIndexDropdown,
   baseBorderStyle,
   z1Shadow,
   baseSpacer,
   doubleSpacer,
   halfSpacer,
+  quarterSpacer,
 } from '@packup/styles'
 import { alogliaSearch, trackEvent } from '@packup/utils'
 import { Fragment, FunctionComponent, useState } from 'react'
@@ -54,7 +54,7 @@ const ScrollableHitsWrapper = styled.div`
   z-index: ${zIndexDropdown};
   padding: ${baseSpacer};
   border: ${baseBorderStyle};
-  background-color: ${white};
+  background-color: var(--color-background);
 `
 
 const StyledSearchBox = styled.input<any>`

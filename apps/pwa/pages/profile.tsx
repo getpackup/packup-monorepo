@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Column,
+  DarkModeToggle,
   EditableInput,
   FlexContainer,
   HeroImageUpload,
@@ -19,11 +20,11 @@ import {
   baseSpacerUnit,
   borderRadius,
   brandDanger,
-  brandDangerRGB,
   doubleSpacer,
   offWhite,
   quadrupleSpacer,
   sextupleSpacer,
+  white,
 } from '@packup/styles'
 import {
   isEmail,
@@ -370,7 +371,7 @@ export default function Profile() {
                                       <td align="right">
                                         <FaTrash
                                           style={{ cursor: 'pointer' }}
-                                          color={brandDanger}
+                                          color="var(--color-danger)"
                                           onClick={() => removeEmergencyContact(index)}
                                         />
                                       </td>
@@ -410,21 +411,38 @@ export default function Profile() {
                           validate={isEmail}
                         />
                       </EditableInput>
+                      <section>
+                        <p>
+                          <strong>Settings</strong>
+                        </p>
+                        <DarkModeToggle showText color="var(--color-text)" />
+                      </section>
+                      <HorizontalRule />
                       <section
                         style={{
-                          backgroundColor: `rgba(${brandDangerRGB}, .1)`,
+                          backgroundColor: brandDanger,
                           padding: baseSpacer,
                           borderRadius,
                         }}
                       >
-                        <p style={{ color: brandDanger }}>
+                        <p style={{ color: white }}>
                           <strong>
-                            <FaExclamationTriangle color={brandDanger} /> Danger Zone
+                            <FaExclamationTriangle color={white} /> Danger Zone
                           </strong>
                         </p>
-                        <p>
+                        <p style={{ color: white }}>
                           Need to deactivate your account?{' '}
-                          <Link href="/account-delete">Take care of that here</Link>
+                          <Link href="/account-delete">
+                            <span
+                              style={{
+                                color: white,
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              Take care of that here
+                            </span>
+                          </Link>
                         </p>
                       </section>
                       <HorizontalRule />

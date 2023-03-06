@@ -26,15 +26,13 @@ const StyledBox = styled.div<BoxProps>`
   padding: ${baseSpacer};
   border-radius: ${borderRadius};
   margin-bottom: ${baseSpacer};
-  // border: ${baseBorderStyle};
-  // box-shadow: 0 6px 14px 0 rgb(0 0 0 / 6%);
   box-shadow: ${boxShadow};
   text-align: ${(props) => props.textAlign};
   // height: ${(props) => (props.height ? `${props.height}px` : `calc(100% - ${baseSpacer})`)};
   background: ${(props) =>
     props.bgSrc
       ? `url(${props.bgSrc.childImageSharp.fluid.src}) center center / cover no-repeat`
-      : white};
+      : `var(--color-backgroundAlt)`};
   cursor: ${(props) => (props.onClick ? 'pointer' : 'initial')};
   transition: all 0.2s ease-in-out;
   ${(props) =>

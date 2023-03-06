@@ -26,7 +26,7 @@ const BottomNav = styled.footer<{ isPwa: boolean }>`
   left: 0;
   right: 0;
   display: block;
-  background-color: ${white};
+  background-color: var(--color-secondary);
   border-top: ${baseBorderStyle};
   padding-bottom: env(safe-area-inset-bottom);
 
@@ -43,9 +43,7 @@ const BottomNav = styled.footer<{ isPwa: boolean }>`
     justify-content: center;
     align-items: center;
     flex: 1;
-    // height: 100%;
-    color: ${textColor};
-    // color: var(--color-text);
+    color: var(--color-text);
     transition: all 0.2s ease-in-out;
     position: relative;
     font-size: ${fontSizeH3};

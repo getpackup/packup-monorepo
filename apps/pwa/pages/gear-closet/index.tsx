@@ -301,6 +301,7 @@ export default function GearCloset() {
               setModalIsOpen(false)
             }}
             isOpen={modalIsOpen}
+            largePadding
           >
             <Heading>Are you sure?</Heading>
             <p>

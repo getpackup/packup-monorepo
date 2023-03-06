@@ -14,15 +14,7 @@ import {
 import { AppState, setPersonalListScrollPosition, setSharedListScrollPosition } from '@packup/redux'
 import toast from 'react-hot-toast'
 
-import {
-  brandDanger,
-  brandInfo,
-  brandPrimary,
-  lightestGray,
-  offWhite,
-  baseBorderStyle,
-  halfSpacer,
-} from '@packup/styles'
+import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } from '@packup/styles'
 
 import { trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
@@ -63,7 +55,7 @@ const PackingListItemWrapper = styled.li`
   overflow: hidden;
 
   &:hover {
-    background-color: ${offWhite};
+    background-color: var(--color-backgroundAlt);
   }
 
   &.removing {
@@ -259,7 +251,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                         data-for="essentialItem"
                         style={{ display: 'inline-block' }}
                       >
-                        <FaExclamationTriangle color={brandDanger} />
+                        <FaExclamationTriangle color="var(--color-danger)" />
                         <ReactTooltip
                           id="essentialItem"
                           place="top"
@@ -357,7 +349,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     onClick={onRemove}
                     data-tip="Delete Item"
                     data-for="deleteIcon"
-                    hoverColor={brandDanger}
+                    hoverColor="var(--color-danger)"
                     color={lightestGray}
                     style={{ marginRight: halfSpacer }}
                   >

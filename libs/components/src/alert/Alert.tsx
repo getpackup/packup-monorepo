@@ -32,12 +32,12 @@ const renderColor = (type: AlertProps['type']) => {
     return brandSuccess
   }
   if (type === 'danger') {
-    return brandDanger
+    return 'var(--color-danger)'
   }
   if (type === 'info') {
-    return brandInfo
+    return 'var(--color-info)'
   }
-  return brandDanger
+  return 'var(--color-danger)'
 }
 
 const renderIcon = (type: AlertProps['type']) => {

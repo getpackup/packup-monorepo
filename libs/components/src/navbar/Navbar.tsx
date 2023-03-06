@@ -1,11 +1,6 @@
 import { TripMemberStatus, TripType } from '@packup/common'
-import { Avatar, FlexContainer, Heading, NotificationDot, PageContainer, GearClosetIcon } from '..'
-import yak from '../../images/yak.svg'
 import { AppState } from '@packup/redux'
 import {
-  brandPrimary,
-  brandSecondary,
-  white,
   zIndexNavbar,
   baseSpacer,
   halfSpacer,
@@ -15,26 +10,34 @@ import {
   fontSizeBase,
   fontSizeSmall,
   headingsFontFamily,
+  baseAndAHalfSpacer,
 } from '@packup/styles'
 import { trackEvent } from '@packup/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
+import {
+  DarkModeToggle,
+  Logo,
+  Avatar,
+  FlexContainer,
+  Heading,
+  NotificationDot,
+  PageContainer,
+  GearClosetIcon,
+} from '@packup/components'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { FaCalendar, FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components'
 import { AvatarImageWrapper } from '..'
-import Image from 'next/image'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 
 const StyledNavbar = styled.header`
   position: fixed;
   left: 0;
   right: 0;
-  // background: var(--color-secondary);
-  background: ${brandSecondary};
+  background: var(--color-secondary);
   min-height: ${quadrupleSpacer};
   padding-top: env(safe-area-inset-top);
   z-index: ${zIndexNavbar};
@@ -47,11 +50,11 @@ const StyledNavbar = styled.header`
   & a:active {
     font-family: ${headingsFontFamily};
     font-weight: 700;
-    color: ${white};
+    color: var(--color-textLight);
   }
 
   & a:focus {
-    outline: 1px dotted ${brandPrimary};
+    outline: 1px dotted var(--color-primary);
   }
 
   & h1 a {
@@ -62,7 +65,7 @@ const StyledNavbar = styled.header`
 
   & h2 {
     font-size: ${fontSizeBase};
-    color: ${white};
+    color: var(--color-textLight);
     line-height: ${quadrupleSpacer};
   }
 
@@ -72,8 +75,8 @@ const StyledNavbar = styled.header`
   //   top: -1em;
   //   padding: ${quarterSpacer};
   //   border-radius: ${baseSpacer};
-  //   background-color: ${white};
-  //   color: ${brandSecondary};
+  //   background-color: var(--color-textLight);
+  //   color: var(--color-secondary);
   // }
 
   & svg:focus {
@@ -105,7 +108,7 @@ const TopNavIconWrapper = styled.nav`
     align-items: center;
     padding: 0 ${baseSpacer};
     height: ${quadrupleSpacer};
-    color: ${white};
+    color: var(--color-textLight);
     border-top: ${quarterSpacer} solid transparent;
     border-bottom: ${quarterSpacer} solid transparent;
     position: relative;
@@ -117,22 +120,22 @@ const TopNavIconWrapper = styled.nav`
   }
 
   & a.active > svg {
-    color: ${brandPrimary};
+    color: var(--color-primary);
   }
 
   & a:hover,
   & a:focus,
   & a.active {
-    border-bottom-color: ${brandPrimary};
+    border-bottom-color: var(--color-primary);
   }
 
   & a:focus {
-    outline: 1px dotted ${brandPrimary};
+    outline: 1px dotted var(--color-primary);
   }
 
   /* active avatar border */
   & a.active ${AvatarImageWrapper} {
-    box-shadow: 0px 0px 0px 2px ${brandSecondary}, 0px 0px 0px 4px ${brandPrimary};
+    box-shadow: 0px 0px 0px 2px var(--color-secondary), 0px 0px 0px 4px var(--color-primary);
   }
 `
 
@@ -205,7 +208,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
             >
               <Link href={isAuthenticated ? '/' : '/login'}>
                 <a>
-                  <Image src={yak} alt="" width={tripleSpacer} height={27} />{' '}
+                  <Logo fill="var(--color-textLight)" width={tripleSpacer} height={27} />{' '}
                   {size.isSmallScreen && !isAuthenticated ? (
                     ''
                   ) : (
@@ -222,7 +225,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
             >
               <Link href="/" legacyBehavior>
                 <a>
-                  <Image src={yak} alt="" width={tripleSpacer} height={27} /> packup
+                  <Logo fill="var(--color-textLight)" width={tripleSpacer} height={27} /> packup
                 </a>
               </Link>
             </Heading>
@@ -311,6 +314,9 @@ export const Navbar: FunctionComponent<unknown> = () => {
                   Profile
                 </a>
               </Link>
+              <FlexContainer flexDirection="column">
+                <DarkModeToggle />
+              </FlexContainer>
             </TopNavIconWrapper>
           )}
         </FlexContainer>

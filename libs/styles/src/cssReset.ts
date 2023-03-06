@@ -1,19 +1,15 @@
 import { createGlobalStyle } from 'styled-components'
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {
   baseBorderStyle,
   baseSpacer,
-  halfSpacer,
-  quarterSpacer,
-  fontFamilySansSerif,
-  headingsFontFamily,
-  brandPrimary,
   brandPrimaryHover,
-  brandSecondary,
-  headingsColor,
-  lightGray,
-  textColor,
+  fontFamilySansSerif,
+  halfSpacer,
+  headingsFontFamily,
+  quarterSpacer,
   white,
 } from '.'
 
@@ -90,7 +86,7 @@ export const CssReset = createGlobalStyle`
   html {
     font-size: 16px;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
-    background-color: ${brandSecondary};
+    background-color: var(--color-secondary);
   }
 
   body {
@@ -98,8 +94,8 @@ export const CssReset = createGlobalStyle`
     /* https://www.codementor.io/@ricardozea/100-responsive-typography-system-using-a-modular-scale-s5rhft58g */
     font-size: calc(14px + .35vw); /* Responsive base font size */
     line-height: calc(21px + 1.05vw); /* Responsive Vertical Rhythm */
-    color: ${textColor};
-    background-color: ${white};
+    color: var(--color-text);
+    background-color: var(--color-background);
     background-image: url('/images/topo.png');
     background-size: 500px;
 
@@ -111,7 +107,7 @@ export const CssReset = createGlobalStyle`
   h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: ${halfSpacer};
-    color: ${headingsColor};
+    color: var(--color-headings);
     font-family: ${headingsFontFamily};
     font-weight: 700;
   }
@@ -123,7 +119,7 @@ export const CssReset = createGlobalStyle`
 
   abbr[title] {
     cursor: help;
-    border-bottom: 1px dotted ${lightGray};
+    border-bottom: 1px dotted var(--color-lightGray);
   }
 
   address {
@@ -166,7 +162,7 @@ export const CssReset = createGlobalStyle`
   }
 
   a {
-    color: ${brandPrimary};
+    color: var(--color-primary);
     text-decoration: none;
 
     &:hover,
@@ -221,7 +217,7 @@ export const CssReset = createGlobalStyle`
   caption {
     padding-top: .75rem;
     padding-bottom: .75rem;
-    color: ${lightGray};
+    color: var(--color-lightGray);
     text-align: left;
     caption-side: bottom;
   }
@@ -295,20 +291,16 @@ export const CssReset = createGlobalStyle`
     background: ${brandPrimaryHover};
   }
 
-  // TODO: remove colors and use vars
   :-ms-input-placeholder {
     color: var(--color-lightGray);
-    color: ${lightGray};
   }
 
   ::-ms-input-placeholder {
     color: var(--color-lightGray);
-    color: ${lightGray};
   }
 
   ::placeholder {
     color: var(--color-lightGray);
-    color: ${lightGray};
     opacity: 1; /* Firefox */
   }
   .accordion *:focus {

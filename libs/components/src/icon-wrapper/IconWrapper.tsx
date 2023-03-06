@@ -8,7 +8,7 @@ export const IconWrapper = styled.div<{ color?: string; hoverColor?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${(props) => (props.color ? props.color : textColor)};
+  color: ${(props) => (props.color ? props.color : 'var(--color-text)')};
   &:hover {
     color: ${(props) => (props.hoverColor ? props.hoverColor : brandPrimary)};
   }

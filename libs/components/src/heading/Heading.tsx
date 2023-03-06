@@ -60,7 +60,7 @@ const renderFontSize = (as: HeadingProps['as'], altStyle: HeadingProps['altStyle
 const StyledHeading = styled.h1<HeadingProps>`
   font-weight: 700;
   line-height: ${lineHeightSmall};
-  color: ${(props) => (props.inverse ? white : headingsColor)};
+  color: ${(props) => (props.inverse ? white : `var(--color-headings)`)};
   margin-bottom: ${(props) => (props.noMargin ? '0' : baseSpacer)};
   text-align: ${(props) => props.align};
   white-space: pre-line;

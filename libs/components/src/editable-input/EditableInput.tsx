@@ -29,9 +29,12 @@ export const EditableInput: FunctionComponent<EditableInputProps> = ({
           <strong>{label}</strong>
         </p>
         <p>
-          <Button
-            type="button"
-            color="text"
+          <span
+            style={{
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              color: 'var(--color-primary)',
+            }}
             onClick={() => {
               trackEvent(`EditableInput - ${isEditing ? 'Cancel' : 'Edit'} ${label} Clicked`, {
                 label,
@@ -41,7 +44,7 @@ export const EditableInput: FunctionComponent<EditableInputProps> = ({
             }}
           >
             {isEditing ? 'Cancel' : actionName || 'Edit'}
-          </Button>
+          </span>
         </p>
       </FlexContainer>
 

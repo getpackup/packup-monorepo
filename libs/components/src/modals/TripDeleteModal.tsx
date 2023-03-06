@@ -50,6 +50,7 @@ export const TripDeleteModal: FunctionComponent<TripDeleteModalProps> = ({
         setModalIsOpen(false)
       }}
       isOpen={modalIsOpen}
+      largePadding
     >
       <Heading>Are you sure?</Heading>
       <p>

@@ -404,6 +404,7 @@ export default function GearClosetEditItem() {
                   setModalIsOpen(false)
                 }}
                 isOpen={modalIsOpen}
+                largePadding
               >
                 <Heading>Are you sure?</Heading>
                 <p>

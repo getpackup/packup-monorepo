@@ -27,7 +27,7 @@ type DayPickerInputProps = {
 
 const DayPickerInputWrapper = styled.div`
   margin-bottom: ${baseSpacer};
-  background-color: ${white};
+  background-color: var(--color-background);
   border: ${baseBorderStyle};
   border-radius: ${borderRadius};
   display: flex;

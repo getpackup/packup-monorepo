@@ -2,17 +2,12 @@ import Image from 'next/image'
 import 'react-geosuggest/module/geosuggest.css'
 
 import {
-  brandDanger,
   brandDangerRGB,
   brandPrimary,
   brandPrimaryRGB,
   brandSuccess,
   lightGray,
   lightestGray,
-  offWhite,
-  textColor,
-  textColorLight,
-  white,
   baseBorderStyle,
   disabledStyle,
   visuallyHiddenStyle,
@@ -38,7 +33,6 @@ import Geosuggest, { QueryType, Suggest } from 'react-geosuggest'
 import { FaCheckCircle, FaEye, FaEyeSlash, FaRegCircle } from 'react-icons/fa'
 import NumericInput from 'react-numeric-input'
 import Select, { CommonProps } from 'react-select'
-import AsyncSelect from 'react-select/async'
 import styled, { css } from 'styled-components'
 
 import { LoadingSpinner } from '..'
@@ -79,8 +73,8 @@ export const sharedStyles = css`
   /* https://stackoverflow.com/questions/2989263/disable-auto-zoom-in-input-text-tag-safari-on-iphone */
   font-size: ${fontSizeH6};
   line-height: ${lineHeightBase};
-  color: ${textColor};
-  background-color: #ffffff;
+  color: var(--color-text);
+  background-color: var(--color-background);
   background-image: none;
   border: ${baseBorderStyle};
   border-radius: ${borderRadius};
@@ -91,13 +85,13 @@ export const sharedStyles = css`
     meta.touched &&
     meta.error &&
     `
-      border-color: ${brandDanger};
+      border-color: var(--color-danger);
       border-width: 2px;
       box-shadow: 0 0 0 ${borderRadius} rgba(${brandDangerRGB},.25);
   `}
 
   &:focus {
-    border-color: ${brandPrimary};
+    border-color: var(--color-primary);
     border-width: 2px;
     outline: 0;
     box-shadow: 0 0 0 ${borderRadius} rgba(${brandPrimaryRGB}, 0.25);
@@ -118,7 +112,7 @@ const StyledTextarea = styled.textarea`
 `
 
 const StyledErrorMessage = styled.div`
-  color: ${brandDanger};
+  color: var(--color-danger);
   font-size: ${fontSizeSmall};
 `
 
@@ -128,7 +122,7 @@ const StyledSelect = styled(Select)`
       props.invalid &&
       `
       box-shadow: 0 0 0 ${borderRadius} rgba(${brandDangerRGB},.25);
-      border: 2px solid ${brandDanger};
+      border: 2px solid var(--color-danger);
   `}
   }
 `
@@ -153,6 +147,22 @@ const StyledGeosuggest = styled(Geosuggest)<any>`
     box-shadow: none;
     ${sharedStyles}
   }
+  & .geosuggest__suggests {
+    background: var(--color-background);
+    color: var(--color-text);
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 0 ${borderRadius} rgba(${brandPrimaryRGB}, 0.25);
+  }
+  & .geosuggest__suggests.geosuggest__suggests--hidden {
+    border: none;
+    box-shadow: none;
+  }
+  & .geosuggest__item:hover {
+    background: var(--color-backgroundAlt);
+  }
+  & .geosuggest__item--active {
+    background: var(--color-primary);
+  }
 `
 
 export const StyledLabel = styled.label<{
@@ -171,14 +181,15 @@ export const StyledLabel = styled.label<{
   ${(props) =>
     props.invalid &&
     `
-    color: ${brandDanger};
+    color: var(--color-danger);
   `}
   ${(props) =>
     props.required &&
     `
     &:after {
-      content: ' *';
-      color: ${brandDanger};
+      content: '*';
+      color: var(--color-danger);
+      padding-left: ${quarterSpacer};
     }
   `}
 `
@@ -188,7 +199,7 @@ const StyledToggle = styled.input`
   width: 0;
   visibility: hidden;
   &:checked + label {
-    background: ${brandPrimary};
+    background: var(--color-primary);
   }
   &:checked + label:after {
     left: calc(100% - 5px);
@@ -216,14 +227,14 @@ const StyledToggleLabel = styled.label<{
     left: 5px;
     width: ${doubleSpacer};
     height: ${doubleSpacer};
-    background: ${white};
+    background: var(--color-background);
     border-radius: ${doubleSpacer};
     transition: 0.3s;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: ${fontSizeSmall};
-    color: ${(props) => (props.checked ? brandPrimary : textColor)};
+    color: ${(props) => (props.checked ? 'var(--color-primary)' : 'var(--color-text)')};
   }
 
   /* Disabled state */
@@ -251,7 +262,7 @@ const PasswordToggle = styled.div`
 
 const StyledNumericInputWrapper = styled.div`
   & .react-numeric-input {
-    background: ${white};
+    background: var(--color-background);
     border-radius: ${borderRadius};
     width: 100%;
     height: ${inputHeight};
@@ -259,9 +270,10 @@ const StyledNumericInputWrapper = styled.div`
     display: block;
   }
   & input {
+    background: var(--color-background);
     border-radius: ${borderRadius};
     width: 100%;
-    color: ${textColor};
+    color: var(--color-text);
     border: ${baseBorderStyle};
     display: block;
     height: ${inputHeight};
@@ -271,18 +283,22 @@ const StyledNumericInputWrapper = styled.div`
   }
   & input:focus {
     outline: none;
-    border-color: ${brandPrimary};
+    border-color: var(--color-primary);
     border-width: 2px;
     box-shadow: 0 0 0 ${borderRadius} rgba(${brandPrimaryRGB}, 0.25);
   }
   & b {
+    cursor: pointer;
     position: absolute;
     top: 2px;
     height: 46px;
     width: 46px;
-    background-color: ${lightestGray};
+    background-color: var(--color-backgroundAlt);
     border-radius: ${borderRadius};
-    color: ${textColor};
+    color: var(--color-text);
+  }
+  & b:hover {
+    background-color: var(--color-backgroundTertiary);
   }
   & b:nth-of-type(1) {
     right: 2px;
@@ -296,7 +312,7 @@ const StyledNumericInputWrapper = styled.div`
     left: 50%;
     width: 10px;
     height: 2px;
-    background: ${textColor};
+    background: var(--color-text);
     margin: -1px 0px 0px -5px;
   }
   & b i:nth-child(2) {
@@ -305,7 +321,7 @@ const StyledNumericInputWrapper = styled.div`
     left: 50%;
     width: 2px;
     height: 10px;
-    background: ${textColor};
+    background: var(--color-text);
     margin: -5px 0px 0px -1px;
   }
 `
@@ -313,36 +329,67 @@ const StyledNumericInputWrapper = styled.div`
 export const multiSelectStyles = {
   option: (provided: any, state: { isFocused: boolean }) => ({
     ...provided,
-    color: textColor,
-    backgroundColor: state.isFocused ? offWhite : white,
+    color: 'var(--color-text)',
+    backgroundColor: state.isFocused
+      ? 'var(--color-backgroundTertiary)'
+      : 'var(--color-background)',
     width: 'auto',
     '&:active': {
       backgroundColor: `rgba(${brandPrimaryRGB}, .25)`,
     },
+  }),
+  indicatorsContainer: (provided: any) => ({
+    ...provided,
+    color: 'var(--color-text)',
+  }),
+  indicatorSeparator: (provided: any) => ({
+    ...provided,
+    background: 'var(--color-text)',
+  }),
+  dropdownIndicator: (provided: any) => ({
+    ...provided,
+    color: 'var(--color-text)',
+  }),
+  singleValue: (provided: any) => ({
+    ...provided,
+    color: 'var(--color-text)',
   }),
   control: (provided: any, state: { isFocused: boolean }) => ({
     ...provided,
     minHeight: inputHeight,
     fontSize: '1.1em', // 1em makes it slightly smaller than 16px at smaller viewports, causing a zoom issue
     lineHeight: lineHeightBase,
-    color: textColor,
-    backgroundColor: 'white',
-    border: state.isFocused ? `2px solid ${brandPrimary}` : baseBorderStyle,
+    color: 'var(--color-text)',
+    backgroundColor: 'var(--color-background)',
+    border: state.isFocused ? `2px solid var(--color-primary)` : baseBorderStyle,
     boxShadow: state.isFocused ? `0 0 0 ${borderRadius} rgba(${brandPrimaryRGB}, 0.25)` : 'none',
     '&:hover': {
-      border: state.isFocused ? `2px solid ${brandPrimary}` : baseBorderStyle,
+      border: state.isFocused ? `2px solid var(--color-primary)` : baseBorderStyle,
     },
+  }),
+  multiValue: (provided: any) => ({
+    ...provided,
+    backgroundColor: 'var(--color-backgroundTertiary)',
+    color: 'var(--color-text)',
+  }),
+  multiValueLabel: (provided: any) => ({
+    ...provided,
+    color: 'var(--color-text)',
   }),
   multiValueRemove: (provided: any) => ({
     ...provided,
     '&:hover': {
-      backgroundColor: brandDanger,
-      color: white,
+      backgroundColor: 'var(--color-danger)',
+      color: 'var(--color-background)',
     },
   }),
   placeholder: (provided: any) => ({
     ...provided,
-    color: textColorLight,
+    color: 'var(--color-textLight)',
+  }),
+  menu: (provided: any) => ({
+    ...provided,
+    backgroundColor: 'var(--color-background)',
   }),
 }
 

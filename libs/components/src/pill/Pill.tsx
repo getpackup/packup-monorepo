@@ -4,13 +4,14 @@ import {
   brandPrimary,
   brandPrimaryHover,
   brandSuccess,
-  lightestGray,
-  textColor,
   white,
   doubleSpacer,
   quarterSpacer,
   threeQuarterSpacer,
   fontSizeSmall,
+  fontSizeXSmall,
+  boxShadow,
+  baseBorderStyle,
 } from '@packup/styles'
 import Link from 'next/link'
 import React, { CSSProperties, FunctionComponent } from 'react'
@@ -27,12 +28,9 @@ const renderColor = (color: PillProps['color']) => {
   switch (color) {
     case 'neutral':
       return {
-        backgroundColor: lightestGray,
-        hoverBackgroundColor: lightestGray,
-        color: textColor,
-        // backgroundColor: `var(--color-lightestGray)`,
-        // hoverBackgroundColor: `var(--color-lightestGray)`,
-        // color: `var(--color-text)`,
+        backgroundColor: `var(--color-background)`,
+        hoverBackgroundColor: `var(--color-background)`,
+        color: `var(--color-text)`,
       }
     case 'primary':
       return {
@@ -69,6 +67,10 @@ const renderColor = (color: PillProps['color']) => {
 
 const StyledPill = styled.span`
   display: inline-block;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  border: ${baseBorderStyle};
   padding: ${quarterSpacer} ${threeQuarterSpacer};
   background-color: ${(props: { color: PillProps['color'] }) =>
     props.color && renderColor(props.color).backgroundColor};
@@ -78,6 +80,7 @@ const StyledPill = styled.span`
   color: ${(props) => props.color && renderColor(props.color).color};
   line-height: 1.5;
   white-space: pre;
+  font-size: ${fontSizeXSmall};
 
   &:hover {
     background-color: ${(props) => props.color && renderColor(props.color).hoverBackgroundColor};

@@ -74,14 +74,14 @@ export const darkSpinner = '74, 85, 90' // riverbed
 //
 // }
 
-export const COLORS: {
-  [key: string]: {
-    [key: string]: string
-  }
-} = {
+export const COLORS = {
   text: {
     light: riverbed, // white
     dark: '#CDD3DE', // near-black
+  },
+  textLight: {
+    light: white,
+    dark: lightestGray,
   },
   headings: {
     light: headingsColor,
@@ -95,6 +95,10 @@ export const COLORS: {
     light: offWhite,
     dark: '#1B2B34',
   },
+  backgroundTertiary: {
+    light: offWhite,
+    dark: '#243945',
+  },
   primary: {
     light: brandPrimary,
     dark: brandPrimary,
@@ -102,6 +106,14 @@ export const COLORS: {
   secondary: {
     light: brandSecondary,
     dark: '#051218',
+  },
+  info: {
+    light: brandInfo,
+    dark: '#2d4861',
+  },
+  danger: {
+    light: brandDanger,
+    dark: '#b03600',
   },
   // Grays, scaling from least-noticeable to most-noticeable
   lightestGray: {
@@ -123,6 +135,14 @@ export const COLORS: {
   border: {
     light: lightestGray,
     dark: '#39474F',
+  },
+  loading: {
+    light: lightestGray,
+    dark: '#1B2B34',
+  },
+  loadingHighlight: {
+    light: offWhite,
+    dark: '#243945',
   },
 }
 

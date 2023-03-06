@@ -1,8 +1,8 @@
 import { borderColor, lightestGray } from './color'
 import { baseSpacer, borderWidth, doubleSpacer, halfSpacer, quarterSpacer } from './size'
 
-export const baseBorderStyle = `${borderWidth} solid ${borderColor}`
-export const baseBorderLightStyle = `${borderWidth} solid ${lightestGray}`
+export const baseBorderStyle = `${borderWidth} solid var(--color-border, ${borderColor})`
+export const baseBorderLightStyle = `${borderWidth} solid var(--color-lightestGray, ${lightestGray})`
 
 export const disabledStyle = `
   cursor: not-allowed;

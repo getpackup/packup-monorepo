@@ -4,9 +4,7 @@
 // for safe area top, right, bottom, or left
 export const getSafeAreaInset = (position: '--sat' | '--sar' | '--sab' | '--sal') => {
   if (typeof window !== 'undefined') {
-    return Number(
-      getComputedStyle(window.document.body).getPropertyValue(position).replace('px', '')
-    )
+    return Number(getComputedStyle(document.body).getPropertyValue(position).replace('px', ''))
   }
   return 0
 }

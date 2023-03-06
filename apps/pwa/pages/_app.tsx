@@ -15,11 +15,6 @@ import {
   brandInfo,
   brandSecondary,
   brandSuccess,
-  COLOR_MODE_KEY,
-  COLORS,
-  CssReset,
-  INITIAL_COLOR_MODE_CSS_PROP,
-  offWhite,
   quadrupleSpacer,
   quarterSpacer,
   threeQuarterSpacer,
@@ -36,81 +31,9 @@ import CookieConsent from 'react-cookie-consent'
 import { Toaster } from 'react-hot-toast'
 import { IconContext } from 'react-icons'
 import { FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa'
+import { SkeletonTheme } from 'react-loading-skeleton'
 import Modal from 'react-modal'
 import styled, { CSSProperties } from 'styled-components'
-import { minify } from 'terser'
-
-function setColorsByTheme() {
-  const colors = '🌈'
-  const colorModeKey = '🔑'
-  const colorModeCssProp = '⚡️'
-
-  const mql = window.matchMedia('(prefers-color-scheme: dark)')
-  const prefersDarkFromMQ = mql.matches
-  const persistedPreference = localStorage.getItem(colorModeKey)
-
-  let colorMode = 'light'
-
-  const hasUsedToggle = typeof persistedPreference === 'string'
-
-  if (hasUsedToggle) {
-    colorMode = persistedPreference
-  } else {
-    colorMode = prefersDarkFromMQ ? 'dark' : 'light'
-  }
-
-  // eslint-disable-next-line prefer-const
-  let root = document.documentElement
-
-  root.style.setProperty(colorModeCssProp, colorMode)
-
-  Object.entries(colors).forEach(([name, colorByTheme]) => {
-    const cssVarName = `--color-${name}`
-
-    root.style.setProperty(cssVarName, colorByTheme[colorMode])
-  })
-}
-
-function MagicScriptTag() {
-  const boundFn = String(setColorsByTheme)
-    .replace("'🌈'", JSON.stringify(COLORS))
-    .replace('🔑', COLOR_MODE_KEY)
-    .replace('⚡️', INITIAL_COLOR_MODE_CSS_PROP)
-
-  let calledFunction = `(${boundFn})()`
-
-  minify(calledFunction).then((res) => {
-    calledFunction = res.code
-  })
-
-  // eslint-disable-next-line react/no-danger
-  return <script dangerouslySetInnerHTML={{ __html: calledFunction }} />
-}
-
-/**
- * If the user has JS disabled, the injected script will never fire!
- * This means that they won't have any colors set, everything will be default
- * black and white.
- * We can solve for this by injecting a `<style>` tag into the head of the
- * document, which sets default values for all of our colors.
- * Only light mode will be available for users with JS disabled.
- */
-function FallbackStyles() {
-  // Create a string holding each CSS variable:
-  /*
-    `--color-text: black;
-    --color-background: white;`
-  */
-
-  const cssVariableString = Object.entries(COLORS).reduce(
-    (acc, [name, colorByTheme]) => `${acc}\n--color-${name}: ${colorByTheme.light};`,
-    ''
-  )
-
-  const wrappedInSelector = `html { ${cssVariableString} }`
-
-  return <style>{wrappedInSelector}</style>
-}
 
 const LayoutWrapper = styled.div`
   display: grid;
@@ -129,8 +52,7 @@ const PageBody = styled.main`
 const AppContainer = styled.div`
   margin-right: auto;
   margin-left: auto;
-  background-color: ${offWhite};
-  // background-color: var(--color-background);
+  background-color: var(--color-background);
   min-height: 100vh;
 `
 
@@ -144,8 +66,6 @@ function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Packup</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <FallbackStyles />
-        <MagicScriptTag />
       </Head>
       <Script id="googleMapsLoaded">{`window.googleMapsLoaded = function() {}`}</Script>
       <Script
@@ -153,22 +73,26 @@ function App({ Component, pageProps }: AppProps) {
       />
       <ReduxWrapper>
         <ThemeProvider>
-          <CssReset />
           <UploadTheme />
           <IconContext.Provider value={iconStyle as CSSProperties}>
-            <LayoutWrapper>
-              <AddToHomeScreenBanner />
-              <Navbar />
-              <PageBody>
-                <AppContainer>
-                  <ErrorBoundary>
-                    <Component {...pageProps} />
-                    <FeedbackModal />
-                  </ErrorBoundary>
-                </AppContainer>
-              </PageBody>
-              <Footer />
-            </LayoutWrapper>
+            <SkeletonTheme
+              baseColor="var(--color-loading)"
+              highlightColor="var(--color-loadingHighlight)"
+            >
+              <LayoutWrapper>
+                <AddToHomeScreenBanner />
+                <Navbar />
+                <PageBody>
+                  <AppContainer>
+                    <ErrorBoundary>
+                      <Component {...pageProps} />
+                      <FeedbackModal />
+                    </ErrorBoundary>
+                  </AppContainer>
+                </PageBody>
+                <Footer />
+              </LayoutWrapper>
+            </SkeletonTheme>
             <Toaster
               position="bottom-right"
               toastOptions={{

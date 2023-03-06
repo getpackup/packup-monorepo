@@ -13,18 +13,15 @@ import {
 import toast from 'react-hot-toast'
 import { AppState } from '@packup/redux'
 import {
-  white,
-  baseBorderStyle,
   baseAndAHalfSpacer,
   baseSpacer,
   halfSpacer,
   quarterSpacer,
   boxShadow,
-  z1Shadow,
   boxShadowHover,
   doubleSpacer,
 } from '@packup/styles'
-import { trackEvent, formattedDate, formattedDateRange } from '@packup/utils'
+import { trackEvent, formattedDateRange } from '@packup/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useMemo } from 'react'
@@ -47,11 +44,10 @@ const StyledTripWrapper = styled.div<{ isPending?: boolean }>`
   -webkit-transform: translateZ(0);
   overflow: hidden;
   margin-bottom: ${doubleSpacer};
-  // border: ${baseBorderStyle};
   cursor: ${(props) => (props.isPending ? 'initial' : 'pointer')};
-  background-color: ${white};
   box-shadow: ${boxShadow};
-  // background-color: var(--color-backgroundAlt);
+  background-color: var(--color-backgroundTertiary);
+  color: var(--color-text);
 
   &:hover {
     box-shadow: ${boxShadowHover};
@@ -178,22 +174,12 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
       <TripHeaderImage trip={trip} />
 
       <FlexContainer justifyContent="space-between" flexWrap="nowrap">
-        <Heading as="h3" altStyle>
-          {trip && trip.name ? (
-            <>
-              {isPending ? (
-                trip.name
-              ) : (
-                <Link href={`/trips/${trip.tripId}/`}>
-                  <a onClick={() => trackEvent('Trip Card Heading Link Clicked', { trip })}>
-                    {trip.name}
-                  </a>
-                </Link>
-              )}
-            </>
-          ) : (
-            <Skeleton width={200} />
-          )}
+        <Heading
+          as="h3"
+          altStyle
+          onClick={() => trackEvent('Trip Card Heading Link Clicked', { trip })}
+        >
+          {trip && trip.name ? trip.name : <Skeleton width={200} />}
         </Heading>
 
         {trip && <TripMemberAvatars trip={trip} users={users} />}

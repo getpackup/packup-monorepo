@@ -50,6 +50,7 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
       shouldCloseOnEsc
       style={{
         content: {
+          backgroundColor: 'var(--color-background)',
           border: baseBorderStyle,
           boxShadow: z1Shadow,
           borderRadius,
