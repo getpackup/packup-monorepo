@@ -9,7 +9,10 @@ interface FlexContainerProps {
   height?: string
   style?: {}
   as?: string
+  onClick?: () => void
+  onKeyDown?: () => void
   children: React.ReactNode
+  role?: string
 }
 
 export const FlexContainer: FunctionComponent<FlexContainerProps> = styled.div<FlexContainerProps>`
