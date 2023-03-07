@@ -7,7 +7,6 @@ import 'firebase/compat/storage'
 
 import { UserType } from '@packup/common'
 import { LoadingPage } from '@packup/components'
-import { CssReset } from '@packup/styles'
 import firebase from 'firebase/compat/app'
 import * as React from 'react'
 import { Provider, useSelector } from 'react-redux'
@@ -105,7 +104,6 @@ export function ReduxWrapper(props: any) {
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <PersistGate loading={null} persistor={persistor}>
-          <CssReset />
           <AuthIsLoaded>{props.children}</AuthIsLoaded>
         </PersistGate>
       </ReactReduxFirebaseProvider>

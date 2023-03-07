@@ -1,17 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {
-  baseBorderStyle,
-  baseSpacer,
-  brandPrimaryHover,
-  fontFamilySansSerif,
-  halfSpacer,
-  headingsFontFamily,
-  quarterSpacer,
-  white,
-} from '.'
+import { brandPrimaryHover, white } from './color'
+import { baseBorderStyle } from './mixins'
+import { baseSpacer, halfSpacer, quarterSpacer } from './size'
+import { fontFamilySansSerif, headingsFontFamily } from './typography'
 
 /* eslint no-unused-expressions: ["error", { "allowTaggedTemplates": true }] */
 export const CssReset = createGlobalStyle`

@@ -15,6 +15,7 @@ import {
   brandInfo,
   brandSecondary,
   brandSuccess,
+  CssReset,
   quadrupleSpacer,
   quarterSpacer,
   threeQuarterSpacer,
@@ -73,6 +74,7 @@ function App({ Component, pageProps }: AppProps) {
       />
       <ReduxWrapper>
         <ThemeProvider>
+          <CssReset />
           <UploadTheme />
           <IconContext.Provider value={iconStyle as CSSProperties}>
             <SkeletonTheme
