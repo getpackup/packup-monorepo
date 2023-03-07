@@ -59,25 +59,15 @@ export const brandDangerRGB = '125,38,0'
 
 // Borders
 export const borderColor = lightestGray
-// export const borderColor = `var(--color-border)`;
 
 // Loading spinners
 export const lightSpinner = '255, 255, 255' // white
 export const darkSpinner = '74, 85, 90' // riverbed
 
-// type themeColours = {
-//   light: string,
-//   dark: string
-// }
-//
-// type componentColour = {
-//
-// }
-
 export const COLORS = {
   text: {
-    light: riverbed, // white
-    dark: '#CDD3DE', // near-black
+    light: riverbed,
+    dark: '#CDD3DE',
   },
   textLight: {
     light: white,
@@ -88,7 +78,7 @@ export const COLORS = {
     dark: lightestGray,
   },
   background: {
-    light: white, // white
+    light: white,
     dark: '#0F2027',
   },
   backgroundAlt: {
@@ -115,7 +105,6 @@ export const COLORS = {
     light: brandDanger,
     dark: '#b03600',
   },
-  // Grays, scaling from least-noticeable to most-noticeable
   lightestGray: {
     light: lightestGray,
     dark: '#343d46',

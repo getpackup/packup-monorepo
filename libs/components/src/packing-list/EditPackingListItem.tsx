@@ -78,7 +78,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
         .delete()
         .then(() => {
           trackEvent('Packing List Item Removed', { ...activeItem })
-          router.push(`/trips/${router.query['tripId']! as string}`)
+          router.back()
         })
         .catch((err) => {
           toast.error(err.message)
@@ -95,8 +95,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
           : sharedListScrollPosition
       )
     }
-    // TODO: does router push mess up scroll position?
-    router.push(`/trips/${props.activeTrip?.tripId}`)
+    router.back()
   }
 
   if (!router.query['checklistId'] || !activeItem) {

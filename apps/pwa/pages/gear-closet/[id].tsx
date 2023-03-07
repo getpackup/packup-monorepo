@@ -136,7 +136,7 @@ export default function GearClosetEditItem() {
       })
       .finally(() => {
         setSubmitting(false)
-        router.push('/gear-closet')
+        router.back()
       })
   }
 
@@ -176,7 +176,7 @@ export default function GearClosetEditItem() {
       })
     setItemToBeDeleted(undefined)
     setModalIsOpen(false)
-    router.push('/gear-closet')
+    router.back()
   }
 
   // the categories that the user DOES have in their gear closet, so we can only show those
@@ -198,7 +198,7 @@ export default function GearClosetEditItem() {
           <Button
             type="button"
             onClick={() => {
-              router.push('/gear-closet')
+              router.back()
               trackEvent('Edit Gear Closet Item Back to All Gear Click', {
                 ...activeItem,
               })
@@ -370,7 +370,7 @@ export default function GearClosetEditItem() {
                       <Button
                         type="button"
                         onClick={() => {
-                          router.push('/gear-closet')
+                          router.back()
                           trackEvent('Edit Gear Closet Item Cancel Click', {
                             ...activeItem,
                           })

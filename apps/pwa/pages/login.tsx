@@ -12,14 +12,9 @@ import { AppState } from '@packup/redux'
 import {
   baseBorderStyle,
   baseSpacer,
-  brandPrimary,
   doubleSpacer,
-  fontSizeH5,
   fontSizeSmall,
   halfSpacer,
-  textColor,
-  textColorLight,
-  white,
 } from '@packup/styles'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -39,10 +34,9 @@ const Tab = styled.div`
   text-align: center;
   border-bottom: 4px solid;
   border-bottom-color: ${(props: { active: boolean }) =>
-    props.active ? brandPrimary : 'transparent'};
+    props.active ? 'var(--color-primary)' : 'transparent'};
   cursor: pointer;
-  // font-size: ${fontSizeH5};
-  color: ${(props) => (props.active ? brandPrimary : textColor)};
+  color: ${(props) => (props.active ? 'var(--color-primary)' : 'var(--color-text)')};
   padding: ${halfSpacer} 0;
   text-transform: uppercase;
   font-weight: bold;
@@ -57,8 +51,8 @@ const Divider = styled.div`
   text-align: center;
 
   & span {
-    background: ${white};
-    color: ${textColorLight};
+    background: var(--color-backgroundAlt);
+    color: var(--color-textLight);
     padding: 0 ${baseSpacer};
     font-size: ${fontSizeSmall};
     font-weight: bold;

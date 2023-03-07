@@ -1,5 +1,5 @@
 /* eslint-disable react/no-invalid-html-attribute */
-import { COLOR_MODE_KEY, COLORS, INITIAL_COLOR_MODE_CSS_PROP } from '@packup/styles'
+import { FallbackStyles, MagicScriptTag } from '@packup/styles'
 import Document, {
   DocumentContext,
   DocumentInitialProps,
@@ -10,79 +10,6 @@ import Document, {
 } from 'next/document'
 import React from 'react'
 import { ServerStyleSheet } from 'styled-components'
-import { minify } from 'terser'
-
-function setColorsByTheme() {
-  const colors = '🌈'
-  const colorModeKey = '🔑'
-  const colorModeCssProp = '⚡️'
-
-  const mql = window.matchMedia('(prefers-color-scheme: dark)')
-  const prefersDarkFromMQ = mql.matches
-  const persistedPreference = localStorage.getItem(colorModeKey)
-
-  let colorMode = 'light'
-
-  const hasUsedToggle = typeof persistedPreference === 'string'
-
-  if (hasUsedToggle) {
-    colorMode = persistedPreference
-  } else {
-    colorMode = prefersDarkFromMQ ? 'dark' : 'light'
-  }
-
-  // eslint-disable-next-line prefer-const
-  let root = document.documentElement
-
-  root.style.setProperty(colorModeCssProp, colorMode)
-
-  Object.entries(colors).forEach(([name, colorByTheme]) => {
-    const cssVarName = `--color-${name}`
-
-    root.style.setProperty(cssVarName, colorByTheme[colorMode])
-  })
-}
-
-function MagicScriptTag() {
-  const boundFn = String(setColorsByTheme)
-    .replace("'🌈'", JSON.stringify(COLORS))
-    .replace('🔑', COLOR_MODE_KEY)
-    .replace('⚡️', INITIAL_COLOR_MODE_CSS_PROP)
-
-  let calledFunction = `(${boundFn})()`
-
-  minify(calledFunction).then((res) => {
-    calledFunction = res.code
-  })
-
-  // eslint-disable-next-line react/no-danger
-  return <script dangerouslySetInnerHTML={{ __html: calledFunction }} />
-}
-
-/**
- * If the user has JS disabled, the injected script will never fire!
- * This means that they won't have any colors set, everything will be default
- * black and white.
- * We can solve for this by injecting a `<style>` tag into the head of the
- * document, which sets default values for all of our colors.
- * Only light mode will be available for users with JS disabled.
- */
-function FallbackStyles() {
-  // Create a string holding each CSS variable:
-  /*
-    `--color-text: black;
-    --color-background: white;`
-  */
-
-  const cssVariableString = Object.entries(COLORS).reduce(
-    (acc, [name, colorByTheme]) => `${acc}\n--color-${name}: ${colorByTheme.light};`,
-    ''
-  )
-
-  const wrappedInSelector = `html { ${cssVariableString} }`
-
-  return <style>{wrappedInSelector}</style>
-}
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -90,16 +17,26 @@ export default class CustomDocument extends Document {
 
     const sheet = new ServerStyleSheet()
 
-    ctx.renderPage = () =>
-      originalRenderPage({
-        enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
-        enhanceComponent: (Component) => Component,
-      })
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+          enhanceComponent: (Component) => Component,
+        })
 
-    const intialProps = await Document.getInitialProps(ctx)
-    const styles = sheet.getStyleElement()
-
-    return { ...intialProps, styles }
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      }
+    } finally {
+      sheet.seal()
+    }
   }
 
   description =

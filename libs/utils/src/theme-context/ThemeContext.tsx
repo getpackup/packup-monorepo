@@ -1,5 +1,5 @@
 import { COLOR_MODE_KEY, COLORS, INITIAL_COLOR_MODE_CSS_PROP } from '@packup/styles'
-import React, { createContext, useEffect } from 'react'
+import React, { createContext, useEffect, useMemo, useState } from 'react'
 
 type ContextType = {
   colorMode: string | undefined
@@ -12,7 +12,13 @@ export const ThemeContext = createContext({
 } as ContextType)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [colorMode, rawSetColorMode] = React.useState<string | undefined>(undefined)
+  const [colorMode, rawSetColorMode] = useState<string | undefined>(undefined)
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const root = document.documentElement
@@ -22,7 +28,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     rawSetColorMode(initialColorValue)
   }, [])
 
-  const contextValue = React.useMemo(() => {
+  const contextValue = useMemo(() => {
     function setColorMode(newValue: string) {
       const root = document.documentElement
 
@@ -43,5 +49,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [colorMode, rawSetColorMode])
 
-  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>
+  const body = <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>
+
+  // prevents ssr flash for mismatched dark mode
+  if (!mounted) {
+    return <div style={{ visibility: 'hidden' }}>{body}</div>
+  }
+
+  return body
 }

@@ -1,41 +1,17 @@
-import {
-  Box,
-  AnimatedContainer,
-  Button,
-  Column,
-  FirebaseAuthWrapper,
-  Heading,
-  Input,
-  PageContainer,
-  Row,
-} from '../'
+import { AnimatedContainer, Button, Input } from '../'
 import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
 import { trackEvent, requiredField, requiredEmail } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import toast from 'react-hot-toast'
-import Head from 'next/head'
-import styled from 'styled-components'
-import {
-  baseBorderStyle,
-  baseSpacer,
-  brandPrimary,
-  doubleSpacer,
-  fontSizeH5,
-  fontSizeSmall,
-  halfSpacer,
-  textColor,
-  textColorLight,
-  white,
-} from '@packup/styles'
+
 export const LoginForm = () => {
   const firebase = useFirebase()
-  const auth = useSelector((state: AppState) => state.firebase.auth)
   const client = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()

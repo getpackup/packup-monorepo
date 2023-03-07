@@ -5,7 +5,6 @@ import { trackEvent } from '@packup/utils'
 import { useRouter } from 'next/router'
 import React, { FunctionComponent } from 'react'
 import { FaTrash } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 
 type TripDeleteModalProps = {
@@ -20,7 +19,6 @@ export const TripDeleteModal: FunctionComponent<TripDeleteModalProps> = ({
   setModalIsOpen,
 }) => {
   const firebase = useFirebase()
-  const dispatch = useDispatch()
 
   const router = useRouter()
 

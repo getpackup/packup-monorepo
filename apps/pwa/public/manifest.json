@@ -9,7 +9,7 @@
   "background_color": "#f3f3f3",
   "theme_color": "#0b2b44",
   "orientation": "portrait",
-  "scope": "https://packupapp.com/",
+  "scope": "/",
   "categories": ["packing", "outdoors", "productivity", "safety"],
   "screenshots": [
     {

@@ -35,7 +35,7 @@ export default function EditGearListItem() {
         </Head>
         <Button
           type="button"
-          onClick={() => router.push('/admin/gear-list')}
+          onClick={() => router.back()}
           color="text"
           iconLeft={<FaChevronLeft />}
         >

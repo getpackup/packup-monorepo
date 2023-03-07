@@ -4,6 +4,7 @@ import { AppState } from '@packup/redux'
 import { postFormUrlEncoded, trackEvent } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
@@ -11,6 +12,7 @@ import { useSelector } from 'react-redux'
 export default function AccountDelete() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const activeLoggedInUser = useLoggedInUser()
+  const router = useRouter()
 
   const [submitted, setSubmitted] = useState(false)
 
@@ -121,8 +123,16 @@ export default function AccountDelete() {
                         />
                       )}
                       <p>Once you click submit, we will process your request within a week.</p>
-                      <Button type="submit" disabled={isSubmitting || !isValid} color="success">
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting || !isValid}
+                        color="success"
+                        rightSpacer
+                      >
                         Submit
+                      </Button>
+                      <Button type="button" color="text" onClick={() => router.back()}>
+                        Cancel
                       </Button>
                     </>
                   )}
