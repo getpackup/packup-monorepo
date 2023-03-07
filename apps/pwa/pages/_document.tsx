@@ -58,7 +58,6 @@ export default class CustomDocument extends Document {
           <meta name="msapplication-tap-highlight" content="no" />
           <meta name="theme-color" content="#0b2b44" />
           <FallbackStyles />
-          <MagicScriptTag />
           <link
             rel="preload"
             href="/fonts/packup-bold-webfont.woff2"
@@ -159,6 +158,7 @@ export default class CustomDocument extends Document {
           {this.props.styles}
         </Head>
         <body>
+          <MagicScriptTag />
           <Main />
           <NextScript />
         </body>

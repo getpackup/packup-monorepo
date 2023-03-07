@@ -52,7 +52,7 @@ const Divider = styled.div`
 
   & span {
     background: var(--color-backgroundAlt);
-    color: var(--color-textLight);
+    color: var(--color-text);
     padding: 0 ${baseSpacer};
     font-size: ${fontSizeSmall};
     font-weight: bold;

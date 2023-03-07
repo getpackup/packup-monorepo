@@ -14,12 +14,6 @@ export const ThemeContext = createContext({
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [colorMode, rawSetColorMode] = useState<string | undefined>(undefined)
 
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   useEffect(() => {
     const root = document.documentElement
 
@@ -36,8 +30,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
       Object.entries(COLORS).forEach(([name, colorByTheme]) => {
         const cssVarName = `--color-${name}`
-
-        root.style.setProperty(cssVarName, colorByTheme[newValue])
+        root.style.setProperty(cssVarName, colorByTheme[newValue as keyof typeof colorByTheme])
       })
 
       rawSetColorMode(newValue)
@@ -49,12 +42,5 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [colorMode, rawSetColorMode])
 
-  const body = <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>
-
-  // prevents ssr flash for mismatched dark mode
-  if (!mounted) {
-    return <div style={{ visibility: 'hidden' }}>{body}</div>
-  }
-
-  return body
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>
 }
