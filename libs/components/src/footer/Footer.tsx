@@ -43,7 +43,7 @@ const BottomNav = styled.footer<{ isPwa: boolean }>`
     justify-content: center;
     align-items: center;
     flex: 1;
-    color: var(--color-text);
+    color: var(--color-textLight);
     transition: all 0.2s ease-in-out;
     position: relative;
     font-size: ${fontSizeH3};
