@@ -1,3 +1,5 @@
+import { PackingListFilterOptions, TabOptions } from '@packup/utils'
+
 import {
   ADD_ATTEMPTED_PRIVATE_PAGE,
   REMOVE_ATTEMPTED_PRIVATE_PAGE,
@@ -5,8 +7,8 @@ import {
   SET_ACTIVE_PACKING_LIST_TAB,
   SET_PERSONAL_LIST_SCROLL_POSITION,
   SET_SHARED_LIST_SCROLL_POSITION,
+  SET_TRIPS_DEFAULT_VIEW,
 } from './client'
-import { PackingListFilterOptions, TabOptions } from '@packup/utils'
 
 export type ClientStoreType = {
   location?: string
@@ -14,6 +16,7 @@ export type ClientStoreType = {
   activePackingListTab: TabOptions
   personalListScrollPosition: number
   sharedListScrollPosition: number
+  tripsDefaultView: 'list' | 'calendar'
 }
 
 export type AddAttemptedPrivatePageAction = {
@@ -45,6 +48,11 @@ export type SetSharedListScrollPosition = {
   payload: number
 }
 
+export type SetTripsDefaultView = {
+  type: typeof SET_TRIPS_DEFAULT_VIEW
+  payload: 'list' | 'calendar'
+}
+
 export type ClientActions =
   | AddAttemptedPrivatePageAction
   | RemoveAttemptedPrivatePageAction
@@ -52,3 +60,4 @@ export type ClientActions =
   | SetActivePackingListTabAction
   | SetPersonalListScrollPosition
   | SetSharedListScrollPosition
+  | SetTripsDefaultView

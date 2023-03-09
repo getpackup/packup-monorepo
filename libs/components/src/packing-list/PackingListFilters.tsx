@@ -1,4 +1,4 @@
-import { Button } from '@packup/components'
+import { Button, ButtonGroup } from '@packup/components'
 import { baseSpacer } from '@packup/styles'
 import { PackingListFilterOptions } from '@packup/utils'
 import { FunctionComponent } from 'react'
@@ -14,28 +14,6 @@ type PackingListFilterProps = {
 const Filters = styled.div`
   margin-bottom: ${baseSpacer};
 `
-
-const FilterButtons = styled.div`
-  display: inline-flex;
-  & button {
-    &:first-child {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    &:last-child {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    &:nth-child(2) {
-      border-radius: 0;
-      border-left-width: 0;
-      border-right-width: 0;
-    }
-  }
-`
-
 export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   disabled,
   activeFilter,
@@ -56,20 +34,20 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   return (
     <Filters>
       <strong>Show: </strong>
-      <FilterButtons>
+      <ButtonGroup>
         {filterSettings.map((filter) => (
           <Button
             key={filter}
             type="button"
             size="small"
-            color={filter === activeFilter ? 'primary' : 'tertiary'}
+            color={filter === activeFilter ? 'tertiaryAlt' : 'tertiary'}
             onClick={() => handleFilter(filter)}
             disabled={disabled}
           >
             {filter}
           </Button>
         ))}
-      </FilterButtons>
+      </ButtonGroup>
     </Filters>
   )
 }

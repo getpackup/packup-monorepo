@@ -1,4 +1,5 @@
 import { PackingListFilterOptions, TabOptions } from '@packup/utils'
+
 import { ClientActions, ClientStoreType } from './client.d'
 
 export const ADD_ATTEMPTED_PRIVATE_PAGE = 'ADD_ATTEMPTED_PRIVATE_PAGE'
@@ -10,12 +11,15 @@ export const SET_ACTIVE_PACKING_LIST_TAB = 'SET_ACTIVE_PACKING_LIST_TAB'
 export const SET_PERSONAL_LIST_SCROLL_POSITION = 'SET_PERSONAL_LIST_SCROLL_POSITION'
 export const SET_SHARED_LIST_SCROLL_POSITION = 'SET_SHARED_LIST_SCROLL_POSITION'
 
+export const SET_TRIPS_DEFAULT_VIEW = 'SET_TRIPS_DEFAULT_VIEW'
+
 export const clientInitialState: ClientStoreType = {
   location: undefined,
   activePackingListFilter: PackingListFilterOptions.All,
   activePackingListTab: TabOptions.Personal,
   personalListScrollPosition: 0,
   sharedListScrollPosition: 0,
+  tripsDefaultView: 'list',
 }
 
 export default function clientReducer(
@@ -64,6 +68,12 @@ export default function clientReducer(
         sharedListScrollPosition: action.payload,
       }
     }
+    case SET_TRIPS_DEFAULT_VIEW: {
+      return {
+        ...state,
+        tripsDefaultView: action.payload,
+      }
+    }
     default:
       return state
   }
@@ -95,5 +105,10 @@ export const setPersonalListScrollPosition = (payload: number) => ({
 
 export const setSharedListScrollPosition = (payload: number) => ({
   type: SET_SHARED_LIST_SCROLL_POSITION,
+  payload,
+})
+
+export const setTripsDefaultView = (payload: 'list' | 'calendar') => ({
+  type: SET_TRIPS_DEFAULT_VIEW,
   payload,
 })

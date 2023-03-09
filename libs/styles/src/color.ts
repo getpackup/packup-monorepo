@@ -97,6 +97,10 @@ export const COLORS = {
     light: brandSecondary,
     dark: '#051218',
   },
+  success: {
+    light: brandSuccess,
+    dark: brandSuccess,
+  },
   info: {
     light: brandInfo,
     dark: '#2d4861',

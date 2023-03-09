@@ -1,5 +1,6 @@
 import '../webfonts.css'
 import 'react-loading-skeleton/dist/skeleton.css'
+import '../../../libs/components/src/trip/calendarStyles.css'
 
 import {
   AddToHomeScreenBanner,

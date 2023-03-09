@@ -56,7 +56,8 @@ export default class CustomDocument extends Document {
           <meta name="msapplication-config" content="/icons/browserconfig.xml" />
           <meta name="msapplication-TileColor" content="#B35900" />
           <meta name="msapplication-tap-highlight" content="no" />
-          <meta name="theme-color" content="#0b2b44" />
+          <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0b2b44" />
+          <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#051218" />
           <FallbackStyles />
           <link
             rel="preload"

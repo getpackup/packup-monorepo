@@ -40,6 +40,7 @@ export interface ButtonProps {
     | 'dangerOutline'
     | 'secondary'
     | 'tertiary'
+    | 'tertiaryAlt'
   rightSpacer?: boolean
   to?: string
   disabled?: boolean
@@ -174,6 +175,18 @@ const tertiaryButtonStyles = `
   }
 `
 
+const tertiaryAltButtonStyles = `
+  background-color: var(--color-lightestGray);
+  color: var(--color-text);
+  border: ${baseBorderStyle};
+
+  &:hover,
+  &:focus {
+    color: var(--color-text);
+    background-color: var(--color-background);
+  }
+`
+
 const allStyles = css`
   position: relative;
   display: inline-flex;
@@ -210,6 +223,7 @@ const allStyles = css`
   ${(props: ButtonProps) => props.color === 'text' && textButtonStyles}
   ${(props: ButtonProps) => props.color === 'secondary' && secondaryButtonStyles}
   ${(props: ButtonProps) => props.color === 'tertiary' && tertiaryButtonStyles}
+  ${(props: ButtonProps) => props.color === 'tertiaryAlt' && tertiaryAltButtonStyles}
 
   /* Disabled - specific color variations */
   ${(props: ButtonProps) => props.color === 'primary' && props.disabled && primaryDisabledStyles}

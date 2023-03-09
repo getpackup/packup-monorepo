@@ -26,6 +26,7 @@ const Tabs = styled.div`
   display: flex;
   justify-content: space-evenly;
   cursor: pointer;
+  margin-top: ${baseSpacer};
   margin-bottom: ${baseSpacer};
 `
 

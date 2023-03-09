@@ -113,7 +113,7 @@ export const Footer = () => {
   return (
     <>
       {activeLoggedInUser && !isInOnboardingFlow && (
-        <BottomNav isPwa={isInStandaloneMode() && getPWADisplayMode() === 'standalone'}>
+        <BottomNav isPwa={Boolean(isInStandaloneMode()) && getPWADisplayMode() === 'standalone'}>
           <nav>
             <Link href="/" legacyBehavior passHref>
               <a className={pathname === '/' || pathname.includes('trips') ? 'active' : undefined}>
