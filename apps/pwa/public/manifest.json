@@ -10,6 +10,7 @@
   "theme_color": "#051218",
   "orientation": "portrait",
   "scope": "/",
+  "iarc_rating_id": "2b925b04-af5e-4496-a884-1a00d136d24a",
   "categories": ["packing", "outdoors", "productivity", "safety"],
   "screenshots": [
     {
@@ -101,6 +102,15 @@
     }
   ],
   "display": "standalone",
+  "display_override": ["fullscreen", "minimal-ui"],
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.packupapp.twa",
+      "id": "com.packupapp.twa"
+    }
+  ],
   "url_handlers": [
     {
       "origin": "https://packupapp.com"

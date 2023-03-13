@@ -2,12 +2,13 @@
 // Note: imported 'isomorphic-fetch' this way so that in reducer tests we can mock Fetch/Response
 import 'isomorphic-fetch'
 
+import * as Sentry from '@sentry/react'
 // import * as Sentry from '@sentry/nextjs';
 /* eslint-disable no-underscore-dangle */
-import { compose, createStore, applyMiddleware } from 'redux'
-import * as Sentry from '@sentry/react'
+import { applyMiddleware, compose, createStore } from 'redux'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+
 import rootReducer from './ducks'
 import { clientInitialState } from './ducks/client'
 

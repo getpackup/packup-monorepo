@@ -35,6 +35,7 @@ button.rbc-input::-moz-focus-inner {
   -webkit-box-align: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
+  isolation: isolate;
 }
 
 .rbc-calendar *,
