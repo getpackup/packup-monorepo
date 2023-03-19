@@ -10,7 +10,6 @@ import {
   fontSizeBase,
   fontSizeSmall,
   headingsFontFamily,
-  baseAndAHalfSpacer,
 } from '@packup/styles'
 import { trackEvent } from '@packup/utils'
 import Link from 'next/link'

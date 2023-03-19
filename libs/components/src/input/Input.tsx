@@ -251,7 +251,7 @@ const PasswordToggle = styled.div`
   top: 0;
   width: ${quadrupleSpacer};
   height: ${inputHeight};
-  background: ${lightestGray};
+  background: var(--color-backgroundAlt);
   display: flex;
   justify-content: center;
   align-items: center;

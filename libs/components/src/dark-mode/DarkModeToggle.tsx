@@ -1,8 +1,22 @@
 import React from 'react'
 
 import { ThemeContext } from '@packup/utils'
-import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
+import { baseAndAHalfSpacer, halfSpacer, quarterSpacer } from '@packup/styles'
 import FadeIn from '../fade-in/FadeIn'
+import styled from 'styled-components'
+
+const StyledDarkModeLabel = styled.label<{ showText: boolean }>`
+  margin: 0;
+  width: ${({ showText }) => (showText ? 'auto' : baseAndAHalfSpacer)};
+  height: ${baseAndAHalfSpacer};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  & span {
+    margin-top: ${halfSpacer};
+  }
+`
 
 export const DarkModeToggle = ({ showText = false, color = 'var(--color-textLight)' }) => {
   const { colorMode, setColorMode } = React.useContext(ThemeContext)
@@ -54,14 +68,7 @@ export const DarkModeToggle = ({ showText = false, color = 'var(--color-textLigh
   }
 
   return (
-    <label
-      style={{
-        margin: 0,
-        width: showText ? 'auto' : baseAndAHalfSpacer,
-        height: baseAndAHalfSpacer,
-        cursor: 'pointer',
-      }}
-    >
+    <StyledDarkModeLabel showText={showText}>
       <input
         type="checkbox"
         hidden
@@ -72,10 +79,10 @@ export const DarkModeToggle = ({ showText = false, color = 'var(--color-textLigh
       />{' '}
       {colorMode === 'dark' ? <Moon /> : <Sun />}
       {showText ? (
-        <span style={{ marginLeft: halfSpacer, verticalAlign: 'text-bottom' }}>
+        <p style={{ marginLeft: halfSpacer, verticalAlign: 'text-bottom', marginBottom: 0 }}>
           {colorMode === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        </span>
+        </p>
       ) : null}
-    </label>
+    </StyledDarkModeLabel>
   )
 }
