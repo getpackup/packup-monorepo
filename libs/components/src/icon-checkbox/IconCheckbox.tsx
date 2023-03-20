@@ -1,11 +1,4 @@
-import {
-  brandPrimary,
-  lightGray,
-  textColor,
-  baseSpacer,
-  tripleSpacer,
-  fontSizeXSmall,
-} from '@packup/styles'
+import { baseSpacer, tripleSpacer, fontSizeXSmall } from '@packup/styles'
 import { FieldMetaProps, FormikHelpers, useField } from 'formik'
 import React, { FunctionComponent } from 'react'
 import { IconType } from 'react-icons'
@@ -48,7 +41,8 @@ export const IconCheckboxLabel = styled.span`
   font-size: ${fontSizeXSmall};
   line-height: 1.2;
   margin: ${baseSpacer} 0;
-  color: ${(props: { checked?: boolean }) => (props.checked ? brandPrimary : textColor)};
+  color: ${(props: { checked?: boolean }) =>
+    props.checked ? 'var(--color-primary)' : 'var(--color-text)'};
 `
 
 export const IconCheckbox: FunctionComponent<IconCheckboxProps> = (props) => {
@@ -70,7 +64,10 @@ export const IconCheckbox: FunctionComponent<IconCheckboxProps> = (props) => {
         onChange={props.onChange}
       />
       <IconWrapperLabel htmlFor={props.name} checked={props.checked}>
-        <Icon color={props.checked ? brandPrimary : lightGray} size={tripleSpacer} />
+        <Icon
+          color={props.checked ? 'var(--color-primary' : 'var(--color-lightGray'}
+          size={tripleSpacer}
+        />
         {props.label && (
           <IconCheckboxLabel checked={props.checked}>{props.label}</IconCheckboxLabel>
         )}

@@ -7,6 +7,7 @@ import 'firebase/compat/storage'
 
 import { UserType } from '@packup/common'
 import { LoadingPage } from '@packup/components'
+import { CssReset } from '@packup/styles'
 import firebase from 'firebase/compat/app'
 import * as React from 'react'
 import { Provider, useSelector } from 'react-redux'
@@ -18,6 +19,7 @@ import {
 } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import { PersistGate } from 'redux-persist/integration/react'
+import styled from 'styled-components'
 
 import { AppState } from '.'
 import configureStore from './configureStore'
@@ -92,9 +94,21 @@ if (process.env['ENVIRONMENT'] === 'DEVELOP') {
 
 export const onWorkerUpdateReady = () => store.dispatch(showWorkerUpdateModal())
 
+const AppContainer = styled.div`
+  margin-right: 0;
+  margin-left: 0;
+  background-color: var(--color-background);
+  min-height: 100vh;
+`
+
 function AuthIsLoaded({ children }: { children: React.ReactNode }): JSX.Element {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  if (!isLoaded(auth)) return <LoadingPage />
+  if (!isLoaded(auth))
+    return (
+      <AppContainer>
+        <LoadingPage />
+      </AppContainer>
+    )
   return children as JSX.Element
 }
 
@@ -104,6 +118,7 @@ export function ReduxWrapper(props: any) {
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <PersistGate loading={null} persistor={persistor}>
+          <CssReset />
           <AuthIsLoaded>{props.children}</AuthIsLoaded>
         </PersistGate>
       </ReactReduxFirebaseProvider>

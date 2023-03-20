@@ -16,7 +16,6 @@ import {
   brandInfo,
   brandSecondary,
   brandSuccess,
-  CssReset,
   quadrupleSpacer,
   quarterSpacer,
   threeQuarterSpacer,
@@ -38,13 +37,15 @@ import Modal from 'react-modal'
 import styled, { CSSProperties } from 'styled-components'
 
 const LayoutWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 `
 
 const PageBody = styled.main`
+  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
@@ -67,7 +68,10 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Packup</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+        />
       </Head>
       <Script id="googleMapsLoaded">{`window.googleMapsLoaded = function() {}`}</Script>
       <Script
@@ -75,7 +79,6 @@ function App({ Component, pageProps }: AppProps) {
       />
       <ReduxWrapper>
         <ThemeProvider>
-          <CssReset />
           <UploadTheme />
           <IconContext.Provider value={iconStyle as CSSProperties}>
             <SkeletonTheme

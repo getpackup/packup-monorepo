@@ -7,7 +7,6 @@ import {
   brandSuccess,
   gray,
   lightGray,
-  textColor,
   white,
 } from '@packup/styles'
 import { baseBorderStyle, disabledStyle } from '@packup/styles'
@@ -181,9 +180,10 @@ const tertiaryAltButtonStyles = `
   border: ${baseBorderStyle};
 
   &:hover,
+  &:active,
   &:focus {
     color: var(--color-text);
-    background-color: var(--color-background);
+    background-color: var(--color-lightestGray);
   }
 `
 
@@ -237,7 +237,6 @@ const allStyles = css`
   /* When button is next to other items, use rightSpacer give them some breathing room */
   ${(props: ButtonProps) => props.rightSpacer && `margin-right: ${baseSpacer};`}
 
-  &:active,
   &:focus {
     outline: none;
     filter: brightness(0.85);
