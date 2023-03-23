@@ -28,7 +28,7 @@ const BottomNav = styled.footer<{ isPwa: boolean }>`
   display: block;
   background-color: var(--color-secondary);
   border-top: ${baseBorderStyle};
-  padding-bottom: env(safe-area-inset-bottom);
+  // padding-bottom: env(safe-area-inset-bottom);
 
   & nav {
     display: flex;
