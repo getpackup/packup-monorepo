@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { onAuthStateChanged } from 'firebase/auth'
 import 'firebaseui/dist/firebaseui.css'
-import { auth } from 'firebaseui'
 import { getApp } from 'firebase/app'
 import {
   getAuth,
@@ -22,6 +21,7 @@ import {
   FacebookAuthProvider,
   TwitterAuthProvider,
   GithubAuthProvider,
+  OAuthProvider,
 } from 'firebase/auth'
 
 const StyledFirebaseAuthWrapper = styled.div`
@@ -87,8 +87,13 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
   const client = useSelector((state: AppState) => state.client)
   const router = useRouter()
 
+  const appleProvider = new OAuthProvider('apple.com')
+  appleProvider.addScope('email')
+  appleProvider.addScope('name')
+
   const signInProviders = [
     GoogleAuthProvider.PROVIDER_ID,
+    appleProvider.providerId,
     FacebookAuthProvider.PROVIDER_ID,
     TwitterAuthProvider.PROVIDER_ID,
     GithubAuthProvider.PROVIDER_ID,

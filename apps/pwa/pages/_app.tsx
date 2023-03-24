@@ -22,7 +22,7 @@ import {
   UploadTheme,
   white,
 } from '@packup/styles'
-import { ThemeProvider } from '@packup/utils'
+import { ThemeProvider, trackEvent } from '@packup/utils'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -129,6 +129,12 @@ function App({ Component, pageProps }: AppProps) {
               location="bottom"
               buttonText="Accept"
               cookieName="packup-gdpr-google-analytics"
+              onAccept={() => {
+                trackEvent('GDPR', { action: 'accept' })
+              }}
+              onDecline={() => {
+                trackEvent('GDPR', { action: 'decline' })
+              }}
               style={{
                 backgroundColor: brandSecondary,
               }}
