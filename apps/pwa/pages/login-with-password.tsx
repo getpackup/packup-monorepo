@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Column,
+  Heading,
   Input,
   PageContainer,
   Row,
@@ -13,7 +14,7 @@ import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { KeyboardEvent, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaArrowRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
@@ -41,6 +42,15 @@ export default function LoginWithPasswordForm() {
       <Row>
         <Column sm={8} smOffset={2} md={6} mdOffset={3}>
           <Box>
+            <Heading as="h1" align="center">
+              Welcome Back
+            </Heading>
+            <p style={{ textAlign: 'center' }}>
+              <small>
+                Login to access your digital gear inventory and custom packing lists for your
+                adventures
+              </small>
+            </p>
             <Formik
               validateOnMount
               initialValues={initialValues}
@@ -93,6 +103,15 @@ export default function LoginWithPasswordForm() {
                         validate={requiredEmail}
                         required
                         hiddenLabel
+                        onKeyDown={(event: KeyboardEvent) => {
+                          if (
+                            event.key === 'Enter' &&
+                            loginState === 'email' &&
+                            values.email !== ''
+                          ) {
+                            setLoginState('password')
+                          }
+                        }}
                       />
                       <Button
                         type="button"
