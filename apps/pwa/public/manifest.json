@@ -15,49 +15,49 @@
   "screenshots": [
     {
       "src": "/images/screenshots/1.jpg",
-      "sizes": "1920x1080",
+      "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
       "label": "All your trips, just one tap away"
     },
     {
       "src": "/images/screenshots/2.jpg",
-      "sizes": "1920x1080",
+      "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
       "label": "Seamlesss login, sign in with email or an existing provider"
     },
     {
       "src": "/images/screenshots/3.jpg",
-      "sizes": "1920x1080",
+      "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
       "label": "Manage gear in your custom gear closet"
     },
     {
       "src": "/images/screenshots/4.jpg",
-      "sizes": "1920x1080",
+      "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
       "label": "Invite your friends, coordinate on trips with your party members"
     },
     {
       "src": "/images/screenshots/5.jpg",
-      "sizes": "1920x1080",
+      "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
       "label": "Assign items, no more double packing items"
     },
     {
       "src": "/images/screenshots/6.jpg",
-      "sizes": "1920x1080",
+      "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
       "label": "Custom packing lists, build out dynamic lists for every unique adventure"
     },
     {
       "src": "/images/screenshots/7.jpg",
-      "sizes": "1920x1080",
+      "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
       "label": "Trip details, everything you need to know, in one spot"
