@@ -2,9 +2,7 @@
   "name": "packup-monorepo",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {
-    "prepare": "husky install"
-  },
+  "scripts": {},
   "private": true,
   "devDependencies": {
     "@nrwl/cli": "14.5.10",
@@ -42,7 +40,6 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "frontmatter-markdown-loader": "^3.7.0",
-    "husky": "^8.0.0",
     "jest": "27.5.1",
     "jest-environment-jsdom": "28.1.1",
     "lint-staged": "^13.0.3",
