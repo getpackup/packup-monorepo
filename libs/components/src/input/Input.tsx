@@ -26,7 +26,7 @@ import {
 } from '@packup/styles'
 import { formatPhoneNumberValue } from '@packup/utils'
 import { FieldMetaProps, FormikHelpers, useField } from 'formik'
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import Geosuggest, { QueryType, Suggest } from 'react-geosuggest'
 import { FaCheckCircle, FaEye, FaEyeSlash, FaRegCircle } from 'react-icons/fa'
 import NumericInput from 'react-numeric-input'

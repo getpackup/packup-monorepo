@@ -1,6 +1,6 @@
 import { baseSpacer, tripleSpacer, fontSizeXSmall } from '@packup/styles'
 import { FieldMetaProps, FormikHelpers, useField } from 'formik'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { IconType } from 'react-icons'
 import styled from 'styled-components'
 

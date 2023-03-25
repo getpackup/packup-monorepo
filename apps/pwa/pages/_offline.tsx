@@ -3,7 +3,7 @@
 import { Box, Column, Heading, PageContainer, Row } from '@packup/components'
 import { trackEvent } from '@packup/utils'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 export default function NotFound() {
   useEffect(() => {

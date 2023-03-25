@@ -1,6 +1,6 @@
 import { TripType } from '@packup/common'
 import { HeroImage, NegativeMarginContainer, NoiseRings, StaticMapImage } from '@packup/components'
-import { brandSecondary, lightestGray, baseSpacerUnit } from '@packup/styles'
+import { baseSpacerUnit } from '@packup/styles'
 import styled from 'styled-components'
 
 type TripHeaderImageProps = {
@@ -31,13 +31,13 @@ export const TripHeaderImage = ({ trip }: TripHeaderImageProps): JSX.Element => 
             <StaticMapImage lat={trip.lat} lng={trip.lng} height="100%" width="100%" zoom={10} />
           )}
           {!trip.headerImage && !trip.lat && !trip.lng && (
-            <PlaceholderImageWrapper backgroundColor={brandSecondary}>
+            <PlaceholderImageWrapper backgroundColor="var(--color-secondary)">
               <NoiseRings height={512} width={2048} seed={trip.name} strokeWidth={4} />
             </PlaceholderImageWrapper>
           )}
         </>
       ) : (
-        <PlaceholderImageWrapper backgroundColor={lightestGray} />
+        <PlaceholderImageWrapper backgroundColor="var(--color-backgroundAlt)" />
       )}
     </NegativeMarginContainer>
   )

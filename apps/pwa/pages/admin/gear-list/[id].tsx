@@ -10,7 +10,6 @@ import {
 import { AppState } from '@packup/redux'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'

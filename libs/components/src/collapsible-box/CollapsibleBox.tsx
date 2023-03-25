@@ -1,6 +1,6 @@
 import { Box, FlexContainer, Heading, IconWrapper } from '@packup/components'
 import { baseSpacer, borderRadius, boxShadow, boxShadowHover } from '@packup/styles'
-import React, { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 import { useMeasure } from 'react-use'
 import styled from 'styled-components'

@@ -16,7 +16,7 @@ import { brandDanger, brandPrimary, halfSpacer, lightestGray } from '@packup/sty
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'

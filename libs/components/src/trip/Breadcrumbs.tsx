@@ -2,7 +2,7 @@ import { TripType } from '@packup/common'
 import { halfSpacer, fontSizeSmall } from '@packup/styles'
 import { truncateText } from '@packup/utils'
 import Link from 'next/link'
-import React, { Children, FunctionComponent, memo } from 'react'
+import { Children, FunctionComponent, memo } from 'react'
 import { FaChevronRight } from 'react-icons/fa'
 import styled from 'styled-components'
 

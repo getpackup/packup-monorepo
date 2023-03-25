@@ -2,7 +2,6 @@ import { GearItemType } from '@packup/common'
 import { Box, GearListItemForm, Heading, PageContainer } from '@packup/components'
 import { gearListKeys } from '@packup/utils'
 import Head from 'next/head'
-import React from 'react'
 
 export default function NewGearListItem() {
   const initialValues = {

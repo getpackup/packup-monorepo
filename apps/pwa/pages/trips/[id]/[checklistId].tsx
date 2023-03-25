@@ -5,7 +5,6 @@ import { AppState } from '@packup/redux'
 import { trackEvent } from '@packup/utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
 

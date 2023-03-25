@@ -2,7 +2,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 import { FlexContainer, Heading, PageContainer } from '@packup/components'
 import { octupleSpacer } from '@packup/styles'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import Loader from 'react-loader-spinner'
 
 export const LoadingPage: FunctionComponent<{}> = () => (

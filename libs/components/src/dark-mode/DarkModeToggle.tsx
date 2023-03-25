@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { ThemeContext } from '@packup/utils'
 import { baseAndAHalfSpacer, halfSpacer, quarterSpacer } from '@packup/styles'
 import FadeIn from '../fade-in/FadeIn'

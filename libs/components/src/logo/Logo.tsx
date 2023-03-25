@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const Logo = ({
   fill = '#f3f3f3',
   width = '742px',

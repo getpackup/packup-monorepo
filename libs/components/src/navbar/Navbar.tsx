@@ -24,7 +24,7 @@ import {
   PageContainer,
   GearClosetIcon,
 } from '@packup/components'
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { FaCalendar, FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'

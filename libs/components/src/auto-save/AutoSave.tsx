@@ -2,7 +2,7 @@ import { brandDanger, brandPrimary, brandSuccess } from '@packup/styles'
 import { usePrevious } from '@packup/hooks'
 import { useFormikContext } from 'formik'
 import { debounce, isEqual } from 'lodash'
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { FaCheck, FaExclamationCircle, FaHourglassHalf } from 'react-icons/fa'
 import styled, { keyframes } from 'styled-components'
 

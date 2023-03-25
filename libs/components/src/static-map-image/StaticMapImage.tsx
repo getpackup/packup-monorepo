@@ -3,7 +3,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { white, doubleSpacer } from '@packup/styles'
 import mapboxgl from 'mapbox-gl'
 /* eslint-disable import/no-unresolved */
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { Marker, StaticMap } from 'react-map-gl'
 

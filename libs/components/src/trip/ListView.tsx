@@ -8,7 +8,6 @@ import { Box, CalendarView, Heading, TripCard } from '@packup/components'
 import { isAfterToday, isBeforeToday, trackEvent } from '@packup/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { FirebaseReducer, isLoaded } from 'react-redux-firebase'
 

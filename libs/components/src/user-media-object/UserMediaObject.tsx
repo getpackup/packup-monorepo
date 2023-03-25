@@ -2,7 +2,7 @@ import { UserType } from '@packup/common'
 import { textColorLight, halfSpacer } from '@packup/styles'
 import { Avatar, AvatarProps } from '../avatar/Avatar'
 import { FlexContainer } from '../flex-container/FlexContainer'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 type UserMediaObjectProps = {

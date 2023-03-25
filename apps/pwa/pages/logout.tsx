@@ -1,7 +1,7 @@
 import { LoadingPage, PageContainer } from '@packup/components'
 import { trackEvent } from '@packup/utils'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'

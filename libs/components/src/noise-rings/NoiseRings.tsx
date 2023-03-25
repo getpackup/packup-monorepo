@@ -3,7 +3,7 @@ import { pathsToSVGPaths } from 'canvas-sketch-util/penplot'
 import Random from 'canvas-sketch-util/random'
 import { isoBands } from 'marchingsquares'
 /* eslint-disable no-plusplus */
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 
 type NoiseRingsProps = {
   width: number

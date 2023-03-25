@@ -1,5 +1,5 @@
 import { Box, Button, Heading, PageContainer } from '@packup/components'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { FaCalendar } from 'react-icons/fa'
 
 type NoTripFoundProps = {}

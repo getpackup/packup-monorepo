@@ -11,7 +11,7 @@ import {
 import { PackingListFilterOptions, TabOptions, trackEvent } from '@packup/utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'

@@ -1,5 +1,5 @@
 import { lightestGray } from '@packup/styles'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 
 type ProgressBarProps = {
   completed: string | number

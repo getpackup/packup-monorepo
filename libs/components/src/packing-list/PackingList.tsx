@@ -41,7 +41,7 @@ import {
   scrollToPosition,
 } from '@packup/utils'
 import { useRouter } from 'next/router'
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { FaRegCheckSquare, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'

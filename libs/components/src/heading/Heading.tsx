@@ -17,7 +17,7 @@ import {
   quadrupleSpacer,
   tripleSpacer,
 } from '@packup/styles'
-import React, { CSSProperties, FunctionComponent } from 'react'
+import { CSSProperties, FunctionComponent } from 'react'
 import styled, { css } from 'styled-components'
 
 interface HeadingProps {

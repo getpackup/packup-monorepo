@@ -5,7 +5,7 @@ import { brandPrimary, baseBorderStyle, doubleSpacer, halfSpacer } from '@packup
 
 import { trackEvent } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'

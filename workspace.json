@@ -5,6 +5,8 @@
     "common": "libs/common",
     "components": "libs/components",
     "hooks": "libs/hooks",
+    "marketing": "apps/marketing",
+    "marketing-e2e": "apps/marketing-e2e",
     "pwa": "apps/pwa",
     "pwa-e2e": "apps/pwa-e2e",
     "redux": "libs/redux",

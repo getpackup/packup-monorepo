@@ -5,7 +5,7 @@ import { postFormUrlEncoded, trackEvent } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 

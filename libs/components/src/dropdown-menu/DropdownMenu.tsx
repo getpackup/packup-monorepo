@@ -14,7 +14,7 @@ import {
   halfSpacer,
   quarterSpacer,
 } from '@packup/styles'
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { FaEllipsisH } from 'react-icons/fa'
 import styled from 'styled-components'
 

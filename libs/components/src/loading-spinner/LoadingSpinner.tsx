@@ -1,5 +1,5 @@
 import { darkSpinner, lightSpinner } from '@packup/styles'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import styled, {
   CSSProperties,
   ThemeProvider,

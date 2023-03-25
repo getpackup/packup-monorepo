@@ -11,7 +11,7 @@ import {
   tripleSpacer,
 } from '@packup/styles'
 import { fontSizeSmall } from '@packup/styles'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled, { CSSProperties } from 'styled-components'
 import { Md5 } from 'ts-md5'

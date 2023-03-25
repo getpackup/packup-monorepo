@@ -1,6 +1,6 @@
 import { brandDanger, brandInfo, brandSuccess, white } from '@packup/styles'
 import { baseSpacer, borderRadius, doubleSpacer, halfSpacer } from '@packup/styles'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import {
   FaCheckCircle,
   FaExclamationCircle,

@@ -2,7 +2,7 @@ import { boxShadow, white, z1Shadow } from '@packup/styles'
 import { baseBorderStyle, borderRadius } from '@packup/styles'
 import { baseSpacer, breakpoints, doubleSpacer, quadrupleSpacer } from '@packup/styles'
 import { ImageProps } from 'next/image'
-import React, { CSSProperties, FunctionComponent } from 'react'
+import { CSSProperties, FunctionComponent } from 'react'
 import styled, { css } from 'styled-components'
 
 interface BoxProps {

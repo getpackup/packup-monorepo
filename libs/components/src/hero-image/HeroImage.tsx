@@ -1,5 +1,5 @@
-import { white, zIndexHeroImage, baseSpacer, lightGray } from '@packup/styles'
-import React, { FunctionComponent } from 'react'
+import { zIndexHeroImage, baseSpacer } from '@packup/styles'
+import { FunctionComponent } from 'react'
 import styled, { CSSProperties } from 'styled-components'
 import Image from 'next/image'
 
@@ -18,7 +18,7 @@ const HeroImageWrapper = styled.div`
   min-height: ${(props: { aspectRatio?: number; fullHeight?: boolean }) =>
     !props.fullHeight && props.aspectRatio ? `calc(100vw / ${props.aspectRatio})` : 'initial'};
   height: ${(props) => (props.fullHeight ? '100vh' : 'auto')};
-  background-color: ${lightGray};
+  background-color: var(--color-background);
   background-image: url('/images/topo.png');
 `
 
@@ -32,7 +32,7 @@ const ChildrenWrapper = styled.div`
   align-items: ${(props) => props.alignItems || 'center'};
   height: 100%;
   text-align: center;
-  color: ${white};
+  color: var(--color-textLight);
   padding: ${baseSpacer};
   z-index: ${zIndexHeroImage};
 
@@ -40,7 +40,7 @@ const ChildrenWrapper = styled.div`
   & h1,
   & p {
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
-    color: ${white};
+    color: var(--color-textLight);
   }
 `
 

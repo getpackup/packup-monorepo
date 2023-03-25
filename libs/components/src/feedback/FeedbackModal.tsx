@@ -9,7 +9,7 @@ import {
 import { postFormUrlEncoded } from '@packup/utils'
 import { requiredField } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaBullhorn, FaCheck, FaTimes } from 'react-icons/fa'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'

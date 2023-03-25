@@ -1,7 +1,7 @@
 import { Alert } from '@packup/components'
 import { FormikErrors } from 'formik'
 import { isEmpty } from 'lodash'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 
 type FormErrorsProps = {
   dirty: boolean

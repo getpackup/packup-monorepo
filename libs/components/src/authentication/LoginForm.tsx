@@ -1,7 +1,6 @@
 import { Button, FlexContainer, Input } from '../'
 import { trackEvent, requiredEmail } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import React from 'react'
 import toast from 'react-hot-toast'
 import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
 import { FaChevronRight } from 'react-icons/fa'

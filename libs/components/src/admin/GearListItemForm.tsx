@@ -13,7 +13,7 @@ import {
 } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import router from 'next/router'
-import React, { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { FaCheckCircle, FaChevronCircleRight } from 'react-icons/fa'
 import { useFirebase } from 'react-redux-firebase'
 

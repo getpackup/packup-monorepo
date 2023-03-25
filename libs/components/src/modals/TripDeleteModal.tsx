@@ -3,7 +3,7 @@ import { Button, Column, Heading, Modal, Row } from '@packup/components'
 import toast from 'react-hot-toast'
 import { trackEvent } from '@packup/utils'
 import { useRouter } from 'next/router'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { FaTrash } from 'react-icons/fa'
 import { useFirebase } from 'react-redux-firebase'
 

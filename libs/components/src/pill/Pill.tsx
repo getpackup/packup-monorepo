@@ -14,7 +14,7 @@ import {
   baseBorderStyle,
 } from '@packup/styles'
 import Link from 'next/link'
-import React, { CSSProperties, FunctionComponent } from 'react'
+import { CSSProperties, FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 type PillProps = {

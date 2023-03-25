@@ -1,6 +1,6 @@
 import { baseBorderStyle } from '@packup/styles'
 import { doubleSpacer, halfSpacer } from '@packup/styles'
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 interface HRProps {
