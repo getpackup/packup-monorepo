@@ -29,7 +29,8 @@ export const LoginForm = ({
       installApp: true,
       minimumVersion: '1',
     },
-    dynamicLinkDomain: 'packupapp.page.link',
+    dynamicLinkDomain:
+      process.env.NODE_ENV === 'production' ? 'packupapp.com/auth-action' : 'packupapp.page.link',
   }
 
   return (
