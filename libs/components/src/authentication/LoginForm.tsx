@@ -1,52 +1,47 @@
-import { AnimatedContainer, Button, Input } from '../'
-import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
-import { trackEvent, requiredField, requiredEmail } from '@packup/utils'
+import { Button, FlexContainer, Input } from '../'
+import { trackEvent, requiredEmail } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import React, { useState } from 'react'
-import { FaArrowRight } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
-import { useFirebase } from 'react-redux-firebase'
+import React from 'react'
 import toast from 'react-hot-toast'
+import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
+import { FaChevronRight } from 'react-icons/fa'
+import { baseSpacer } from '@packup/styles'
 
-export const LoginForm = () => {
-  const firebase = useFirebase()
-  const client = useSelector((state: AppState) => state.client)
-  const dispatch = useDispatch()
-  const router = useRouter()
-
+export const LoginForm = ({
+  setLoginState,
+}: {
+  setLoginState: (state: 'start' | 'signingInWithEmail') => void
+}) => {
   const initialValues = {
     email: '',
-    password: '',
   }
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [loginState, setLoginState] = useState<'email' | 'password' | 'loading' | 'error'>('email')
+  const auth = getAuth()
+
+  const actionCodeSettings = {
+    url: `${window.location.origin}/signin`,
+    handleCodeInApp: true, // This must be true
+    iOS: {
+      bundleId: 'com.packupapp',
+    },
+    android: {
+      packageName: 'com.packupapp.twa',
+      installApp: true,
+      minimumVersion: '1',
+    },
+    dynamicLinkDomain: 'packupapp.page.link',
+  }
 
   return (
     <Formik
       validateOnMount
       initialValues={initialValues}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        setIsLoading(true)
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(values.email, values.password)
+      onSubmit={(values, { setSubmitting }) => {
+        setLoginState('signingInWithEmail')
+
+        sendSignInLinkToEmail(auth, values.email, actionCodeSettings)
           .then(() => {
-            if (client.location) {
-              trackEvent('User Logged In and Needed Redirection', {
-                location: client.location,
-                email: values.email,
-              })
-              dispatch(removeAttemptedPrivatePage())
-              router.push(client.location)
-            } else {
-              trackEvent('User Logged In', {
-                email: values.email,
-              })
-              router.push('/')
-            }
+            window.localStorage.setItem('emailForSignIn', values.email)
           })
           .catch((err) => {
             trackEvent('User Log In Failure', {
@@ -54,20 +49,16 @@ export const LoginForm = () => {
               email: values.email,
             })
             toast.error('Unable to log in with those credentials. Please try again.')
-            setLoginState('email')
           })
           .finally(() => {
-            setIsLoading(false)
             setSubmitting(false)
           })
-
-        resetForm()
       }}
     >
-      {({ isSubmitting, isValid, values }) => (
+      {({ values }) => (
         <Form>
-          <AnimatedContainer>
-            <div aria-hidden={loginState !== 'email'}>
+          <FlexContainer justifyContent="space-between">
+            <div style={{ flex: 1, marginRight: baseSpacer }}>
               <Field
                 as={Input}
                 type="email"
@@ -77,53 +68,13 @@ export const LoginForm = () => {
                 validate={requiredEmail}
                 required
                 hiddenLabel
+                noMarginOnWrapper
               />
-              <Button
-                type="button"
-                block
-                disabled={values.email === ''}
-                onClick={() => setLoginState('password')}
-                iconRight={<FaArrowRight />}
-              >
-                Continue
-              </Button>
             </div>
-            <div aria-hidden={loginState !== 'password'}>
-              <Field
-                as={Input}
-                type="password"
-                name="password"
-                label="Password"
-                validate={requiredField}
-                required
-                hiddenLabel
-              />
-              <Button
-                type="submit"
-                disabled={isSubmitting || !isValid || isLoading}
-                isLoading={isLoading}
-                block
-              >
-                {isLoading ? 'Logging In' : 'Log In'}
-              </Button>
-              <p>
-                <Link href="/forgot-password">
-                  <small
-                    onClick={() =>
-                      trackEvent('Forgot Password Clicked', { location: 'Login Page' })
-                    }
-                    onKeyDown={() =>
-                      trackEvent('Forgot Password Clicked', { location: 'Login Page' })
-                    }
-                    role="button"
-                    tabIndex={0}
-                  >
-                    Forgot Password?
-                  </small>
-                </Link>
-              </p>
-            </div>
-          </AnimatedContainer>
+            <Button type="submit" disabled={values.email === ''}>
+              <FaChevronRight />
+            </Button>
+          </FlexContainer>
         </Form>
       )}
     </Formik>

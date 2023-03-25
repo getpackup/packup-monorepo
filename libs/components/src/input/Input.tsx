@@ -3,11 +3,9 @@ import 'react-geosuggest/module/geosuggest.css'
 
 import {
   brandDangerRGB,
-  brandPrimary,
   brandPrimaryRGB,
   brandSuccess,
   lightGray,
-  lightestGray,
   baseBorderStyle,
   disabledStyle,
   visuallyHiddenStyle,
@@ -112,8 +110,15 @@ const StyledTextarea = styled.textarea`
 `
 
 const StyledErrorMessage = styled.div`
-  color: var(--color-danger);
+  background-color: var(--color-danger);
+  position: absolute;
+  color: var(--color-textLight);
+  right: 0;
+  top: 0;
+  border-radius: 0 ${borderRadius} 0 ${borderRadius};
+  padding: 0 ${halfSpacer};
   font-size: ${fontSizeSmall};
+  z-index: 1;
 `
 
 const StyledSelect = styled(Select)`
@@ -131,6 +136,7 @@ export const InputWrapper = styled.div`
   margin-bottom: ${(props: { noMarginOnWrapper?: boolean; hidden?: boolean }) =>
     props.noMarginOnWrapper ? 0 : baseSpacer};
   text-align: left;
+  position: relative;
   ${(props) => props.hidden && `display: none;`}
   & .tooltip {
     padding: 0 ${halfSpacer};

@@ -20,7 +20,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   TwitterAuthProvider,
-  GithubAuthProvider,
+  // GithubAuthProvider,
   OAuthProvider,
 } from 'firebase/auth'
 
@@ -96,7 +96,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
     appleProvider.providerId,
     FacebookAuthProvider.PROVIDER_ID,
     TwitterAuthProvider.PROVIDER_ID,
-    GithubAuthProvider.PROVIDER_ID,
+    // GithubAuthProvider.PROVIDER_ID,
   ]
 
   const uiConfig = {

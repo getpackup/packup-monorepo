@@ -1,6 +1,5 @@
 import ReactTooltip from 'react-tooltip'
 import { Button, Input } from '../'
-import { AppState } from '@packup/redux'
 import {
   trackEvent,
   requiredField,
@@ -10,9 +9,7 @@ import {
   passwordRulesString,
 } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import toast from 'react-hot-toast'
 import { FaInfoCircle } from 'react-icons/fa'

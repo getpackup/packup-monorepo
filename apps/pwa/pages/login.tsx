@@ -1,7 +1,10 @@
 import {
+  AnimatedContainer,
   Box,
+  Button,
   Column,
   FirebaseAuthWrapper,
+  FlexContainer,
   Heading,
   LoginForm,
   PageContainer,
@@ -12,13 +15,16 @@ import { AppState } from '@packup/redux'
 import {
   baseBorderStyle,
   baseSpacer,
+  brandSuccess,
   doubleSpacer,
   fontSizeSmall,
   halfSpacer,
+  tripleSpacer,
 } from '@packup/styles'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { FaCheckCircle, FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
@@ -66,6 +72,7 @@ export default function Login() {
   const router = useRouter()
 
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login')
+  const [loginState, setLoginState] = useState<'start' | 'signingInWithEmail'>('start')
 
   useEffect(() => {
     if (!!auth && auth.isLoaded && !auth.isEmpty) {
@@ -89,19 +96,56 @@ export default function Login() {
             </Tab>
           </Tabs>
           <Box>
-            <Heading align="center" as="h2">
-              {activeTab === 'signup' ? 'Hello there! ' : 'Welcome Back'}
-            </Heading>
-            <p style={{ textAlign: 'center' }}>
-              {activeTab === 'signup'
-                ? 'Create an account to keep track of your gear and start planning your first trip today.'
-                : 'Login to access your digital gear inventory and custom packing lists for your adventures'}
-            </p>
-            {activeTab === 'signup' ? <SignupForm /> : <LoginForm />}
-            <Divider>
-              <span>OR</span>
-            </Divider>
-            <FirebaseAuthWrapper />
+            <AnimatedContainer>
+              <div aria-hidden={loginState !== 'start'}>
+                <Heading align="center" as="h2">
+                  {activeTab === 'signup' ? 'Hello there! ' : 'Welcome Back'}
+                </Heading>
+                <p style={{ textAlign: 'center' }}>
+                  {activeTab === 'signup'
+                    ? 'Create an account to keep track of your gear and start planning your first trip today.'
+                    : 'Login to access your digital gear inventory and custom packing lists for your adventures'}
+                </p>
+                {activeTab === 'signup' ? (
+                  <SignupForm />
+                ) : (
+                  <LoginForm setLoginState={setLoginState} />
+                )}
+                <Divider>
+                  <span>OR</span>
+                </Divider>
+                <FirebaseAuthWrapper />
+              </div>
+              <div aria-hidden={loginState !== 'signingInWithEmail'}>
+                <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
+                  <FaCheckCircle
+                    size={tripleSpacer}
+                    style={{ margin: tripleSpacer }}
+                    color={brandSuccess}
+                  />
+                  <Heading as="h2">Check your email!</Heading>
+                  <p>
+                    A &ldquo;magic link&rdquo; has been emailed to you, containing a link you can
+                    click to log in. It should show up in your inbox within 30 seconds or so.
+                  </p>
+                  <p>
+                    <small>
+                      If you don&apos;t see an email, it might be hiding in the
+                      &ldquo;promotions&rdquo; tab or your spam folder.
+                    </small>
+                  </p>
+                  <Button
+                    color="tertiary"
+                    type="button"
+                    onClick={() => setLoginState('start')}
+                    size="small"
+                    iconLeft={<FaChevronLeft />}
+                  >
+                    Start Over
+                  </Button>
+                </FlexContainer>
+              </div>
+            </AnimatedContainer>
           </Box>
         </Column>
       </Row>
