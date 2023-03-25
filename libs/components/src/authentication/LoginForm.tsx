@@ -29,7 +29,7 @@ export const LoginForm = ({
       installApp: true,
       minimumVersion: '1',
     },
-    dynamicLinkDomain: 'packupapp.page.link',
+    dynamicLinkDomain: 'packupapp.com',
   }
 
   return (
