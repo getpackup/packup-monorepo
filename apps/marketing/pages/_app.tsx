@@ -7,7 +7,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to site!</title>
+        <title>Expert packing lists for camping and outdoor adventure | Packup</title>
       </Head>
       <div className="app">
         <main>
