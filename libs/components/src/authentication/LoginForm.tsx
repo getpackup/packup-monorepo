@@ -6,6 +6,8 @@ import toast from 'react-hot-toast'
 import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
 import { FaChevronRight } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
+import ReactTooltip from 'react-tooltip'
+import Link from 'next/link'
 
 export const LoginForm = ({
   setLoginState,
@@ -76,6 +78,10 @@ export const LoginForm = ({
               <FaChevronRight />
             </Button>
           </FlexContainer>
+          <small>
+            🎉 New Passwordless Login! Or you can{' '}
+            <Link href="/login-with-password">sign in with a password.</Link>
+          </small>
         </Form>
       )}
     </Formik>
