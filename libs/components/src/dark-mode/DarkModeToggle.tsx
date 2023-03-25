@@ -1,7 +1,8 @@
 import { ThemeContext } from '@packup/utils'
-import { baseAndAHalfSpacer, halfSpacer, quarterSpacer } from '@packup/styles'
+import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
 import FadeIn from '../fade-in/FadeIn'
 import styled from 'styled-components'
+import { useContext } from 'react'
 
 const StyledDarkModeLabel = styled.label<{ showText: boolean }>`
   margin: 0;
@@ -17,7 +18,7 @@ const StyledDarkModeLabel = styled.label<{ showText: boolean }>`
 `
 
 export const DarkModeToggle = ({ showText = false, color = 'var(--color-textLight)' }) => {
-  const { colorMode, setColorMode } = React.useContext(ThemeContext)
+  const { colorMode, setColorMode } = useContext(ThemeContext)
 
   const Sun = () => (
     <FadeIn>

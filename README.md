@@ -2,11 +2,20 @@
 
 # Packup 🎒🥾🏔
 
+## Marketing Site
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2d4c5148-d316-4405-82e7-6c2af7b6e1f3/deploy-status)](https://app.netlify.com/sites/packup-marketing/deploys)
+
+## Progressive Web App
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9d202cd5-0e90-46c9-9391-6d4766c73322/deploy-status)](https://app.netlify.com/sites/packup-monorepo/deploys)
+
+
+
+
+
 This project was generated using [Nx](https://nx.dev).
 
-A mono-repository generated using [Nx](https://nx.dev) for the purpose of building and developing awesome Packup project. This includes
-building marketing website with Gatsby, progressive web application with NextJS and possibly iOS and Android apps with React Native 
-whilst all of them common components and libraries from the same repository. 
+A mono-repository generated using [Nx](https://nx.dev) for the purpose of building and developing various Packup projects. This includes
+building marketing website, progressive web application with NextJS, cloud functions, and eventually the PWA-wrapped iOS and Android apps whilst all of them common components and libraries from the same repository. 
 
 ## Quickstart 🚀
 
@@ -14,26 +23,13 @@ whilst all of them common components and libraries from the same repository.
 ```shell
 git clone https://github.com/getpackup/packup-monorepo.git
 cd packup-monorepo
-npm
+npm install
+npm i -g  @nrwl/cli nx # install nx globally
 ```
 2. Get environment set up for development by creating `.env` in relevant projects
 3. Start dev server with `nx serve <project name>` e.g. `nx serve pwa`
-4. Setup Firebase Emulator Suite You can find additional documentation on exporting production data and setting up Firebase Emulator 
-Suite in [firebaseEmulatorSuite.md](https://github.com/tonymamo/getpackup/blob/master/docs/firebaseEmulatorSuite.md) which will be
-migrated to this project later on
 
-## Working with NX - tool for monorepo management and development
 
-NX is a comprehensive tool for effectively managing mono-repository. It is highly recommended to send some time to familiarise yourself 
-with its structure, philosophy and commands. Or skip it all and scroll to the cheatsheet. 
-
-### Adding capabilities to your workspace
-
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
-
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
-
-There are many [community plugins](https://nx.dev/community) you could add.
 
 ### Generate an application
 
