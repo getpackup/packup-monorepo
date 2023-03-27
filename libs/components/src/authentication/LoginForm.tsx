@@ -5,7 +5,6 @@ import toast from 'react-hot-toast'
 import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
 import { FaChevronRight } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
-import ReactTooltip from 'react-tooltip'
 import Link from 'next/link'
 
 export const LoginForm = ({
@@ -20,7 +19,7 @@ export const LoginForm = ({
   const auth = getAuth()
 
   const actionCodeSettings = {
-    url: `${window.location.origin}/signin`,
+    url: window.location.origin,
     handleCodeInApp: true, // This must be true
     iOS: {
       bundleId: 'com.packupapp',

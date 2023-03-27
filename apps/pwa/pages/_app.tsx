@@ -2,13 +2,7 @@ import '../webfonts.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 import '../../../libs/components/src/trip/calendarStyles.css'
 
-import {
-  AddToHomeScreenBanner,
-  ErrorBoundary,
-  FeedbackModal,
-  Footer,
-  Navbar,
-} from '@packup/components'
+import { ErrorBoundary, FeedbackModal, Footer, Navbar } from '@packup/components'
 import { ReduxWrapper } from '@packup/redux'
 import {
   borderRadius,
@@ -75,6 +69,7 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <Script id="googleMapsLoaded">{`window.googleMapsLoaded = function() {}`}</Script>
       <Script
+        strategy="lazyOnload"
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places&callback=googleMapsLoaded`}
       />
       <ReduxWrapper>
@@ -86,7 +81,6 @@ function App({ Component, pageProps }: AppProps) {
               highlightColor="var(--color-loadingHighlight)"
             >
               <LayoutWrapper>
-                <AddToHomeScreenBanner />
                 <Navbar />
                 <PageBody>
                   <AppContainer>

@@ -5,14 +5,14 @@
   "scripts": {},
   "private": true,
   "devDependencies": {
-    "@nrwl/cli": "14.5.10",
-    "@nrwl/cypress": "14.5.10",
-    "@nrwl/eslint-plugin-nx": "14.5.10",
-    "@nrwl/jest": "14.5.10",
-    "@nrwl/linter": "14.5.10",
-    "@nrwl/react": "14.8.6",
-    "@nrwl/web": "14.5.10",
-    "@nrwl/workspace": "14.5.10",
+    "@nrwl/cli": "15.8.5",
+    "@nrwl/cypress": "15.8.5",
+    "@nrwl/eslint-plugin-nx": "15.8.5",
+    "@nrwl/jest": "15.8.5",
+    "@nrwl/linter": "15.8.5",
+    "@nrwl/react": "15.8.5",
+    "@nrwl/web": "15.8.5",
+    "@nrwl/workspace": "15.8.5",
     "@svgr/webpack": "^6.3.1",
     "@testing-library/react": "13.3.0",
     "@types/jest": "27.4.1",
@@ -44,7 +44,7 @@
     "jest-environment-jsdom": "28.1.1",
     "lint-staged": "^13.0.3",
     "netlify-plugin-nx-skip-build": "^0.0.7",
-    "nx": "14.5.10",
+    "nx": "15.8.5",
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
     "ts-jest": "27.1.4",
@@ -53,7 +53,7 @@
     "typescript": "~4.7.2"
   },
   "dependencies": {
-    "@nrwl/next": "^14.8.6",
+    "@nrwl/next": "15.8.5",
     "@react-spring/web": "^9.6.1",
     "@segment/analytics-next": "^1.43.0",
     "@sentry/nextjs": "^7.41.0",
@@ -131,7 +131,7 @@
     "ts-md5": "^1.3.1",
     "tslib": "^2.3.0",
     "tz-lookup": "^6.1.25",
-    "uppload": "^3.2.1",
+    "uppload": "^2.7.2",
     "uuid": "^8.3.2"
   }
 }
