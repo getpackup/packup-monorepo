@@ -87,13 +87,13 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
   const client = useSelector((state: AppState) => state.client)
   const router = useRouter()
 
-  const appleProvider = new OAuthProvider('apple.com')
-  appleProvider.addScope('email')
-  appleProvider.addScope('name')
+  // const appleProvider = new OAuthProvider('apple.com')
+  // appleProvider.addScope('email')
+  // appleProvider.addScope('name')
 
   const signInProviders = [
     GoogleAuthProvider.PROVIDER_ID,
-    appleProvider.providerId,
+    'apple.com',
     FacebookAuthProvider.PROVIDER_ID,
     TwitterAuthProvider.PROVIDER_ID,
     // GithubAuthProvider.PROVIDER_ID,
