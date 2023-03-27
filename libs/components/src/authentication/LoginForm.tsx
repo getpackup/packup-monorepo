@@ -19,7 +19,7 @@ export const LoginForm = ({
   const auth = getAuth()
 
   const actionCodeSettings = {
-    url: window.location.origin,
+    url: `${window.location.origin}/signin`,
     handleCodeInApp: true, // This must be true
     iOS: {
       bundleId: 'com.packupapp',

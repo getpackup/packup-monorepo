@@ -1,3 +1,5 @@
 # PWA netlify.toml
 [build]
   base = "pwa/"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../../../../libs"
+

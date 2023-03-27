@@ -2,7 +2,10 @@
   "name": "packup-monorepo",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build:pwa": "nx build pwa",
+    "build:marketing": "nx build marketing"
+  },
   "private": true,
   "devDependencies": {
     "@nrwl/cli": "15.8.5",

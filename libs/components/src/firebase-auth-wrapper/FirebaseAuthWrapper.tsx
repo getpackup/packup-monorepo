@@ -87,20 +87,20 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
   const client = useSelector((state: AppState) => state.client)
   const router = useRouter()
 
-  // const appleProvider = new OAuthProvider('apple.com')
-  // appleProvider.addScope('email')
-  // appleProvider.addScope('name')
+  const appleProvider = new OAuthProvider('apple.com')
+  appleProvider.addScope('email')
+  appleProvider.addScope('name')
 
   const signInProviders = [
     GoogleAuthProvider.PROVIDER_ID,
-    'apple.com',
+    appleProvider.providerId,
     FacebookAuthProvider.PROVIDER_ID,
     TwitterAuthProvider.PROVIDER_ID,
     // GithubAuthProvider.PROVIDER_ID,
   ]
 
   const uiConfig = {
-    signInFlow: 'redirect',
+    signInFlow: 'popup',
     signInOptions: signInProviders,
     callbacks: {
       signInSuccessWithAuthResult: () => {
@@ -128,7 +128,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
     // Get or Create a firebaseUI instance.
     const firebaseUiWidget =
       firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth)
-    if (uiConfig.signInFlow === 'redirect') firebaseUiWidget.reset()
+    if (uiConfig.signInFlow === 'popup') firebaseUiWidget.reset()
 
     // We track the auth state to reset firebaseUi if the user signs out.
     const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {

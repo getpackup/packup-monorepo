@@ -1,4 +1,5 @@
 {
+  "name": "redux",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/redux/src",
   "projectType": "library",
