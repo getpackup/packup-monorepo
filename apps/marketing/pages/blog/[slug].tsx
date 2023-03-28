@@ -53,24 +53,27 @@ type Params = {
 }
 
 export async function getStaticProps({ params }: Params) {
-  const post = getBlogPostBySlug(params.slug, [
-    'title',
-    'date',
-    'slug',
-    'author',
-    'content',
-    'ogImage',
-    'coverImage',
-  ])
-  const content = await markdownToHtml(post.content || '')
+  // const post = getBlogPostBySlug(params.slug, [
+  //   'title',
+  //   'date',
+  //   'slug',
+  //   'author',
+  //   'content',
+  //   'ogImage',
+  //   'coverImage',
+  // ])
+  // const content = await markdownToHtml(post.content || '')
 
+  // return {
+  //   props: {
+  //     post: {
+  //       ...post,
+  //       content,
+  //     },
+  //   },
+  // }
   return {
-    props: {
-      post: {
-        ...post,
-        content,
-      },
-    },
+    props: null,
   }
 }
 
