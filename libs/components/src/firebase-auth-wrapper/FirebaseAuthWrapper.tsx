@@ -23,6 +23,7 @@ import {
   // GithubAuthProvider,
   OAuthProvider,
 } from 'firebase/auth'
+import { detect } from 'detect-browser'
 
 const StyledFirebaseAuthWrapper = styled.div`
   & .firebaseui-container {
@@ -99,8 +100,12 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
     // GithubAuthProvider.PROVIDER_ID,
   ]
 
+  const browser = detect()
+  const usePopup = browser?.name !== 'safari'
+  const signInFlowMethod = usePopup ? 'popup' : 'redirect'
+
   const uiConfig = {
-    signInFlow: 'popup',
+    signInFlow: signInFlowMethod,
     signInOptions: signInProviders,
     callbacks: {
       signInSuccessWithAuthResult: () => {
