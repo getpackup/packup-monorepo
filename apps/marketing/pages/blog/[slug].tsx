@@ -20,7 +20,7 @@ type Props = {
 
 export default function Post({ post, morePosts, preview = false }: Props) {
   const router = useRouter()
-  const title = `${post.title} | Packup`
+  // const title = `${post.title} | Packup`
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />
   }
@@ -52,40 +52,40 @@ type Params = {
   }
 }
 
-export async function getStaticProps({ params }: Params) {
-  // const post = getBlogPostBySlug(params.slug, [
-  //   'title',
-  //   'date',
-  //   'slug',
-  //   'author',
-  //   'content',
-  //   'ogImage',
-  //   'coverImage',
-  // ])
-  // const content = await markdownToHtml(post.content || '')
+// export async function getStaticProps({ params }: Params) {
+// const post = getBlogPostBySlug(params.slug, [
+//   'title',
+//   'date',
+//   'slug',
+//   'author',
+//   'content',
+//   'ogImage',
+//   'coverImage',
+// ])
+// const content = await markdownToHtml(post.content || '')
 
-  // return {
-  //   props: {
-  //     post: {
-  //       ...post,
-  //       content,
-  //     },
-  //   },
-  // }
-  return {
-    props: null,
-  }
-}
+// return {
+//   props: {
+//     post: {
+//       ...post,
+//       content,
+//     },
+//   },
+// }
+//   return {
+//     props: null,
+//   }
+// }
 
-export async function getStaticPaths() {
-  const posts = getAllBlogPosts(['slug'])
+// export async function getStaticPaths() {
+// const posts = getAllBlogPosts(['slug'])
 
-  return {
-    paths: posts.map((post) => ({
-      params: {
-        slug: post.slug,
-      },
-    })),
-    fallback: false,
-  }
-}
+// return {
+//   paths: posts.map((post) => ({
+//     params: {
+//       slug: post.slug,
+//     },
+//   })),
+//   fallback: false,
+// }
+// }
