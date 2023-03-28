@@ -9,8 +9,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/__/auth/*',
-        destination: 'https://auth.getpackup.com/__/auth/*',
+        source: '/__/auth/:path*',
+        destination: 'https://auth.getpackup.com/__/auth/:path*',
       },
     ]
   },
