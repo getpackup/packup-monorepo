@@ -6,6 +6,14 @@ const { withSentryConfig } = require('@sentry/nextjs')
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  * */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/__/auth/:path*',
+        destination: 'https://auth.getpackup.com/__/auth/:path*',
+      },
+    ]
+  },
   nx: {
     // Set this to true if you would like to use SVGR
     // See: https://github.com/gregberge/svgr
