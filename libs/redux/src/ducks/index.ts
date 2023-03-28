@@ -3,6 +3,7 @@ import { UserType } from '@packup/common'
 import { FirebaseReducer, firebaseReducer, FirestoreReducer } from 'react-redux-firebase'
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore'
+
 import clientReducer from './client'
 import { ClientStoreType } from './client.d'
 import workerUpdateReadyReducer from './workerUpdateReady'
