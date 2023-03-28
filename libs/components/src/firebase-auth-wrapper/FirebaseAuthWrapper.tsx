@@ -100,7 +100,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
   ]
 
   const uiConfig = {
-    signInFlow: 'redirect',
+    signInFlow: 'popup',
     signInOptions: signInProviders,
     callbacks: {
       signInSuccessWithAuthResult: () => {
@@ -112,6 +112,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
         }
       },
     },
+    sinInSuccessUrl: '/',
     tosUrl: 'https://getpackup.com/terms',
     privacyPolicyUrl: 'https://getpackup.com/privacy',
   }
@@ -128,7 +129,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
     // Get or Create a firebaseUI instance.
     const firebaseUiWidget =
       firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth)
-    if (uiConfig.signInFlow === 'redirect') firebaseUiWidget.reset()
+    if (uiConfig.signInFlow === 'popup') firebaseUiWidget.reset()
 
     // We track the auth state to reset firebaseUi if the user signs out.
     const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
