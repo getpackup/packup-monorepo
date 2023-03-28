@@ -8,6 +8,11 @@
           "*"
         ]
       }
-    ]
+    ],
+    "webcredentials": {
+      "apps": [
+        "5J68R87TBG.com.packupapp"
+      ]
+    }
   }
 }

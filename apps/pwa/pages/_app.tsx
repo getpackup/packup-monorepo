@@ -1,5 +1,6 @@
 import '../webfonts.css'
 import 'react-loading-skeleton/dist/skeleton.css'
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import '../../../libs/components/src/trip/calendarStyles.css'
 
 import { ErrorBoundary, FeedbackModal, Footer, Navbar } from '@packup/components'
