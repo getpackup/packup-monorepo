@@ -10,9 +10,9 @@ const nextConfig = {
     return [
       {
         source: '/__/auth/:path*',
-        destination: `https://auth.getpackup.com/__/auth/:path*`,
+        destination: 'https://auth.getpackup.com/__/auth/:path*',
       },
-    ],
+    ]
   },
   nx: {
     // Set this to true if you would like to use SVGR
