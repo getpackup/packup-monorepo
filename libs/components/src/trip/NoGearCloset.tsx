@@ -20,7 +20,7 @@ export const NoGearCloset = () => {
                 Looks like you don&apos;t have any gear in your gear closet, or any trips planned
                 yet!
               </p>
-              <Button type="link" to="/app/onboarding" iconRight={<FaArrowRight />} color="success">
+              <Button type="link" to="/onboarding" iconRight={<FaArrowRight />} color="success">
                 Let&apos;s Get Started!
               </Button>
               <br />
