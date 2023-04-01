@@ -101,7 +101,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
   ]
 
   const browser = detect()
-  const usePopup = browser?.name === 'safari'
+  const usePopup = browser?.name !== 'safari'
   const signInFlowMethod = usePopup ? 'popup' : 'redirect'
 
   const uiConfig = {
@@ -112,9 +112,8 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
         if (client.location) {
           dispatch(removeAttemptedPrivatePage())
           router.push(client.location)
-        } else {
-          router.push('/')
         }
+        return true
       },
     },
     signInSuccessUrl: '/',
