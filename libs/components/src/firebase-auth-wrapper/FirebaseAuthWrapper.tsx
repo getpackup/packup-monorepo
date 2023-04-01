@@ -101,7 +101,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
   ]
 
   const browser = detect()
-  const usePopup = browser?.name !== 'safari'
+  const usePopup = browser?.name === 'safari'
   const signInFlowMethod = usePopup ? 'popup' : 'redirect'
 
   const uiConfig = {
@@ -117,7 +117,7 @@ export const FirebaseAuthWrapper = ({}: FirebaseAuthWrapperProps) => {
         }
       },
     },
-    sinInSuccessUrl: '/',
+    signInSuccessUrl: '/',
     tosUrl: 'https://getpackup.com/terms',
     privacyPolicyUrl: 'https://getpackup.com/privacy',
   }
