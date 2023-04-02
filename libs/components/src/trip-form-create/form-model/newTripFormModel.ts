@@ -21,6 +21,7 @@ export default {
     startingPoint: {
       name: 'startingPoint',
       label: 'Starting Point',
+      requiredErrorMsg: 'Starting point is required',
     },
     season: {
       name: 'season',
