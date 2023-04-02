@@ -18,6 +18,7 @@ import DateStep from './steps/DateStep'
 import GroupStep from './steps/GroupStep'
 import TitleStep from './steps/TitleStep'
 import ImageStep from './steps/ImageStep'
+import { useRouter } from 'next/router'
 
 type MembersToInviteType = { uid: string; email: string; greetingName: string }[];
 
@@ -58,7 +59,11 @@ const renderStepContent = (step: number, parameters: any) => {
         />
       );
     case 3:
-      return <TitleStep formField={formField} />;
+      return <TitleStep
+        formField={formField}
+        setFieldValue={parameters.setFieldValue}
+        setFieldTouched={parameters.setFieldTouched}
+      />
     case 4:
       return <ImageStep formField={formField} setFieldValue={parameters.setFieldValue} />;
     default:
@@ -73,6 +78,7 @@ export function TripFormCreate() {
   const activeLoggedInUser = loggedInUser && loggedInUser.length > 0 ? loggedInUser[0] : undefined;
   const firebase = useFirebase();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
@@ -140,7 +146,7 @@ export function TripFormCreate() {
           });
         });
         trackEvent('New Trip Submit Successful', { values: { ...values } });
-        // navigate(`/app/trips/${docRef.id}/add-trip-image`);
+        router.push(`/app/trips/${docRef.id}/add-trip-image`)
       })
       .catch((err) => {
         trackEvent('New Trip Submit Unsuccessful', { values: { ...values }, error: err });
@@ -154,6 +160,7 @@ export function TripFormCreate() {
   };
 
   const handleSubmit = (values: TripFormType, actions: any) => {
+    console.log('values', values)
     if (isLastStep) {
       const valuesWithSeason = {
         ...values,
@@ -194,8 +201,6 @@ export function TripFormCreate() {
 
           <Row>
             <Column xs={4} xsOffset={2} xsSpacer xsOrder={1}>
-              {!isValid && <p>Form is not valid</p>}
-
               {activeStep !== 0 && (
                 <Button
                   type="button"
