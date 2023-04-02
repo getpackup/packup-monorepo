@@ -81,7 +81,7 @@ export function TripFormCreate() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [activeStep, setActiveStep] = useState(1) // TODO revert that back to 0
+  const [activeStep, setActiveStep] = useState(0)
   const [membersToInvite, setMembersToInvite] = useState<MembersToInviteType>([]);
 
   const isLastStep = activeStep === steps.length - 1;
