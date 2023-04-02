@@ -135,6 +135,10 @@ export default function ImageStep(props: any) {
   const handleSelection = (index: number) => {
     setFieldValue(headerImage.name, predefinedChoices[index]);
     setHaveSelectedImage(true);
+
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
   };
 
   const handleImageChange = () => {
