@@ -5,6 +5,8 @@ import React from 'react';
 export default function TitleStep(props: any) {
   const {
     formField: { name },
+    setFieldTouched,
+    setFieldValue,
   } = props;
 
   return (
@@ -24,6 +26,8 @@ export default function TitleStep(props: any) {
             required
             autoComplete="off"
             maxLength={50}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
           />
         </Column>
       </Row>
