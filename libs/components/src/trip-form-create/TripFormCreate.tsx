@@ -37,6 +37,7 @@ const renderStepContent = (step: number, parameters: any) => {
       return (
         <LocationStep
           formField={formField}
+          formValues={parameters.formValues}
           setFieldTouched={parameters.setFieldTouched}
           setFieldValue={parameters.setFieldValue}
         />
@@ -44,7 +45,6 @@ const renderStepContent = (step: number, parameters: any) => {
     case 1:
       return (
         <DateStep
-          formField={formField}
           formValues={parameters.formValues}
           setFieldValue={parameters.setFieldValue}
           setFieldTouched={parameters.setFieldTouched}
@@ -62,6 +62,7 @@ const renderStepContent = (step: number, parameters: any) => {
     case 3:
       return <TitleStep
         formField={formField}
+        formValues={parameters.formValues}
         setFieldValue={parameters.setFieldValue}
         setFieldTouched={parameters.setFieldTouched}
       />

@@ -1,10 +1,11 @@
 import { Column, Heading, Input, Row } from '@packup/components'
 import { Field } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react'
 
 export default function TitleStep(props: any) {
   const {
     formField: { name },
+    formValues,
     setFieldTouched,
     setFieldValue,
   } = props;
@@ -23,6 +24,7 @@ export default function TitleStep(props: any) {
             type="text"
             name={name.name}
             label={name.label}
+            value={formValues.name}
             required
             autoComplete="off"
             maxLength={50}

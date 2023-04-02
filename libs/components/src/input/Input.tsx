@@ -616,9 +616,11 @@ export const Input: FunctionComponent<InputProps> = (props) => {
               types={props.geosuggestTypes || []}
               onSuggestSelect={(suggest: Suggest) => {
                 if (suggest && suggest.location) {
-                  props.setFieldValue('lat', suggest.location?.lat)
-                  props.setFieldValue('lng', suggest.location?.lng)
+                  props.setFieldValue('lat', suggest.location.lat)
+                  props.setFieldValue('lng', suggest.location.lng)
                 }
+
+                console.log('suggest', suggest)
 
                 return suggest && suggest.label
                   ? props.setFieldValue(field.name, suggest.label)

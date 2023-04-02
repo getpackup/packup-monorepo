@@ -3,7 +3,6 @@ import { Column, DayPickerInput, Row } from '@packup/components'
 
 export default function DateStep(props: any) {
   const {
-    // formField: { tripDate },
     formValues,
     setFieldValue,
     setFieldTouched,
