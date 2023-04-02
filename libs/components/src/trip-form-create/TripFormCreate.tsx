@@ -1,12 +1,12 @@
 import { Form, Formik } from 'formik'
 import { TripFormType, TripMemberFormType, TripMemberStatus } from '@packup/common'
 import { useDispatch, useSelector } from 'react-redux'
-import { ADD_GLOBAL_ALERT, addAlert, AppState, RootState } from '@packup/redux'
+import { addAlert, AppState, RootState } from '@packup/redux'
 import getInitValues from './form-model/formInitialValues'
 import newTripFormModel from './form-model/newTripFormModel'
 import React, { useState } from 'react'
 import { getSeason, sendTripInvitationEmail, trackEvent } from '@packup/utils'
-import { endOfDay, startOfDay } from 'date-fns'
+import { differenceInCalendarDays, endOfDay, startOfDay } from 'date-fns'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import validationSchema from './form-model/validationSchema'
 import { Row } from '../row/Row'
@@ -19,6 +19,7 @@ import GroupStep from './steps/GroupStep'
 import TitleStep from './steps/TitleStep'
 import ImageStep from './steps/ImageStep'
 import { useRouter } from 'next/router'
+import { useLoggedInUser } from '@packup/hooks'
 
 type MembersToInviteType = { uid: string; email: string; greetingName: string }[];
 
@@ -74,8 +75,7 @@ const renderStepContent = (step: number, parameters: any) => {
 export function TripFormCreate() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const profile = useSelector((state: RootState) => state.firebase.profile);
-  const loggedInUser = useSelector((state: RootState) => state.firestore.ordered['loggedInUser']);
-  const activeLoggedInUser = loggedInUser && loggedInUser.length > 0 ? loggedInUser[0] : undefined;
+  const activeLoggedInUser = useLoggedInUser()
   const firebase = useFirebase();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -104,20 +104,21 @@ export function TripFormCreate() {
 
   const submitForm = (values: TripFormType) => {
     setIsLoading(true);
-    // setIsSearchBarDisabled(true)
+
+    const now = new Date()
     const tripMembers: Record<string, TripMemberFormType> = {};
     tripMembers[`${auth.uid}`] = {
       uid: auth.uid,
       status: TripMemberStatus.Owner,
-      invitedAt: new Date(),
-      acceptedAt: new Date(),
+      invitedAt: now,
+      acceptedAt: now,
     };
 
     membersToInvite.forEach((member) => {
       tripMembers[`${member.uid}`] = {
         uid: member.uid,
         status: TripMemberStatus.Pending,
-        invitedAt: new Date(),
+        invitedAt: now,
         invitedBy: auth.uid,
       };
     });
@@ -127,26 +128,26 @@ export function TripFormCreate() {
       .collection('trips')
       .add({
         ...values,
-        startDate: startOfDay(new Date(values.startDate as string)),
-        endDate: endOfDay(new Date(values.endDate as string)),
         tags: [],
-        created: new Date(),
+        created: now,
         tripMembers,
       })
       .then((docRef) => {
-        docRef.update({
+        void docRef.update({
           tripId: docRef.id,
         });
+
         membersToInvite.forEach((member) => {
-          sendTripInvitationEmail({
+          void sendTripInvitationEmail({
             tripId: docRef.id,
             invitedBy: profile.username,
             email: member.email,
             greetingName: member.greetingName,
           });
         });
+
         trackEvent('New Trip Submit Successful', { values: { ...values } });
-        router.push(`/app/trips/${docRef.id}/add-trip-image`)
+        void router.push(`/trips/${docRef.id}/generator`)
       })
       .catch((err) => {
         trackEvent('New Trip Submit Unsuccessful', { values: { ...values }, error: err });
@@ -156,25 +157,31 @@ export function TripFormCreate() {
             message: err.message,
           })
         );
+        setIsLoading(false);
       });
   };
 
   const handleSubmit = (values: TripFormType, actions: any) => {
-    console.log('values', values)
     if (isLastStep) {
+      const defaultDate = new Date().toString();
       const valuesWithSeason = {
         ...values,
+        startDate: startOfDay(new Date(values.startDate as string)),
+        endDate: endOfDay(new Date(values.endDate as string)),
+        tripLength: differenceInCalendarDays(
+          new Date(values.startDate ?? defaultDate),
+          new Date(values.endDate ?? defaultDate)
+        ),
         season: getSeason(values.lat, values.lng, values.startDate as string),
       };
       trackEvent('New Trip Submit Button Clicked', valuesWithSeason);
 
       submitForm(valuesWithSeason);
-
-      actions.setSubmitting(false);
     } else {
       setActiveStep(activeStep + 1);
-      actions.setSubmitting(false);
     }
+
+    actions.setSubmitting(false);
   };
 
   const handleBack = () => {
@@ -198,7 +205,6 @@ export function TripFormCreate() {
             setMembersToInvite,
             auth,
           })}
-
           <Row>
             <Column xs={4} xsOffset={2} xsSpacer xsOrder={1}>
               {activeStep !== 0 && (
