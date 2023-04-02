@@ -227,14 +227,15 @@ export function TripFormCreate() {
                   disabled={isSubmitting || !isValid || isLoading}
                   isLoading={isLoading}
                   color="success"
+                  block
                   iconRight={<FaChevronRight />}
                 >
                   Create
                 </Button>
               ) : (
                 <Button
-                  disabled={isSubmitting || !isValid || isLoading}
                   type="submit"
+                  disabled={isSubmitting || !isValid || isLoading}
                   block
                   iconRight={<FaChevronRight />}
                 >
