@@ -9,12 +9,13 @@ const {
 export default [
   Yup.object().shape({
     [startingPoint.name]: Yup.string().required(startingPoint.requiredErrorMsg),
-  }),
-  Yup.object().shape({
     [lat.name]: Yup.string().required(lat.requiredErrorMsg),
     [lng.name]: Yup.string().required(lng.requiredErrorMsg),
   }),
-  Yup.object().shape({}), // This won't work though since it validates fields and DatePicker doesn't that
+  Yup.object().shape({
+    [startDate.name]: Yup.string().required(startDate.requiredErrorMsg),
+    [endDate.name]: Yup.string().required(endDate.requiredErrorMsg),
+  }),
   Yup.object().shape({}), // Third step is to add trip members which is not required
   Yup.object().shape({
     [name.name]: Yup.string().required(name.requiredErrorMsg),
