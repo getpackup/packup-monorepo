@@ -1,5 +1,5 @@
-import { Field } from 'formik';
-import React from 'react';
+import { Field } from 'formik'
+import React from 'react'
 import { Column, Heading, Input, Row } from '@packup/components'
 
 export default function LocationStep(props: any) {
