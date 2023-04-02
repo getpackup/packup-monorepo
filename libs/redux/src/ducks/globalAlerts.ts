@@ -15,8 +15,8 @@ export const initialState: GlobalAlertsStoreType = {
 };
 
 export default (
-  state: GlobalAlertsStoreType = initialState,
-  action: GlobalAlertsActions
+  action: GlobalAlertsActions,
+  state: GlobalAlertsStoreType = initialState
 ): GlobalAlertsStoreType => {
   switch (action.type) {
     case ADD_GLOBAL_ALERT: {

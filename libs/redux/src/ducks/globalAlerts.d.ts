@@ -1,9 +1,4 @@
-import {
-  ADD_GLOBAL_ALERT,
-  ADD_GLOBAL_BANNER,
-  CLOSE_GLOBAL_ALERT,
-  CLOSE_GLOBAL_BANNER,
-} from '@redux/ducks/globalAlerts';
+import { ADD_GLOBAL_ALERT, ADD_GLOBAL_BANNER, CLOSE_GLOBAL_ALERT, CLOSE_GLOBAL_BANNER } from './globalAlerts'
 
 export type AlertType = {
   message: string;
