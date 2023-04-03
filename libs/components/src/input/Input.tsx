@@ -616,8 +616,8 @@ export const Input: FunctionComponent<InputProps> = (props) => {
               types={props.geosuggestTypes || []}
               onSuggestSelect={(suggest: Suggest) => {
                 if (suggest && suggest.location) {
-                  props.setFieldValue('lat', suggest.location?.lat)
-                  props.setFieldValue('lng', suggest.location?.lng)
+                  props.setFieldValue('lat', suggest.location.lat)
+                  props.setFieldValue('lng', suggest.location.lng)
                 }
 
                 return suggest && suggest.label
@@ -629,7 +629,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
               {...props}
               {...meta}
               // https://github.com/ubilabs/react-geosuggest#placedetailfields
-              // don't return any place fields to keep biling costs down
+              // don't return any place fields to keep billing costs down
               placeDetailFields={[]}
               onBlur={() => props.setFieldTouched(props.name)}
               minLength={3}

@@ -6,9 +6,7 @@ import {
   borderRadius,
   brandPrimary,
   brandPrimaryRGB,
-  breakpoints,
   screenSizes,
-  white,
 } from '@packup/styles'
 import format from 'date-fns/format'
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -56,18 +54,27 @@ export const DayPickerInput: FunctionComponent<DayPickerInputProps> = ({
 }) => {
   const dateFormat = 'MM/dd/yyyy'
 
-  const [range, setRange] = useState<DateRange | undefined>(undefined)
+  // Create date range with values set previously in this form
+  const initialRange: DateRange | undefined = {
+    from: values.startDate ? new Date(values.startDate) : undefined,
+    to: values.endDate ? new Date(values.endDate) : undefined,
+  }
+
+  const [range, setRange] = useState<DateRange | undefined>(initialRange)
 
   useEffect(() => {
+    // If field is not set, best to indicate that as well
     if (range?.from) {
       setFieldTouched('startDate')
       setFieldValue('startDate', format(range.from, dateFormat))
+    } else {
+      setFieldValue('startDate', undefined)
     }
+
     if (range?.to) {
       setFieldTouched('endDate')
       setFieldValue('endDate', format(range.to, dateFormat))
-    } else if (!range?.to && range?.from) {
-      setFieldValue('startDate', undefined)
+    } else {
       setFieldValue('endDate', undefined)
     }
   }, [range])
@@ -104,6 +111,9 @@ export const DayPickerInput: FunctionComponent<DayPickerInputProps> = ({
             size="small"
             onClick={() => {
               setRange(undefined)
+              // Reset values since useEffect will not fire
+              setFieldValue('startDate', undefined)
+              setFieldValue('endDate', undefined)
             }}
           >
             Reset

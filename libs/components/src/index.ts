@@ -1,3 +1,4 @@
+export * from './trip-form-create/TripFormCreate'
 export * from './add-to-home-screen-banner/AddToHomeScreenBanner'
 export * from './admin/GearListItemForm'
 export * from './alert/Alert'

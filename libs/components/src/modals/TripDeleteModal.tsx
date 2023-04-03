@@ -33,7 +33,7 @@ export const TripDeleteModal: FunctionComponent<TripDeleteModalProps> = ({
         })
         .then(() => {
           trackEvent('Trip Archived Successfully', { tripId: trip.tripId })
-          router.push('/trips')
+          router.push('/')
         })
         .catch((err) => {
           trackEvent('Trip Archive Failure', { tripId: trip.tripId, error: err })
