@@ -20,6 +20,7 @@ import TitleStep from './steps/TitleStep'
 import ImageStep from './steps/ImageStep'
 import { useRouter } from 'next/router'
 import { useLoggedInUser } from '@packup/hooks'
+import { toast } from 'react-hot-toast'
 
 type MembersToInviteType = { uid: string; email: string; greetingName: string }[];
 
@@ -163,12 +164,7 @@ export function TripFormCreate() {
       })
       .catch((err) => {
         trackEvent('New Trip Submit Unsuccessful', { values: { ...values }, error: err });
-        dispatch(
-          addAlert({
-            type: 'danger',
-            message: err.message,
-          })
-        );
+        toast.error(err.message);
         setIsLoading(false);
       });
   };

@@ -4,31 +4,16 @@ import { Column, Heading, Input, Row } from '@packup/components'
 
 export default function LocationStep(props: any) {
   const {
-    formField: { startingPoint, lat, lng, name },
+    formField: { startingPoint, name },
     formValues,
     setFieldTouched,
     setFieldValue,
   } = props;
 
   useEffect(() => {
-    if (formValues[startingPoint.name]) {
-      setFieldValue(startingPoint.name, formValues[startingPoint.name])
-      setFieldTouched(startingPoint.name)
-    }
-
     // Set title to starting point if it's not already set
     if (formValues[name.name].length === 0) {
-      setFieldValue(name.name, formValues[startingPoint.name])
-    }
-
-    if (formValues[lat.name]) {
-      setFieldValue(lat.name, formValues[lat.name])
-      setFieldTouched(lat.name)
-    }
-
-    if (formValues[lng.name]) {
-      setFieldValue(lng.name, formValues[lng.name])
-      setFieldTouched(lng.name)
+      setFieldValue(name.name, `Trip to ${formValues[startingPoint.name]}`)
     }
   }, [formValues])
 
