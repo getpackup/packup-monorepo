@@ -26,6 +26,10 @@ export default function LocationStep(props: any) {
       </Row>
       <Row>
         <Column xs={8} xsOffset={2}>
+          {
+            startingPoint.name && formValues[startingPoint.name] && (
+              <p>Going to <b>{formValues[startingPoint.name]}</b></p>
+          )}
           <Field
             as={Input}
             type="geosuggest"
@@ -33,7 +37,7 @@ export default function LocationStep(props: any) {
             name={startingPoint.name}
             label={startingPoint.label}
             hiddenLabel
-            value={formValues.startingPoint}
+            value={formValues[startingPoint.name]}
             setFieldTouched={setFieldTouched}
             setFieldValue={setFieldValue}
             required

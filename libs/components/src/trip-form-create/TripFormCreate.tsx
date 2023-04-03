@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik'
 import { TripFormType, TripMemberFormType, TripMemberStatus } from '@packup/common'
 import { useDispatch, useSelector } from 'react-redux'
-import { addAlert, AppState, RootState } from '@packup/redux'
+import { AppState, RootState } from '@packup/redux'
 import getInitValues from './form-model/formInitialValues'
 import newTripFormModel from './form-model/newTripFormModel'
 import React, { useState } from 'react'
@@ -81,7 +81,7 @@ const renderStepContent = (step: number, parameters: {
         setFieldValue={parameters.setFieldValue}
       />
     default:
-      return <div>Form Not Found</div>
+      return <div>Step Not Found</div>
   }
 };
 
