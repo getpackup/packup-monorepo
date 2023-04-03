@@ -1,6 +1,6 @@
 import { Column, Heading, Input, Row } from '@packup/components'
-import { Field } from 'formik';
-import React, { useEffect } from 'react'
+import { Field } from 'formik'
+import React from 'react'
 
 export default function TitleStep(props: any) {
   const {
