@@ -53,7 +53,7 @@ export default function GroupStep(props: any) {
     <>
       <Row>
         <Column xs={8} xsOffset={2}>
-          <Heading>Going with anyone else?</Heading>
+          <Heading as={'h3'}>Who else is coming along?</Heading>
         </Column>
       </Row>
       <Row>

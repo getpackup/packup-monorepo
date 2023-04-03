@@ -14,7 +14,7 @@ export default function TitleStep(props: any) {
     <>
       <Row>
         <Column xs={8} xsOffset={2}>
-          <Heading>Trip Name</Heading>
+          <Heading as={'h3'}>What will you call this adventure?</Heading>
         </Column>
       </Row>
       <Row>
@@ -24,6 +24,7 @@ export default function TitleStep(props: any) {
             type="text"
             name={name.name}
             label={name.label}
+            hiddenLabel
             value={formValues.name}
             required
             autoComplete="off"

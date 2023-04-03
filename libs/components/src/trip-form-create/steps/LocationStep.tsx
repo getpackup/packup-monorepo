@@ -36,7 +36,7 @@ export default function LocationStep(props: any) {
     <>
       <Row>
         <Column xs={8} xsOffset={2}>
-          <Heading>Where are you headed?</Heading>
+          <Heading as={'h3'}>Where are you headed?</Heading>
         </Column>
       </Row>
       <Row>
@@ -47,6 +47,7 @@ export default function LocationStep(props: any) {
             types={[]}
             name={startingPoint.name}
             label={startingPoint.label}
+            hiddenLabel
             value={formValues.startingPoint}
             setFieldTouched={setFieldTouched}
             setFieldValue={setFieldValue}

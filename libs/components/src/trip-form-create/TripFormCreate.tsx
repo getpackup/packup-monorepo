@@ -67,9 +67,13 @@ const renderStepContent = (step: number, parameters: any) => {
         setFieldTouched={parameters.setFieldTouched}
       />
     case 4:
-      return <ImageStep formField={formField} setFieldValue={parameters.setFieldValue} />;
+      return <ImageStep
+        formField={formField}
+        formValues={parameters.formValues}
+        setFieldValue={parameters.setFieldValue}
+      />
     default:
-      return <div>Form Not Found</div>;
+      return <div>Form Not Found</div>
   }
 };
 

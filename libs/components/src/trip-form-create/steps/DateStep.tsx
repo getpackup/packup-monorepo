@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, DayPickerInput, Row } from '@packup/components'
+import { Column, DayPickerInput, Heading, Row } from '@packup/components'
 
 export default function DateStep(props: any) {
   const {
@@ -9,10 +9,17 @@ export default function DateStep(props: any) {
   } = props;
 
   return (
+    <>
+      <Row>
+        <Column xs={8} xsOffset={2}>
+          <Heading as={'h3'}>When are you going?</Heading>
+        </Column>
+      </Row>
       <Row>
         <Column xs={8} xsOffset={2}>
           <DayPickerInput
             label="Trip Date"
+            hiddenLabel
             initialValues=""
             values={formValues}
             setFieldValue={setFieldValue}
@@ -20,5 +27,6 @@ export default function DateStep(props: any) {
           />
         </Column>
       </Row>
+    </>
   );
 }

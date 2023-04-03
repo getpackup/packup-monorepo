@@ -33,6 +33,7 @@ const ImageOption = styled.img`
 export default function ImageStep(props: any) {
   const {
     formField: { headerImage },
+    formValues: { headerImage: headerImageValue },
     setFieldValue,
   } = props;
 
@@ -150,14 +151,14 @@ export default function ImageStep(props: any) {
     <>
       <Row>
         <Column xs={8} xsOffset={2}>
-          <Heading>Pick a Cover Image</Heading>
+          <Heading as={'h3'}>Stay Hyped With a Cover Image</Heading>
         </Column>
       </Row>
       <Row>
         <Column xs={8} xsOffset={2}>
           {haveSelectedImage ? (
             <>
-              <Alert type="success" message="Success!" />
+              <ImageOption src={headerImageValue} alt="Photo of choice" />
               <Button
                 type="button"
                 color="text"
