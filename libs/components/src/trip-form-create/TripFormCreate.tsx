@@ -27,11 +27,18 @@ const { formId, formField } = newTripFormModel;
 const steps = ['Location', 'Date', 'Members', 'Name', 'Image'];
 
 /**
- * TODO: add type to parameters or refactor forms to eliminate the need for this
  * @param step
  * @param parameters
  */
-const renderStepContent = (step: number, parameters: any) => {
+const renderStepContent = (step: number, parameters: {
+  formValues: TripFormType
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void
+  setFieldTouched: (field: string, isTouched?: boolean | undefined, shouldValidate?: boolean | undefined) => void
+  activeLoggedInUser: ReturnType<typeof useLoggedInUser>
+  membersToInvite: MembersToInviteType
+  setMembersToInvite: (members: MembersToInviteType) => void
+  auth: AppState['firebase']['auth']
+}) => {
   switch (step) {
     case 0:
       return (
