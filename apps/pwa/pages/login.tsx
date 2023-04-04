@@ -3,7 +3,7 @@ import {
   Box,
   Button,
   Column,
-  FirebaseAuthWrapper,
+  // FirebaseAuthWrapper,
   FlexContainer,
   Heading,
   LoginForm,
@@ -22,6 +22,7 @@ import {
   tripleSpacer,
 } from '@packup/styles'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FaCheckCircle, FaChevronLeft } from 'react-icons/fa'
@@ -109,22 +110,34 @@ export default function Login() {
                 {activeTab === 'signup' ? (
                   <SignupForm />
                 ) : (
-                  <LoginForm setLoginState={setLoginState} />
+                  <>
+                    <LoginForm setLoginState={setLoginState} />
+                    <p style={{ marginTop: doubleSpacer }}>
+                      What is passwordless login? <Link href="/passwordless">Learn more here</Link>
+                    </p>
+                    <Divider>
+                      <span>OR</span>
+                    </Divider>
+                    <p style={{ marginTop: doubleSpacer }}>
+                      <Link href="/login-with-password">Sign in with an email and password</Link>
+                    </p>
+                  </>
                 )}
-                <Divider>
-                  <span>OR</span>
-                </Divider>
-                <FirebaseAuthWrapper />
+                {/* <FirebaseAuthWrapper /> */}
               </div>
               <div aria-hidden={loginState !== 'signingInWithEmail'}>
                 <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
-                  <FaCheckCircle
-                    size={tripleSpacer}
-                    style={{ margin: tripleSpacer }}
-                    color={brandSuccess}
-                  />
-                  <Heading as="h2">Check your email!</Heading>
-                  <p>
+                  <FlexContainer alignItems="center" justifyContent="center">
+                    <FaCheckCircle
+                      size={tripleSpacer}
+                      style={{ marginRight: baseSpacer }}
+                      color={brandSuccess}
+                    />
+                    <Heading as="h2" noMargin>
+                      Check your email!
+                    </Heading>
+                  </FlexContainer>
+                  <p style={{ marginTop: baseSpacer }}>
                     A &ldquo;magic link&rdquo; has been emailed to you, containing a link you can
                     click to log in. It should show up in your inbox within 30 seconds or so.
                   </p>

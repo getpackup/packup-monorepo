@@ -3,12 +3,14 @@ import {
   Box,
   Button,
   Column,
+  FlexContainer,
   Heading,
   Input,
   PageContainer,
   Row,
 } from '@packup/components'
 import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
+import { baseSpacer } from '@packup/styles'
 import { requiredEmail, requiredField, trackEvent } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import Head from 'next/head'
@@ -16,7 +18,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaArrowRight } from 'react-icons/fa'
+import { FaChevronRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 
@@ -90,57 +92,63 @@ export default function LoginWithPasswordForm() {
                 resetForm()
               }}
             >
-              {({ isSubmitting, isValid, values }) => (
+              {({ isSubmitting, isValid, values, errors }) => (
                 <Form>
                   <AnimatedContainer>
                     <div aria-hidden={loginState !== 'email'}>
-                      <Field
-                        as={Input}
-                        type="email"
-                        name="email"
-                        label="Email"
-                        placeholder="Enter your email..."
-                        validate={requiredEmail}
-                        required
-                        hiddenLabel
-                        onKeyDown={(event: KeyboardEvent) => {
-                          if (
-                            event.key === 'Enter' &&
-                            loginState === 'email' &&
-                            values.email !== ''
-                          ) {
-                            setLoginState('password')
-                          }
-                        }}
-                      />
-                      <Button
-                        type="button"
-                        block
-                        disabled={values.email === ''}
-                        onClick={() => setLoginState('password')}
-                        iconRight={<FaArrowRight />}
-                      >
-                        Continue
-                      </Button>
+                      <FlexContainer justifyContent="space-between" alignItems="flex-start">
+                        <div style={{ flex: 1, marginRight: baseSpacer }}>
+                          <Field
+                            as={Input}
+                            type="email"
+                            name="email"
+                            label="Email"
+                            placeholder="Enter your email..."
+                            validate={requiredEmail}
+                            required
+                            hiddenLabel
+                            onKeyDown={(event: KeyboardEvent) => {
+                              if (
+                                event.key === 'Enter' &&
+                                loginState === 'email' &&
+                                values.email !== '' &&
+                                !errors.email
+                              ) {
+                                setLoginState('password')
+                              }
+                            }}
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          disabled={values.email === '' || !!errors.email}
+                          onClick={() => setLoginState('password')}
+                        >
+                          <FaChevronRight />
+                        </Button>
+                      </FlexContainer>
                     </div>
                     <div aria-hidden={loginState !== 'password'}>
-                      <Field
-                        as={Input}
-                        type="password"
-                        name="password"
-                        label="Password"
-                        validate={requiredField}
-                        required
-                        hiddenLabel
-                      />
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting || !isValid || isLoading}
-                        isLoading={isLoading}
-                        block
-                      >
-                        {isLoading ? 'Logging In' : 'Log In'}
-                      </Button>
+                      <FlexContainer justifyContent="space-between" alignItems="flex-start">
+                        <div style={{ flex: 1, marginRight: baseSpacer }}>
+                          <Field
+                            as={Input}
+                            type="password"
+                            name="password"
+                            label="Password"
+                            validate={requiredField}
+                            required
+                            hiddenLabel
+                          />
+                        </div>
+                        <Button
+                          type="submit"
+                          disabled={isSubmitting || !isValid || isLoading}
+                          isLoading={isLoading}
+                        >
+                          <FaChevronRight />
+                        </Button>
+                      </FlexContainer>
                       <p>
                         <Link href="/forgot-password">
                           <small

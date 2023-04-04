@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import algoliasearch from 'algoliasearch/lite'
 
-const algoliaClient = algoliasearch(
+export const algoliaClient = algoliasearch(
   process.env.NODE_ENV === 'development'
     ? (process.env.NX_TEST_ALGOLIA_APP_ID as string)
     : (process.env.NX_ALGOLIA_APP_ID as string),

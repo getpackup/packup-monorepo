@@ -5,7 +5,6 @@ import toast from 'react-hot-toast'
 import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
 import { FaChevronRight } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
-import Link from 'next/link'
 
 export const LoginForm = ({
   setLoginState,
@@ -58,17 +57,15 @@ export const LoginForm = ({
     >
       {({ values }) => (
         <Form>
-          <FlexContainer justifyContent="space-between">
+          <FlexContainer justifyContent="space-between" alignItems="flex-end">
             <div style={{ flex: 1, marginRight: baseSpacer }}>
               <Field
                 as={Input}
                 type="email"
                 name="email"
-                label="Email"
+                label="🎉 New Passwordless Login"
                 placeholder="Enter your email..."
                 validate={requiredEmail}
-                required
-                hiddenLabel
                 noMarginOnWrapper
               />
             </div>
@@ -76,10 +73,6 @@ export const LoginForm = ({
               <FaChevronRight />
             </Button>
           </FlexContainer>
-          <small>
-            🎉 New Passwordless Login! Or you can{' '}
-            <Link href="/login-with-password">sign in with a password.</Link>
-          </small>
         </Form>
       )}
     </Formik>

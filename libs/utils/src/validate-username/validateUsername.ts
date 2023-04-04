@@ -1,11 +1,6 @@
-import algoliasearch from 'algoliasearch'
-
+import { algoliaClient } from '../algoliaSearch'
 import { isAlphaNumeric } from '../validations/validations'
 
-const algoliaClient = algoliasearch(
-  process.env.GATSBY_ALGOLIA_APP_ID as string,
-  process.env.GATSBY_ALGOLIA_SEARCH_API_KEY as string
-)
 const searchIndex = algoliaClient.initIndex('Users')
 
 const reservedRouteNamesThatCannotBeUsernames = [
@@ -23,6 +18,17 @@ const reservedRouteNamesThatCannotBeUsernames = [
   'logout',
   'admin',
   'app',
+  'gear-closet',
+  'offline',
+  'account-delete',
+  'forgot-password',
+  'reset-password',
+  'login-with-password',
+  'onboarding',
+  'profile',
+  'signin',
+  'user-mgmt',
+  'verify-email',
 ]
 
 export const validateUsername = async (value: string, initialValue: string) => {
@@ -48,7 +54,7 @@ export const validateUsername = async (value: string, initialValue: string) => {
   const response = await searchIndex.search(searchValue, {
     restrictSearchableAttributes: ['username'],
     typoTolerance: false,
-    filters: `username:${searchValue}`,
+    // filters: `username:${searchValue}`,
   })
 
   let error
