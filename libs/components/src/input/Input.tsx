@@ -205,7 +205,7 @@ const StyledToggle = styled.input`
   width: 0;
   visibility: hidden;
   &:checked + label {
-    background: var(--color-primary);
+    background: var(--color-success);
   }
   &:checked + label:after {
     left: calc(100% - 5px);
@@ -227,20 +227,20 @@ const StyledToggleLabel = styled.label<{
   margin: 0;
 
   &:after {
-    content: '${(props) => (props.checked ? 'Yes' : 'No')}';
+    content: ' ';
     position: absolute;
     top: 5px;
     left: 5px;
     width: ${doubleSpacer};
     height: ${doubleSpacer};
-    background: var(--color-background);
     border-radius: ${doubleSpacer};
     transition: 0.3s;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: ${fontSizeSmall};
-    color: ${(props) => (props.checked ? 'var(--color-primary)' : 'var(--color-text)')};
+    background: ${(props) =>
+      props.checked ? 'var(--color-background)' : 'var(--color-background)'};
   }
 
   /* Disabled state */

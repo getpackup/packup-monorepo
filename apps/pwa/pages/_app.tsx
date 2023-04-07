@@ -14,6 +14,7 @@ import {
   quadrupleSpacer,
   quarterSpacer,
   threeQuarterSpacer,
+  tripleSpacer,
   UploadTheme,
   white,
 } from '@packup/styles'
@@ -43,8 +44,8 @@ const PageBody = styled.main`
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
-  padding-bottom: calc(${quadrupleSpacer} + env(safe-area-inset-bottom));
+  padding-top: calc(${tripleSpacer} + env(safe-area-inset-top));
+  padding-bottom: calc(${tripleSpacer} + env(safe-area-inset-bottom));
 `
 
 const AppContainer = styled.div`

@@ -3,14 +3,12 @@ import { Avatar, NotificationDot, GearClosetIcon } from '..'
 import { AppState } from '@packup/redux'
 import {
   brandPrimary,
-  textColor,
-  white,
   zIndexSmallScreenFooter,
   baseBorderStyle,
   halfSpacer,
-  quadrupleSpacer,
   fontSizeH3,
-  sextupleSpacer,
+  tripleSpacer,
+  quadrupleSpacer,
 } from '@packup/styles'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import Link from 'next/link'
@@ -33,7 +31,7 @@ const BottomNav = styled.footer<{ isPwa: boolean }>`
   & nav {
     display: flex;
     min-height: calc(
-      ${({ isPwa }) => (isPwa ? sextupleSpacer : quadrupleSpacer)} + 1px
+      ${({ isPwa }) => (isPwa ? quadrupleSpacer : tripleSpacer)} + 1px
     ); /* min height plus 1px border top */
   }
 
@@ -47,6 +45,7 @@ const BottomNav = styled.footer<{ isPwa: boolean }>`
     transition: all 0.2s ease-in-out;
     position: relative;
     font-size: ${fontSizeH3};
+    user-select: none;
   }
 
   & a:focus {

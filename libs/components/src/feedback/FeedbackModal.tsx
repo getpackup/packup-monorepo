@@ -18,7 +18,7 @@ import { useLoggedInUser } from '@packup/hooks'
 
 const FeedbackLink = styled.div`
   position: fixed;
-  top: calc(6px + env(safe-area-inset-top));
+  top: env(safe-area-inset-top);
   right: 4px;
   width: ${tripleSpacer};
   height: ${tripleSpacer};

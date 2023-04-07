@@ -107,16 +107,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
       <Head>
         <title>Edit Item</title>
       </Head>
-      {!size.isSmallScreen && (
-        <Button
-          type="button"
-          onClick={() => handleReturn()}
-          color="text"
-          iconLeft={<FaChevronLeft />}
-        >
-          Back
-        </Button>
-      )}
+
       {activeItem ? (
         <Formik
           validateOnMount
@@ -163,9 +154,9 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
               firebase
                 .firestore()
                 .collection('trips')
-                .doc(router.query['tripId']! as string)
+                .doc(router.query['id']! as string)
                 .collection('packing-list')
-                .doc(activeItem?.id)
+                .doc(activeItem.id)
                 .update(updateValues)
                 .then(() => {
                   resetForm({
@@ -282,56 +273,46 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                 </Column>
               </Row>
 
-              <Row>
-                <Column xs={5} sm={4} md={3}>
-                  <Field
-                    as={Input}
-                    type="toggle"
-                    name="isSharedItem"
-                    label="Shared Group Item"
-                    checked={values.isSharedItem}
-                  />
-                </Column>
-                {values.isSharedItem && props.activeTrip && Object.keys(props.users).length > 0 && (
-                  <Column xs={7} sm={8} md={9}>
+              {props.activeTrip && Object.keys(props.activeTrip.tripMembers)?.length > 0 && (
+                <Row>
+                  <Column xs={5} sm={4} md={3}>
                     <Field
                       as={Input}
-                      type="select"
-                      name="packedBy"
-                      label="Packed By"
-                      isMulti
-                      required
-                      validate={requiredSelect}
-                      options={Object.values(acceptedTripMembersOnly(props.activeTrip)).map(
-                        (member) => {
-                          const matchingUser: UserType = props.users && props.users[member.uid]
-                          const obj = {
-                            value: '',
-                            label: '',
-                          }
-                          obj.value = member.uid
-                          obj.label = matchingUser?.username.toLocaleLowerCase()
-                          return obj
-                        }
-                      )}
-                      setFieldValue={setFieldValue}
-                      {...rest}
+                      type="toggle"
+                      name="isSharedItem"
+                      label="Shared Group Item"
+                      checked={values.isSharedItem}
                     />
                   </Column>
-                )}
-              </Row>
-              {/* <Button
-                type="submit"
-                // onClick={() => {
-                //   handleReturn();
-                //   trackEvent('Edit Packing List Item Cancel Click');
-                // }}
-                color="success"
-                disabled={isSubmitting || !isValid}
-                iconLeft={<FaCheck />}
-              >
-                Save
-              </Button> */}
+                  {values.isSharedItem && props.activeTrip && Object.keys(props.users).length > 0 && (
+                    <Column xs={7} sm={8} md={9}>
+                      <Field
+                        as={Input}
+                        type="select"
+                        name="packedBy"
+                        label="Packed By"
+                        isMulti
+                        required
+                        validate={requiredSelect}
+                        options={Object.values(acceptedTripMembersOnly(props.activeTrip)).map(
+                          (member) => {
+                            const matchingUser: UserType = props.users && props.users[member.uid]
+                            const obj = {
+                              value: '',
+                              label: '',
+                            }
+                            obj.value = member.uid
+                            obj.label = matchingUser?.username.toLocaleLowerCase()
+                            return obj
+                          }
+                        )}
+                        setFieldValue={setFieldValue}
+                        {...rest}
+                      />
+                    </Column>
+                  )}
+                </Row>
+              )}
 
               <AutoSave />
 
@@ -339,13 +320,9 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
               <FlexContainer justifyContent="space-between">
                 <Button
                   type="button"
-                  onClick={() => {
-                    handleReturn()
-                    trackEvent('Edit Packing List Item Cancel Click')
-                  }}
+                  onClick={() => handleReturn()}
                   color="text"
                   iconLeft={<FaChevronLeft />}
-                  disabled={isSubmitting}
                 >
                   Back
                 </Button>

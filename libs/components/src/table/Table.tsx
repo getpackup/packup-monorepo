@@ -19,10 +19,7 @@ import {
   baseSpacer,
   fontSizeSmall,
   halfSpacer,
-  lightestGray,
   quarterSpacer,
-  textColorLight,
-  white,
 } from '@packup/styles'
 import Pagination from './Pagination'
 import Skeleton from 'react-loading-skeleton'
@@ -158,7 +155,7 @@ export function Table({
                             asc: <FaSortAlphaUp />,
                             desc: <FaSortAlphaDown />,
                           }[header.column.getIsSorted() as string] ?? (
-                            <FaSort color={textColorLight} />
+                            <FaSort color="var(--color-textLight)" />
                           )}
                         </>
                       )}

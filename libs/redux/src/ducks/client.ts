@@ -13,6 +13,8 @@ export const SET_SHARED_LIST_SCROLL_POSITION = 'SET_SHARED_LIST_SCROLL_POSITION'
 
 export const SET_TRIPS_DEFAULT_VIEW = 'SET_TRIPS_DEFAULT_VIEW'
 
+export const SET_PACKING_LIST_SEARCH_VALUE = 'SET_PACKING_LIST_SEARCH_VALUE'
+
 export const clientInitialState: ClientStoreType = {
   location: undefined,
   activePackingListFilter: PackingListFilterOptions.All,
@@ -20,6 +22,7 @@ export const clientInitialState: ClientStoreType = {
   personalListScrollPosition: 0,
   sharedListScrollPosition: 0,
   tripsDefaultView: 'list',
+  packingListSearchValue: '',
 }
 
 export default function clientReducer(
@@ -74,6 +77,12 @@ export default function clientReducer(
         tripsDefaultView: action.payload,
       }
     }
+    case SET_PACKING_LIST_SEARCH_VALUE: {
+      return {
+        ...state,
+        packingListSearchValue: action.payload,
+      }
+    }
     default:
       return state
   }
@@ -110,5 +119,10 @@ export const setSharedListScrollPosition = (payload: number) => ({
 
 export const setTripsDefaultView = (payload: 'list' | 'calendar') => ({
   type: SET_TRIPS_DEFAULT_VIEW,
+  payload,
+})
+
+export const setPackingListSearchValue = (payload: string) => ({
+  type: SET_PACKING_LIST_SEARCH_VALUE,
   payload,
 })

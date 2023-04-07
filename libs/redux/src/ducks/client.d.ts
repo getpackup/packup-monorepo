@@ -5,6 +5,7 @@ import {
   REMOVE_ATTEMPTED_PRIVATE_PAGE,
   SET_ACTIVE_PACKING_LIST_FILTER,
   SET_ACTIVE_PACKING_LIST_TAB,
+  SET_PACKING_LIST_SEARCH_VALUE,
   SET_PERSONAL_LIST_SCROLL_POSITION,
   SET_SHARED_LIST_SCROLL_POSITION,
   SET_TRIPS_DEFAULT_VIEW,
@@ -14,6 +15,7 @@ export type ClientStoreType = {
   location?: string
   activePackingListFilter: PackingListFilterOptions
   activePackingListTab: TabOptions
+  packingListSearchValue: string
   personalListScrollPosition: number
   sharedListScrollPosition: number
   tripsDefaultView: 'list' | 'calendar'
@@ -53,6 +55,11 @@ export type SetTripsDefaultView = {
   payload: 'list' | 'calendar'
 }
 
+export type SetPackingListSearchValue = {
+  type: typeof SET_PACKING_LIST_SEARCH_VALUE
+  payload: string
+}
+
 export type ClientActions =
   | AddAttemptedPrivatePageAction
   | RemoveAttemptedPrivatePageAction
@@ -61,3 +68,4 @@ export type ClientActions =
   | SetPersonalListScrollPosition
   | SetSharedListScrollPosition
   | SetTripsDefaultView
+  | SetPackingListSearchValue

@@ -2,10 +2,14 @@ import { PackingListItemType, TripType } from '@packup/common'
 import {
   Box,
   Button,
+  Column,
+  FlexContainer,
   Heading,
   PackingListCategory,
   PackingListFilters,
+  PackingListSearch,
   ProgressBar,
+  Row,
   TripHeader,
 } from '@packup/components'
 
@@ -41,7 +45,7 @@ import {
   scrollToPosition,
 } from '@packup/utils'
 import { useRouter } from 'next/router'
-import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FaRegCheckSquare, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -111,6 +115,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     activePackingListTab,
     personalListScrollPosition,
     sharedListScrollPosition,
+    packingListSearchValue,
   } = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -142,7 +147,10 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     )
 
   // take into account if we are on the personal or shared list
-  const items = activePackingListTab === TabOptions.Personal ? personalItems : sharedItems
+  const items = useMemo(
+    () => (activePackingListTab === TabOptions.Personal ? personalItems : sharedItems),
+    [activePackingListTab, personalItems, sharedItems]
+  )
 
   // take into account if the unpacked or packed filters are selected
   const filteredItems =
@@ -155,9 +163,17 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const finalItems =
     activePackingListFilter === PackingListFilterOptions.All ? items : filteredItems
 
+  const searchedItems = useMemo(() => {
+    return (
+      finalItems &&
+      finalItems.length &&
+      finalItems.filter((i) => i.name.toLowerCase().includes(packingListSearchValue.toLowerCase()))
+    )
+  }, [packingListSearchValue, finalItems])
+
   const getGroupedFinalItems =
-    finalItems && finalItems.length > 0
-      ? groupPackingList(finalItems, auth.uid, activePackingListTab)
+    searchedItems && searchedItems.length > 0
+      ? groupPackingList(searchedItems, auth.uid, activePackingListTab)
       : []
 
   // filter out only current user's items that are packed
@@ -290,11 +306,20 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                   : TabOptions.Shared}
               </Heading>
             ) : null}
-            <PackingListFilters
-              activeFilter={activePackingListFilter}
-              onFilterChange={setActivePackingListFilter}
-              disabled={!trip}
-            />
+            <div style={{ marginBottom: baseSpacer }}>
+              <Row>
+                <Column sm={8}>
+                  <PackingListFilters
+                    activeFilter={activePackingListFilter}
+                    onFilterChange={setActivePackingListFilter}
+                    disabled={!trip}
+                  />
+                </Column>
+                <Column sm={4}>
+                  <PackingListSearch />
+                </Column>
+              </Row>
+            </div>
 
             {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
               getGroupedFinalItems.map(

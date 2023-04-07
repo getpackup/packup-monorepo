@@ -32,12 +32,13 @@ import styled from 'styled-components'
 import { AvatarImageWrapper } from '..'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 
-const StyledNavbar = styled.header`
+const StyledNavbar = styled.header<{ isMobile: boolean }>`
   position: fixed;
   left: 0;
   right: 0;
   background: var(--color-secondary);
-  min-height: calc(${quadrupleSpacer} + env(safe-area-inset-top));
+  min-height: ${(props) =>
+    `calc(${props.isMobile ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top))`};
   padding-top: env(safe-area-inset-top);
   z-index: ${zIndexNavbar};
   display: flex;
@@ -65,31 +66,21 @@ const StyledNavbar = styled.header`
   & h2 {
     font-size: ${fontSizeBase};
     color: var(--color-textLight);
-    line-height: ${quadrupleSpacer};
+    line-height: ${(props) => (props.isMobile ? tripleSpacer : quadrupleSpacer)};
   }
-
-  // & sup {
-  //   text-transform: uppercase;
-  //   font-size: 0.5em;
-  //   top: -1em;
-  //   padding: ${quarterSpacer};
-  //   border-radius: ${baseSpacer};
-  //   background-color: var(--color-textLight);
-  //   color: var(--color-secondary);
-  // }
 
   & svg:focus {
     outline: none;
   }
 `
 
-const IconLinkWrapper = styled.div`
+const IconLinkWrapper = styled.div<{ isMobile: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
-  width: ${quadrupleSpacer};
-  height: ${quadrupleSpacer};
+  width: ${(props) => (props.isMobile ? tripleSpacer : quadrupleSpacer)};
+  height: ${(props) => (props.isMobile ? tripleSpacer : quadrupleSpacer)};
   & a {
     flex: 1;
     display: flex;
@@ -98,7 +89,7 @@ const IconLinkWrapper = styled.div`
   }
 `
 
-const TopNavIconWrapper = styled.nav`
+const TopNavIconWrapper = styled.nav<{ isMobile: boolean }>`
   display: flex;
 
   & a {
@@ -106,7 +97,7 @@ const TopNavIconWrapper = styled.nav`
     justify-content: center;
     align-items: center;
     padding: 0 ${baseSpacer};
-    height: ${quadrupleSpacer};
+    height: ${(props) => (props.isMobile ? tripleSpacer : quadrupleSpacer)};
     color: var(--color-textLight);
     border-top: ${quarterSpacer} solid transparent;
     border-bottom: ${quarterSpacer} solid transparent;
@@ -192,8 +183,10 @@ export const Navbar: FunctionComponent<unknown> = () => {
 
   const isInOnboardingFlow = pathname.includes('onboarding')
 
+  const isMobile = Boolean(size.isSmallScreen)
+
   return (
-    <StyledNavbar role="navigation" aria-label="main-navigation">
+    <StyledNavbar role="navigation" aria-label="main-navigation" isMobile={isMobile}>
       <PageContainer>
         <FlexContainer
           justifyContent={size.isSmallScreen ? 'center' : 'space-between'}
@@ -232,7 +225,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
           {isAuthenticated && size.isSmallScreen && auth.isLoaded && (
             <>
               {routeHasParent && !routeIsPartOfTripGenProcess && (
-                <IconLinkWrapper>
+                <IconLinkWrapper isMobile={isMobile}>
                   <Link href={parentPageUrl} legacyBehavior passHref>
                     <a>
                       <FaChevronLeft />
@@ -252,7 +245,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
           )}
 
           {!size.isSmallScreen && isAuthenticated && auth.isLoaded && !isInOnboardingFlow && (
-            <TopNavIconWrapper>
+            <TopNavIconWrapper isMobile={isMobile}>
               <Link href={'/'}>
                 <a
                   className={pathname === '/' || pathname.includes('trips') ? 'active' : undefined}

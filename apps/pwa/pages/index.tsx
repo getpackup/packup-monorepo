@@ -18,6 +18,7 @@ import {
   AppState,
   setActivePackingListFilter,
   setActivePackingListTab,
+  setPackingListSearchValue,
   setTripsDefaultView,
 } from '@packup/redux'
 import { PackingListFilterOptions, TabOptions, trackEvent } from '@packup/utils'
@@ -83,6 +84,7 @@ export default function Index() {
     // reset filters and tab for packing list each time All Trips page is visited
     dispatch(setActivePackingListFilter(PackingListFilterOptions.All))
     dispatch(setActivePackingListTab(TabOptions.Personal))
+    dispatch(setPackingListSearchValue(''))
   }, [dispatch])
 
   useEffect(() => {
