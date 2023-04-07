@@ -34,7 +34,7 @@ const DayPickerInputWrapper = styled.div`
   padding: ${baseSpacer};
 
   & .rdp {
-    margin: ${baseSpacer} auto;
+    margin: ${baseSpacer};
     display: flex;
     justify-content: center;
     --rdp-accent-color: ${brandPrimary};
@@ -91,7 +91,7 @@ export const DayPickerInput: FunctionComponent<DayPickerInputProps> = ({
           selected={range}
           onSelect={setRange}
           numberOfMonths={
-            windowSize && windowSize.width && windowSize.width < screenSizes.medium ? 1 : 2
+            windowSize && windowSize.width && windowSize.width < screenSizes.large ? 1 : 2
           }
           fromDate={new Date()}
         />

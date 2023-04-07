@@ -650,7 +650,7 @@ export const Input: FunctionComponent<InputProps> = (props) => {
               </small>
             </>
           )}
-          <p style={{ margin: 0, float: 'right' }}>
+          <p style={{ margin: 0, textAlign: 'right' }}>
             <Image
               src="/images/powered_by_google_on_white.png"
               alt="powered by Google"

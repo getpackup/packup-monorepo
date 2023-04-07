@@ -67,7 +67,7 @@ export default function Onboarding() {
 
   useEffect(() => {
     if (isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0) {
-      // router.push('/gear-closet')
+      router.push('/gear-closet')
     }
   }, [router, fetchedGearCloset])
 

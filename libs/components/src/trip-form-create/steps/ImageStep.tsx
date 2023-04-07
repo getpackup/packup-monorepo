@@ -1,26 +1,26 @@
-import { baseSpacer, borderColor, halfSpacer, offWhite, white } from '@packup/styles'
-import React, { useEffect, useMemo, useState } from 'react';
-import { FaCamera } from 'react-icons/fa';
-import { useFirebase } from 'react-redux-firebase';
-import styled from 'styled-components';
-import { Crop, Flip, Local, Uppload, en } from 'uppload';
-import { Alert, Button, Column, Heading, Row } from '@packup/components'
+import { baseSpacer, borderColor, halfSpacer } from '@packup/styles'
+import { useEffect, useMemo, useState } from 'react'
+import { FaCamera } from 'react-icons/fa'
+import { useFirebase } from 'react-redux-firebase'
+import styled from 'styled-components'
+import { Crop, Flip, Local, Uppload, en } from 'uppload'
+import { Button, Heading } from '@packup/components'
 
 const HeroImageUploadPicker = styled.div`
   border: 2px dashed ${borderColor};
   background: repeating-linear-gradient(
     45deg,
-    ${white},
-    ${white} ${halfSpacer},
-    ${offWhite} ${halfSpacer},
-    ${offWhite} ${baseSpacer}
+    var(--color-background),
+    var(--color-background) ${halfSpacer},
+    var(--color-backgroundAlt) ${halfSpacer},
+    var(--color-backgroundAlt) ${baseSpacer}
   );
   min-height: calc(100vw / 7); /* 7 is to match approximate aspectRatio of HeroImage */
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   padding: ${baseSpacer};
-`;
+`
 
 const ImageOption = styled.img`
   margin-bottom: ${baseSpacer};
@@ -28,19 +28,19 @@ const ImageOption = styled.img`
   &:hover {
     opacity: 0.9;
   }
-`;
+`
 
 export default function ImageStep(props: any) {
   const {
     formField: { headerImage },
     formValues: { headerImage: headerImageValue },
     setFieldValue,
-  } = props;
+  } = props
 
-  const firebase = useFirebase();
+  const firebase = useFirebase()
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [haveSelectedImage, setHaveSelectedImage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [haveSelectedImage, setHaveSelectedImage] = useState(false)
 
   const predefinedChoices = [
     // 'https://res.cloudinary.com/getpackup/image/upload/c_fill,g_north,h_512,w_2048/v1617244552/getpackup/0f1a2062-3.jpg',
@@ -76,7 +76,7 @@ export default function ImageStep(props: any) {
     'https://res.cloudinary.com/getpackup/image/upload/c_fill,h_512,w_2048/v1626131637/getpackup/044A6577-3_djipmj.jpg',
     'https://res.cloudinary.com/getpackup/image/upload/c_fill,h_512,w_2048/v1626131635/getpackup/0F1A0636_spg3jy.jpg',
     'https://res.cloudinary.com/getpackup/image/upload/c_fill,h_512,w_2048/v1626131634/getpackup/044A5994-3_ofhstu.jpg',
-  ];
+  ]
 
   const uploader = useMemo(
     () =>
@@ -88,118 +88,113 @@ export default function ImageStep(props: any) {
         maxSize: [2048, 512],
         uploader: (file, updateProgress) =>
           new Promise((resolve, reject) => {
-            const storageReference = firebase.storage().ref();
-            const path = `trips/new`;
-            const reference = storageReference.child(path);
-            const uploadTask = reference.put(file);
+            const storageReference = firebase.storage().ref()
+            const path = `trips/new`
+            const reference = storageReference.child(path)
+            const uploadTask = reference.put(file)
             uploadTask.on(
               'state_changed',
               (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                if (updateProgress) updateProgress(progress);
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                if (updateProgress) updateProgress(progress)
               },
               (error) => {
-                console.error('Got error', error);
-                return reject(new Error('unable_to_upload'));
+                console.error('Got error', error)
+                return reject(new Error('unable_to_upload'))
               },
               () => {
-                console.log('Uploaded!');
-                setIsLoading(false);
+                console.log('Uploaded!')
+                setIsLoading(false)
                 uploadTask.snapshot.ref
                   .getDownloadURL()
                   .then((url) => resolve(url))
-                  .catch(() => reject(new Error('unable_to_upload')));
-                setHaveSelectedImage(true);
+                  .catch(() => reject(new Error('unable_to_upload')))
+                setHaveSelectedImage(true)
               }
-            );
+            )
           }),
       }),
     []
-  );
+  )
 
   useEffect(() => {
-    uploader.use([new Local()]);
-    uploader.use([new Crop({ aspectRatio: 16 / 4 }), new Flip()]);
-  }, [uploader]);
+    uploader.use([new Local()])
+    uploader.use([new Crop({ aspectRatio: 16 / 4 }), new Flip()])
+  }, [uploader])
 
   uploader.on('before-upload', () => {
-    setIsLoading(true);
-  });
+    setIsLoading(true)
+  })
 
   uploader.on('upload', (newUrl: string) => {
-    setFieldValue(headerImage.name, newUrl);
+    setFieldValue(headerImage.name, newUrl)
 
-    setIsLoading(false);
-    uploader.close();
-  });
+    setIsLoading(false)
+    uploader.close()
+  })
 
   const handleSelection = (index: number) => {
-    setFieldValue(headerImage.name, predefinedChoices[index]);
-    setHaveSelectedImage(true);
+    setFieldValue(headerImage.name, predefinedChoices[index])
+    setHaveSelectedImage(true)
 
     if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
     }
-  };
+  }
 
   const handleImageChange = () => {
-    setHaveSelectedImage(false);
-    setIsLoading(false);
-  };
+    setHaveSelectedImage(false)
+    setIsLoading(false)
+  }
 
   return (
     <>
-      <Row>
-        <Column xs={8} xsOffset={2}>
-          <Heading as={'h3'}>Stay Hyped With a Cover Image</Heading>
-        </Column>
-      </Row>
-      <Row>
-        <Column xs={8} xsOffset={2}>
-          {haveSelectedImage ? (
-            <>
-              <ImageOption src={headerImageValue} alt="Photo of choice" />
-              <Button
-                type="button"
-                color="text"
-                block
-                onClick={handleImageChange}
-                style={{ marginBottom: '1rem' }}
-              >
-                Change Image
-              </Button>
-            </>
-          ) : (
-            <>
-              <HeroImageUploadPicker>
-                <Button
-                  type="button"
-                  onClick={() => uploader.open()}
-                  color="tertiary"
-                  size="small"
-                  isLoading={isLoading}
-                  iconLeft={<FaCamera />}
-                  style={{ zIndex: 1 }}
-                >
-                  Add
-                </Button>
-              </HeroImageUploadPicker>
+      <Heading altStyle as="h3">
+        Stay hyped with a cover image
+      </Heading>
 
-              <p style={{ textAlign: 'center' }}>Or choose from one below:</p>
+      {haveSelectedImage ? (
+        <>
+          <ImageOption src={headerImageValue} alt="Photo of choice" />
+          <Button
+            type="button"
+            color="text"
+            block
+            onClick={handleImageChange}
+            style={{ marginBottom: baseSpacer }}
+          >
+            Change Image
+          </Button>
+        </>
+      ) : (
+        <>
+          <HeroImageUploadPicker>
+            <Button
+              type="button"
+              onClick={() => uploader.open()}
+              color="tertiary"
+              size="small"
+              isLoading={isLoading}
+              iconLeft={<FaCamera />}
+              style={{ zIndex: 1 }}
+            >
+              Add
+            </Button>
+          </HeroImageUploadPicker>
 
-              {predefinedChoices.map((img, index) => (
-                <ImageOption src={img} alt="" key={img} onClick={() => handleSelection(index)} />
-              ))}
-              <p>
-                All photos courtesy of{' '}
-                <a href="https://www.taylorburk.com/" target="_blank" rel="noopener noreferrer">
-                  Taylor Burk Photography
-                </a>
-              </p>
-            </>
-          )}
-        </Column>
-      </Row>
+          <p style={{ textAlign: 'center' }}>Or choose from one below:</p>
+
+          {predefinedChoices.map((img, index) => (
+            <ImageOption src={img} alt="" key={img} onClick={() => handleSelection(index)} />
+          ))}
+          <p>
+            All photos courtesy of{' '}
+            <a href="https://www.taylorburk.com/" target="_blank" rel="noopener noreferrer">
+              Taylor Burk Photography
+            </a>
+          </p>
+        </>
+      )}
     </>
-  );
+  )
 }

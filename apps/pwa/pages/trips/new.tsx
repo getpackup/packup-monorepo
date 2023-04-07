@@ -1,24 +1,28 @@
-import {
-  Box,
-  Heading,
-  PageContainer,
-  TripFormCreate,
-} from '@packup/components'
+import { Box, Column, Heading, PageContainer, Row, TripFormCreate } from '@packup/components'
+import { fontSizeSmall } from '@packup/styles'
 import Head from 'next/head'
 
 export default function NewTripSummary() {
   return (
     <PageContainer>
       <Box>
-        <Heading altStyle as="h2">
-          Create New Trip
-        </Heading>
-
         <Head>
           <title>New Trip | Packup</title>
         </Head>
 
-        <TripFormCreate />
+        <Row>
+          <Column md={8} mdOffset={2}>
+            <Heading
+              altStyle
+              as="h2"
+              uppercase
+              style={{ fontSize: fontSizeSmall, letterSpacing: '1' }}
+            >
+              Create New Trip
+            </Heading>
+            <TripFormCreate />
+          </Column>
+        </Row>
       </Box>
     </PageContainer>
   )

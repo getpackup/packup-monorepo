@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable dot-notation */
@@ -88,8 +89,30 @@ if (process.env['ENVIRONMENT'] === 'DEVELOP') {
   // console.log(`Development Env: Using Firestore Emulator`);
   // firebase.firestore().useEmulator('localhost', 8083);
   firebase.firestore()
+  // .enablePersistence()
+  // .catch((err) => {
+  //   if (err.code === 'failed-precondition') {
+  //     // Multiple tabs open, persistence can only be enabled
+  //     // in one tab at a a time.
+  //     // ...
+  //   } else if (err.code === 'unimplemented') {
+  //     // The current browser does not support all of the
+  //     // features required to enable persistence
+  //     // ...
+  //   }
+  // })
 } else {
   firebase.firestore()
+  // .enablePersistence()
+  // .catch((err) => {
+  //   if (err.code === 'failed-precondition') {
+  //     console.log('Multiple tabs open, persistence can only be enabled in one tab at a a time.')
+  //   } else if (err.code === 'unimplemented') {
+  //     console.log(
+  //       'The current browser does not support all of the features required to enable persistence'
+  //     )
+  //   }
+  // })
 }
 
 export const onWorkerUpdateReady = () => store.dispatch(showWorkerUpdateModal())

@@ -22,7 +22,6 @@ import {
   doubleSpacer,
 } from '@packup/styles'
 import { trackEvent, formattedDateRange } from '@packup/utils'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useMemo } from 'react'
 import { FaCheck, FaMapMarkerAlt, FaRegCalendar, FaTimes } from 'react-icons/fa'
@@ -218,13 +217,17 @@ export const TripCard: FunctionComponent<TripCardProps> = ({ trip, isPending, on
         }}
       >
         <HorizontalScroller>
-          {trip && trip.tags && trip.tags.length > 0 ? (
+          {trip ? (
             <>
-              {trip.tags.map((tag: string) => (
-                <li key={`${tag}tag`}>
-                  <Pill text={tag} color="neutral" />
-                </li>
-              ))}
+              {trip.tags && trip.tags.length > 0 && (
+                <>
+                  {trip.tags.map((tag: string) => (
+                    <li key={`${tag}tag`}>
+                      <Pill text={tag} color="neutral" />
+                    </li>
+                  ))}
+                </>
+              )}
             </>
           ) : (
             <>
