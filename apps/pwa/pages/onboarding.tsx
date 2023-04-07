@@ -366,7 +366,7 @@ export default function Onboarding() {
 
                             <Button
                               type="link"
-                              to="/app/trips/new"
+                              to="/trips/new"
                               iconRight={<FaChevronRight />}
                               onClick={() =>
                                 trackEvent('New Trip Button clicked', {
