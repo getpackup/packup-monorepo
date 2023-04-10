@@ -176,7 +176,7 @@ export function TripFormCreate() {
         trackEvent('New Trip Submit Successful', { values: { ...values } })
         setTimeout(() => {
           void router.push(`/trips/${docRef.id}/generator`)
-        }, 2000)
+        }, 4000)
       })
       .catch((err) => {
         trackEvent('New Trip Submit Unsuccessful', { values: { ...values }, error: err })

@@ -65,11 +65,11 @@ export default function Onboarding() {
     initialValues[item] = false
   })
 
-  useEffect(() => {
-    if (isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0) {
-      router.push('/gear-closet')
-    }
-  }, [router, fetchedGearCloset])
+  // useEffect(() => {
+  //   if (isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0) {
+  //     router.push('/gear-closet')
+  //   }
+  // }, [router, fetchedGearCloset])
 
   const onSubmit = (
     values: typeof initialValues,
