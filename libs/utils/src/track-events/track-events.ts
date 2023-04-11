@@ -1,6 +1,6 @@
 import { AnalyticsBrowser } from '@segment/analytics-next'
 
-const analytics = AnalyticsBrowser.load({
+export const analytics = AnalyticsBrowser.load({
   writeKey: process.env.NODE_ENV === 'production' ? process.env.NX_PROD_SEGMENT_API_KEY ?? '' : '',
 })
 

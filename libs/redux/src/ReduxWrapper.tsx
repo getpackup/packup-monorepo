@@ -9,8 +9,10 @@ import 'firebase/compat/storage'
 import { UserType } from '@packup/common'
 import { LoadingPage } from '@packup/components'
 import { CssReset } from '@packup/styles'
+import { analytics } from '@packup/utils'
+import * as Sentry from '@sentry/nextjs'
 import firebase from 'firebase/compat/app'
-import * as React from 'react'
+import { useEffect } from 'react'
 import { Provider, useSelector } from 'react-redux'
 import {
   FirebaseReducer,
@@ -126,6 +128,26 @@ const AppContainer = styled.div`
 
 function AuthIsLoaded({ children }: { children: React.ReactNode }): JSX.Element {
   const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+
+  useEffect(() => {
+    if (auth.email) {
+      analytics.identify(auth.email, {
+        userId: auth.uid,
+        email: auth.email,
+        displayName: auth.displayName || '',
+        name: auth.displayName || '',
+        created: auth.createdAt,
+        username: profile.username,
+      })
+      Sentry.setUser({
+        userId: auth.uid,
+        email: auth.email,
+        displayName: auth.displayName || '',
+      })
+    }
+  }, [auth])
+
   if (!isLoaded(auth))
     return (
       <AppContainer>
