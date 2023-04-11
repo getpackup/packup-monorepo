@@ -7,11 +7,14 @@ import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/au
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { FaCheckCircle } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
+import { useFirebase } from 'react-redux-firebase'
 
 export default function Signin() {
+  const authUser = useSelector((state: AppState) => state.firebase.auth)
   const client = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -21,6 +24,30 @@ export default function Signin() {
   if (!auth) {
     router.push('/login')
   }
+
+  const firebase = useFirebase()
+
+  const user = firebase.auth().currentUser
+  useEffect(() => {
+    // handle missing user info from someone signing in with passwordless before creating an account
+    if (!user || !user.uid)
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(authUser.uid)
+        .set({
+          uid: user.uid,
+          email: authUser.email,
+          displayName: authUser.providerData[0].displayName,
+          username: authUser.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
+          photoURL: authUser.providerData[0].photoURL,
+          bio: '',
+          website: '',
+          location: '',
+          lastUpdated: new Date(),
+          createdAt: new Date(),
+        })
+  }, [user, authUser, firebase])
 
   if (isSignInWithEmailLink(auth, window.location.href)) {
     // Additional state parameters can also be passed via URL.
