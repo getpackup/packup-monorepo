@@ -23,10 +23,6 @@ export const NegativeMarginContainer: FunctionComponent<NegativeMarginContainerP
   margin-bottom: ${(props: NegativeMarginContainerProps) =>
     props.bottom ? `-${props.bottom}px` : baseSpacer};
   margin-left: ${(props: NegativeMarginContainerProps) => (props.left ? `-${props.left}px` : 0)};
-  width: ${(props: NegativeMarginContainerProps) =>
-    props.left && props.right
-      ? `calc(100% + ${props.left}px + ${props.right}px)`
-      : `calc(100% + ${baseSpacer})`};
   height: ${(props: NegativeMarginContainerProps) => (props.height ? props.height : 'auto')};
   overflow: hidden;
   aspect-ratio: ${(props) => props.aspectRatio || 'initial'};

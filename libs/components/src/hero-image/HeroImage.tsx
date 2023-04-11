@@ -13,11 +13,9 @@ type HeroImageProps = {
   children?: React.ReactNode
 }
 
-const HeroImageWrapper = styled.div`
+const HeroImageWrapper = styled.div<{ aspectRatio: HeroImageProps['aspectRatio'] }>`
   position: relative;
-  min-height: ${(props: { aspectRatio?: number; fullHeight?: boolean }) =>
-    !props.fullHeight && props.aspectRatio ? `calc(100vw / ${props.aspectRatio})` : 'initial'};
-  height: ${(props) => (props.fullHeight ? '100vh' : 'auto')};
+  aspect-ratio: ${(props) => props.aspectRatio || 'initial'};
   background-color: var(--color-background);
   background-image: url('/images/topo.png');
 `
@@ -50,10 +48,9 @@ export const HeroImage: FunctionComponent<HeroImageProps> = ({
   aspectRatio,
   justifyContent,
   alignItems,
-  fullHeight,
 }) => {
   return (
-    <HeroImageWrapper fullHeight={fullHeight} aspectRatio={aspectRatio}>
+    <HeroImageWrapper aspectRatio={aspectRatio}>
       <Image src={src} layout="fill" alt="" />
       <ChildrenWrapper justifyContent={justifyContent} alignItems={alignItems}>
         {children}

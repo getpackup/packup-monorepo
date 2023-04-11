@@ -5,6 +5,7 @@ import {
   Column,
   FlexContainer,
   Heading,
+  LoadingSpinner,
   PackingListCategory,
   PackingListFilters,
   PackingListSearch,
@@ -119,6 +120,16 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   } = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
+
+  const [loadingGearList, setLoadingGearList] = useState(true)
+
+  useEffect(() => {
+    // show a spinner for N seconds to give the impression of loading, to avoid showing the
+    // "nothing to see here" message too quickly
+    setTimeout(() => {
+      setLoadingGearList(false)
+    }, 2000)
+  }, [])
 
   const gearListArray: PackingListItemType[] = gearList ? Object.values(gearList) : []
   const [packedPercent, setPackedPercent] = useState(0)
@@ -321,90 +332,103 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Row>
             </div>
 
-            {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
-              getGroupedFinalItems.map(
-                ([categoryName, packingListItems]: [string, PackingListItemType[]]) => {
-                  if (categoryName && packingListItems.length > 0) {
-                    const sortedItems = packingListItems.sort((a, b) => {
-                      if (a?.isPacked === b?.isPacked) {
-                        // sort by name
-                        if (a?.created?.seconds === b?.created?.seconds) {
-                          return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-                        }
-                        // sort by timestamp
-                        return b.created.toDate() > a.created.toDate() ? -1 : 1
-                      }
-                      // sort by packed status, with checked items last
-                      return a.isPacked > b.isPacked ? 1 : -1
-                    })
-                    return (
-                      <PackingListCategory
-                        trip={trip}
-                        key={`${categoryName}-PackingListCategory`}
-                        categoryName={categoryName}
-                        sortedItems={sortedItems}
-                        tripId={tripId}
-                        isSharedPackingListCategory={activePackingListTab === TabOptions.Shared}
-                        auth={auth}
-                        isSharedTrip={sharedTrip}
-                      />
-                    )
-                  }
-                  return null
-                }
-              )
-            ) : (
+            {loadingGearList ? (
               <Box largePadding>
-                <Heading as="h3" align="center">
-                  Nothing to see here 👀
-                </Heading>
-                {activePackingListFilter === PackingListFilterOptions.All ? (
-                  <p style={{ textAlign: 'center' }}>
-                    {activePackingListTab === TabOptions.Shared
-                      ? "No items have been marked as a shared group item yet. Didn't you learn to share as a kid!? Sharing is caring ☺️"
-                      : 'Something went wrong, please refresh the page to try loading your packing list again.'}
+                <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
+                  <LoadingSpinner />
+                  <p style={{ marginTop: baseSpacer }}>
+                    Loading your custom packing list, please hold tight...
                   </p>
-                ) : (
-                  <p style={{ textAlign: 'center' }}>
-                    Try changing your filters from{' '}
-                    <strong>
-                      {activePackingListFilter === PackingListFilterOptions.Packed
-                        ? PackingListFilterOptions.Packed
-                        : PackingListFilterOptions.Unpacked}
-                    </strong>{' '}
-                    to{' '}
-                    <Button
-                      type="button"
-                      color="tertiary"
-                      size="small"
-                      onClick={() =>
-                        dispatch(
-                          setActivePackingListFilter(
-                            activePackingListFilter === PackingListFilterOptions.Packed
-                              ? PackingListFilterOptions.Unpacked
-                              : PackingListFilterOptions.Packed
-                          )
+                </FlexContainer>
+              </Box>
+            ) : (
+              <>
+                {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
+                  getGroupedFinalItems.map(
+                    ([categoryName, packingListItems]: [string, PackingListItemType[]]) => {
+                      if (categoryName && packingListItems.length > 0) {
+                        const sortedItems = packingListItems.sort((a, b) => {
+                          if (a?.isPacked === b?.isPacked) {
+                            // sort by name
+                            if (a?.created?.seconds === b?.created?.seconds) {
+                              return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+                            }
+                            // sort by timestamp
+                            return b.created.toDate() > a.created.toDate() ? -1 : 1
+                          }
+                          // sort by packed status, with checked items last
+                          return a.isPacked > b.isPacked ? 1 : -1
+                        })
+                        return (
+                          <PackingListCategory
+                            trip={trip}
+                            key={`${categoryName}-PackingListCategory`}
+                            categoryName={categoryName}
+                            sortedItems={sortedItems}
+                            tripId={tripId}
+                            isSharedPackingListCategory={activePackingListTab === TabOptions.Shared}
+                            auth={auth}
+                            isSharedTrip={sharedTrip}
+                          />
                         )
                       }
-                    >
-                      {activePackingListFilter === PackingListFilterOptions.Packed
-                        ? PackingListFilterOptions.Unpacked
-                        : PackingListFilterOptions.Packed}
-                    </Button>{' '}
-                    or{' '}
-                    <Button
-                      type="button"
-                      color="tertiary"
-                      size="small"
-                      onClick={() =>
-                        dispatch(setActivePackingListFilter(PackingListFilterOptions.All))
-                      }
-                    >
-                      All
-                    </Button>
-                  </p>
+                      return null
+                    }
+                  )
+                ) : (
+                  <Box largePadding>
+                    <Heading as="h3" align="center">
+                      Nothing to see here 👀
+                    </Heading>
+                    {activePackingListFilter === PackingListFilterOptions.All ? (
+                      <p style={{ textAlign: 'center' }}>
+                        {activePackingListTab === TabOptions.Shared
+                          ? "No items have been marked as a shared group item yet. Didn't you learn to share as a kid!? Sharing is caring ☺️"
+                          : 'Something went wrong, please refresh the page to try loading your packing list again.'}
+                      </p>
+                    ) : (
+                      <p style={{ textAlign: 'center' }}>
+                        Try changing your filters from{' '}
+                        <strong>
+                          {activePackingListFilter === PackingListFilterOptions.Packed
+                            ? PackingListFilterOptions.Packed
+                            : PackingListFilterOptions.Unpacked}
+                        </strong>{' '}
+                        to{' '}
+                        <Button
+                          type="button"
+                          color="tertiary"
+                          size="small"
+                          onClick={() =>
+                            dispatch(
+                              setActivePackingListFilter(
+                                activePackingListFilter === PackingListFilterOptions.Packed
+                                  ? PackingListFilterOptions.Unpacked
+                                  : PackingListFilterOptions.Packed
+                              )
+                            )
+                          }
+                        >
+                          {activePackingListFilter === PackingListFilterOptions.Packed
+                            ? PackingListFilterOptions.Unpacked
+                            : PackingListFilterOptions.Packed}
+                        </Button>{' '}
+                        or{' '}
+                        <Button
+                          type="button"
+                          color="tertiary"
+                          size="small"
+                          onClick={() =>
+                            dispatch(setActivePackingListFilter(PackingListFilterOptions.All))
+                          }
+                        >
+                          All
+                        </Button>
+                      </p>
+                    )}
+                  </Box>
                 )}
-              </Box>
+              </>
             )}
           </>
         ) : (
