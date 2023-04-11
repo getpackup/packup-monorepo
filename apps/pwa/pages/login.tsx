@@ -77,7 +77,10 @@ export default function Login() {
 
   useEffect(() => {
     if (!!auth && auth.isLoaded && !auth.isEmpty) {
-      router.push('/')
+      // give signup a chance to finish creating user
+      setTimeout(() => {
+        router.push('/')
+      }, 5000)
     }
   }, [auth, router])
 
