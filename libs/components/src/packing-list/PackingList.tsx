@@ -31,7 +31,7 @@ import {
   baseSpacer,
   breakpoints,
   halfSpacer,
-  quadrupleSpacer,
+  tripleSpacer,
   threeQuarterSpacer,
   fontSizeH5,
   doubleSpacer,
@@ -47,7 +47,7 @@ import {
 } from '@packup/utils'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { FaRegCheckSquare, FaUsers } from 'react-icons/fa'
+import { FaRegCheckSquare, FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
@@ -77,7 +77,7 @@ const StickyInner = styled.div`
     `
   position: fixed;
   z-index: ${zIndexNavbar};
-  top: calc(${quadrupleSpacer} + env(safe-area-inset-top));
+  top: calc(${tripleSpacer} + env(safe-area-inset-top));
   `}
 `
 
@@ -209,7 +209,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const stickyRef = useRef<HTMLDivElement>(null)
 
   // 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  const navbarHeightWithSafeAreaOffset = 64 + getSafeAreaInset('--sat')
+  const navbarHeightWithSafeAreaOffset = 48 + getSafeAreaInset('--sat')
 
   const handleScroll = useCallback(() => {
     if (stickyRef && stickyRef.current) {
@@ -218,14 +218,13 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   }, [])
 
   useEffect(() => {
-    const container = document.querySelector('main')
-    if (container) {
-      container.addEventListener('scroll', handleScroll, false)
+    if (document) {
+      document.addEventListener('scroll', handleScroll, false)
     }
 
     return () => {
-      if (container) {
-        container.removeEventListener('scroll', handleScroll)
+      if (document) {
+        document.removeEventListener('scroll', handleScroll)
       }
     }
   }, [])
@@ -291,13 +290,17 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                 active={activePackingListTab === TabOptions.Personal}
                 onClick={() => handleTabClick(TabOptions.Personal)}
               >
-                <FaRegCheckSquare title="Personal Checklist" />
+                <Heading as="h6" altStyle noMargin>
+                  <FaUser title="Personal Checklist" /> {TabOptions.Personal}
+                </Heading>
               </Tab>
               <Tab
                 active={activePackingListTab === TabOptions.Shared}
                 onClick={() => handleTabClick(TabOptions.Shared)}
               >
-                <FaUsers title="Shared Checklist" />
+                <Heading as="h6" altStyle noMargin>
+                  <FaUsers title="Shared Checklist" /> {TabOptions.Shared}
+                </Heading>
               </Tab>
             </Tabs>
           )}
@@ -310,13 +313,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
       >
         {trip ? (
           <>
-            {sharedTrip ? (
-              <Heading as="h4" altStyle uppercase>
-                {activePackingListTab === TabOptions.Personal
-                  ? TabOptions.Personal
-                  : TabOptions.Shared}
-              </Heading>
-            ) : null}
             <div style={{ marginBottom: baseSpacer }}>
               <Row>
                 <Column sm={8}>

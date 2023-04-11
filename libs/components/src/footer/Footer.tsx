@@ -7,7 +7,6 @@ import {
   baseBorderStyle,
   halfSpacer,
   fontSizeH3,
-  tripleSpacer,
   quadrupleSpacer,
 } from '@packup/styles'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
@@ -30,9 +29,7 @@ const BottomNav = styled.footer<{ isPwa: boolean }>`
 
   & nav {
     display: flex;
-    min-height: calc(
-      ${({ isPwa }) => (isPwa ? quadrupleSpacer : tripleSpacer)} + 1px
-    ); /* min height plus 1px border top */
+    min-height: calc(${quadrupleSpacer} + 1px); /* min height plus 1px border top */
   }
 
   & a {
