@@ -30,7 +30,7 @@ export default function Signin() {
   const user = firebase.auth().currentUser
   useEffect(() => {
     // handle missing user info from someone signing in with passwordless before creating an account
-    if (!user || !user.uid)
+    if ((!user || !user?.uid) && authUser?.uid) {
       firebase
         .firestore()
         .collection('users')
@@ -47,6 +47,7 @@ export default function Signin() {
           lastUpdated: new Date(),
           createdAt: new Date(),
         })
+    }
   }, [user, authUser, firebase])
 
   if (isSignInWithEmailLink(auth, window.location.href)) {
