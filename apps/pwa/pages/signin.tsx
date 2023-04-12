@@ -14,6 +14,7 @@ import { useFirebase } from 'react-redux-firebase'
 
 export default function Signin() {
   const authUser = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
   const client = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -55,7 +56,7 @@ export default function Signin() {
                 authUser?.providerData[0]?.displayName ||
                 email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
               username:
-                authUser?.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
+                authUser?.providerData[0]?.displayName?.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
                 email.split('@')[0].toLowerCase(),
               photoURL: authUser?.providerData[0]?.photoURL || '',
               bio: '',
@@ -87,26 +88,28 @@ export default function Signin() {
           email,
         })
         toast.error('Unable to log in with those credentials. Please try again.')
-        firebase
-          .firestore()
-          .collection('users')
-          .doc(authUser.uid)
-          .set({
-            uid: authUser.uid || user.uid,
-            email: authUser.email || email || user.email,
-            displayName:
-              authUser?.providerData[0]?.displayName ||
-              email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
-            username:
-              authUser?.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
-              email.split('@')[0].toLowerCase(),
-            photoURL: authUser?.providerData[0]?.photoURL || '',
-            bio: '',
-            website: '',
-            location: '',
-            lastUpdated: new Date(),
-            createdAt: new Date(),
-          })
+        if (!profile.uid) {
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(authUser.uid)
+            .set({
+              uid: authUser.uid || user.uid,
+              email: authUser.email || email || user.email,
+              displayName:
+                authUser?.providerData[0]?.displayName ||
+                email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
+              username:
+                authUser?.providerData[0]?.displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
+                email.split('@')[0].toLowerCase(),
+              photoURL: authUser?.providerData[0]?.photoURL || '',
+              bio: '',
+              website: '',
+              location: '',
+              lastUpdated: new Date(),
+              createdAt: new Date(),
+            })
+        }
       })
   }
 
