@@ -56,7 +56,7 @@ const nextConfig = {
     // https://webpack.js.org/configuration/devtool/ and
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
     // for more information.
-    hideSourceMaps: true,
+    hideSourceMaps: false,
   },
 }
 
@@ -79,4 +79,4 @@ const withPWA = require('next-pwa')({
 
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
-module.exports = withPWA(withSentryConfig(withNx(nextConfig), sentryWebpackPluginOptions))
+module.exports = withSentryConfig(withPWA(withNx(nextConfig), sentryWebpackPluginOptions))
