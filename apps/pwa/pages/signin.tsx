@@ -28,27 +28,6 @@ export default function Signin() {
   const firebase = useFirebase()
 
   const user = firebase.auth().currentUser
-  useEffect(() => {
-    // handle missing user info from someone signing in with passwordless before creating an account
-    if ((!user || !user?.uid) && authUser?.uid) {
-      firebase
-        .firestore()
-        .collection('users')
-        .doc(authUser.uid)
-        .set({
-          uid: user.uid,
-          email: authUser.email,
-          displayName: authUser.providerData[0].displayName,
-          username: authUser.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
-          photoURL: authUser.providerData[0].photoURL,
-          bio: '',
-          website: '',
-          location: '',
-          lastUpdated: new Date(),
-          createdAt: new Date(),
-        })
-    }
-  }, [user, authUser, firebase])
 
   if (isSignInWithEmailLink(auth, window.location.href)) {
     // Additional state parameters can also be passed via URL.
@@ -65,6 +44,28 @@ export default function Signin() {
     // The client SDK will parse the code from the link for you.
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
+        if (!result.user) {
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(authUser.uid)
+            .set({
+              uid: authUser.uid || user.uid,
+              email: authUser.email || email || user.email,
+              displayName:
+                authUser?.providerData[0].displayName ||
+                email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
+              username:
+                authUser?.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
+                email.split('@')[0].toLowerCase(),
+              photoURL: authUser?.providerData[0].photoURL || '',
+              bio: '',
+              website: '',
+              location: '',
+              lastUpdated: new Date(),
+              createdAt: new Date(),
+            })
+        }
         if (client.location) {
           trackEvent('User Logged In and Needed Redirection', {
             location: client.location,
@@ -87,6 +88,26 @@ export default function Signin() {
           email,
         })
         toast.error('Unable to log in with those credentials. Please try again.')
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(authUser.uid)
+          .set({
+            uid: authUser.uid || user.uid,
+            email: authUser.email || email || user.email,
+            displayName:
+              authUser?.providerData[0].displayName ||
+              email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
+            username:
+              authUser?.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
+              email.split('@')[0].toLowerCase(),
+            photoURL: authUser?.providerData[0].photoURL || '',
+            bio: '',
+            website: '',
+            location: '',
+            lastUpdated: new Date(),
+            createdAt: new Date(),
+          })
       })
   }
 
