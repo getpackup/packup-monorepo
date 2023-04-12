@@ -44,7 +44,7 @@ export default function Signin() {
     // The client SDK will parse the code from the link for you.
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
-        if (!result.user) {
+        if (!result.user && authUser?.uid) {
           firebase
             .firestore()
             .collection('users')
@@ -53,11 +53,12 @@ export default function Signin() {
               uid: authUser.uid || user.uid,
               email: authUser.email || email || user.email,
               displayName:
-                authUser?.providerData[0]?.displayName ||
+                authUser?.providerData?.[0]?.displayName ||
                 email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
               username:
-                authUser?.providerData[0]?.displayName?.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
-                email.split('@')[0].toLowerCase(),
+                authUser?.providerData?.[0]?.displayName
+                  ?.replace(/[^A-Z0-9]/gi, '')
+                  .toLowerCase() || email.split('@')[0].toLowerCase(),
               photoURL: authUser?.providerData[0]?.photoURL || '',
               bio: '',
               website: '',
@@ -88,7 +89,7 @@ export default function Signin() {
           email,
         })
         toast.error('Unable to log in with those credentials. Please try again.')
-        if (!profile.uid) {
+        if (!profile?.uid && authUser?.uid) {
           firebase
             .firestore()
             .collection('users')
@@ -97,10 +98,10 @@ export default function Signin() {
               uid: authUser.uid || user.uid,
               email: authUser.email || email || user.email,
               displayName:
-                authUser?.providerData[0]?.displayName ||
+                authUser?.providerData?.[0]?.displayName ||
                 email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
               username:
-                authUser?.providerData[0]?.displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
+                authUser?.providerData?.[0]?.displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
                 email.split('@')[0].toLowerCase(),
               photoURL: authUser?.providerData[0]?.photoURL || '',
               bio: '',
