@@ -7,7 +7,6 @@ import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/au
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { FaCheckCircle } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
@@ -53,12 +52,12 @@ export default function Signin() {
               uid: authUser.uid || user.uid,
               email: authUser.email || email || user.email,
               displayName:
-                authUser?.providerData[0].displayName ||
+                authUser?.providerData[0]?.displayName ||
                 email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
               username:
                 authUser?.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
                 email.split('@')[0].toLowerCase(),
-              photoURL: authUser?.providerData[0].photoURL || '',
+              photoURL: authUser?.providerData[0]?.photoURL || '',
               bio: '',
               website: '',
               location: '',
@@ -96,12 +95,12 @@ export default function Signin() {
             uid: authUser.uid || user.uid,
             email: authUser.email || email || user.email,
             displayName:
-              authUser?.providerData[0].displayName ||
+              authUser?.providerData[0]?.displayName ||
               email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
             username:
               authUser?.providerData[0].displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
               email.split('@')[0].toLowerCase(),
-            photoURL: authUser?.providerData[0].photoURL || '',
+            photoURL: authUser?.providerData[0]?.photoURL || '',
             bio: '',
             website: '',
             location: '',
