@@ -69,20 +69,28 @@ const Divider = styled.div`
 
 export default function Login() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-
+  const profile = useSelector((state: AppState) => state.firebase.profile)
   const router = useRouter()
+  const showSignup = router.query.signup === 'true'
 
-  const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login')
+  const [activeTab, setActiveTab] = useState<'login' | 'signup'>(showSignup ? 'signup' : 'login')
   const [loginState, setLoginState] = useState<'start' | 'signingInWithEmail'>('start')
 
   useEffect(() => {
-    if (!!auth && auth.isLoaded && !auth.isEmpty) {
+    if (
+      !!auth &&
+      auth.isLoaded &&
+      !auth.isEmpty &&
+      !!profile &&
+      profile.isLoaded &&
+      !profile.isEmpty
+    ) {
       // give signup a chance to finish creating user
       setTimeout(() => {
         router.push('/')
       }, 5000)
     }
-  }, [auth, router])
+  }, [auth, profile, router])
 
   return (
     <PageContainer>
@@ -111,7 +119,7 @@ export default function Login() {
                     : 'Login to access your digital gear inventory and custom packing lists for your adventures'}
                 </p>
                 {activeTab === 'signup' ? (
-                  <SignupForm />
+                  <SignupForm email={router.query.email as string} />
                 ) : (
                   <>
                     <LoginForm setLoginState={setLoginState} />

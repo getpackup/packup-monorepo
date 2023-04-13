@@ -45,11 +45,11 @@ const generatePassword = async (length: number): Promise<string> => {
   return password
 }
 
-export const SignupForm = () => {
+export const SignupForm = (props: { email?: string }) => {
   const firebase = useFirebase()
 
   const initialValues = {
-    email: '',
+    email: props.email || '',
     displayName: '',
     username: '',
   }

@@ -1,5 +1,13 @@
 /* eslint-disable no-alert */
-import { Box, Column, FlexContainer, Heading, PageContainer, Row } from '@packup/components'
+import {
+  Box,
+  Column,
+  FlexContainer,
+  Heading,
+  LoadingSpinner,
+  PageContainer,
+  Row,
+} from '@packup/components'
 import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
 import { tripleSpacer } from '@packup/styles'
 import { trackEvent } from '@packup/utils'
@@ -8,13 +16,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
-import { FaCheckCircle } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { useFirebase } from 'react-redux-firebase'
 
 export default function Signin() {
-  const authUser = useSelector((state: AppState) => state.firebase.auth)
-  const profile = useSelector((state: AppState) => state.firebase.profile)
   const client = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -24,10 +28,6 @@ export default function Signin() {
   if (!auth) {
     router.push('/login')
   }
-
-  const firebase = useFirebase()
-
-  const user = firebase.auth().currentUser
 
   if (isSignInWithEmailLink(auth, window.location.href)) {
     // Additional state parameters can also be passed via URL.
@@ -44,29 +44,6 @@ export default function Signin() {
     // The client SDK will parse the code from the link for you.
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
-        if (!result.user && authUser?.uid) {
-          firebase
-            .firestore()
-            .collection('users')
-            .doc(authUser.uid)
-            .set({
-              uid: authUser.uid || user.uid,
-              email: authUser.email || email || user.email,
-              displayName:
-                authUser?.providerData?.[0]?.displayName ||
-                email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
-              username:
-                authUser?.providerData?.[0]?.displayName
-                  ?.replace(/[^A-Z0-9]/gi, '')
-                  .toLowerCase() || email.split('@')[0].toLowerCase(),
-              photoURL: authUser?.providerData[0]?.photoURL || '',
-              bio: '',
-              website: '',
-              location: '',
-              lastUpdated: new Date(),
-              createdAt: new Date(),
-            })
-        }
         if (client.location) {
           trackEvent('User Logged In and Needed Redirection', {
             location: client.location,
@@ -88,28 +65,14 @@ export default function Signin() {
           error,
           email,
         })
-        toast.error('Unable to log in with those credentials. Please try again.')
-        if (!profile?.uid && authUser?.uid) {
-          firebase
-            .firestore()
-            .collection('users')
-            .doc(authUser.uid)
-            .set({
-              uid: authUser.uid || user.uid,
-              email: authUser.email || email || user.email,
-              displayName:
-                authUser?.providerData?.[0]?.displayName ||
-                email.replace(/[^A-Z0-9]/gi, '').toLowerCase(),
-              username:
-                authUser?.providerData?.[0]?.displayName.replace(/[^A-Z0-9]/gi, '').toLowerCase() ||
-                email.split('@')[0].toLowerCase(),
-              photoURL: authUser?.providerData[0]?.photoURL || '',
-              bio: '',
-              website: '',
-              location: '',
-              lastUpdated: new Date(),
-              createdAt: new Date(),
-            })
+
+        if (error.code === 'auth/invalid-action-code') {
+          router.push(`/login?signup=true&email=${encodeURIComponent(email)}`)
+          toast(`Looks like you don't have an account yet. Let's get you signed up!`, {
+            icon: '👋',
+          })
+        } else {
+          toast.error('Unable to log in with those credentials. Please try again.')
         }
       })
   }
@@ -123,13 +86,13 @@ export default function Signin() {
         <Column sm={8} smOffset={2} md={6} mdOffset={3}>
           <Box>
             <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
-              <FaCheckCircle size={tripleSpacer} style={{ margin: tripleSpacer }} />
+              <LoadingSpinner style={{ margin: tripleSpacer }} />
 
-              <Heading>You&apos;re logged in!</Heading>
+              <Heading>Signing you in...</Heading>
 
-              <p className="text-normal sm:text-lg text-gray-500 mt-6">
-                You can close this window or click <Link href="/">this link</Link> to go back to the
-                homepage.
+              <p style={{ textAlign: 'center' }}>
+                Please hold! If you are seeing this page for more than a few seconds, you can click{' '}
+                <Link href="/">this link</Link> to go to the Trips page.
               </p>
             </FlexContainer>
           </Box>

@@ -131,6 +131,7 @@ const TopNavIconWrapper = styled.nav<{ isMobile: boolean }>`
 
 export const Navbar: FunctionComponent<unknown> = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered['trips'])
   const router = useRouter()
   const [truncatedPageTitle, setTruncatedPageTitle] = useState('')
@@ -156,7 +157,7 @@ export const Navbar: FunctionComponent<unknown> = () => {
   const activeLoggedInUser = useLoggedInUser()
   const size = useWindowSize()
 
-  const isAuthenticated = auth && !auth.isEmpty
+  const isAuthenticated = auth && !auth.isEmpty && profile && !profile.isEmpty
 
   useEffect(() => {
     const pageTitle = document.title.replace(' | Packup', '')
