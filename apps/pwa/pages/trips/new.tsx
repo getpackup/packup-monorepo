@@ -13,11 +13,12 @@ export default function NewTripSummary() {
   const router = useRouter()
 
   useEffect(() => {
-    if (auth.isLoaded && (!profile || profile.isEmpty))
+    if (auth.isLoaded && (!profile || profile.isEmpty)) {
       toast.error(
         'There was an error loading necessary info for creating a trip. Please login again.'
       )
-    router.push('/logout')
+      router.push('/logout')
+    }
   }, [profile, auth, router])
 
   return (
