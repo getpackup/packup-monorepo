@@ -46,7 +46,8 @@ export default function Onboarding() {
   const firebase = useFirebase()
   const router = useRouter()
   const auth = useSelector((state: RootState) => state.firebase.auth)
-  const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
+  const profile = useSelector((state: RootState) => state.firebase.profile)
+  // const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
 
   useFirestoreConnect([
     {
@@ -64,6 +65,23 @@ export default function Onboarding() {
   gearListKeys.forEach((item) => {
     initialValues[item] = false
   })
+
+  useEffect(() => {
+    if (auth && auth.isLoaded && (!profile || profile.isEmpty)) {
+      toast(`Looks like you don't have an account yet. Let's get you signed up!`, {
+        icon: '👋',
+      })
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          router.push('/login?signup=true')
+        })
+        .catch((err) => {
+          toast.error(err.message)
+        })
+    }
+  }, [auth, profile, router, firebase])
 
   // useEffect(() => {
   //   if (isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0) {

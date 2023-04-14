@@ -33,7 +33,7 @@ const Tabs = styled.div`
   display: flex;
   justify-content: space-evenly;
   cursor: pointer;
-  margin-top: ${baseSpacer};
+  margin-top: ${doubleSpacer};
   margin-bottom: ${baseSpacer};
 `
 
@@ -45,7 +45,7 @@ const Tab = styled.div`
     props.active ? 'var(--color-primary)' : 'transparent'};
   cursor: pointer;
   color: ${(props) => (props.active ? 'var(--color-primary)' : 'var(--color-text)')};
-  padding: ${halfSpacer} 0;
+  padding: ${halfSpacer};
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 2px;
@@ -116,15 +116,32 @@ export default function Login() {
                 <p style={{ textAlign: 'center' }}>
                   {activeTab === 'signup'
                     ? 'Create an account to keep track of your gear and start planning your first trip today.'
-                    : 'Login to access your digital gear inventory and custom packing lists for your adventures'}
+                    : 'Log in to access your digital gear inventory and custom packing lists for your adventures'}
                 </p>
                 {activeTab === 'signup' ? (
-                  <SignupForm email={router.query.email as string} />
+                  <>
+                    <SignupForm email={router.query.email as string} />
+                    <p style={{ marginTop: doubleSpacer }}>
+                      Already have an account?{' '}
+                      <Button type="button" onClick={() => setActiveTab('login')} color="text">
+                        Log in here! &rarr;
+                      </Button>
+                    </p>
+                  </>
                 ) : (
                   <>
                     <LoginForm setLoginState={setLoginState} />
+                    <p style={{}}>
+                      <small>
+                        What is passwordless login?{' '}
+                        <Link href="/passwordless">Learn more here</Link>
+                      </small>
+                    </p>
                     <p style={{ marginTop: doubleSpacer }}>
-                      What is passwordless login? <Link href="/passwordless">Learn more here</Link>
+                      Don&apos;t have an account yet?{' '}
+                      <Button type="button" onClick={() => setActiveTab('signup')} color="text">
+                        Sign up here! &rarr;
+                      </Button>
                     </p>
                     <Divider>
                       <span>OR</span>

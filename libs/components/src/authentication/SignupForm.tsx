@@ -229,9 +229,15 @@ export const SignupForm = (props: { email?: string }) => {
                 </Button>
               </FlexContainer>
               <p style={{ textAlign: 'left' }}>
-                {values.username.length > 3 && !errors.username
-                  ? `${values.username} is available! 🎉`
-                  : `${values.username} is unavailable 😢`}
+                {values.username.length > 3 ? (
+                  <>
+                    {!errors.username
+                      ? `${values.username} is available! 🎉`
+                      : `${values.username} is unavailable 😢`}
+                  </>
+                ) : (
+                  ' '
+                )}
               </p>
             </div>
             <div aria-hidden={formStep !== 'submitting'}>
