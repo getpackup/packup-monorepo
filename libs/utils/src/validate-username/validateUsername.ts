@@ -37,6 +37,10 @@ export const validateUsername = async (value: string, initialValue: string) => {
     return 'This field is required'
   }
 
+  if (!/^[A-Za-z0-9]*$/.test(value)) {
+    return 'Sorry, no special characters or spaces allowed'
+  }
+
   if (value.length < 3) {
     return 'Username must be at least 3 characters long'
   }
