@@ -6,6 +6,7 @@ import { useFirebase } from 'react-redux-firebase'
 import toast from 'react-hot-toast'
 import { FaChevronRight } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
+import { UserCredential } from 'firebase/auth'
 
 /**
  * Generates a random password of the specified length.
@@ -58,6 +59,43 @@ export const SignupForm = (props: { email?: string }) => {
     'email' | 'displayName' | 'username' | 'submitting' | 'error' | 'done'
   >('email')
 
+  const createUserFromAuthResult = (
+    result: UserCredential,
+    username: string,
+    displayName: string
+  ) => {
+    console.log('createUserFromAuthResult', result, username)
+    return firebase
+      .firestore()
+      .collection('users')
+      .doc(result.user.uid)
+      .set({
+        // don't spread, we dont want password in here
+        uid: result.user.uid,
+        email: result.user.email,
+        displayName: displayName,
+        username: username,
+        photoURL: '',
+        bio: '',
+        website: '',
+        location: '',
+        lastUpdated: new Date(),
+        createdAt: new Date(),
+      })
+      .then(() => {
+        trackEvent('New User Signed Up And Created Profile', {
+          email: result.user.email,
+        })
+      })
+      .catch((err) => {
+        trackEvent('New User Signed Up And Profile Creation Failed', {
+          email: result.user.email,
+          error: err,
+        })
+        toast.error(err.message)
+      })
+  }
+
   return (
     <Formik
       validateOnMount
@@ -65,56 +103,50 @@ export const SignupForm = (props: { email?: string }) => {
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         const password = await generatePassword(16)
         setFormStep('submitting')
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(values.email, password)
-          .then((result: any) => {
-            trackEvent('New User Signed Up', { email: values.email })
-            if (result.user) {
-              return firebase
-                .firestore()
-                .collection('users')
-                .doc(result.user.uid)
-                .set({
-                  // don't spread, we dont want password in here
-                  uid: result.user.uid,
-                  email: values.email,
-                  displayName: values.displayName,
-                  username: values.username,
-                  photoURL: '',
-                  bio: '',
-                  website: '',
-                  location: '',
-                  lastUpdated: new Date(),
-                  createdAt: new Date(),
+        if (props.email) {
+          const user = firebase.auth().currentUser
+          if (user) {
+            user.updatePassword(password).then((res) => {
+              firebase
+                .auth()
+                .signInWithEmailAndPassword(props.email!, password)
+                .then((result: any) => {
+                  if (result.user) {
+                    trackEvent('Create New User From Firebase Auth Password Update', {
+                      email: props.email,
+                    })
+                    createUserFromAuthResult(result, values.username, values.displayName)
+                  }
                 })
-                .then(() => {
-                  trackEvent('New User Signed Up And Created Profile', {
-                    email: values.email,
-                  })
-                })
-                .catch((err) => {
-                  trackEvent('New User Signed Up And Profile Creation Failed', {
-                    email: values.email,
-                    error: err,
-                  })
-                  toast.error(err.message)
-                })
-            }
-            return Promise.resolve()
-          })
-          .catch((err) => {
-            trackEvent('New User Sign Up Failed', {
-              email: values.email,
-              error: err,
             })
-            toast.error(err.message)
-          })
-          .finally(() => {
-            setFormStep('done')
-            setSubmitting(false)
-          })
-
+          } else {
+            trackEvent('Create New User From Firebase Auth Password Update Failure', {
+              email: props.email,
+            })
+          }
+        } else {
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(values.email, password)
+            .then((result: any) => {
+              if (result.user) {
+                trackEvent('New User Signed Up', { email: values.email })
+                createUserFromAuthResult(result, values.username, values.displayName)
+              }
+              return Promise.resolve()
+            })
+            .catch((err) => {
+              trackEvent('New User Sign Up Failed', {
+                email: values.email,
+                error: err,
+              })
+              toast.error(err.message)
+            })
+            .finally(() => {
+              setFormStep('done')
+              setSubmitting(false)
+            })
+        }
         resetForm()
       }}
     >

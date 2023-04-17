@@ -30,7 +30,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { FaCheck, FaChevronLeft, FaChevronRight, FaCircle } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
-import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import SwipeableViews from 'react-swipeable-views'
 import styled from 'styled-components'
 
@@ -75,7 +75,7 @@ export default function Onboarding() {
         .auth()
         .signOut()
         .then(() => {
-          router.push('/login?signup=true')
+          router.push('/signup')
         })
         .catch((err) => {
           toast.error(err.message)

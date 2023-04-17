@@ -20,13 +20,13 @@ const HeroImageUploadWrapper = styled.div`
 `
 
 const HeroImageUploadPicker = styled.div`
-  border: 2px dashed ${borderColor};
+  border: 2px dashed var(--color-border);
   background: repeating-linear-gradient(
     45deg,
-    ${white},
-    ${white} ${halfSpacer},
-    ${offWhite} ${halfSpacer},
-    ${offWhite} ${baseSpacer}
+    var(--color-background),
+    var(--color-background) ${halfSpacer},
+    var(--color-backgroundAlt) ${halfSpacer},
+    var(--color-backgroundAlt) ${baseSpacer}
   );
   min-height: calc(100vw / 7); /* 7 is to match approximate aspectRatio of HeroImage */
   display: flex;

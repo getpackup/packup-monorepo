@@ -66,8 +66,8 @@ export default function Signin() {
           email,
         })
 
-        if (error.code === 'auth/invalid-action-code') {
-          router.push(`/login?signup=true&email=${encodeURIComponent(email)}`)
+        if (error) {
+          router.push(`/signup?email=${encodeURIComponent(email)}`)
           toast(`Looks like you don't have an account yet. Let's get you signed up!`, {
             icon: '👋',
           })
