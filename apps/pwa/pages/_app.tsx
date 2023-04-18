@@ -145,7 +145,10 @@ function App({ Component, pageProps }: AppProps) {
             >
               <small>
                 This site uses cookies to enhance the user experience. Visit our{' '}
-                <Link href="/privacy" style={{ color: white, textDecoration: 'underline' }}>
+                <Link
+                  href="https://getpackup.com/privacy"
+                  style={{ color: white, textDecoration: 'underline' }}
+                >
                   Privacy page
                 </Link>{' '}
                 to learn more.
