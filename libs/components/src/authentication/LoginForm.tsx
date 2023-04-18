@@ -5,17 +5,26 @@ import toast from 'react-hot-toast'
 import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
 import { FaChevronRight } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
+import { useFirebase } from 'react-redux-firebase'
+import { useRouter } from 'next/router'
 
 export const LoginForm = ({
   setLoginState,
+  setActiveTab,
 }: {
   setLoginState: (state: 'start' | 'signingInWithEmail') => void
+  setActiveTab: (tab: 'login' | 'signup') => void
 }) => {
+  const firebase = useFirebase()
+  const router = useRouter()
+
   const initialValues = {
     email: '',
   }
 
   const auth = getAuth()
+
+  const usersRef = firebase.firestore().collection('users')
 
   const actionCodeSettings = {
     url: `${window.location.origin}/signin`,
@@ -37,21 +46,37 @@ export const LoginForm = ({
       validateOnMount
       initialValues={initialValues}
       onSubmit={(values, { setSubmitting }) => {
-        setLoginState('signingInWithEmail')
-
-        sendSignInLinkToEmail(auth, values.email, actionCodeSettings)
-          .then(() => {
-            window.localStorage.setItem('emailForSignIn', values.email)
-          })
-          .catch((err) => {
-            trackEvent('User Log In Failure', {
-              error: err,
-              email: values.email,
-            })
-            toast.error('Unable to log in with those credentials. Please try again.')
-          })
-          .finally(() => {
-            setSubmitting(false)
+        usersRef
+          .where('email', '==', values.email)
+          .get()
+          .then((querySnapshot) => {
+            if (!querySnapshot.empty) {
+              sendSignInLinkToEmail(auth, values.email, actionCodeSettings)
+                .then(() => {
+                  setLoginState('signingInWithEmail')
+                  window.localStorage.setItem('emailForSignIn', values.email)
+                })
+                .catch((err) => {
+                  trackEvent('User Log In Failure', {
+                    error: err,
+                    email: values.email,
+                  })
+                  toast.error('Unable to log in with those credentials. Please try again.')
+                })
+                .finally(() => {
+                  setSubmitting(false)
+                })
+            } else {
+              trackEvent('User Attempted Passwordless Signing Without Account', {
+                email: values.email,
+              })
+              router.push(`/signup?email=${encodeURIComponent(values.email)}`)
+              setActiveTab('signup')
+              toast(`It looks like you don't have an account yet. Let's get you signed up!`, {
+                icon: '👋',
+                duration: 10000,
+              })
+            }
           })
       }}
     >

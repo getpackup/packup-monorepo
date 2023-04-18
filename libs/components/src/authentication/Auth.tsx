@@ -136,7 +136,7 @@ export const Auth = () => {
                   </>
                 ) : (
                   <>
-                    <LoginForm setLoginState={setLoginState} />
+                    <LoginForm setLoginState={setLoginState} setActiveTab={setActiveTab} />
                     <p style={{}}>
                       <small>
                         What is passwordless login?{' '}
