@@ -57,7 +57,7 @@ export const LoginForm = ({
                   window.localStorage.setItem('emailForSignIn', values.email)
                 })
                 .catch((err) => {
-                  trackEvent('User Log In Failure', {
+                  trackEvent('User Log In Failure with sendSignInLinkToEmail', {
                     error: err,
                     email: values.email,
                   })

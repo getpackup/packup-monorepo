@@ -77,7 +77,7 @@ export default function LoginWithPasswordForm() {
                     }
                   })
                   .catch((err) => {
-                    trackEvent('User Log In Failure', {
+                    trackEvent('User Log In Failure with Login and Password', {
                       error: err,
                       email: values.email,
                     })
