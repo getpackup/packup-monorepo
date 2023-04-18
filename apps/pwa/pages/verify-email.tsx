@@ -20,13 +20,11 @@ export default function VerifyEmail() {
       .applyActionCode(actionCode)
       .then(() => {
         trackEvent('Email Address Verified')
+        router.push('/')
       })
       .catch((error: Error) => {
         trackEvent('Email Address Verification Failure', { error })
         toast.error(error.message)
-      })
-      .finally(() => {
-        router.push('/')
       })
   }, [actionCode, firebase, router])
 

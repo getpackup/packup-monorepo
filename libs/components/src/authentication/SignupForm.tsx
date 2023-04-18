@@ -266,14 +266,6 @@ export const SignupForm = (props: { email?: string }) => {
             </div>
             <div aria-hidden={formStep !== 'done'}>
               <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
-                <FaCheckCircle
-                  color="var(--color-success)"
-                  size="3rem"
-                  style={{ margin: baseSpacer }}
-                />
-                <p style={{ marginTop: baseSpacer }}>
-                  Success! Now check your email for a sign in link to continue.
-                </p>
                 <Alert
                   type="success"
                   message="Success! Now check your email for a sign in link to continue. If you don't see it within 5 minutes, shoot us an email at hello@getpackup.com"
@@ -282,11 +274,6 @@ export const SignupForm = (props: { email?: string }) => {
             </div>
             <div aria-hidden={formStep !== 'error'}>
               <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
-                <FaExclamationTriangle
-                  color="var(--color-danger)"
-                  size="3rem"
-                  style={{ margin: baseSpacer }}
-                />
                 <Alert
                   type="danger"
                   message="Uh oh! Something went wrong. Shoot us an email at hello@getpackup.com if you
