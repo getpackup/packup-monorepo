@@ -1,12 +1,13 @@
-import { AnimatedContainer, Button, FlexContainer, Input, LoadingSpinner } from '../'
+import { Alert, AnimatedContainer, Button, FlexContainer, Input, LoadingSpinner } from '../'
 import { trackEvent, requiredField, requiredEmail, validateUsername } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useFirebase } from 'react-redux-firebase'
 import toast from 'react-hot-toast'
-import { FaChevronRight } from 'react-icons/fa'
+import { FaCheckCircle, FaChevronRight, FaExclamationTriangle } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
 import { UserCredential } from 'firebase/auth'
+import { sendSignInLink } from './sendSignInLink'
 
 /**
  * Generates a random password of the specified length.
@@ -82,9 +83,13 @@ export const SignupForm = (props: { email?: string }) => {
         createdAt: new Date(),
       })
       .then(() => {
-        trackEvent('New User Signed Up And Created Profile', {
-          email: result.user.email,
-        })
+        if (result.user.email) {
+          trackEvent('New User Signed Up And Created Profile', {
+            email: result.user.email,
+          })
+          sendSignInLink(result.user.email)
+          setFormStep('done')
+        }
       })
       .catch((err) => {
         trackEvent('New User Signed Up And Profile Creation Failed', {
@@ -92,6 +97,7 @@ export const SignupForm = (props: { email?: string }) => {
           error: err,
         })
         toast.error(err.message)
+        setFormStep('error')
       })
   }
 
@@ -119,9 +125,9 @@ export const SignupForm = (props: { email?: string }) => {
               error: err,
             })
             toast.error(err.message)
+            setFormStep('error')
           })
           .finally(() => {
-            setFormStep('done')
             setSubmitting(false)
           })
 
@@ -256,6 +262,36 @@ export const SignupForm = (props: { email?: string }) => {
                 <p style={{ marginTop: baseSpacer }}>
                   Creating your account now, please hold tight...
                 </p>
+              </FlexContainer>
+            </div>
+            <div aria-hidden={formStep !== 'done'}>
+              <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
+                <FaCheckCircle
+                  color="var(--color-success)"
+                  size="3rem"
+                  style={{ margin: baseSpacer }}
+                />
+                <p style={{ marginTop: baseSpacer }}>
+                  Success! Now check your email for a sign in link to continue.
+                </p>
+                <Alert
+                  type="success"
+                  message="Success! Now check your email for a sign in link to continue. If you don't see it within 5 minutes, shoot us an email at hello@getpackup.com"
+                />
+              </FlexContainer>
+            </div>
+            <div aria-hidden={formStep !== 'error'}>
+              <FlexContainer justifyContent="center" alignItems="center" flexDirection="column">
+                <FaExclamationTriangle
+                  color="var(--color-danger)"
+                  size="3rem"
+                  style={{ margin: baseSpacer }}
+                />
+                <Alert
+                  type="danger"
+                  message="Uh oh! Something went wrong. Shoot us an email at hello@getpackup.com if you
+                  continue to have issues."
+                />
               </FlexContainer>
             </div>
           </AnimatedContainer>

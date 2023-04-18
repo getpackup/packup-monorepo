@@ -88,13 +88,9 @@ export const Auth = () => {
       !profile.isEmpty
     ) {
       if (!hasAccount) {
+        // set a cookie so we know they've created an account, and default to the login form next time
         Cookies.set('hasAccount', 'true')
       }
-
-      // give signup a chance to finish creating user
-      setTimeout(() => {
-        router.push('/')
-      }, 5000)
     }
   }, [auth, profile, router])
 

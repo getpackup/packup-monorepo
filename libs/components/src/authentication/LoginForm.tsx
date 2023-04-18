@@ -2,11 +2,11 @@ import { Button, FlexContainer, Input } from '../'
 import { trackEvent, requiredEmail } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
 import toast from 'react-hot-toast'
-import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
 import { FaChevronRight } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
+import { sendSignInLink } from './sendSignInLink'
 
 export const LoginForm = ({
   setLoginState,
@@ -21,8 +21,6 @@ export const LoginForm = ({
   const initialValues = {
     email: '',
   }
-
-  const auth = getAuth()
 
   const usersRef = firebase.firestore().collection('users')
 
@@ -51,7 +49,7 @@ export const LoginForm = ({
           .get()
           .then((querySnapshot) => {
             if (!querySnapshot.empty) {
-              sendSignInLinkToEmail(auth, values.email, actionCodeSettings)
+              sendSignInLink(values.email)
                 .then(() => {
                   setLoginState('signingInWithEmail')
                   window.localStorage.setItem('emailForSignIn', values.email)
