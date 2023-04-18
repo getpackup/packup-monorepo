@@ -2,181 +2,181 @@
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://localhost:4200/404</loc>
-    <lastmod>2023-04-18T15:02:36.600Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/account-delete</loc>
-    <lastmod>2023-04-18T15:02:36.600Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/feedback</loc>
-    <lastmod>2023-04-18T15:02:36.600Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/forgot-password</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/login-with-password</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/login</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/logout</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/onboarding</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/passwordless</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/profile</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/reset-password</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/signin</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/signup</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/user-mgmt</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/verify-email</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>http://localhost:4200/admin</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/gear-closet/[id]</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/gear-closet</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/gear-closet/new</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/trips/[id]</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/trips/new</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>http://localhost:4200/admin/gear-list/[id]</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>http://localhost:4200/admin/gear-list</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>http://localhost:4200/admin/gear-list/new</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/trips/[id]/[checklistId]</loc>
-    <lastmod>2023-04-18T15:02:36.601Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/trips/[id]/details</loc>
-    <lastmod>2023-04-18T15:02:36.602Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/trips/[id]/generator</loc>
-    <lastmod>2023-04-18T15:02:36.602Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/trips/[id]/image</loc>
-    <lastmod>2023-04-18T15:02:36.602Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:4200/trips/[id]/party</loc>
-    <lastmod>2023-04-18T15:02:36.602Z</lastmod>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://localhost:4200/admin</loc>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://localhost:4200/admin/gear-list/[id]</loc>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://localhost:4200/admin/gear-list</loc>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://localhost:4200/admin/gear-list/new</loc>
+    <lastmod>2023-04-18T15:47:29.761Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

@@ -106,7 +106,7 @@ export const SignupForm = (props: { email?: string }) => {
         if (props.email) {
           const user = firebase.auth().currentUser
           if (user) {
-            user.updatePassword(password).then((res) => {
+            user.updatePassword(password).then(() => {
               firebase
                 .auth()
                 .signInWithEmailAndPassword(props.email!, password)

@@ -28,6 +28,7 @@ import { useEffect, useState } from 'react'
 import { FaCheckCircle, FaChevronLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { Cookies } from 'react-cookie-consent'
 
 const Tabs = styled.div`
   display: flex;
@@ -67,14 +68,14 @@ const Divider = styled.div`
   }
 `
 
-export const Auth = (props: { isSignup: boolean }) => {
+export const Auth = () => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const profile = useSelector((state: AppState) => state.firebase.profile)
   const router = useRouter()
 
-  const [activeTab, setActiveTab] = useState<'login' | 'signup'>(
-    props.isSignup ? 'signup' : 'login'
-  )
+  const hasAccount = !!Cookies.get('hasAccount')
+
+  const [activeTab, setActiveTab] = useState<'login' | 'signup'>(hasAccount ? 'login' : 'signup')
   const [loginState, setLoginState] = useState<'start' | 'signingInWithEmail'>('start')
 
   useEffect(() => {
@@ -86,6 +87,10 @@ export const Auth = (props: { isSignup: boolean }) => {
       profile.isLoaded &&
       !profile.isEmpty
     ) {
+      if (!hasAccount) {
+        Cookies.set('hasAccount', 'true')
+      }
+
       // give signup a chance to finish creating user
       setTimeout(() => {
         router.push('/')
@@ -101,11 +106,11 @@ export const Auth = (props: { isSignup: boolean }) => {
       <Row>
         <Column sm={8} smOffset={2} md={6} mdOffset={3}>
           <Tabs>
-            <Tab active={activeTab === 'login'} onClick={() => setActiveTab('login')}>
-              Login
-            </Tab>
             <Tab active={activeTab === 'signup'} onClick={() => setActiveTab('signup')}>
               Signup
+            </Tab>
+            <Tab active={activeTab === 'login'} onClick={() => setActiveTab('login')}>
+              Login
             </Tab>
           </Tabs>
           <Box>
