@@ -64,7 +64,6 @@ export const SignupForm = (props: { email?: string }) => {
     username: string,
     displayName: string
   ) => {
-    console.log('createUserFromAuthResult', result, username)
     return firebase
       .firestore()
       .collection('users')
@@ -103,7 +102,7 @@ export const SignupForm = (props: { email?: string }) => {
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         const password = await generatePassword(16)
         setFormStep('submitting')
-        if (props.email) {
+        if (props.email !== '') {
           const user = firebase.auth().currentUser
           if (user) {
             user.updatePassword(password).then(() => {

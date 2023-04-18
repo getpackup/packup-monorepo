@@ -25,10 +25,6 @@ export default function Signin() {
 
   const auth = getAuth()
 
-  if (!auth) {
-    router.push('/login')
-  }
-
   if (isSignInWithEmailLink(auth, window.location.href)) {
     // Additional state parameters can also be passed via URL.
     // This can be used to continue the user's intended action before triggering

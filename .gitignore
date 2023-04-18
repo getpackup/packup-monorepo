@@ -35,7 +35,7 @@ yarn-error.log
 testem.log
 /typings
 .env.local
-/apps/pwa/public/sitemap.xml
+apps/pwa/public/sitemap.xml
 
 # System Files
 .DS_Store

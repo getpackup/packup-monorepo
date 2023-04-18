@@ -135,8 +135,8 @@ function AuthIsLoaded({ children }: { children: React.ReactNode }): JSX.Element 
       analytics.identify(auth.email, {
         userId: auth.uid,
         email: auth.email,
-        displayName: auth.displayName || '',
-        name: auth.displayName || '',
+        displayName: auth.displayName || profile.displayName || '',
+        name: auth.displayName || profile.displayName || '',
         created: auth.createdAt,
         username: profile.username,
       })
