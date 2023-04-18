@@ -9,10 +9,12 @@ import {
   ButtonGroup,
   CalendarView,
   FlexContainer,
+  Heading,
   HorizontalRule,
   ListView,
   NoGearCloset,
   PageContainer,
+  TripCard,
 } from '@packup/components'
 import {
   AppState,
@@ -23,9 +25,10 @@ import {
 } from '@packup/redux'
 import { PackingListFilterOptions, TabOptions, trackEvent } from '@packup/utils'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { FaCalendar, FaList, FaPlusCircle } from 'react-icons/fa'
+import { FaArrowRight, FaCalendar, FaList, FaPlusCircle } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 
@@ -102,6 +105,31 @@ export default function Index() {
       ? trips.filter((trip: TripType) => trip.archived !== true)
       : []
 
+  const pendingTrips = trips
+    ?.filter(
+      (trip) =>
+        trip.tripMembers &&
+        trip.tripMembers[auth.uid] &&
+        trip.tripMembers[auth.uid].status === TripMemberStatus.Pending
+    )
+    .sort((a, b) => b.startDate.seconds - a.startDate.seconds)
+
+  const renderTrip = (trip: TripType, pending?: boolean) => (
+    <TripCard
+      trip={trip}
+      isPending={pending}
+      key={trip.tripId}
+      onClick={
+        pending
+          ? () => null
+          : () => {
+              router.push(`/trips/${trip.tripId}/`)
+              trackEvent('Trip Card Link Clicked', { trip })
+            }
+      }
+    />
+  )
+
   if (
     isLoaded(fetchedGearCloset) &&
     fetchedGearCloset.length === 0 &&
@@ -149,6 +177,15 @@ export default function Index() {
 
         <HorizontalRule compact />
 
+        {pendingTrips?.length > 0 && (
+          <>
+            <Heading as="h2" altStyle>
+              Pending Trip Invitations
+            </Heading>
+            {pendingTrips.map((trip) => renderTrip(trip, true))}
+          </>
+        )}
+
         {isLoaded(trips) && nonArchivedTrips.length > 0 && activeView === 'calendar' && (
           <CalendarView
             events={nonArchivedTrips.map((trip) => ({
@@ -163,6 +200,33 @@ export default function Index() {
 
         {isLoaded(trips) && nonArchivedTrips.length > 0 && activeView === 'list' && (
           <ListView trips={nonArchivedTrips} auth={auth} />
+        )}
+
+        {!isLoaded(trips) && (
+          <>
+            {Array.from({ length: 5 }).map((_, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <TripCard trip={{} as TripType} key={`loadingTrip${index}`} />
+            ))}
+          </>
+        )}
+
+        {/* NO TRIPS AT ALL, BUT HAS GEAR CLOSET */}
+        {isLoaded(trips) && nonArchivedTrips.length === 0 && (
+          <Box>
+            No upcoming trips planned currently,{' '}
+            <Link href="/trips/new">
+              <a
+                onClick={() =>
+                  trackEvent('New Trip Button clicked', {
+                    location: 'Trips Page Create One Now',
+                  })
+                }
+              >
+                create one now! <FaArrowRight />
+              </a>
+            </Link>
+          </Box>
         )}
       </Box>
     </PageContainer>
