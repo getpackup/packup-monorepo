@@ -58,6 +58,12 @@ const nextConfig = {
     // for more information.
     hideSourceMaps: false,
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      require('./scripts/sitemap-generator')
+    }
+    return config
+  },
 }
 
 const sentryWebpackPluginOptions = {
