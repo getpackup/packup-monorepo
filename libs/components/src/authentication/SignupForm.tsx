@@ -104,7 +104,7 @@ export const SignupForm = (props: { email?: string }) => {
         setFormStep('submitting')
         if (props.email !== '') {
           const user = firebase.auth().currentUser
-          if (user) {
+          if (user && user?.uid !== null) {
             user.updatePassword(password).then(() => {
               firebase
                 .auth()
@@ -117,10 +117,17 @@ export const SignupForm = (props: { email?: string }) => {
                     createUserFromAuthResult(result, values.username, values.displayName)
                   }
                 })
+                .catch((err) => {
+                  trackEvent('Create New User From Firebase Auth Password Update Failure Catch', {
+                    email: props.email,
+                    err,
+                  })
+                })
             })
           } else {
             trackEvent('Create New User From Firebase Auth Password Update Failure', {
               email: props.email,
+              reason: 'No user found',
             })
           }
         } else {

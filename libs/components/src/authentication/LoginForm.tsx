@@ -67,7 +67,7 @@ export const LoginForm = ({
                   setSubmitting(false)
                 })
             } else {
-              trackEvent('User Attempted Passwordless Signing Without Account', {
+              trackEvent('User Attempted Passwordless Signin Without Account', {
                 email: values.email,
               })
               router.push(`/signup?email=${encodeURIComponent(values.email)}`)
