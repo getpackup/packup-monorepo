@@ -102,57 +102,29 @@ export const SignupForm = (props: { email?: string }) => {
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         const password = await generatePassword(16)
         setFormStep('submitting')
-        if (props.email !== '') {
-          const user = firebase.auth().currentUser
-          if (user && user?.uid !== null) {
-            user.updatePassword(password).then(() => {
-              firebase
-                .auth()
-                .signInWithEmailAndPassword(props.email!, password)
-                .then((result: any) => {
-                  if (result.user) {
-                    trackEvent('Create New User From Firebase Auth Password Update', {
-                      email: props.email,
-                    })
-                    createUserFromAuthResult(result, values.username, values.displayName)
-                  }
-                })
-                .catch((err) => {
-                  trackEvent('Create New User From Firebase Auth Password Update Failure Catch', {
-                    email: props.email,
-                    err,
-                  })
-                })
+
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(values.email, password)
+          .then((result: any) => {
+            if (result.user) {
+              trackEvent('New User Signed Up', { email: values.email })
+              createUserFromAuthResult(result, values.username, values.displayName)
+            }
+            return Promise.resolve()
+          })
+          .catch((err) => {
+            trackEvent('New User Sign Up Failed', {
+              email: values.email,
+              error: err,
             })
-          } else {
-            trackEvent('Create New User From Firebase Auth Password Update Failure', {
-              email: props.email,
-              reason: 'No user found',
-            })
-          }
-        } else {
-          firebase
-            .auth()
-            .createUserWithEmailAndPassword(values.email, password)
-            .then((result: any) => {
-              if (result.user) {
-                trackEvent('New User Signed Up', { email: values.email })
-                createUserFromAuthResult(result, values.username, values.displayName)
-              }
-              return Promise.resolve()
-            })
-            .catch((err) => {
-              trackEvent('New User Sign Up Failed', {
-                email: values.email,
-                error: err,
-              })
-              toast.error(err.message)
-            })
-            .finally(() => {
-              setFormStep('done')
-              setSubmitting(false)
-            })
-        }
+            toast.error(err.message)
+          })
+          .finally(() => {
+            setFormStep('done')
+            setSubmitting(false)
+          })
+
         resetForm()
       }}
     >
