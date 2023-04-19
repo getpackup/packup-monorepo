@@ -1,7 +1,8 @@
-import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
+import { trackEvent } from '@packup/utils'
+import { useFirebase } from 'react-redux-firebase'
 
 export const sendSignInLink = (email: string) => {
-  const auth = getAuth()
+  const firebase = useFirebase()
 
   const actionCodeSettings = {
     url: `${window.location.origin}/signin`,
@@ -18,5 +19,7 @@ export const sendSignInLink = (email: string) => {
       process.env.NODE_ENV === 'production' ? 'packup.page.link' : 'packupapp.page.link',
   }
 
-  return sendSignInLinkToEmail(auth, email, actionCodeSettings)
+  trackEvent('Send Sign In Link Request', { email })
+
+  return firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
 }
