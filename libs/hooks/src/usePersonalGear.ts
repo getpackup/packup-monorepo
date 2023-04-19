@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
-import { ActivityTypes, GearItemType } from '@packup/utils'
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { AppState } from '@packup/redux'
+import { ActivityTypes, GearItemType } from '@packup/utils'
 import uniqBy from 'lodash/uniqBy'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
@@ -58,7 +59,7 @@ export const usePersonalGear = () => {
     // Then, filter out master gear items that match the categories a user selected when creating
     // their gear closet
     const matches: Array<GearItemType> = []
-    gearClosetCategories.forEach((matchingCategory: string) => {
+    gearClosetCategories.forEach((matchingCategory: keyof GearItemType) => {
       matches.push(
         ...customizedGear.filter((item: GearItemType) => item[matchingCategory] === true)
       )

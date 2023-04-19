@@ -5,6 +5,7 @@ import { useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'
 import { Crop, Flip, Local, Uppload, en } from 'uppload'
 import { Button, Heading } from '@packup/components'
+import { trackEvent } from '@packup/utils'
 
 const HeroImageUploadPicker = styled.div`
   border: 2px dashed ${borderColor};
@@ -78,60 +79,74 @@ export default function ImageStep(props: any) {
     'https://res.cloudinary.com/getpackup/image/upload/c_fill,h_512,w_2048/v1626131634/getpackup/044A5994-3_ofhstu.jpg',
   ]
 
-  const uploader = useMemo(
-    () =>
-      new Uppload({
-        lang: en,
-        defaultService: 'local',
-        compression: 0,
-        compressionToMime: 'image/jpeg',
-        maxSize: [2048, 512],
-        uploader: (file, updateProgress) =>
-          new Promise((resolve, reject) => {
-            const storageReference = firebase.storage().ref()
-            const path = `trips/new`
-            const reference = storageReference.child(path)
-            const uploadTask = reference.put(file)
-            uploadTask.on(
-              'state_changed',
-              (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                if (updateProgress) updateProgress(progress)
-              },
-              (error) => {
-                console.error('Got error', error)
-                return reject(new Error('unable_to_upload'))
-              },
-              () => {
-                console.log('Uploaded!')
-                setIsLoading(false)
-                uploadTask.snapshot.ref
-                  .getDownloadURL()
-                  .then((url) => resolve(url))
-                  .catch(() => reject(new Error('unable_to_upload')))
-                setHaveSelectedImage(true)
-              }
-            )
-          }),
+  const upploadRef = new Uppload({
+    lang: en,
+    defaultService: 'local',
+    compression: 0,
+    compressionToMime: 'image/jpeg',
+    maxSize: [2048, 512],
+    uploader: (file, updateProgress) =>
+      new Promise((resolve, reject) => {
+        const storageReference = firebase.storage().ref()
+        const path = `trips/${props.tripId}`
+        const reference = storageReference.child(path)
+        const uploadTask = reference.put(file)
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            if (updateProgress) updateProgress(progress)
+          },
+          (error) => {
+            console.error('Got error', error)
+            return reject(new Error('unable_to_upload'))
+          },
+          () => {
+            console.log('Uploaded!')
+            setIsLoading(false)
+            uploadTask.snapshot.ref
+              .getDownloadURL()
+              .then((url) => {
+                resolve(url)
+                trackEvent('Upload Trip Image Successfully Uploaded', { url })
+              })
+              .catch((err) => {
+                reject(new Error('unable_to_upload'))
+                trackEvent('Upload Trip Image Upload Failure', { err })
+              })
+            setHaveSelectedImage(true)
+          }
+        )
       }),
-    []
-  )
+  })
+
+  const uploader = useMemo(() => {
+    if (props.tripId && upploadRef !== null) {
+      return upploadRef
+    } else {
+      trackEvent('Upload Trip Image No Trip ID', { tripId: props.tripId })
+      return null
+    }
+  }, [props.tripId, upploadRef])
 
   useEffect(() => {
+    if (!uploader) return
     uploader.use([new Local()])
     uploader.use([new Crop({ aspectRatio: 16 / 4 }), new Flip()])
   }, [uploader])
 
-  uploader.on('before-upload', () => {
-    setIsLoading(true)
-  })
+  if (uploader) {
+    uploader.on('before-upload', () => {
+      setIsLoading(true)
+    })
 
-  uploader.on('upload', (newUrl: string) => {
-    setFieldValue(headerImage.name, newUrl)
+    uploader.on('upload', (newUrl: string) => {
+      setFieldValue(headerImage.name, newUrl)
 
-    setIsLoading(false)
-    uploader.close()
-  })
+      setIsLoading(false)
+      uploader.close()
+    })
+  }
 
   const handleSelection = (index: number) => {
     setFieldValue(headerImage.name, predefinedChoices[index])
@@ -171,7 +186,12 @@ export default function ImageStep(props: any) {
           <HeroImageUploadPicker>
             <Button
               type="button"
-              onClick={() => uploader.open()}
+              onClick={() => {
+                trackEvent('Upload Trip Image Clicked')
+                if (uploader) {
+                  uploader.open()
+                }
+              }}
               color="tertiary"
               size="small"
               isLoading={isLoading}

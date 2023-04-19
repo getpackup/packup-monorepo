@@ -105,7 +105,7 @@ export default function Index() {
       ? trips.filter((trip: TripType) => trip.archived !== true)
       : []
 
-  const pendingTrips = trips
+  const pendingTrips = nonArchivedTrips
     ?.filter(
       (trip) =>
         trip.tripMembers &&

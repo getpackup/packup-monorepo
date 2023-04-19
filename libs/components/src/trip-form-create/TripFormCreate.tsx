@@ -35,6 +35,7 @@ const steps = ['Location', 'Date', 'Members', 'Name', 'Image']
  */
 const renderStepContent = (
   step: number,
+  tripId: string | null,
   parameters: {
     formValues: TripFormType
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void
@@ -91,6 +92,7 @@ const renderStepContent = (
           formField={formField}
           formValues={parameters.formValues}
           setFieldValue={parameters.setFieldValue}
+          tripId={tripId}
         />
       )
     default:
@@ -108,6 +110,8 @@ export function TripFormCreate() {
   const [isLoading, setIsLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [membersToInvite, setMembersToInvite] = useState<MembersToInviteType>([])
+
+  const [tripId, setTripId] = useState<string | null>(null)
 
   const isLastStep = activeStep === steps.length - 1
 
@@ -128,8 +132,6 @@ export function TripFormCreate() {
   ])
 
   const submitForm = (values: TripFormType) => {
-    setIsLoading(true)
-
     const now = new Date()
     const tripMembers: Record<string, TripMemberFormType> = {}
     tripMembers[`${auth.uid}`] = {
@@ -158,31 +160,31 @@ export function TripFormCreate() {
         tripMembers,
       })
       .then((docRef) => {
-        handleConfetti()
-
         void docRef.update({
           tripId: docRef.id,
         })
-
-        membersToInvite.forEach((member) => {
-          void sendTripInvitationEmail({
-            tripId: docRef.id,
-            invitedBy: profile.username,
-            email: member.email,
-            greetingName: member.greetingName,
-          })
-        })
+        setTripId(docRef.id)
 
         trackEvent('New Trip Submit Successful', { values: { ...values } })
-        setTimeout(() => {
-          void router.push(`/trips/${docRef.id}/generator`)
-        }, 4000)
       })
       .catch((err) => {
         trackEvent('New Trip Submit Unsuccessful', { values: { ...values }, error: err })
         toast.error(err.message)
         setIsLoading(false)
       })
+  }
+
+  const updateTripWithImage = (values: TripFormType) => {
+    setIsLoading(true)
+    if (tripId) {
+      firebase.firestore().collection('trips').doc(tripId).update({
+        headerImage: values.headerImage,
+      })
+      setTimeout(() => {
+        void router.push(`/trips/${tripId}/generator`)
+      }, 4000)
+      handleConfetti()
+    }
   }
 
   const handleConfetti = () => {
@@ -197,7 +199,7 @@ export function TripFormCreate() {
   }
 
   const handleSubmit = (values: TripFormType, actions: any) => {
-    if (isLastStep) {
+    if (activeStep === 3) {
       const defaultDate = new Date().toString()
       const valuesWithSeason = {
         ...values,
@@ -212,6 +214,10 @@ export function TripFormCreate() {
       trackEvent('New Trip Submit Button Clicked', valuesWithSeason)
 
       submitForm(valuesWithSeason)
+      setActiveStep(activeStep + 1)
+    }
+    if (isLastStep) {
+      updateTripWithImage(values)
     } else {
       setActiveStep(activeStep + 1)
     }
@@ -236,7 +242,7 @@ export function TripFormCreate() {
       >
         {({ isSubmitting, isValid, values, setFieldValue, setFieldTouched }) => (
           <Form autoComplete="off" id={formId}>
-            {renderStepContent(activeStep, {
+            {renderStepContent(activeStep, tripId, {
               formValues: values,
               setFieldValue,
               setFieldTouched,

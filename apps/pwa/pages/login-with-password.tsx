@@ -17,6 +17,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, useState } from 'react'
+import { Cookies } from 'react-cookie-consent'
 import toast from 'react-hot-toast'
 import { FaChevronRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,6 +33,8 @@ export default function LoginWithPasswordForm() {
     email: '',
     password: '',
   }
+
+  const hasAccount = !!Cookies.get('hasAccount')
 
   const [isLoading, setIsLoading] = useState(false)
   const [loginState, setLoginState] = useState<'email' | 'password' | 'loading' | 'error'>('email')
@@ -62,6 +65,10 @@ export default function LoginWithPasswordForm() {
                   .auth()
                   .signInWithEmailAndPassword(values.email, values.password)
                   .then(() => {
+                    if (!hasAccount) {
+                      // set a cookie so we know they've created an account, and default to the login form next time
+                      Cookies.set('hasAccount', 'true')
+                    }
                     if (client.location) {
                       trackEvent('User Logged In and Needed Redirection', {
                         location: client.location,
