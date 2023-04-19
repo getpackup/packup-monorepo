@@ -87,7 +87,20 @@ export const SignupForm = (props: { email?: string }) => {
           trackEvent('New User Signed Up And Created Profile', {
             email: result.user.email,
           })
-          sendSignInLink(result.user.email)
+          firebase.auth().sendSignInLinkToEmail(result.user.email, {
+            url: `${window.location.origin}/signin`,
+            handleCodeInApp: true, // This must be true
+            iOS: {
+              bundleId: 'com.packupapp',
+            },
+            android: {
+              packageName: 'com.packupapp.twa',
+              installApp: true,
+              minimumVersion: '1',
+            },
+            dynamicLinkDomain:
+              process.env.NODE_ENV === 'production' ? 'packup.page.link' : 'packupapp.page.link',
+          })
           setFormStep('done')
         }
       })
