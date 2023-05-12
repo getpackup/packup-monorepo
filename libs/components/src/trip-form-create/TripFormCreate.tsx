@@ -148,6 +148,14 @@ export function TripFormCreate() {
         invitedAt: now,
         invitedBy: auth.uid,
       }
+      if (tripId) {
+        sendTripInvitationEmail({
+          tripId,
+          invitedBy: profile.username,
+          email: member.email,
+          greetingName: member.greetingName || '',
+        })
+      }
     })
 
     firebase

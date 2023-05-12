@@ -6,6 +6,20 @@ const { withSentryConfig } = require('@sentry/nextjs')
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  * */
 const nextConfig = {
+  async headers() {
+    return [
+      {
+        // Apply these headers to all routes in your application.
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+        ],
+      },
+    ]
+  },
   async rewrites() {
     return [
       {
