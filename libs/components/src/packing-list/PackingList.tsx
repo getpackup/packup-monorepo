@@ -275,8 +275,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
           <img src="/images/swipe-hint.gif" />
         </>
       ),
-      placement: 'top',
-      offset: 0,
     },
     {
       target: '#progress',
@@ -306,7 +304,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
-    if (auth.uid) {
+    if (auth?.uid) {
       if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
         firebase
           .firestore()
@@ -403,32 +401,35 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {size.isSmallScreen && profile?.preferences?.hasSeenPackingListTour !== true && (
-                  <Joyride
-                    callback={handleJoyrideCallback}
-                    scrollOffset={100}
-                    locale={{
-                      back: 'Back',
-                      close: 'Close',
-                      last: 'Got it!',
-                      next: 'Next',
-                      open: 'Open the dialog',
-                      skip: 'Skip',
-                    }}
-                    styles={{
-                      options: {
-                        arrowColor: 'var(--color-backgroundAlt)',
-                        backgroundColor: 'var(--color-backgroundAlt)',
-                        primaryColor: 'var(--color-primary)',
-                        textColor: 'var(--color-text)',
-                      },
-                    }}
-                    continuous
-                    showProgress
-                    showSkipButton
-                    steps={joyrideSteps as Step[]}
-                  />
-                )}
+                {auth.uid &&
+                  size.isSmallScreen &&
+                  profile &&
+                  profile?.preferences?.hasSeenPackingListTour !== true && (
+                    <Joyride
+                      callback={handleJoyrideCallback}
+                      scrollOffset={100}
+                      locale={{
+                        back: 'Back',
+                        close: 'Close',
+                        last: 'Got it!',
+                        next: 'Next',
+                        open: 'Open the dialog',
+                        skip: 'Skip',
+                      }}
+                      styles={{
+                        options: {
+                          arrowColor: 'var(--color-backgroundAlt)',
+                          backgroundColor: 'var(--color-backgroundAlt)',
+                          primaryColor: 'var(--color-primary)',
+                          textColor: 'var(--color-text)',
+                        },
+                      }}
+                      continuous
+                      showProgress
+                      showSkipButton
+                      steps={joyrideSteps as Step[]}
+                    />
+                  )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
                     ([categoryName, packingListItems]: [string, PackingListItemType[]], index) => {
