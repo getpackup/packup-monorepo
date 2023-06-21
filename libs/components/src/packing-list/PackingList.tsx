@@ -260,12 +260,12 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
 
     // update the scroll position for the new tab you are going to, if it exists
     if (stickyRef.current && (personalListScrollPosition || sharedListScrollPosition)) {
-      // scrollToPosition(
-      //   (tab === TabOptions.Personal && personalListScrollPosition) ||
-      //     (tab === TabOptions.Shared && sharedListScrollPosition) ||
-      //     // default to bottom of stickyRef if both dont exist
-      //     stickyRef.current.getBoundingClientRect().bottom
-      // )
+      scrollToPosition(
+        (tab === TabOptions.Personal && personalListScrollPosition) ||
+          (tab === TabOptions.Shared && sharedListScrollPosition) ||
+          // default to bottom of stickyRef if both dont exist
+          stickyRef.current.getBoundingClientRect().bottom
+      )
     }
   }
 
@@ -396,6 +396,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                 {true && (
                   //size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
                   <Joyride
+                    debug
                     callback={handleJoyrideCallback}
                     scrollOffset={100}
                     locale={{
