@@ -52,7 +52,7 @@ import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } 
 import { FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import Joyride, { CallBackProps, EVENTS, status, STATUS } from 'react-joyride'
+import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
 import { useFirebase } from 'react-redux-firebase'
 
 type PackingListProps = {
@@ -265,10 +265,48 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
       )
   }
 
+  let joyrideSteps = [
+    {
+      target: '#first-packing-item',
+      content: (
+        <>
+          <Heading as="h4">Heads up!</Heading>
+          <p>You can swipe to mark an item as a group item or quickly delete it</p>
+          <img src="/images/swipe-hint.gif" />
+        </>
+      ),
+      placement: 'top',
+      offset: 0,
+    },
+    {
+      target: '#progress',
+      content: (
+        <>
+          <Heading as="h4">Track your progress</Heading>
+          <p>As you mark items as packed, you can see your progress here.</p>
+        </>
+      ),
+    },
+  ]
+
+  if (sharedTrip) {
+    joyrideSteps = [
+      ...joyrideSteps,
+      {
+        target: '#shared-checklist-tab',
+        content: (
+          <>
+            <Heading as="h4">Manage Lists</Heading>
+            <p>You can switch between your personal checklist and the shared checklist here</p>
+          </>
+        ),
+      },
+    ]
+  }
+
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-      console.log('joyride finished')
       firebase
         .firestore()
         .collection('users')
@@ -386,44 +424,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                     continuous
                     showProgress
                     showSkipButton
-                    steps={[
-                      {
-                        target: '#first-packing-item',
-                        content: (
-                          <>
-                            <Heading as="h4">Heads up!</Heading>
-                            <p>
-                              You can swipe to mark an item as a group item or quickly delete it
-                            </p>
-                            <img src="/images/swipe-hint.gif" />
-                          </>
-                        ),
-                        placement: 'top',
-                        offset: 0,
-                      },
-                      {
-                        target: '#shared-checklist-tab',
-                        content: (
-                          <>
-                            <Heading as="h4">Manage Lists</Heading>
-                            <p>
-                              You can switch between your personal checklist and the shared
-                              checklist here
-                            </p>
-                          </>
-                        ),
-                      },
-                      {
-                        target: '#progress',
-                        content: (
-                          <>
-                            <Heading as="h4">Track your progress</Heading>
-                            <p>As you mark items as packed, you can see your progress here.</p>
-                          </>
-                        ),
-                      },
-                    ]}
-                    debug
+                    steps={joyrideSteps as Step[]}
                   />
                 )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
