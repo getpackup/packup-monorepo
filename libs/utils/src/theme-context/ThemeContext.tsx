@@ -1,5 +1,8 @@
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { AppState } from '@packup/redux'
 import { COLOR_MODE_KEY, COLORS, INITIAL_COLOR_MODE_CSS_PROP } from '@packup/styles'
 import { createContext, useEffect, useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 type ContextType = {
   colorMode: string | undefined
@@ -12,7 +15,10 @@ export const ThemeContext = createContext({
 } as ContextType)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [colorMode, rawSetColorMode] = useState<string | undefined>(undefined)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const [colorMode, rawSetColorMode] = useState<string | undefined>(
+    profile?.preferences?.theme || undefined
+  )
 
   const [mounted, setMounted] = useState(false)
 

@@ -13,6 +13,7 @@ import {
   Row,
   TripHeader,
 } from '@packup/components'
+import { useWindowSize } from '@packup/hooks'
 
 import {
   AppState,
@@ -35,6 +36,7 @@ import {
   threeQuarterSpacer,
   fontSizeH5,
   doubleSpacer,
+  quadrupleSpacer,
 } from '@packup/styles'
 import {
   PackingListFilterOptions,
@@ -47,9 +49,11 @@ import {
 } from '@packup/utils'
 import { useRouter } from 'next/router'
 import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { FaRegCheckSquare, FaUser, FaUsers } from 'react-icons/fa'
+import { FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import Joyride, { CallBackProps, EVENTS, status, STATUS } from 'react-joyride'
+import { useFirebase } from 'react-redux-firebase'
 
 type PackingListProps = {
   trip?: TripType
@@ -67,17 +71,17 @@ const StickyWrapper = styled.div`
   }
 `
 
-const StickyInner = styled.div`
+const StickyInner = styled.div<{ isSmallScreen: boolean; isSticky: boolean }>`
   left: 0;
   right: 0;
   max-width: calc(${breakpoints.xl} - ${doubleSpacer});
   margin: 0 auto;
-  ${(props: { isSticky: boolean }) =>
+  ${(props) =>
     props.isSticky &&
     `
   position: fixed;
   z-index: ${zIndexNavbar};
-  top: calc(${tripleSpacer} + env(safe-area-inset-top));
+  top: calc(${props.isSmallScreen ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top));
   `}
 `
 
@@ -110,6 +114,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   tripIsLoaded,
 }) => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
   const gearList = useSelector((state: AppState) => state.firestore.data['packingList'])
   const {
     activePackingListFilter,
@@ -120,6 +125,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   } = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
+  const size = useWindowSize()
+  const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
 
@@ -208,8 +215,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const [isSticky, setSticky] = useState(false)
   const stickyRef = useRef<HTMLDivElement>(null)
 
-  // 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  const navbarHeightWithSafeAreaOffset = 48 + getSafeAreaInset('--sat')
+  // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
+  const navbarHeightWithSafeAreaOffset = (size.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
 
   const handleScroll = useCallback(() => {
     if (stickyRef && stickyRef.current) {
@@ -258,6 +265,20 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
       )
   }
 
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status } = data
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      console.log('joyride finished')
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(auth.uid)
+        .update({
+          [`preferences.hasSeenPackingListTour`]: true,
+        })
+    }
+  }
+
   // return out early if trip cant be found
   // todo probably a better loading state thing here?
   if (tripIsLoaded && !trip) {
@@ -272,9 +293,11 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   return (
     <>
       <TripHeader trip={trip} userIsTripOwner={isUserTripOwner(trip, auth.uid)} />
-      <small style={{ textAlign: 'center', display: 'block' }}>{packedPercent}% packed</small>
+      <small style={{ textAlign: 'center', display: 'block' }} id="progress">
+        {packedPercent}% packed
+      </small>
       <StickyWrapper ref={stickyRef}>
-        <StickyInner isSticky={isSticky}>
+        <StickyInner isSticky={isSticky} isSmallScreen={Boolean(size.isSmallScreen)}>
           <ProgressBar
             height={halfSpacer}
             borderRadius={0}
@@ -297,6 +320,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               <Tab
                 active={activePackingListTab === TabOptions.Shared}
                 onClick={() => handleTabClick(TabOptions.Shared)}
+                id="shared-checklist-tab"
               >
                 <Heading as="h6" altStyle noMargin>
                   <FaUsers title="Shared Checklist" /> {TabOptions.Shared}
@@ -339,9 +363,72 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
+                {size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
+                  <Joyride
+                    callback={handleJoyrideCallback}
+                    scrollOffset={100}
+                    locale={{
+                      back: 'Back',
+                      close: 'Close',
+                      last: 'Got it!',
+                      next: 'Next',
+                      open: 'Open the dialog',
+                      skip: 'Skip',
+                    }}
+                    styles={{
+                      options: {
+                        arrowColor: 'var(--color-backgroundAlt)',
+                        backgroundColor: 'var(--color-backgroundAlt)',
+                        primaryColor: 'var(--color-primary)',
+                        textColor: 'var(--color-text)',
+                      },
+                    }}
+                    continuous
+                    showProgress
+                    showSkipButton
+                    steps={[
+                      {
+                        target: '#first-packing-item',
+                        content: (
+                          <>
+                            <Heading as="h4">Heads up!</Heading>
+                            <p>
+                              You can swipe to mark an item as a group item or quickly delete it
+                            </p>
+                            <img src="/images/swipe-hint.gif" />
+                          </>
+                        ),
+                        placement: 'top',
+                        offset: 0,
+                      },
+                      {
+                        target: '#shared-checklist-tab',
+                        content: (
+                          <>
+                            <Heading as="h4">Manage Lists</Heading>
+                            <p>
+                              You can switch between your personal checklist and the shared
+                              checklist here
+                            </p>
+                          </>
+                        ),
+                      },
+                      {
+                        target: '#progress',
+                        content: (
+                          <>
+                            <Heading as="h4">Track your progress</Heading>
+                            <p>As you mark items as packed, you can see your progress here.</p>
+                          </>
+                        ),
+                      },
+                    ]}
+                    debug
+                  />
+                )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
-                    ([categoryName, packingListItems]: [string, PackingListItemType[]]) => {
+                    ([categoryName, packingListItems]: [string, PackingListItemType[]], index) => {
                       if (categoryName && packingListItems.length > 0) {
                         const sortedItems = packingListItems.sort((a, b) => {
                           if (a?.isPacked === b?.isPacked) {
@@ -357,6 +444,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                         })
                         return (
                           <PackingListCategory
+                            index={index}
                             trip={trip}
                             key={`${categoryName}-PackingListCategory`}
                             categoryName={categoryName}
@@ -429,6 +517,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
           </>
         ) : (
           <PackingListCategory
+            index={0}
             categoryName=""
             sortedItems={[]}
             tripId=""

@@ -2,7 +2,10 @@ import { ThemeContext } from '@packup/utils'
 import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
 import FadeIn from '../fade-in/FadeIn'
 import styled from 'styled-components'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
+import { useFirebase } from 'react-redux-firebase'
+import { useSelector } from 'react-redux'
+import { AppState } from '@packup/redux'
 
 const StyledDarkModeLabel = styled.label<{ showText: boolean }>`
   margin: 0;
@@ -19,6 +22,18 @@ const StyledDarkModeLabel = styled.label<{ showText: boolean }>`
 
 export const DarkModeToggle = ({ showText = false, color = 'var(--color-textLight)' }) => {
   const { colorMode, setColorMode } = useContext(ThemeContext)
+  const firebase = useFirebase()
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(auth.uid)
+      .update({
+        [`preferences.theme`]: colorMode,
+      })
+  }, [colorMode])
 
   const Sun = () => (
     <FadeIn>

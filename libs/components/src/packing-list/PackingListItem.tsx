@@ -45,6 +45,8 @@ type PackingListItemProps = {
   item: PackingListItemType
   isOnSharedList?: boolean
   isSharedTrip?: boolean
+  className?: string
+  isFirstCategory?: boolean
 }
 
 const PackingListItemWrapper = styled.li`
@@ -216,7 +218,10 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   const itemIsShared = props.item.packedBy.some((item) => item.isShared)
 
   return (
-    <PackingListItemWrapper className={removing ? 'removing' : undefined}>
+    <PackingListItemWrapper
+      className={removing ? 'removing' : ''}
+      id={props.isFirstCategory ? 'first-packing-item' : ''}
+    >
       <SwipeableListItem
         listType={ListType.IOS}
         leadingActions={props.isSharedTrip ? leadingActions() : null}

@@ -14,4 +14,8 @@ export type UserType = {
   website?: string
   lastUpdated?: firebase.default.firestore.Timestamp
   createdAt?: firebase.default.firestore.Timestamp
+  preferences?: {
+    theme?: 'light' | 'dark'
+    hasSeenPackingListTour?: boolean
+  }
 }
