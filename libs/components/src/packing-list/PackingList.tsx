@@ -306,14 +306,16 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
-    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-      firebase
-        .firestore()
-        .collection('users')
-        .doc(auth.uid)
-        .update({
-          [`preferences.hasSeenPackingListTour`]: true,
-        })
+    if (auth.uid) {
+      if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(auth.uid)
+          .update({
+            [`preferences.hasSeenPackingListTour`]: true,
+          })
+      }
     }
   }
 
@@ -352,7 +354,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                 onClick={() => handleTabClick(TabOptions.Personal)}
               >
                 <Heading as="h6" altStyle noMargin>
-                  <FaUser title="Personal Checklist" /> {TabOptions.Personal}
+                  <FaUser title="Personal Checklist" /> &nbsp; {TabOptions.Personal}
                 </Heading>
               </Tab>
               <Tab
@@ -361,7 +363,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                 id="shared-checklist-tab"
               >
                 <Heading as="h6" altStyle noMargin>
-                  <FaUsers title="Shared Checklist" /> {TabOptions.Shared}
+                  <FaUsers title="Shared Checklist" /> &nbsp; {TabOptions.Shared}
                 </Heading>
               </Tab>
             </Tabs>
@@ -401,7 +403,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
+                {size.isSmallScreen && profile?.preferences?.hasSeenPackingListTour !== true && (
                   <Joyride
                     callback={handleJoyrideCallback}
                     scrollOffset={100}
@@ -445,7 +447,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                         })
                         return (
                           <PackingListCategory
-                            index={index}
+                            categoryIndex={index}
                             trip={trip}
                             key={`${categoryName}-PackingListCategory`}
                             categoryName={categoryName}
@@ -518,7 +520,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
           </>
         ) : (
           <PackingListCategory
-            index={0}
+            categoryIndex={0}
             categoryName=""
             sortedItems={[]}
             tripId=""

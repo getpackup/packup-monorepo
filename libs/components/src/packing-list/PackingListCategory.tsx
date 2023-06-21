@@ -21,7 +21,7 @@ type PackingListCategoryProps = {
   auth?: FirebaseReducer.AuthState
   isSharedTrip?: boolean
   /** used to pass down to PackingListItem to add an id if its the first category and first item for Joyride step */
-  index: number
+  categoryIndex: number
 }
 
 const ItemsWrapper = styled.ul`
@@ -38,7 +38,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
   isSharedPackingListCategory,
   auth,
   isSharedTrip,
-  index,
+  categoryIndex,
 }) => {
   const firebase = useFirebase()
 
@@ -119,7 +119,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
               {sortedItems.map((item, idx) => (
                 <PackingListItem
                   key={item.id}
-                  isFirstCategory={index === 0}
+                  isFirstCategoryAndItem={categoryIndex === 0 && idx === 0}
                   tripId={tripId}
                   item={item}
                   isOnSharedList={isSharedPackingListCategory}

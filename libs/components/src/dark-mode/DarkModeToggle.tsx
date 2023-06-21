@@ -26,13 +26,15 @@ export const DarkModeToggle = ({ showText = false, color = 'var(--color-textLigh
   const auth = useSelector((state: AppState) => state.firebase.auth)
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(auth.uid)
-      .update({
-        [`preferences.theme`]: colorMode,
-      })
+    if (auth && auth.uid && colorMode) {
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(auth.uid)
+        .update({
+          [`preferences.theme`]: colorMode,
+        })
+    }
   }, [colorMode])
 
   const Sun = () => (
