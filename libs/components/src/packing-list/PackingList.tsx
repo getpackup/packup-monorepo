@@ -260,12 +260,12 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
 
     // update the scroll position for the new tab you are going to, if it exists
     if (stickyRef.current && (personalListScrollPosition || sharedListScrollPosition))
-      scrollToPosition(
-        (tab === TabOptions.Personal && personalListScrollPosition) ||
-          (tab === TabOptions.Shared && sharedListScrollPosition) ||
-          // default to bottom of stickyRef if both dont exist
-          stickyRef.current.getBoundingClientRect().bottom
-      )
+      // scrollToPosition(
+      //   (tab === TabOptions.Personal && personalListScrollPosition) ||
+      //     (tab === TabOptions.Shared && sharedListScrollPosition) ||
+      //     // default to bottom of stickyRef if both dont exist
+      //     stickyRef.current.getBoundingClientRect().bottom
+      // )
   }
 
   let joyrideSteps = [
@@ -294,6 +294,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
+    console.log({ data })
     if (isLoaded(auth) && auth?.uid) {
       if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
         firebase
@@ -391,7 +392,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
+                {true && (
+                  //size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
                   <Joyride
                     callback={handleJoyrideCallback}
                     scrollOffset={100}
