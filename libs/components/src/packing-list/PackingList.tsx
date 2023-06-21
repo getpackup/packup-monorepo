@@ -126,7 +126,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const router = useRouter()
   const size = useWindowSize()
 
-  // const profile = useSelector((state: AppState) => state.firebase.profile)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
   // const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
@@ -406,7 +406,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {/* {isLoaded(auth) &&
+                {isLoaded(auth) &&
                   auth.uid &&
                   size &&
                   size.isSmallScreen &&
@@ -436,7 +436,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                       showSkipButton
                       steps={joyrideSteps as Step[]}
                     />
-                  )} */}
+                  )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
                     ([categoryName, packingListItems]: [string, PackingListItemType[]], index) => {
