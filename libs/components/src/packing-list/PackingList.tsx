@@ -13,7 +13,7 @@ import {
   Row,
   TripHeader,
 } from '@packup/components'
-// import { useWindowSize } from '@packup/hooks'
+import { useWindowSize } from '@packup/hooks'
 
 import {
   AppState,
@@ -53,7 +53,7 @@ import { FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
-import { useFirebase } from 'react-redux-firebase'
+import { isLoaded, useFirebase } from 'react-redux-firebase'
 
 type PackingListProps = {
   trip?: TripType
@@ -81,8 +81,7 @@ const StickyInner = styled.div<{ isSmallScreen: boolean; isSticky: boolean }>`
     `
   position: fixed;
   z-index: ${zIndexNavbar};
-  top: calc(${tripleSpacer} + env(safe-area-inset-top));
-  // top: calc(${props.isSmallScreen ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top));
+  top: calc(${props.isSmallScreen ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top));
   `}
 `
 
@@ -115,7 +114,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   tripIsLoaded,
 }) => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  // const profile = useSelector((state: AppState) => state.firebase.profile)
   const gearList = useSelector((state: AppState) => state.firestore.data['packingList'])
   const {
     activePackingListFilter,
@@ -126,8 +124,10 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   } = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
-  // const size = useWindowSize()
-  // const firebase = useFirebase()
+  const size = useWindowSize()
+
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
 
@@ -216,10 +216,10 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const [isSticky, setSticky] = useState(false)
   const stickyRef = useRef<HTMLDivElement>(null)
 
-  // 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  const navbarHeightWithSafeAreaOffset = 48 + getSafeAreaInset('--sat')
-  // // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  // const navbarHeightWithSafeAreaOffset = (size?.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
+  // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
+  const navbarHeightWithSafeAreaOffset = size
+    ? (size?.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
+    : 64
 
   const handleScroll = useCallback(() => {
     if (stickyRef && stickyRef.current) {
@@ -274,7 +274,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
       content: (
         <>
           <Heading as="h4">Heads up!</Heading>
-          <p>You can swipe to mark an item as a group item or quickly delete it</p>
+          <p>You can swipe to mark an item as a group item (on group trips) or quickly delete it</p>
           <img src="/images/swipe-hint.gif" />
         </>
       ),
@@ -307,20 +307,20 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     ]
   }
 
-  // const handleJoyrideCallback = (data: CallBackProps) => {
-  //   const { status } = data
-  //   if (auth?.uid) {
-  //     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-  //       // firebase
-  //       //   .firestore()
-  //       //   .collection('users')
-  //       //   .doc(auth.uid)
-  //       //   .update({
-  //       //     [`preferences.hasSeenPackingListTour`]: true,
-  //       //   })
-  //     }
-  //   }
-  // }
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status } = data
+    if (isLoaded(auth) && auth?.uid) {
+      if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(auth.uid)
+          .update({
+            [`preferences.hasSeenPackingListTour`]: true,
+          })
+      }
+    }
+  }
 
   // return out early if trip cant be found
   // todo probably a better loading state thing here?
@@ -340,8 +340,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
         {packedPercent}% packed
       </small>
       <StickyWrapper ref={stickyRef}>
-        {/* <StickyInner isSticky={isSticky} isSmallScreen={Boolean(size.isSmallScreen)}> */}
-        <StickyInner isSticky={isSticky} isSmallScreen={false}>
+        <StickyInner isSticky={isSticky} isSmallScreen={Boolean(size?.isSmallScreen)}>
           <ProgressBar
             height={halfSpacer}
             borderRadius={0}
@@ -407,10 +406,12 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {/* {auth.uid &&
+                {isLoaded(auth) &&
+                  auth.uid &&
+                  size &&
                   size.isSmallScreen &&
-                  profile &&
-                  profile?.preferences?.hasSeenPackingListTour !== true && (
+                  isLoaded(profile) &&
+                  !profile?.preferences?.hasSeenPackingListTour && (
                     <Joyride
                       callback={handleJoyrideCallback}
                       scrollOffset={100}
@@ -435,7 +436,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                       showSkipButton
                       steps={joyrideSteps as Step[]}
                     />
-                  )} */}
+                  )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
                     ([categoryName, packingListItems]: [string, PackingListItemType[]], index) => {
