@@ -269,33 +269,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     }
   }
 
-  let joyrideSteps = [
-    {
-      target: '#first-packing-item',
-      content: (
-        <>
-          <Heading as="h4">Heads up!</Heading>
-          <p>You can swipe to mark an item as a group item (on group trips) or quickly delete it</p>
-          <img src="/images/swipe-hint.gif" />
-        </>
-      ),
-      placement: 'top',
-      offset: 0,
-    },
-    {
-      target: '#progress',
-      content: (
-        <>
-          <Heading as="h4">Track your progress</Heading>
-          <p>As you mark items as packed, you can see your progress here.</p>
-        </>
-      ),
-    },
-  ]
-
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
-    console.log({ data })
     if (isLoaded(auth) && auth?.uid) {
       if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
         firebase
@@ -396,7 +371,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                 {true && (
                   //size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
                   <Joyride
-                    debug
                     callback={handleJoyrideCallback}
                     scrollOffset={100}
                     locale={{
@@ -420,7 +394,30 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                     showSkipButton
                     steps={
                       [
-                        ...joyrideSteps,
+                        {
+                          target: '#first-packing-item',
+                          content: (
+                            <div>
+                              <Heading as="h4">Heads up!</Heading>
+                              <p>
+                                You can swipe to mark an item as a group item (on group trips) or
+                                quickly delete it
+                              </p>
+                              <img src="/images/swipe-hint.gif" />
+                            </div>
+                          ),
+                          placement: 'top',
+                          offset: 0,
+                        },
+                        {
+                          target: '#progress',
+                          content: (
+                            <div>
+                              <Heading as="h4">Track your progress</Heading>
+                              <p>As you mark items as packed, you can see your progress here.</p>
+                            </div>
+                          ),
+                        },
                         // {
                         //   target: '#shared-checklist-tab',
                         //   content: (
