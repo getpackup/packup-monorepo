@@ -127,7 +127,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const size = useWindowSize()
 
   const profile = useSelector((state: AppState) => state.firebase.profile)
-  // const firebase = useFirebase()
+  const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
 
@@ -311,13 +311,13 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     const { status } = data
     if (isLoaded(auth) && auth?.uid) {
       if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-        // firebase
-        //   .firestore()
-        //   .collection('users')
-        //   .doc(auth.uid)
-        //   .update({
-        //     [`preferences.hasSeenPackingListTour`]: true,
-        //   })
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(auth.uid)
+          .update({
+            [`preferences.hasSeenPackingListTour`]: true,
+          })
       }
     }
   }
@@ -412,30 +412,31 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                   size.isSmallScreen &&
                   isLoaded(profile) &&
                   !profile?.preferences?.hasSeenPackingListTour && (
-                    <Joyride
-                      callback={handleJoyrideCallback}
-                      scrollOffset={100}
-                      locale={{
-                        back: 'Back',
-                        close: 'Close',
-                        last: 'Got it!',
-                        next: 'Next',
-                        open: 'Open the dialog',
-                        skip: 'Skip',
-                      }}
-                      styles={{
-                        options: {
-                          arrowColor: 'var(--color-backgroundAlt)',
-                          backgroundColor: 'var(--color-backgroundAlt)',
-                          primaryColor: 'var(--color-primary)',
-                          textColor: 'var(--color-text)',
-                        },
-                      }}
-                      continuous
-                      showProgress
-                      showSkipButton
-                      steps={joyrideSteps as Step[]}
-                    />
+                    // <Joyride
+                    //   callback={handleJoyrideCallback}
+                    //   scrollOffset={100}
+                    //   locale={{
+                    //     back: 'Back',
+                    //     close: 'Close',
+                    //     last: 'Got it!',
+                    //     next: 'Next',
+                    //     open: 'Open the dialog',
+                    //     skip: 'Skip',
+                    //   }}
+                    //   styles={{
+                    //     options: {
+                    //       arrowColor: 'var(--color-backgroundAlt)',
+                    //       backgroundColor: 'var(--color-backgroundAlt)',
+                    //       primaryColor: 'var(--color-primary)',
+                    //       textColor: 'var(--color-text)',
+                    //     },
+                    //   }}
+                    //   continuous
+                    //   showProgress
+                    //   showSkipButton
+                    //   steps={joyrideSteps as Step[]}
+                    // />
+                    <>{console.log('joyride disabled')}</>
                   )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
