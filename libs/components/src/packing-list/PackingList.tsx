@@ -126,7 +126,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const dispatch = useDispatch()
   const router = useRouter()
   const size = useWindowSize()
-  const firebase = useFirebase()
+  // const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
 
@@ -216,7 +216,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const stickyRef = useRef<HTMLDivElement>(null)
 
   // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  const navbarHeightWithSafeAreaOffset = (size.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
+  const navbarHeightWithSafeAreaOffset = (size?.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
 
   const handleScroll = useCallback(() => {
     if (stickyRef && stickyRef.current) {
@@ -242,10 +242,10 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
       dispatch(
         tab === TabOptions.Personal
           ? setSharedListScrollPosition(
-              isSticky ? window.pageYOffset : stickyRef.current.getBoundingClientRect().top
+              isSticky ? window.scrollY : stickyRef.current.getBoundingClientRect().top
             )
           : setPersonalListScrollPosition(
-              isSticky ? window.pageYOffset : stickyRef.current.getBoundingClientRect().top
+              isSticky ? window.scrollY : stickyRef.current.getBoundingClientRect().top
             )
       )
     }
@@ -275,6 +275,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
           <img src="/images/swipe-hint.gif" />
         </>
       ),
+      placement: 'top',
+      offset: 0,
     },
     {
       target: '#progress',
@@ -306,13 +308,13 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     const { status } = data
     if (auth?.uid) {
       if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-        firebase
-          .firestore()
-          .collection('users')
-          .doc(auth.uid)
-          .update({
-            [`preferences.hasSeenPackingListTour`]: true,
-          })
+        // firebase
+        //   .firestore()
+        //   .collection('users')
+        //   .doc(auth.uid)
+        //   .update({
+        //     [`preferences.hasSeenPackingListTour`]: true,
+        //   })
       }
     }
   }
