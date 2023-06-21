@@ -13,7 +13,7 @@ import {
   Row,
   TripHeader,
 } from '@packup/components'
-import { useWindowSize } from '@packup/hooks'
+// import { useWindowSize } from '@packup/hooks'
 
 import {
   AppState,
@@ -81,7 +81,8 @@ const StickyInner = styled.div<{ isSmallScreen: boolean; isSticky: boolean }>`
     `
   position: fixed;
   z-index: ${zIndexNavbar};
-  top: calc(${props.isSmallScreen ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top));
+  top: calc(${tripleSpacer} + env(safe-area-inset-top));
+  // top: calc(${props.isSmallScreen ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top));
   `}
 `
 
@@ -114,7 +115,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   tripIsLoaded,
 }) => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const profile = useSelector((state: AppState) => state.firebase.profile)
+  // const profile = useSelector((state: AppState) => state.firebase.profile)
   const gearList = useSelector((state: AppState) => state.firestore.data['packingList'])
   const {
     activePackingListFilter,
@@ -125,7 +126,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   } = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
-  const size = useWindowSize()
+  // const size = useWindowSize()
   // const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
@@ -215,8 +216,10 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const [isSticky, setSticky] = useState(false)
   const stickyRef = useRef<HTMLDivElement>(null)
 
-  // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  const navbarHeightWithSafeAreaOffset = (size?.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
+  // 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
+  const navbarHeightWithSafeAreaOffset = 48 + getSafeAreaInset('--sat')
+  // // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
+  // const navbarHeightWithSafeAreaOffset = (size?.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
 
   const handleScroll = useCallback(() => {
     if (stickyRef && stickyRef.current) {
@@ -304,20 +307,20 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     ]
   }
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status } = data
-    if (auth?.uid) {
-      if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-        // firebase
-        //   .firestore()
-        //   .collection('users')
-        //   .doc(auth.uid)
-        //   .update({
-        //     [`preferences.hasSeenPackingListTour`]: true,
-        //   })
-      }
-    }
-  }
+  // const handleJoyrideCallback = (data: CallBackProps) => {
+  //   const { status } = data
+  //   if (auth?.uid) {
+  //     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+  //       // firebase
+  //       //   .firestore()
+  //       //   .collection('users')
+  //       //   .doc(auth.uid)
+  //       //   .update({
+  //       //     [`preferences.hasSeenPackingListTour`]: true,
+  //       //   })
+  //     }
+  //   }
+  // }
 
   // return out early if trip cant be found
   // todo probably a better loading state thing here?
@@ -337,7 +340,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
         {packedPercent}% packed
       </small>
       <StickyWrapper ref={stickyRef}>
-        <StickyInner isSticky={isSticky} isSmallScreen={Boolean(size.isSmallScreen)}>
+        {/* <StickyInner isSticky={isSticky} isSmallScreen={Boolean(size.isSmallScreen)}> */}
+        <StickyInner isSticky={isSticky} isSmallScreen={false}>
           <ProgressBar
             height={halfSpacer}
             borderRadius={0}
@@ -403,7 +407,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {auth.uid &&
+                {/* {auth.uid &&
                   size.isSmallScreen &&
                   profile &&
                   profile?.preferences?.hasSeenPackingListTour !== true && (
@@ -431,7 +435,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                       showSkipButton
                       steps={joyrideSteps as Step[]}
                     />
-                  )}
+                  )} */}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
                     ([categoryName, packingListItems]: [string, PackingListItemType[]], index) => {
