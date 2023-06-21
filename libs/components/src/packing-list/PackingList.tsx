@@ -259,13 +259,14 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     trackEvent(`${tab} Checklist Tab Clicked`)
 
     // update the scroll position for the new tab you are going to, if it exists
-    if (stickyRef.current && (personalListScrollPosition || sharedListScrollPosition))
+    if (stickyRef.current && (personalListScrollPosition || sharedListScrollPosition)) {
       // scrollToPosition(
       //   (tab === TabOptions.Personal && personalListScrollPosition) ||
       //     (tab === TabOptions.Shared && sharedListScrollPosition) ||
       //     // default to bottom of stickyRef if both dont exist
       //     stickyRef.current.getBoundingClientRect().bottom
       // )
+    }
   }
 
   let joyrideSteps = [
