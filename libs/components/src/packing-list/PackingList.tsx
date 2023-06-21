@@ -292,21 +292,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     },
   ]
 
-  if (sharedTrip) {
-    joyrideSteps = [
-      ...joyrideSteps,
-      {
-        target: '#shared-checklist-tab',
-        content: (
-          <>
-            <Heading as="h4">Manage Lists</Heading>
-            <p>You can switch between your personal checklist and the shared checklist here</p>
-          </>
-        ),
-      },
-    ]
-  }
-
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
     if (isLoaded(auth) && auth?.uid) {
@@ -406,38 +391,48 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {isLoaded(auth) &&
-                  auth.uid &&
-                  size &&
-                  size.isSmallScreen &&
-                  isLoaded(profile) &&
-                  !profile?.preferences?.hasSeenPackingListTour && (
-                    // <Joyride
-                    //   callback={handleJoyrideCallback}
-                    //   scrollOffset={100}
-                    //   locale={{
-                    //     back: 'Back',
-                    //     close: 'Close',
-                    //     last: 'Got it!',
-                    //     next: 'Next',
-                    //     open: 'Open the dialog',
-                    //     skip: 'Skip',
-                    //   }}
-                    //   styles={{
-                    //     options: {
-                    //       arrowColor: 'var(--color-backgroundAlt)',
-                    //       backgroundColor: 'var(--color-backgroundAlt)',
-                    //       primaryColor: 'var(--color-primary)',
-                    //       textColor: 'var(--color-text)',
-                    //     },
-                    //   }}
-                    //   continuous
-                    //   showProgress
-                    //   showSkipButton
-                    //   steps={joyrideSteps as Step[]}
-                    // />
-                    <>{console.log('joyride disabled')}</>
-                  )}
+                {size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
+                  <Joyride
+                    callback={handleJoyrideCallback}
+                    scrollOffset={100}
+                    locale={{
+                      back: 'Back',
+                      close: 'Close',
+                      last: 'Got it!',
+                      next: 'Next',
+                      open: 'Open the dialog',
+                      skip: 'Skip',
+                    }}
+                    styles={{
+                      options: {
+                        arrowColor: 'var(--color-backgroundAlt)',
+                        backgroundColor: 'var(--color-backgroundAlt)',
+                        primaryColor: 'var(--color-primary)',
+                        textColor: 'var(--color-text)',
+                      },
+                    }}
+                    continuous
+                    showProgress
+                    showSkipButton
+                    steps={
+                      [
+                        ...joyrideSteps,
+                        // {
+                        //   target: '#shared-checklist-tab',
+                        //   content: (
+                        //     <>
+                        //       <Heading as="h4">Manage Lists</Heading>
+                        //       <p>
+                        //         You can switch between your personal checklist and the shared
+                        //         checklist here
+                        //       </p>
+                        //     </>
+                        //   ),
+                        // },
+                      ] as Step[]
+                    }
+                  />
+                )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
                     ([categoryName, packingListItems]: [string, PackingListItemType[]], index) => {
