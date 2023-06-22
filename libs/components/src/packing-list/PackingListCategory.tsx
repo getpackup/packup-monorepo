@@ -96,6 +96,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
 
   return (
     <CollapsibleBox
+      addId={categoryIndex === 0}
       key={
         isSharedPackingListCategory
           ? `${categoryName}-CollapsibleBox-Shared`

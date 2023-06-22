@@ -12,6 +12,8 @@ type CollapsibleBoxProps = {
   collapseCallback?: () => void
   enabled?: boolean
   children: React.ReactNode
+  /** used for Joyride component in PackingList to highlight the first PackingList Category */
+  addId?: boolean
 }
 
 const CollapsibleBoxWrapper = styled.div`
@@ -48,6 +50,7 @@ export const CollapsibleBox: FunctionComponent<CollapsibleBoxProps> = ({
   children,
   collapseCallback,
   enabled = true,
+  addId,
 }) => {
   // Manages the collapsed state of the accordion
   const [collapsed, setCollapsed] = useState(enabled === true ? defaultClosed : false)
@@ -70,6 +73,7 @@ export const CollapsibleBox: FunctionComponent<CollapsibleBoxProps> = ({
         onClick={handleCollapse}
         role="button"
         onKeyDown={handleCollapse}
+        id={addId ? 'first-category' : undefined}
       >
         <div
           style={{ cursor: 'pointer' }}

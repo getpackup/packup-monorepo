@@ -368,8 +368,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {true && (
-                  //size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
+                {size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
                   <Joyride
                     callback={handleJoyrideCallback}
                     scrollOffset={100}
@@ -418,18 +417,31 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                             </div>
                           ),
                         },
-                        // {
-                        //   target: '#shared-checklist-tab',
-                        //   content: (
-                        //     <>
-                        //       <Heading as="h4">Manage Lists</Heading>
-                        //       <p>
-                        //         You can switch between your personal checklist and the shared
-                        //         checklist here
-                        //       </p>
-                        //     </>
-                        //   ),
-                        // },
+                        sharedTrip
+                          ? {
+                              target: '#shared-checklist-tab',
+                              content: (
+                                <>
+                                  <Heading as="h4">Manage Lists</Heading>
+                                  <p>
+                                    You can switch between your personal checklist and the shared
+                                    checklist here
+                                  </p>
+                                </>
+                              ),
+                            }
+                          : {
+                              target: '#first-category',
+                              content: (
+                                <>
+                                  <Heading as="h4">Collapse categories</Heading>
+                                  <p>
+                                    You can toggle each section open or closed to make it easier to
+                                    see what you need to focus on
+                                  </p>
+                                </>
+                              ),
+                            },
                       ] as Step[]
                     }
                   />
