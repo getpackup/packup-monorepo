@@ -130,11 +130,20 @@ export default function Index() {
     />
   )
 
+  // Handle scenario where a user was invited to a trip, but havent set up their gear closet yet
+  // Filter out the pending trips, and then use this below in the early return to NoGearCloset
+  const nonArchivedTripsWithoutPending = nonArchivedTrips.filter(
+    (trip) =>
+      trip.tripMembers &&
+      trip.tripMembers[auth.uid] &&
+      trip.tripMembers[auth.uid].status !== TripMemberStatus.Pending
+  )
+
   if (
     isLoaded(fetchedGearCloset) &&
     fetchedGearCloset.length === 0 &&
     isLoaded(trips) &&
-    nonArchivedTrips.length === 0
+    nonArchivedTripsWithoutPending.length === 0
   ) {
     return <NoGearCloset />
   }
