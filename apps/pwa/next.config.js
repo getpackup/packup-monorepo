@@ -33,7 +33,7 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: true,
   },
-  swcMinify: true,
+  swcMinify: false,
   images: {
     remotePatterns: [
       {

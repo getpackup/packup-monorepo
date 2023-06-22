@@ -13,6 +13,7 @@ interface FlexContainerProps {
   onKeyDown?: () => void
   children: React.ReactNode
   role?: string
+  id?: string
 }
 
 export const FlexContainer: FunctionComponent<FlexContainerProps> = styled.div<FlexContainerProps>`

@@ -13,7 +13,7 @@ import {
   Row,
   TripHeader,
 } from '@packup/components'
-// import { useWindowSize } from '@packup/hooks'
+import { useWindowSize } from '@packup/hooks'
 
 import {
   AppState,
@@ -53,7 +53,7 @@ import { FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
-import { useFirebase } from 'react-redux-firebase'
+import { isLoaded, useFirebase } from 'react-redux-firebase'
 
 type PackingListProps = {
   trip?: TripType
@@ -81,8 +81,7 @@ const StickyInner = styled.div<{ isSmallScreen: boolean; isSticky: boolean }>`
     `
   position: fixed;
   z-index: ${zIndexNavbar};
-  top: calc(${tripleSpacer} + env(safe-area-inset-top));
-  // top: calc(${props.isSmallScreen ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top));
+  top: calc(${props.isSmallScreen ? tripleSpacer : quadrupleSpacer} + env(safe-area-inset-top));
   `}
 `
 
@@ -115,7 +114,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   tripIsLoaded,
 }) => {
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  // const profile = useSelector((state: AppState) => state.firebase.profile)
   const gearList = useSelector((state: AppState) => state.firestore.data['packingList'])
   const {
     activePackingListFilter,
@@ -126,8 +124,10 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   } = useSelector((state: AppState) => state.client)
   const dispatch = useDispatch()
   const router = useRouter()
-  // const size = useWindowSize()
-  // const firebase = useFirebase()
+  const size = useWindowSize()
+
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
 
@@ -216,10 +216,10 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const [isSticky, setSticky] = useState(false)
   const stickyRef = useRef<HTMLDivElement>(null)
 
-  // 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  const navbarHeightWithSafeAreaOffset = 48 + getSafeAreaInset('--sat')
-  // // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
-  // const navbarHeightWithSafeAreaOffset = (size?.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
+  // 48 or 64 is height of navbar, plus grab the safe-area-top (sat) from :root css
+  const navbarHeightWithSafeAreaOffset = size
+    ? (size?.isSmallScreen ? 48 : 64) + getSafeAreaInset('--sat')
+    : 64
 
   const handleScroll = useCallback(() => {
     if (stickyRef && stickyRef.current) {
@@ -259,68 +259,30 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     trackEvent(`${tab} Checklist Tab Clicked`)
 
     // update the scroll position for the new tab you are going to, if it exists
-    if (stickyRef.current && (personalListScrollPosition || sharedListScrollPosition))
+    if (stickyRef.current && (personalListScrollPosition || sharedListScrollPosition)) {
       scrollToPosition(
         (tab === TabOptions.Personal && personalListScrollPosition) ||
           (tab === TabOptions.Shared && sharedListScrollPosition) ||
           // default to bottom of stickyRef if both dont exist
           stickyRef.current.getBoundingClientRect().bottom
       )
+    }
   }
 
-  let joyrideSteps = [
-    {
-      target: '#first-packing-item',
-      content: (
-        <>
-          <Heading as="h4">Heads up!</Heading>
-          <p>You can swipe to mark an item as a group item or quickly delete it</p>
-          <img src="/images/swipe-hint.gif" />
-        </>
-      ),
-      placement: 'top',
-      offset: 0,
-    },
-    {
-      target: '#progress',
-      content: (
-        <>
-          <Heading as="h4">Track your progress</Heading>
-          <p>As you mark items as packed, you can see your progress here.</p>
-        </>
-      ),
-    },
-  ]
-
-  if (sharedTrip) {
-    joyrideSteps = [
-      ...joyrideSteps,
-      {
-        target: '#shared-checklist-tab',
-        content: (
-          <>
-            <Heading as="h4">Manage Lists</Heading>
-            <p>You can switch between your personal checklist and the shared checklist here</p>
-          </>
-        ),
-      },
-    ]
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status } = data
+    if (isLoaded(auth) && auth?.uid) {
+      if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(auth.uid)
+          .update({
+            [`preferences.hasSeenPackingListTour`]: true,
+          })
+      }
+    }
   }
-
-  // const handleJoyrideCallback = (data: CallBackProps) => {
-  //   const { status } = data
-  //   if (auth?.uid) {
-  //     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-  //       // firebase
-  //       //   .firestore()
-  //       //   .collection('users')
-  //       //   .doc(auth.uid)
-  //       //   .update({
-  //       //     [`preferences.hasSeenPackingListTour`]: true,
-  //       //   })
-  //     }
-  //   }
-  // }
 
   // return out early if trip cant be found
   // todo probably a better loading state thing here?
@@ -340,8 +302,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
         {packedPercent}% packed
       </small>
       <StickyWrapper ref={stickyRef}>
-        {/* <StickyInner isSticky={isSticky} isSmallScreen={Boolean(size.isSmallScreen)}> */}
-        <StickyInner isSticky={isSticky} isSmallScreen={false}>
+        <StickyInner isSticky={isSticky} isSmallScreen={Boolean(size?.isSmallScreen)}>
           <ProgressBar
             height={halfSpacer}
             borderRadius={0}
@@ -407,35 +368,84 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
               </Box>
             ) : (
               <>
-                {/* {auth.uid &&
-                  size.isSmallScreen &&
-                  profile &&
-                  profile?.preferences?.hasSeenPackingListTour !== true && (
-                    <Joyride
-                      callback={handleJoyrideCallback}
-                      scrollOffset={100}
-                      locale={{
-                        back: 'Back',
-                        close: 'Close',
-                        last: 'Got it!',
-                        next: 'Next',
-                        open: 'Open the dialog',
-                        skip: 'Skip',
-                      }}
-                      styles={{
-                        options: {
-                          arrowColor: 'var(--color-backgroundAlt)',
-                          backgroundColor: 'var(--color-backgroundAlt)',
-                          primaryColor: 'var(--color-primary)',
-                          textColor: 'var(--color-text)',
+                {size.isSmallScreen && !profile?.preferences?.hasSeenPackingListTour && (
+                  <Joyride
+                    callback={handleJoyrideCallback}
+                    scrollOffset={100}
+                    locale={{
+                      back: 'Back',
+                      close: 'Close',
+                      last: 'Got it!',
+                      next: 'Next',
+                      open: 'Open the dialog',
+                      skip: 'Skip',
+                    }}
+                    styles={{
+                      options: {
+                        arrowColor: 'var(--color-backgroundAlt)',
+                        backgroundColor: 'var(--color-backgroundAlt)',
+                        primaryColor: 'var(--color-primary)',
+                        textColor: 'var(--color-text)',
+                      },
+                    }}
+                    continuous
+                    showProgress
+                    showSkipButton
+                    steps={
+                      [
+                        {
+                          target: '#first-packing-item',
+                          content: (
+                            <div>
+                              <Heading as="h4">Heads up!</Heading>
+                              <p>
+                                You can swipe to mark an item as a group item (on group trips) or
+                                quickly delete it
+                              </p>
+                              <img src="/images/swipe-hint.gif" />
+                            </div>
+                          ),
+                          placement: 'top',
+                          offset: 0,
                         },
-                      }}
-                      continuous
-                      showProgress
-                      showSkipButton
-                      steps={joyrideSteps as Step[]}
-                    />
-                  )} */}
+                        {
+                          target: '#progress',
+                          content: (
+                            <div>
+                              <Heading as="h4">Track your progress</Heading>
+                              <p>As you mark items as packed, you can see your progress here.</p>
+                            </div>
+                          ),
+                        },
+                        sharedTrip
+                          ? {
+                              target: '#shared-checklist-tab',
+                              content: (
+                                <>
+                                  <Heading as="h4">Manage Lists</Heading>
+                                  <p>
+                                    You can switch between your personal checklist and the shared
+                                    checklist here
+                                  </p>
+                                </>
+                              ),
+                            }
+                          : {
+                              target: '#first-category',
+                              content: (
+                                <>
+                                  <Heading as="h4">Collapse categories</Heading>
+                                  <p>
+                                    You can toggle each section open or closed to make it easier to
+                                    see what you need to focus on
+                                  </p>
+                                </>
+                              ),
+                            },
+                      ] as Step[]
+                    }
+                  />
+                )}
                 {getGroupedFinalItems && getGroupedFinalItems.length > 0 ? (
                   getGroupedFinalItems.map(
                     ([categoryName, packingListItems]: [string, PackingListItemType[]], index) => {
