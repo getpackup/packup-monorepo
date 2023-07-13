@@ -6,47 +6,63 @@ import {
   Column,
   FlexContainer,
   Heading,
-  HorizontalRule,
   Input,
-  LoadingPage,
+  LoadingSpinner,
   Modal,
   Row,
 } from '@packup/components'
 import toast from 'react-hot-toast'
-import { AppState } from '@packup/redux'
+import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import {
-  TabOptions,
   gearListCategories,
   acceptedTripMembersOnly,
-  scrollToPosition,
   requiredField,
   requiredSelect,
   trackEvent,
 } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import Head from 'next/head'
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
-import { FaChevronLeft, FaTrash } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { FaCheckCircle, FaTrash } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
-import { useWindowSize } from '@packup/hooks'
+import { useActiveTrip, useWindowSize } from '@packup/hooks'
+import styled from 'styled-components'
+import { baseSpacer, borderRadius } from '@packup/styles'
 
 type EditPackingListItemProps = {
-  users: { [key: string]: UserType }
-  packingList: PackingListItemType[]
-  loggedInUserUid: string
-  activeTrip?: TripType
-  checklistId?: string
+  itemId?: string
 }
 
+const StyledDiv = styled.div`
+  background-color: var(--color-background);
+  padding: ${baseSpacer};
+  border-radius: ${borderRadius};
+  margin-bottom: ${baseSpacer};
+`
+
 export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = (props) => {
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const users = useSelector((state: AppState) => state.firestore.data['users'])
+  const activeTrip = useActiveTrip()
+  const packingList: PackingListItemType[] = useSelector(
+    (state: AppState) => state.firestore.ordered['packingList']
+  )
+
   const firebase = useFirebase()
-
   const router = useRouter()
+  const dispatch = useDispatch()
 
-  const { activePackingListTab, personalListScrollPosition, sharedListScrollPosition } =
-    useSelector((state: AppState) => state.client)
+  if (!activeTrip?.tripId) {
+    trackEvent('Trip By Id Had No Id')
+    return null
+  }
+
+  if (!props.itemId) {
+    trackEvent('Trip Edit Packing List Item By Id Had No checklistId')
+    // TODO: return a better failure state UI here
+    return null
+  }
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const size = useWindowSize()
@@ -61,18 +77,17 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
   }, [])
 
   const activeItem: PackingListItemType =
-    props.packingList &&
-    props.packingList.find((item: PackingListItemType) => item.id === props.checklistId)!
+    packingList && packingList.find((item: PackingListItemType) => item.id === props.itemId)!
 
   const removeItem = (isSharedItem: boolean) => {
     if (isSharedItem) {
       return setModalIsOpen(true)
     }
-    if (activeItem && !isSharedItem) {
+    if (activeItem && !isSharedItem && activeTrip) {
       return firebase
         .firestore()
         .collection('trips')
-        .doc(props.activeTrip?.tripId)
+        .doc(activeTrip?.tripId)
         .collection('packing-list')
         .doc(activeItem?.id)
         .delete()
@@ -87,28 +102,12 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
     return null
   }
 
-  const handleReturn = (): void => {
-    if (personalListScrollPosition || sharedListScrollPosition) {
-      scrollToPosition(
-        activePackingListTab === TabOptions.Personal
-          ? personalListScrollPosition
-          : sharedListScrollPosition
-      )
-    }
-    router.back()
-  }
-
-  if (!router.query['checklistId'] || !activeItem) {
-    // TODO: better failure state than "select an item to edit" below
-    return <LoadingPage />
+  if (!activeItem) {
+    return <LoadingSpinner />
   }
   return (
-    <div>
-      <Head>
-        <title>Edit Item</title>
-      </Head>
-
-      {activeItem ? (
+    <StyledDiv>
+      {activeItem && (
         <Formik
           validateOnMount
           initialValues={
@@ -140,7 +139,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                 : [
                     {
                       // TODO: defaulting logged in user, but could also do first person in list of values.packedBy[0]?
-                      uid: props.loggedInUserUid,
+                      uid: auth.uid,
                       isShared: false,
                       quantity: 1,
                     },
@@ -170,6 +169,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                     ...activeItem,
                     ...values,
                   })
+                  dispatch(setActivePackingListItemBeingEdited(undefined))
                 })
                 .catch((err) => {
                   toast.error(err.message)
@@ -185,22 +185,10 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
             }
           }}
         >
-          {({ setFieldValue, values, isSubmitting, ...rest }) => (
+          {({ setFieldValue, values, isSubmitting, dirty, ...rest }) => (
             <Form>
-              <Heading altStyle as="h2">
-                {values.name}
-              </Heading>
-
-              {activeItem.isEssential && (
-                <Alert
-                  type="info"
-                  message="This item is considered one of the 10 Essential items."
-                  callToActionLink="https://getpackup.com/blog/2021-03-29-the-ten-essentials/"
-                  callToActionLinkText="Learn more"
-                />
-              )}
               <Row>
-                <Column sm={6}>
+                <Column sm={4}>
                   <Field
                     as={Input}
                     type="text"
@@ -210,7 +198,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                     required
                   />
                 </Column>
-                <Column sm={6}>
+                <Column sm={4}>
                   <Field
                     as={Input}
                     type="select"
@@ -223,11 +211,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                     required
                   />
                 </Column>
-              </Row>
-
-              <Field as={Input} type="textarea" name="description" label="Description" />
-              <Row>
-                <Column sm={6}>
+                <Column sm={4}>
                   <Field
                     as={Input}
                     type="number"
@@ -236,96 +220,58 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                     setFieldValue={setFieldValue}
                   />
                 </Column>
-                <Column sm={6}>
-                  <Row>
-                    <Column xs={8}>
-                      <Field as={Input} type="text" name="weight" label="Weight" />
-                    </Column>
-                    <Column xs={4}>
-                      <Field
-                        as={Input}
-                        type="select"
-                        name="weightUnit"
-                        label="Unit"
-                        options={[
-                          {
-                            value: 'g',
-                            label: 'g',
-                          },
-                          {
-                            value: 'kg',
-                            label: 'kg',
-                          },
-                          {
-                            value: 'oz',
-                            label: 'oz',
-                          },
-                          {
-                            value: 'lb',
-                            label: 'lb',
-                          },
-                        ]}
-                        setFieldValue={setFieldValue}
-                        {...rest}
-                      />
-                    </Column>
-                  </Row>
-                </Column>
               </Row>
 
-              {props.activeTrip && Object.keys(props.activeTrip.tripMembers)?.length > 0 && (
-                <Row>
-                  <Column xs={5} sm={4} md={3}>
+              <Row>
+                <Column sm={5}>
+                  <Field as={Input} type="text" name="description" label="Description" />
+                </Column>
+                <Column sm={3}>
+                  <Field
+                    as={Input}
+                    type="toggle"
+                    name="isSharedItem"
+                    label="Shared Group Item"
+                    checked={values.isSharedItem}
+                  />
+                </Column>
+                {values.isSharedItem && activeTrip && Object.keys(users).length > 0 && (
+                  <Column sm={4}>
                     <Field
                       as={Input}
-                      type="toggle"
-                      name="isSharedItem"
-                      label="Shared Group Item"
-                      checked={values.isSharedItem}
+                      type="select"
+                      name="packedBy"
+                      label="Packed By"
+                      isMulti
+                      required
+                      validate={requiredSelect}
+                      options={Object.values(acceptedTripMembersOnly(activeTrip)).map((member) => {
+                        const matchingUser: UserType = users && users[member.uid]
+                        const obj = {
+                          value: '',
+                          label: '',
+                        }
+                        obj.value = member.uid
+                        obj.label = matchingUser?.username.toLocaleLowerCase()
+                        return obj
+                      })}
+                      setFieldValue={setFieldValue}
+                      {...rest}
                     />
                   </Column>
-                  {values.isSharedItem && props.activeTrip && Object.keys(props.users).length > 0 && (
-                    <Column xs={7} sm={8} md={9}>
-                      <Field
-                        as={Input}
-                        type="select"
-                        name="packedBy"
-                        label="Packed By"
-                        isMulti
-                        required
-                        validate={requiredSelect}
-                        options={Object.values(acceptedTripMembersOnly(props.activeTrip)).map(
-                          (member) => {
-                            const matchingUser: UserType = props.users && props.users[member.uid]
-                            const obj = {
-                              value: '',
-                              label: '',
-                            }
-                            obj.value = member.uid
-                            obj.label = matchingUser?.username.toLocaleLowerCase()
-                            return obj
-                          }
-                        )}
-                        setFieldValue={setFieldValue}
-                        {...rest}
-                      />
-                    </Column>
-                  )}
-                </Row>
-              )}
+                )}
+              </Row>
 
-              <AutoSave />
-
-              <HorizontalRule />
               <FlexContainer justifyContent="space-between">
                 <Button
-                  type="button"
-                  onClick={() => handleReturn()}
-                  color="text"
-                  iconLeft={<FaChevronLeft />}
+                  type="submit"
+                  disabled={!dirty || isSubmitting}
+                  color="success"
+                  iconLeft={<FaCheckCircle />}
                 >
-                  Back
+                  Save
                 </Button>
+
                 <Button
                   type="button"
                   disabled={isSubmitting}
@@ -333,16 +279,12 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
                   color="danger"
                   iconLeft={<FaTrash />}
                 >
-                  Remove Item
+                  Remove
                 </Button>
               </FlexContainer>
             </Form>
           )}
         </Formik>
-      ) : (
-        <FlexContainer height="30vh">
-          <p>Select an item to edit</p>
-        </FlexContainer>
       )}
 
       <Modal
@@ -364,7 +306,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
           Got it 👍
         </Button>
       </Modal>
-    </div>
+    </StyledDiv>
   )
 }
 

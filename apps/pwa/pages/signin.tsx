@@ -15,6 +15,7 @@ import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/au
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -25,53 +26,74 @@ export default function Signin() {
 
   const auth = getAuth()
 
-  if (isSignInWithEmailLink(auth, window.location.href)) {
-    // Additional state parameters can also be passed via URL.
-    // This can be used to continue the user's intended action before triggering
-    // the sign-in operation.
-    // Get the email if available. This should be available if the user completes
-    // the flow on the same device where they started it.
-    let email = window.localStorage.getItem('emailForSignIn')
-    if (!email) {
-      // User opened the link on a different device. To prevent session fixation
-      // attacks, ask the user to provide the associated email again. For example:
-      email = window.prompt('Please provide your email for confirmation')
-    }
-    // The client SDK will parse the code from the link for you.
-    signInWithEmailLink(auth, email, window.location.href)
-      .then((result) => {
-        if (client.location) {
-          trackEvent('User Logged In and Needed Redirection', {
-            location: client.location,
-            email: result.user?.email,
-          })
-          dispatch(removeAttemptedPrivatePage())
-          router.push(client.location)
-        } else {
-          trackEvent('User Logged In', {
-            email: result.user?.email,
-          })
-          router.push('/')
-        }
-      })
-      .catch((error) => {
-        // Some error occurred, you can inspect the code: error.code
-        // Common errors could be invalid email and invalid or expired OTPs.
-        trackEvent('User Log In Failure from signInWithEmailLink', {
-          error,
-          email,
-        })
+  const [isSigningInWithEmail, setIsSigningInWithEmail] = useState(false)
 
-        if (error) {
-          router.push(`/signup?email=${encodeURIComponent(email)}`)
-          toast(`Looks like you don't have an account yet. Let's get you signed up!`, {
-            icon: '👋',
+  const isSignInWithEmailLinkValid = isSignInWithEmailLink(auth, window.location.href)
+
+  useEffect(() => {
+    if (isSignInWithEmailLinkValid) {
+      setIsSigningInWithEmail(true)
+    }
+  }, [isSignInWithEmailLinkValid])
+
+  useEffect(() => {
+    if (isSigningInWithEmail) {
+      // Additional state parameters can also be passed via URL.
+      // This can be used to continue the user's intended action before triggering
+      // the sign-in operation.
+      // Get the email if available. This should be available if the user completes
+      // the flow on the same device where they started it.
+      let email = window.localStorage.getItem('emailForSignIn')
+      if (!email) {
+        // User opened the link on a different device. To prevent session fixation
+        // attacks, ask the user to provide the associated email again. For example:
+        email = window.prompt('Please provide your email for confirmation')
+      }
+      // The client SDK will parse the code from the link for you.
+      signInWithEmailLink(auth, email, window.location.href)
+        .then((result) => {
+          if (client.location) {
+            trackEvent('User Logged In and Needed Redirection', {
+              location: client.location,
+              email: result.user?.email,
+            })
+            dispatch(removeAttemptedPrivatePage())
+            router.push(client.location)
+          } else {
+            trackEvent('User Logged In', {
+              email: result.user?.email,
+            })
+            router.push('/')
+          }
+        })
+        .catch((error) => {
+          // Some error occurred, you can inspect the code: error.code
+          // Common errors could be invalid email and invalid or expired OTPs.
+          trackEvent('User Log In Failure from signInWithEmailLink', {
+            error,
+            email,
           })
-        } else {
-          toast.error('Unable to log in with those credentials. Please try again.')
-        }
-      })
-  }
+
+          if (error) {
+            router.push(`/signup?email=${encodeURIComponent(email)}`)
+            if (error.code === 'auth/invalid-action-code') {
+              toast.error(
+                `That looks like an old link you tried to sign in with. Please check your email for the latest link we sent.`,
+                {
+                  icon: '⏰',
+                }
+              )
+            } else {
+              toast(`Looks like you don't have an account yet. Let's get you signed up!`, {
+                icon: '👋',
+              })
+            }
+          } else {
+            toast.error('Unable to log in with those credentials. Please try again.')
+          }
+        })
+    }
+  }, [isSigningInWithEmail])
 
   return (
     <PageContainer>

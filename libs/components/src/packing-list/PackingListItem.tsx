@@ -10,17 +10,18 @@ import {
   IconWrapper,
   Input,
   Pill,
+  EditPackingListItem,
 } from '@packup/components'
-import { AppState, setPersonalListScrollPosition, setSharedListScrollPosition } from '@packup/redux'
+import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import toast from 'react-hot-toast'
 
 import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } from '@packup/styles'
 
 import { trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { useRouter } from 'next/router'
 import { FunctionComponent, useState } from 'react'
 import {
+  FaChevronDown,
   FaChevronRight,
   FaExclamationTriangle,
   FaPencilAlt,
@@ -80,6 +81,7 @@ const ItemInputWrapper = styled.div`
 
 const ItemText = styled.div`
   flex: 1;
+  cursor: pointer;
 `
 
 type FormValues = {
@@ -94,12 +96,11 @@ const callbackDelay = 350
 
 export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) => {
   const users: UserType[] = useSelector((state: AppState) => state.firestore.ordered['users'])
+  const { packingListItemBeingEdited } = useSelector((state: AppState) => state.client)
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const size = useWindowSize()
   const [removing, setRemoving] = useState(false)
-
-  const router = useRouter()
 
   const onUpdate = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     firebaseConnection(firebase, props.tripId, props.item.id)
@@ -205,13 +206,12 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
     </TrailingActions>
   )
 
-  const handleItemSelect = (tripId: string, itemId: string): void => {
-    dispatch(
-      props.isOnSharedList
-        ? setSharedListScrollPosition(window.pageYOffset)
-        : setPersonalListScrollPosition(window.pageYOffset)
-    )
-    router.push(`/trips/${tripId}/${itemId}`)
+  const handleItemSelect = (itemId: string): void => {
+    if (packingListItemBeingEdited === itemId) {
+      dispatch(setActivePackingListItemBeingEdited(undefined))
+    } else {
+      dispatch(setActivePackingListItemBeingEdited(itemId))
+    }
   }
 
   const itemIsShared = props.item.packedBy.some((item) => item.isShared)
@@ -246,7 +246,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     label=""
                   />
                 </ItemInputWrapper>
-                <ItemText>
+                <ItemText onClick={() => handleItemSelect(props.item.id)} title="Edit item">
                   <>
                     {props.item.isEssential && (
                       <span
@@ -306,9 +306,13 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
 
                 {!size.isSmallScreen && (
                   <IconWrapper
-                    onClick={() => handleItemSelect(props.tripId, props.item.id)}
+                    onClick={() => handleItemSelect(props.item.id)}
                     hoverColor={brandPrimary}
-                    color={lightestGray}
+                    color={
+                      packingListItemBeingEdited === props.item.id
+                        ? 'var(--color-primary)'
+                        : 'var(--color-lightestGray)'
+                    }
                     data-tip="Edit Item"
                     data-for="editItemIcon"
                   >
@@ -388,13 +392,22 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                       </IconWrapper>
                     )}
                     <IconWrapper
-                      onClick={() => handleItemSelect(props.tripId, props.item.id)}
+                      onClick={() => handleItemSelect(props.item.id)}
                       hoverColor={brandPrimary}
-                      color={lightestGray}
+                      color={
+                        packingListItemBeingEdited === props.item.id
+                          ? 'var(--color-primary)'
+                          : 'var(--color-lightestGray)'
+                      }
                       data-tip="Edit Item"
                       data-for="editItemIconSmall"
                     >
-                      <FaChevronRight />
+                      {packingListItemBeingEdited === props.item.id ? (
+                        <FaChevronDown />
+                      ) : (
+                        <FaChevronRight />
+                      )}
+
                       <ReactTooltip
                         id="editItemIconSmall"
                         place="top"
@@ -410,6 +423,9 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
           )}
         </Formik>
       </SwipeableListItem>
+      {packingListItemBeingEdited === props.item.id && (
+        <EditPackingListItem itemId={props.item.id} />
+      )}
     </PackingListItemWrapper>
   )
 }

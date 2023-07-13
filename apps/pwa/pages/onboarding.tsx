@@ -1,3 +1,4 @@
+import { TripMemberStatus, TripType } from '@packup/common'
 import {
   Box,
   Button,
@@ -11,7 +12,7 @@ import {
   PageContainer,
   Row,
 } from '@packup/components'
-import { RootState } from '@packup/redux'
+import { AppState } from '@packup/redux'
 import { doubleSpacer, halfSpacer, textColor, textColorLight } from '@packup/styles'
 import {
   ActivityTypes,
@@ -30,7 +31,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { FaCheck, FaChevronLeft, FaChevronRight, FaCircle } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
-import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import SwipeableViews from 'react-swipeable-views'
 import styled from 'styled-components'
 
@@ -45,9 +46,9 @@ const CenteredText = styled.div`
 export default function Onboarding() {
   const firebase = useFirebase()
   const router = useRouter()
-  const auth = useSelector((state: RootState) => state.firebase.auth)
-  const profile = useSelector((state: RootState) => state.firebase.profile)
-  // const fetchedGearCloset = useSelector((state: RootState) => state.firestore.ordered.gearCloset)
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
+  const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered.trips)
 
   useFirestoreConnect([
     {
@@ -55,9 +56,31 @@ export default function Onboarding() {
       storeAs: 'gearCloset',
       doc: auth.uid,
     },
+    {
+      collection: 'trips',
+      where: [
+        [
+          `tripMembers.${auth.uid}.status`,
+          'not-in',
+          [TripMemberStatus.Declined, TripMemberStatus.Removed],
+        ],
+      ],
+    },
   ])
 
-  const [activeTab, setActiveTab] = useState(0)
+  const nonArchivedTrips: TripType[] =
+    isLoaded(trips) && Array.isArray(trips) && trips && trips.length > 0
+      ? trips.filter((trip: TripType) => trip.archived !== true)
+      : []
+
+  const pendingTrips = nonArchivedTrips?.filter(
+    (trip) =>
+      trip.tripMembers &&
+      trip.tripMembers[auth.uid] &&
+      trip.tripMembers[auth.uid].status === TripMemberStatus.Pending
+  )
+
+  const [activeTab, setActiveTab] = useState(3)
   const [isLoading, setIsLoading] = useState(false)
 
   const initialValues: { [key: string]: boolean } = {}
@@ -82,12 +105,6 @@ export default function Onboarding() {
         })
     }
   }, [auth, profile, router, firebase])
-
-  // useEffect(() => {
-  //   if (isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0) {
-  //     router.push('/gear-closet')
-  //   }
-  // }, [router, fetchedGearCloset])
 
   const onSubmit = (
     values: typeof initialValues,
@@ -376,24 +393,49 @@ export default function Onboarding() {
                               your inventory of packing list recommendations for your trips.
                             </p>
                             <br />
-                            <Heading as="h2" altStyle>
-                              Let&apos;s get started by making your first trip!
-                            </Heading>
-                            <br />
-                            <br />
+                            {pendingTrips?.length > 0 ? (
+                              <>
+                                <Heading as="h2" altStyle>
+                                  Look&apos;s like someone has already invited you on a trip 😎
+                                </Heading>
+                                <br />
+                                <br />
 
-                            <Button
-                              type="link"
-                              to="/trips/new"
-                              iconRight={<FaChevronRight />}
-                              onClick={() =>
-                                trackEvent('New Trip Button clicked', {
-                                  location: 'Onboarding Finish Button',
-                                })
-                              }
-                            >
-                              Create First Trip
-                            </Button>
+                                <Button
+                                  type="link"
+                                  to="/"
+                                  iconRight={<FaChevronRight />}
+                                  onClick={() =>
+                                    trackEvent('New Trip Button clicked', {
+                                      location: 'Onboarding Finish Button - Pending Trip',
+                                    })
+                                  }
+                                >
+                                  View Invitation
+                                </Button>
+                              </>
+                            ) : (
+                              <>
+                                <Heading as="h2" altStyle>
+                                  Let&apos;s get started by making your first trip!
+                                </Heading>
+                                <br />
+                                <br />
+
+                                <Button
+                                  type="link"
+                                  to="/trips/new"
+                                  iconRight={<FaChevronRight />}
+                                  onClick={() =>
+                                    trackEvent('New Trip Button clicked', {
+                                      location: 'Onboarding Finish Button',
+                                    })
+                                  }
+                                >
+                                  Create First Trip
+                                </Button>
+                              </>
+                            )}
                           </>
                         )}
                       </CenteredText>

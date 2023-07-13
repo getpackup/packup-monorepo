@@ -1,3 +1,4 @@
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { PackingListFilterOptions, TabOptions } from '@packup/utils'
 
 import { ClientActions, ClientStoreType } from './client.d'
@@ -15,6 +16,8 @@ export const SET_TRIPS_DEFAULT_VIEW = 'SET_TRIPS_DEFAULT_VIEW'
 
 export const SET_PACKING_LIST_SEARCH_VALUE = 'SET_PACKING_LIST_SEARCH_VALUE'
 
+export const SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED = 'SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED'
+
 export const clientInitialState: ClientStoreType = {
   location: undefined,
   activePackingListFilter: PackingListFilterOptions.All,
@@ -23,6 +26,7 @@ export const clientInitialState: ClientStoreType = {
   sharedListScrollPosition: 0,
   tripsDefaultView: 'list',
   packingListSearchValue: '',
+  packingListItemBeingEdited: undefined,
 }
 
 export default function clientReducer(
@@ -83,6 +87,12 @@ export default function clientReducer(
         packingListSearchValue: action.payload,
       }
     }
+    case SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED: {
+      return {
+        ...state,
+        packingListItemBeingEdited: action.payload,
+      }
+    }
     default:
       return state
   }
@@ -124,5 +134,10 @@ export const setTripsDefaultView = (payload: 'list' | 'calendar') => ({
 
 export const setPackingListSearchValue = (payload: string) => ({
   type: SET_PACKING_LIST_SEARCH_VALUE,
+  payload,
+})
+
+export const setActivePackingListItemBeingEdited = (payload: string | undefined) => ({
+  type: SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED,
   payload,
 })

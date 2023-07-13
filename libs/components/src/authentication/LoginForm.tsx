@@ -71,7 +71,7 @@ export const LoginForm = ({
               router.push(`/signup?email=${encodeURIComponent(values.email)}`)
               setActiveTab('signup')
               toast(`It looks like you don't have an account yet. Let's get you signed up!`, {
-                icon: '👋',
+                icon: '🤦🏻‍♂️',
                 duration: 10000,
               })
             }

@@ -1,9 +1,11 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { PackingListFilterOptions, TabOptions } from '@packup/utils'
 
 import {
   ADD_ATTEMPTED_PRIVATE_PAGE,
   REMOVE_ATTEMPTED_PRIVATE_PAGE,
   SET_ACTIVE_PACKING_LIST_FILTER,
+  SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED,
   SET_ACTIVE_PACKING_LIST_TAB,
   SET_PACKING_LIST_SEARCH_VALUE,
   SET_PERSONAL_LIST_SCROLL_POSITION,
@@ -19,6 +21,7 @@ export type ClientStoreType = {
   personalListScrollPosition: number
   sharedListScrollPosition: number
   tripsDefaultView: 'list' | 'calendar'
+  packingListItemBeingEdited: undefined | string
 }
 
 export type AddAttemptedPrivatePageAction = {
@@ -60,6 +63,11 @@ export type SetPackingListSearchValue = {
   payload: string
 }
 
+export type SetActivePackingListItemBeingEdited = {
+  type: typeof SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED
+  payload: item
+}
+
 export type ClientActions =
   | AddAttemptedPrivatePageAction
   | RemoveAttemptedPrivatePageAction
@@ -69,3 +77,4 @@ export type ClientActions =
   | SetSharedListScrollPosition
   | SetTripsDefaultView
   | SetPackingListSearchValue
+  | SetActivePackingListItemBeingEdited

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { TripType } from '@packup/common'
+import { TripMemberStatus, TripType } from '@packup/common'
 import {
   Alert,
   Box,
@@ -98,7 +98,7 @@ export default function GearCloset() {
 
   useEffect(() => {
     if (isLoaded(fetchedGearCloset) && fetchedGearCloset.length === 0) {
-      router.push('/gear-closet/setup')
+      router.push('/onboarding')
     }
   }, [fetchedGearCloset, router])
 
@@ -141,7 +141,13 @@ export default function GearCloset() {
     },
     {
       collection: 'trips',
-      where: ['owner', '==', auth?.uid || ''],
+      where: [
+        [
+          `tripMembers.${auth.uid}.status`,
+          'not-in',
+          [TripMemberStatus.Declined, TripMemberStatus.Removed],
+        ],
+      ],
     },
   ])
 
