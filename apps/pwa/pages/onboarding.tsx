@@ -80,7 +80,7 @@ export default function Onboarding() {
       trip.tripMembers[auth.uid].status === TripMemberStatus.Pending
   )
 
-  const [activeTab, setActiveTab] = useState(3)
+  const [activeTab, setActiveTab] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
 
   const initialValues: { [key: string]: boolean } = {}

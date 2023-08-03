@@ -243,14 +243,17 @@ export default function GearCloset() {
           <title>Gear | Packup</title>
         </Head>
 
-        {isLoaded(trips) && trips.length === 0 && (
-          <Alert
-            type="info"
-            message="Looks like you have some gear now, start customizing it by adding or removing items, or go create your first trip!"
-            callToActionLink="/trips/new"
-            callToActionLinkText="Create a trip"
-          />
-        )}
+        {isLoaded(trips) &&
+          trips.length === 0 &&
+          isLoaded(fetchedGearCloset) &&
+          fetchedGearCloset.length !== 0 && (
+            <Alert
+              type="info"
+              message="Looks like you have some gear now, start customizing it by adding or removing items, or go create your first trip!"
+              callToActionLink="/trips/new"
+              callToActionLinkText="Create a trip"
+            />
+          )}
 
         {isLoaded(fetchedGearCloset) && fetchedGearCloset.length !== 0 && (
           <FlexContainer justifyContent="space-between" alignItems="flex-start" flexWrap="nowrap">
