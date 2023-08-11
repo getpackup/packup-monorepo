@@ -1,7 +1,5 @@
 import { PackedByUserType, PackingListItemType, TripType, UserType } from '@packup/common'
 import {
-  Alert,
-  AutoSave,
   Button,
   Column,
   FlexContainer,
@@ -65,7 +63,6 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
   }
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const size = useWindowSize()
 
   const mounted = useRef(false)
 
@@ -93,7 +90,7 @@ export const EditPackingListItem: FunctionComponent<EditPackingListItemProps> = 
         .delete()
         .then(() => {
           trackEvent('Packing List Item Removed', { ...activeItem })
-          router.back()
+          dispatch(setActivePackingListItemBeingEdited(undefined))
         })
         .catch((err) => {
           toast.error(err.message)
