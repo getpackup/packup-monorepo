@@ -246,7 +246,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     label=""
                   />
                 </ItemInputWrapper>
-                <ItemText onClick={() => handleItemSelect(props.item.id)} title="Edit item">
+                <ItemText title="Edit item">
                   <>
                     {props.item.isEssential && (
                       <span

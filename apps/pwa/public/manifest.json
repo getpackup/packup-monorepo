@@ -116,6 +116,15 @@
       "origin": "https://packupapp.com"
     }
   ],
+  "handle_links": [
+    {
+      "origin": "https://packupapp.com"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "auto"
+  },
+  "edge_side_panel": {},
   "cacheDigest": "ed499377bf4acd3b54ed8182bb1dc84b",
   "icons": [
     {
