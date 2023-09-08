@@ -102,7 +102,7 @@
     }
   ],
   "display": "standalone",
-  "display_override": ["fullscreen", "minimal-ui"],
+  "display_override": ["fullscreen", "minimal-ui", "window-controls-overlay"],
   "prefer_related_applications": true,
   "related_applications": [
     {
@@ -116,11 +116,10 @@
       "origin": "https://packupapp.com"
     }
   ],
-  "handle_links": [
-    {
-      "origin": "https://packupapp.com"
-    }
-  ],
+  "handle_links": ["auto"],
+  "file_handlers": [],
+  "protocol_handlers": [],
+  "scope_extensions": [],
   "launch_handler": {
     "client_mode": "auto"
   },
