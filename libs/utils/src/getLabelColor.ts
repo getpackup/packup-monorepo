@@ -8,6 +8,7 @@ type LabelColorTheme = {
   light:  { [index: string]: LabelColor }
 }
 
+// TODO further tweak colours for better style and contrast
 const labelColours: LabelColorTheme = {
   dark: {
     green: {
@@ -40,6 +41,8 @@ const labelColours: LabelColorTheme = {
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export const getLabelColor = (colorName: string, mode: "light" | "dark"): LabelColor => {
-  return labelColours[mode][colorName]
+export const getLabelColor = (colorName: string, mode?: string): LabelColor => {
+  const colorMode = mode === "dark" ? "dark" : "light"
+
+  return labelColours[colorMode][colorName]
 }
