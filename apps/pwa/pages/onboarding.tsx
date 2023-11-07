@@ -1,17 +1,4 @@
 import { TripMemberStatus, TripType } from '@packup/common'
-import {
-  Box,
-  Button,
-  Column,
-  FlexContainer,
-  FormErrors,
-  Heading,
-  HorizontalRule,
-  IconCheckbox,
-  InlineLoader,
-  PageContainer,
-  Row,
-} from '@packup/components'
 import { AppState } from '@packup/redux'
 import { doubleSpacer, halfSpacer, textColor, textColorLight } from '@packup/styles'
 import {
@@ -34,6 +21,20 @@ import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import SwipeableViews from 'react-swipeable-views'
 import styled from 'styled-components'
+
+import {
+  Box,
+  Button,
+  Column,
+  FlexContainer,
+  FormErrors,
+  Heading,
+  HorizontalRule,
+  IconCheckbox,
+  InlineLoader,
+  PageContainer,
+  Row,
+} from '../components'
 
 const Slide = styled.div`
   height: 100%;

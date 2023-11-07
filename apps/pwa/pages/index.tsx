@@ -4,19 +4,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { TripMemberStatus, TripType } from '@packup/common'
 import {
-  Box,
-  Button,
-  ButtonGroup,
-  CalendarView,
-  FlexContainer,
-  Heading,
-  HorizontalRule,
-  ListView,
-  NoGearCloset,
-  PageContainer,
-  TripCard,
-} from '@packup/components'
-import {
   AppState,
   setActivePackingListFilter,
   setActivePackingListTab,
@@ -31,6 +18,20 @@ import { useEffect, useState } from 'react'
 import { FaArrowRight, FaCalendar, FaList, FaPlusCircle } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
+
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CalendarView,
+  FlexContainer,
+  Heading,
+  HorizontalRule,
+  ListView,
+  NoGearCloset,
+  PageContainer,
+  TripCard,
+} from '../components'
 
 export default function Index() {
   const auth = useSelector((state: AppState) => state.firebase.auth)

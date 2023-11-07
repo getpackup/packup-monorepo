@@ -1,21 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { TripMemberStatus, TripType } from '@packup/common'
-import {
-  Alert,
-  Box,
-  Button,
-  Column,
-  DropdownMenu,
-  FlexContainer,
-  Heading,
-  IconWrapper,
-  LoadingPage,
-  Modal,
-  multiSelectStyles,
-  PageContainer,
-  Row,
-  Table,
-} from '@packup/components'
 import { usePersonalGear, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import { brandDanger, brandPrimary, halfSpacer, inputPaddingY, lightestGray } from '@packup/styles'
@@ -38,6 +22,23 @@ import { FaFolderOpen, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import Select from 'react-select'
+
+import {
+  Alert,
+  Box,
+  Button,
+  Column,
+  DropdownMenu,
+  FlexContainer,
+  Heading,
+  IconWrapper,
+  LoadingPage,
+  Modal,
+  multiSelectStyles,
+  PageContainer,
+  Row,
+  Table,
+} from '../../components'
 
 type SelectGearListCategoryOption = {
   readonly value: keyof ActivityTypes

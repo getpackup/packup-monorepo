@@ -1,4 +1,4 @@
-import { Auth } from '@packup/components'
+import { Auth } from '../components'
 
 export default function Login() {
   return <Auth />

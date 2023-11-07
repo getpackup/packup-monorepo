@@ -1,9 +1,7 @@
 import '../webfonts.css'
 import 'react-loading-skeleton/dist/skeleton.css'
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import '../../../libs/components/src/trip/calendarStyles.css'
+import '../components/trip/calendarStyles.css'
 
-import { ErrorBoundary, FeedbackModal, Footer, Navbar } from '@packup/components'
 import { ReduxWrapper } from '@packup/redux'
 import {
   borderRadius,
@@ -31,6 +29,8 @@ import { FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa
 import { SkeletonTheme } from 'react-loading-skeleton'
 import Modal from 'react-modal'
 import styled, { CSSProperties } from 'styled-components'
+
+import { ErrorBoundary, FeedbackModal, Footer, Navbar } from '../components'
 
 const LayoutWrapper = styled.div`
   display: flex;

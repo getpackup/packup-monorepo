@@ -1,4 +1,3 @@
-import { Box, Column, Heading, PageContainer, Row, TripFormCreate } from '@packup/components'
 import { AppState } from '@packup/redux'
 import { fontSizeSmall } from '@packup/styles'
 import Head from 'next/head'
@@ -6,6 +5,8 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
+
+import { Box, Column, Heading, PageContainer, Row, TripFormCreate } from '../../components'
 
 export default function NewTripSummary() {
   const auth = useSelector((state: AppState) => state.firebase.auth)

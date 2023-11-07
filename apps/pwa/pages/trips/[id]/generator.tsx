@@ -1,20 +1,4 @@
 import { GearItemType } from '@packup/common'
-import {
-  Alert,
-  Box,
-  Button,
-  Column,
-  FlexContainer,
-  FormErrors,
-  Heading,
-  IconCheckbox,
-  IconCheckboxLabel,
-  IconWrapperLabel,
-  LoadingSpinner,
-  Modal,
-  PageContainer,
-  Row,
-} from '@packup/components'
 import { useActiveTrip, useLoggedInUser, usePersonalGear } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import { baseSpacer, doubleSpacer, lightGray, sextupleSpacer, tripleSpacer } from '@packup/styles'
@@ -39,6 +23,23 @@ import { FaCheckCircle, FaPlusSquare } from 'react-icons/fa'
 import Skeleton from 'react-loading-skeleton'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+
+import {
+  Alert,
+  Box,
+  Button,
+  Column,
+  FlexContainer,
+  FormErrors,
+  Heading,
+  IconCheckbox,
+  IconCheckboxLabel,
+  IconWrapperLabel,
+  LoadingSpinner,
+  Modal,
+  PageContainer,
+  Row,
+} from '../../../components'
 
 type FormValues = { [key: string]: boolean }
 

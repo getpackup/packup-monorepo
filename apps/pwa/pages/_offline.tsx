@@ -1,9 +1,10 @@
 // offline page for Next PWA package
 // https://github.com/shadowwalker/next-pwa
-import { Box, Column, Heading, PageContainer, Row } from '@packup/components'
 import { trackEvent } from '@packup/utils'
 import Head from 'next/head'
 import { useEffect } from 'react'
+
+import { Box, Column, Heading, PageContainer, Row } from '../components'
 
 export default function NotFound() {
   useEffect(() => {

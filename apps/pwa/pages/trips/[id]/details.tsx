@@ -1,20 +1,4 @@
 import { TripFormType, UserType } from '@packup/common'
-import {
-  Box,
-  Column,
-  DayPickerInput,
-  EditableInput,
-  HeroImageUpload,
-  HorizontalRule,
-  Input,
-  NoTripFound,
-  PageContainer,
-  Pill,
-  Row,
-  StaticMapImage,
-  TripNavigation,
-  UserMediaObject,
-} from '@packup/components'
 import { useActiveTrip } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import {
@@ -38,6 +22,23 @@ import { Fragment, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+
+import {
+  Box,
+  Column,
+  DayPickerInput,
+  EditableInput,
+  HeroImageUpload,
+  HorizontalRule,
+  Input,
+  NoTripFound,
+  PageContainer,
+  Pill,
+  Row,
+  StaticMapImage,
+  TripNavigation,
+  UserMediaObject,
+} from '../../../components'
 
 export default function Details() {
   const auth = useSelector((state: AppState) => state.firebase.auth)

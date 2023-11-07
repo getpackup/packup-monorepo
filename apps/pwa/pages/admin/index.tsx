@@ -1,6 +1,7 @@
-import { Box, Heading, PageContainer } from '@packup/components'
 import Head from 'next/head'
 import Link from 'next/link'
+
+import { Box, Heading, PageContainer } from '../components'
 
 export default function AdminIndex() {
   return (

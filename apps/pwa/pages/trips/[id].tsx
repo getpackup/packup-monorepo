@@ -1,5 +1,4 @@
 import { PackingListItemType } from '@packup/common'
-import { Box, NoTripFound, PackingList, PageContainer } from '@packup/components'
 import { useActiveTrip } from '@packup/hooks'
 import {
   AppState,
@@ -15,6 +14,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
+
+import { Box, NoTripFound, PackingList, PageContainer } from '../../components'
 
 export default function TripById() {
   const dispatch = useDispatch()

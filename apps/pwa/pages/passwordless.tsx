@@ -1,15 +1,8 @@
-import {
-  Box,
-  Button,
-  Column,
-  Heading,
-  HorizontalRule,
-  PageContainer,
-  Row,
-} from '@packup/components'
 import Head from 'next/head'
 import Link from 'next/link'
 import styled from 'styled-components'
+
+import { Box, Button, Column, Heading, HorizontalRule, PageContainer, Row } from '../components'
 
 const Paragraph = styled.p`
   max-width: 65ch;

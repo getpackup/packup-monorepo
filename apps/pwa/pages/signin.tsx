@@ -1,13 +1,4 @@
 /* eslint-disable no-alert */
-import {
-  Box,
-  Column,
-  FlexContainer,
-  Heading,
-  LoadingSpinner,
-  PageContainer,
-  Row,
-} from '@packup/components'
 import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
 import { tripleSpacer } from '@packup/styles'
 import { trackEvent } from '@packup/utils'
@@ -18,6 +9,16 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
+
+import {
+  Box,
+  Column,
+  FlexContainer,
+  Heading,
+  LoadingSpinner,
+  PageContainer,
+  Row,
+} from '../components'
 
 export default function Signin() {
   const client = useSelector((state: AppState) => state.client)
