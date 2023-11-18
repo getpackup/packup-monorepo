@@ -15,7 +15,7 @@ type StyledLabelProps = {
 const StyledLabel = styled.span<StyledLabelProps>`
   border: 1px solid ${props => props.color};
   line-height: normal;
-  font-size: 15px;
+  font-size: 14px;
   padding: 5px 10px;
   border-radius: 25px;
   color: ${props => props.color};
@@ -25,9 +25,7 @@ const StyledLabel = styled.span<StyledLabelProps>`
 export const PackingListItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
    children, colorName
 }) => {
-  // Will return `dark` for dark mode
   const { colorMode } = useContext(ThemeContext)
-
   const labelColor = getLabelColor(colorName, colorMode)
 
   return (
