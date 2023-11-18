@@ -8,7 +8,7 @@ type LabelColorTheme = {
   light:  { [index: string]: LabelColor }
 }
 
-// TODO further tweak colours for better style and contrast
+// TODO further tweak colours for better style and contrast in light and dark modes
 const labelColours: LabelColorTheme = {
   dark: {
     green: {
@@ -26,8 +26,8 @@ const labelColours: LabelColorTheme = {
   },
   light: {
     green: {
-      color: "#3ae676",
-      bgColor: "#0c3b16"
+      color: "#062d10",
+      bgColor: "#6fde75"
     },
     red: {
       color: "#e72525",
