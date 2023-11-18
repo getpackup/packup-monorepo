@@ -315,7 +315,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     color={
                       packingListItemBeingEdited === props.item.id
                         ? 'var(--color-primary)'
-                        : 'var(--color-lightestGray)'
+                        : 'var(--color-lightGray)'
                     }
                     data-tip="Edit Item"
                     data-for="editItemIcon"
@@ -401,7 +401,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                       color={
                         packingListItemBeingEdited === props.item.id
                           ? 'var(--color-primary)'
-                          : 'var(--color-lightestGray)'
+                          : 'var(--color-lightGray)'
                       }
                       data-tip="Edit Item"
                       data-for="editItemIconSmall"
