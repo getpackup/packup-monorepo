@@ -1,10 +1,3 @@
-import {
-  FlexContainer,
-  Heading,
-  HeroImageUpload,
-  LoadingPage,
-  PageContainer,
-} from '@packup/components'
 import { useActiveTrip, usePrevious } from '@packup/hooks'
 import { baseSpacer } from '@packup/styles'
 import { trackEvent } from '@packup/utils'
@@ -15,6 +8,14 @@ import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import styled from 'styled-components'
+
+import {
+  FlexContainer,
+  Heading,
+  HeroImageUpload,
+  LoadingPage,
+  PageContainer,
+} from '../../../components'
 
 type TripHeaderImageProps = unknown
 

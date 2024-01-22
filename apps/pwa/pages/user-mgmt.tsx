@@ -1,7 +1,8 @@
-import { LoadingPage } from '@packup/components'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+
+import { LoadingPage } from '../components'
 
 export default function UserManagement() {
   const router = useRouter()

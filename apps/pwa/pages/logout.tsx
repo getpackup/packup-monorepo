@@ -1,4 +1,3 @@
-import { LoadingPage, PageContainer } from '@packup/components'
 import { trackEvent } from '@packup/utils'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -6,6 +5,8 @@ import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
+
+import { LoadingPage, PageContainer } from '../components'
 
 export default function Logout() {
   const dispatch = useDispatch()

@@ -1,18 +1,3 @@
-import {
-  AvatarImageWrapper,
-  AvatarUpload,
-  Box,
-  Button,
-  Column,
-  DarkModeToggle,
-  EditableInput,
-  FlexContainer,
-  HeroImageUpload,
-  HorizontalRule,
-  Input,
-  PageContainer,
-  Row,
-} from '@packup/components'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import {
@@ -44,6 +29,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
 import styled from 'styled-components'
+
+import {
+  AvatarImageWrapper,
+  AvatarUpload,
+  Box,
+  Button,
+  Column,
+  DarkModeToggle,
+  EditableInput,
+  FlexContainer,
+  HeroImageUpload,
+  HorizontalRule,
+  Input,
+  PageContainer,
+  Row,
+} from '../components'
 
 export const EmailWrapper = styled.div`
   width: 100%;

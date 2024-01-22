@@ -1,6 +1,7 @@
-import { Box, Button, Column, Heading, PageContainer, Row } from '@packup/components'
 import { trackEvent } from '@packup/utils'
 import Head from 'next/head'
+
+import { Box, Button, Column, Heading, PageContainer, Row } from '../components'
 
 export default function NotFound() {
   return (
