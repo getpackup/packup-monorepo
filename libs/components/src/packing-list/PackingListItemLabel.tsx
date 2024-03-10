@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext } from 'react'
 import styled from 'styled-components'
-import { ThemeContext, getLabelColor } from '@packup/utils'
+import { ThemeContext, labelColor } from '@packup/utils'
 
 type PackingListItemLabelProps = {
   colorName: 'green' | 'red' | 'orange'
@@ -26,7 +26,7 @@ export const PackingListItemLabel: FunctionComponent<PackingListItemLabelProps> 
    children, colorName
 }) => {
   const { colorMode } = useContext(ThemeContext)
-  const labelColor = getLabelColor(colorName, colorMode)
+  const labelColor = labelColor(colorName, colorMode)
 
   return (
     <StyledLabel
