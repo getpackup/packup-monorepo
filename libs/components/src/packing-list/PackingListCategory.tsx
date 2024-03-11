@@ -58,7 +58,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
           (cat) => cat !== name
         )
       }
-      // Category is not in the collapsedlist for current user, so we add it
+      // The Category is not in the collapsedlist for current user, so we add it
       else if (
         trip.collapsedCategories &&
         trip.collapsedCategories[auth.uid] &&
