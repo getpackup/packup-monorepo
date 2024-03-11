@@ -22,6 +22,7 @@ type PackingListCategoryProps = {
   isSharedTrip?: boolean
   /** used to pass down to PackingListItem to add an id if its the first category and first item for Joyride step */
   categoryIndex: number
+  toggleLabelSelection?: () => void
 }
 
 const ItemsWrapper = styled.ul`
@@ -39,6 +40,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
   auth,
   isSharedTrip,
   categoryIndex,
+  toggleLabelSelection
 }) => {
   const firebase = useFirebase()
 
@@ -125,6 +127,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
                   item={item}
                   isOnSharedList={isSharedPackingListCategory}
                   isSharedTrip={isSharedTrip}
+                  toggleLabelSelection={toggleLabelSelection}
                 />
               ))}
               <PackingListAddItem

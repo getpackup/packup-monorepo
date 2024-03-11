@@ -22,6 +22,7 @@ const StyledLabel = styled.span<StyledLabelProps>`
   background-color: ${props => props.bgColor};
 `
 
+// TODO Update to make show it as deletable when in label selection state
 export const PackingListItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
    children, colorName
 }) => {

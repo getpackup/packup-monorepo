@@ -10,7 +10,7 @@ import {
   IconWrapper,
   Input,
   Pill,
-  EditPackingListItem, PackingListItemLabel,
+  EditPackingListItem, PackingListItemLabel, PackingListLabelSelection
 } from '@packup/components'
 import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import toast from 'react-hot-toast'
@@ -48,6 +48,7 @@ type PackingListItemProps = {
   isOnSharedList?: boolean
   isSharedTrip?: boolean
   isFirstCategoryAndItem?: boolean
+  toggleLabelSelection?: () => void
 }
 
 const PackingListItemWrapper = styled.li`
@@ -314,7 +315,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
 
                 {!size.isSmallScreen && (
                   <IconWrapper
-                    onClick={() => console.log('Show label selection.')}
+                    onClick={props.toggleLabelSelection}
                     hoverColor={brandPrimary}
                     color={iconColor}
                     data-tip="Show Labels"

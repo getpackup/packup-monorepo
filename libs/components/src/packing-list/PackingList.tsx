@@ -7,7 +7,7 @@ import {
   Heading,
   LoadingSpinner,
   PackingListCategory,
-  PackingListFilters,
+  PackingListFilters, PackingListLabelSelection,
   PackingListSearch,
   ProgressBar,
   Row,
@@ -130,6 +130,11 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
+  const [showLabelSelection, setShowLabelSelection] = useState(false)
+
+  const toggleLabelSelection = () => {
+    setShowLabelSelection(!showLabelSelection)
+  }
 
   useEffect(() => {
     // show a spinner for N seconds to give the impression of loading, to avoid showing the
@@ -210,7 +215,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   // we only need tabs if there are shared items, so hide if not
   const sharedTrip = trip && Object.keys(trip.tripMembers).length > 1
 
-  //
   // Sticky Header stuff
   // TODO: extract all of the sticky header stuff out to its own reusable hook
   const [isSticky, setSticky] = useState(false)
@@ -473,6 +477,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                             isSharedPackingListCategory={activePackingListTab === TabOptions.Shared}
                             auth={auth}
                             isSharedTrip={sharedTrip}
+                            toggleLabelSelection={toggleLabelSelection}
                           />
                         )
                       }
@@ -545,6 +550,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
           />
         )}
       </div>
+
+      {showLabelSelection && <PackingListLabelSelection closeWindow={toggleLabelSelection}/>}
     </>
   )
 }
