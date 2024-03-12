@@ -7,7 +7,7 @@ import {
 } from '@packup/components'
 import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
 import { pluralize, trackEvent } from '@packup/utils'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, SyntheticEvent } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { FirebaseReducer, useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'

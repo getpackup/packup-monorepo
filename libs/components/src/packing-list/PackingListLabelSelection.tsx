@@ -1,7 +1,9 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
-import { halfSpacer, white } from '@packup/styles'
+import { PackingListLabelCreate, PackingListLabelList } from '@packup/components'
+
+const spacing = '15px'
 
 const Overlay = styled.div`
   width: 100vw;
@@ -20,14 +22,15 @@ const Overlay = styled.div`
 
 const StyledLabelWindow = styled.div`
   min-width: 300px;
-  min-height: 500px;
-  height: 70vh;
+  max-height: 500px;
+  height: fit-content;
 
   z-index: 101;
   display: flex;
+  flex-flow: column;
 
   background-color: var(--color-background);
-  padding: 15px;
+  padding: ${spacing};
 `
 
 const Header = styled.header`
@@ -56,14 +59,30 @@ const CloseButton = styled.button`
   height: 32px;
 `
 
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: ${spacing};
+`
+
 type PackingListLabelSelectionProps = {
   closeWindow: () => void
 }
 
+
 export const PackingListLabelSelection: FunctionComponent<PackingListLabelSelectionProps> = ({
   closeWindow
 }) => {
+  const [showList, setShowList] = useState(true)
+
+  const toggleShowList = (e: any) => {
+    e.stopPropagation()
+    e.preventDefault()
+    setShowList(!showList)
+  }
+
   return (
+    // TODO Fix the overlay click event to stop applying to child elements
     <Overlay onClick={closeWindow}>
       <StyledLabelWindow>
         <Header>
@@ -74,6 +93,13 @@ export const PackingListLabelSelection: FunctionComponent<PackingListLabelSelect
             <FaTimes />
           </CloseButton>
         </Header>
+        <Container>
+          {
+            showList ?
+              <PackingListLabelList toggleListHandler={toggleShowList} /> :
+              <PackingListLabelCreate toggleListHandler={toggleShowList} />
+          }
+        </Container>
       </StyledLabelWindow>
     </Overlay>
   )

@@ -48,7 +48,7 @@ import {
   scrollToPosition,
 } from '@packup/utils'
 import { useRouter } from 'next/router'
-import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FunctionComponent, SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'

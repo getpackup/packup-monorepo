@@ -19,7 +19,7 @@ import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } fr
 
 import { trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, SyntheticEvent, useState } from 'react'
 import {
   FaChevronDown,
   FaChevronRight,
