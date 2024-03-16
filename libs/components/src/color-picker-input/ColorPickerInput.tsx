@@ -30,14 +30,16 @@ const ColorLabel = styled.label`
 
 type ColorPickerInputProps = {
   disabled: boolean
+  setColor: (e: any) => void
 }
 
-export const ColorPickerInput: FunctionComponent<ColorPickerInputProps> = ({disabled}) => {
+export const ColorPickerInput: FunctionComponent<ColorPickerInputProps> = ({disabled, setColor}) => {
   const colors = Object.keys(LabelColorName)
   const [selectedColor, setSelectedColor] = useState(LabelColorName.default)
 
   const handleColorChange = (e: any) => {
     setSelectedColor(e.target.value === selectedColor ? LabelColorName.default : e.target.value)
+    setColor(e.target.value === selectedColor ? LabelColorName.default : e.target.value)
   }
 
   const colourOptions = colors.map((color, index) => {
