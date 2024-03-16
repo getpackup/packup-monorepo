@@ -1,4 +1,4 @@
-enum LabelColorName {
+export enum LabelColorName {
   green = "green",
   red = "red",
   orange = "orange",
@@ -49,7 +49,7 @@ const labelColors: Record<LabelColorName, LabelColor> = {
     },
     dark: {
       color: "#3d0a0a",
-      bgColor: "#CE1D1D00"
+      bgColor: "#750707"
     }
   },
   [LabelColorName.orange]: {
@@ -76,7 +76,7 @@ export const getLabelColor = (colorName: string, mode = 'dark'): Color => {
   const colorMode = mode === LabelColorMode.dark ? LabelColorMode.dark : LabelColorMode.light
 
   if (isValidColor(colorName)) {
-    return labelColors[LabelColorName.green][colorMode]
+    return labelColors[colorName][colorMode]
   }
 
   return labelColors[LabelColorName.default][colorMode]
