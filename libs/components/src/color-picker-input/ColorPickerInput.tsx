@@ -8,6 +8,7 @@ const ColorInput = styled.div`
   flex-flow: row wrap;
   width: 100%;
   margin-bottom: ${baseSpacer};
+  justify-content: space-between;
 `
 
 const ColorCheckbox = styled.input`
@@ -18,7 +19,7 @@ const ColorLabel = styled.label`
   display: flex;
   width: 50px;
   height: 30px;
-  margin: 5px;
+  margin: 0;
   cursor: pointer;
   justify-content: center;
   align-items: center;
@@ -26,47 +27,53 @@ const ColorLabel = styled.label`
   font-size: 20px;
 `
 
-export const ColorPickerInput: FunctionComponent = () => {
+type ColorPickerInputProps = {
+  disabled: boolean
+}
+
+export const ColorPickerInput: FunctionComponent<ColorPickerInputProps> = ({disabled}) => {
   const colors = Object.keys(LabelColorName)
   const [selectedColor, setSelectedColor] = useState(LabelColorName.default)
 
   const handleColorChange = (e: any) => {
-    console.log(e.target.value)
-    setSelectedColor(e.target.value)
+    setSelectedColor(e.target.value === selectedColor ? LabelColorName.default : e.target.value)
   }
+
+  const colourOptions = colors.map((color, index) => {
+    if (color === 'default') return
+
+    const mode = localStorage.getItem('color-mode') ?? 'dark'
+    const labelColor = getLabelColor(color, mode)
+
+    return (
+      <div key={`option-${index}`}>
+        <ColorCheckbox
+          key={`input-${index}`}
+          type="checkbox"
+          id={color}
+          name=""
+          value={color}
+          onChange={handleColorChange}
+          checked={selectedColor === color}
+          disabled={disabled}
+        />
+        <ColorLabel
+          key={`label-${index}`}
+          htmlFor={color}
+          style={{
+            backgroundColor: labelColor.bgColor,
+            color: labelColor.color,
+          }}
+        >
+          {selectedColor === color ? '✓' : null}
+        </ColorLabel>
+      </div>
+    )
+  })
 
   return (
     <ColorInput>
-      {colors.map((color, index) => {
-        if (color === 'default') return null
-
-        const mode = localStorage.getItem('color-mode')
-        const labelColor = getLabelColor(color, mode ?? 'dark')
-
-        return (
-          <>
-            <ColorCheckbox
-              key={`input-${index}`}
-              type="checkbox"
-              id={color}
-              name=""
-              value={color}
-              onClick={handleColorChange}
-              checked={selectedColor === color}
-            />
-            <ColorLabel
-              key={`label-${index}`}
-              htmlFor={color}
-              style={{
-                backgroundColor: labelColor.bgColor,
-                color: labelColor.color,
-              }}
-            >
-              {selectedColor === color ? '✓' : null}
-            </ColorLabel>
-          </>
-        )
-      })}
+      {colourOptions}
     </ColorInput>
   )
 }

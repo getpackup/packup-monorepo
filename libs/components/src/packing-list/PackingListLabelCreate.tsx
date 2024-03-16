@@ -51,6 +51,7 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
 
     // Handle form submission
     console.log('Form submitted, storing in db')
+    console.log(e)
 
     // Return user to the select list
     toggleListHandler(e)
@@ -66,7 +67,7 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
     >
       {({ handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit}>
-          <ColorPickerInput />
+          <ColorPickerInput disabled={isSubmitting} />
           <Field
             as={Input}
             type="text"
@@ -76,7 +77,7 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
             disabled={isSubmitting}
             maxLength={32}
           />
-          <SubmitButton type={'submit'}>
+          <SubmitButton type={'submit'} onClick={() => handleSubmit()}>
             <FaPlus />
             <CreateText>Submit</CreateText>
           </SubmitButton>
