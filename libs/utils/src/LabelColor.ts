@@ -1,8 +1,13 @@
 export enum LabelColorName {
+  default = "default",
   green = "green",
   red = "red",
   orange = "orange",
-  default = "default"
+  yellow = "yellow",
+  blue = "blue",
+  purple = "purple",
+  gray = "gray",
+  brown = "brown",
 }
 
 enum LabelColorMode {
@@ -60,6 +65,56 @@ const labelColors: Record<LabelColorName, LabelColor> = {
     dark: {
       color: "#59290e",
       bgColor: "#c25c22"
+    }
+  },
+  [LabelColorName.yellow]: {
+    light: {
+      color: "#9a6700",
+      bgColor: "#f9c513"
+    },
+    dark: {
+      color: "#9a6700",
+      bgColor: "#f9c513"
+    }
+  },
+  [LabelColorName.blue]: {
+    light: {
+      color: "#0f3560",
+      bgColor: "#a4d1ff"
+    },
+    dark: {
+      color: "#0f3560",
+      bgColor: "#a4d1ff"
+    }
+  },
+  [LabelColorName.purple]: {
+    light: {
+      color: "#4c2882",
+      bgColor: "#d4c5ff"
+    },
+    dark: {
+      color: "#4c2882",
+      bgColor: "#d4c5ff"
+    }
+  },
+  [LabelColorName.gray]: {
+    light: {
+      color: "#000",
+      bgColor: "#e1e4e8"
+    },
+    dark: {
+      color: "#e1e4e8",
+      bgColor: "#24292e"
+    }
+  },
+  [LabelColorName.brown]: {
+    light: {
+      color: "#3d1f00",
+      bgColor: "#c7a17a"
+    },
+    dark: {
+      color: "#3d1f00",
+      bgColor: "#c7a17a"
     }
   }
 }

@@ -20,7 +20,7 @@ const ColorLabel = styled.label`
   display: flex;
   width: 50px;
   height: 30px;
-  margin: 0;
+  margin: 0 0 10px;
   cursor: pointer;
   justify-content: center;
   align-items: center;
