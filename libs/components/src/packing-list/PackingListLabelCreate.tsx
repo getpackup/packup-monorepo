@@ -4,6 +4,8 @@ import { Field, Formik } from 'formik'
 import { Input } from '@packup/components'
 import IconWrapper from '../icon-wrapper/IconWrapper'
 import { FaPlus } from 'react-icons/fa'
+import { brandPrimary } from '@packup/styles'
+import { ColorPickerInput } from '../color-picker-input/ColorPickerInput'
 
 type PackingListLabelCreateProps = {
   toggleListHandler: (e: any) => void
@@ -24,6 +26,12 @@ const SubmitButton = styled.button`
   flex-flow: row;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+
+  :hover {
+    color: ${brandPrimary};
+    transition: color 0.2s ease-in-out;
+  }
 `
 
 const CreateText = styled.span`
@@ -59,6 +67,7 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
     >
       {({ handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit}>
+          <ColorPickerInput />
           <Field
             as={Input}
             type="text"

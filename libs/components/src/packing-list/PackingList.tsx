@@ -551,7 +551,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
         )}
       </div>
 
-      {showLabelSelection && <PackingListLabelSelection closeWindow={toggleLabelSelection}/>}
+      {!showLabelSelection && <PackingListLabelSelection closeWindow={toggleLabelSelection}/>}
     </>
   )
 }

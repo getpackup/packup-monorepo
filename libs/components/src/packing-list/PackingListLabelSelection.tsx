@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { PackingListLabelCreate, PackingListLabelList } from '@packup/components'
+import { brandPrimary } from '@packup/styles'
 
 const spacing = '15px'
 
@@ -57,12 +58,19 @@ const CloseButton = styled.button`
   grid-row: 1;
   width: 32px;
   height: 32px;
+
+  :hover {
+    color: ${brandPrimary};
+    transition: color 0.2s ease-in-out;
+  }
 `
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   margin-top: ${spacing};
+  background-color: var(--color-backgroundTertiary);
+  padding: ${spacing};
 `
 
 type PackingListLabelSelectionProps = {
@@ -73,7 +81,7 @@ type PackingListLabelSelectionProps = {
 export const PackingListLabelSelection: FunctionComponent<PackingListLabelSelectionProps> = ({
   closeWindow
 }) => {
-  const [showList, setShowList] = useState(true)
+  const [showList, setShowList] = useState(false)
 
   const toggleShowList = (e: any) => {
     e.stopPropagation()
@@ -83,11 +91,12 @@ export const PackingListLabelSelection: FunctionComponent<PackingListLabelSelect
 
   return (
     // TODO Fix the overlay click event to stop applying to child elements
-    <Overlay onClick={closeWindow}>
+    // <Overlay onClick={closeWindow}>
+    <Overlay>
       <StyledLabelWindow>
         <Header>
           <Title>
-            Labels
+            {showList ? 'Select Label' : 'Create Label'}
           </Title>
           <CloseButton onClick={closeWindow}>
             <FaTimes />
