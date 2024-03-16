@@ -28,7 +28,7 @@ const ColorLabel = styled.label`
 
 export const ColorPickerInput: FunctionComponent = () => {
   const colors = Object.keys(LabelColorName)
-  const [selectedColor, setSelectedColor] = useState('default')
+  const [selectedColor, setSelectedColor] = useState(LabelColorName.default)
 
   const handleColorChange = (e: any) => {
     console.log(e.target.value)
