@@ -25,6 +25,7 @@ const StyledLabelWindow = styled.div`
   min-width: 300px;
   max-height: 500px;
   height: fit-content;
+  border-radius: 3px;
 
   z-index: 101;
   display: flex;
@@ -68,6 +69,7 @@ const CloseButton = styled.button`
 const Container = styled.div`
   display: flex;
   width: 100%;
+  border-radius: 3px;
   margin-top: ${spacing};
   background-color: var(--color-backgroundTertiary);
   padding: ${spacing};

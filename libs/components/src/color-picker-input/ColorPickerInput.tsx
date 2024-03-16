@@ -20,8 +20,6 @@ const ColorLabel = styled.label`
   height: 30px;
   margin: 5px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  border: 2px solid transparent;
   justify-content: center;
   align-items: center;
   border-radius: 3px;
