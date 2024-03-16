@@ -1,16 +1,17 @@
 import React, { FunctionComponent, SyntheticEvent, useState } from 'react'
 import styled from 'styled-components'
-import { Field, Formik } from 'formik'
+import { Field, Form, Formik } from 'formik'
 import { Input } from '@packup/components'
 import { FaPlus } from 'react-icons/fa'
 import { brandPrimary } from '@packup/styles'
 import { ColorPickerInput } from '../color-picker-input/ColorPickerInput'
+import { LabelColorName } from '@packup/utils'
 
 type PackingListLabelCreateProps = {
   toggleListHandler: (e: any) => void
 }
 
-const Form = styled.form`
+const FormWrapper = styled.div`
   display: flex;
   width: 100%;
   flex-flow: column;
@@ -42,45 +43,45 @@ const CreateText = styled.span`
 export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreateProps> = ({
   toggleListHandler
 }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleSubmit = (e: any) => {
-    // Prevent bubbling and default behaviour
-    e.preventDefault()
-    setIsSubmitting(!isSubmitting)
+  const handleSubmit = async (values: any, {resetForm, setSubmitting}: any) => {
+    resetForm({})
+    setSubmitting(true)
 
     // Handle form submission
     console.log('Form submitted, storing in db')
-    console.log(e)
+    console.log(values)
 
     // Return user to the select list
-    toggleListHandler(e)
+    // toggleListHandler(values)
+    setSubmitting(false)
   }
 
   return (
     <Formik
       initialValues={{
         labelText: '',
-        labelColor: ''
+        labelColor: LabelColorName.default
       }}
       onSubmit={handleSubmit}
     >
       {({ handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit}>
-          <ColorPickerInput disabled={isSubmitting} />
-          <Field
-            as={Input}
-            type="text"
-            name={`new-label`}
-            label="Label Name"
-            hiddenLabel
-            disabled={isSubmitting}
-            maxLength={32}
-          />
-          <SubmitButton type={'submit'} onClick={() => handleSubmit()}>
-            <FaPlus />
-            <CreateText>Submit</CreateText>
-          </SubmitButton>
+          <FormWrapper>
+            <ColorPickerInput disabled={isSubmitting} />
+            <Field
+              as={Input}
+              type="text"
+              name={`labelText`}
+              label="Label Name"
+              hiddenLabel
+              disabled={isSubmitting}
+              maxLength={32}
+            />
+            <SubmitButton type={'submit'}>
+              <FaPlus />
+              <CreateText>Submit</CreateText>
+            </SubmitButton>
+          </FormWrapper>
         </Form>
       )}
     </Formik>

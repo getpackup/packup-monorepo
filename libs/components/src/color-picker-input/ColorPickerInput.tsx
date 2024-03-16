@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { baseSpacer } from '@packup/styles'
 import { getLabelColor, LabelColorName } from '@packup/utils'
+import { Field } from 'formik'
 
 const ColorInput = styled.div`
   display: flex;
@@ -47,13 +48,14 @@ export const ColorPickerInput: FunctionComponent<ColorPickerInputProps> = ({disa
 
     return (
       <div key={`option-${index}`}>
-        <ColorCheckbox
+        <Field
+          as={ColorCheckbox}
           key={`input-${index}`}
           type="checkbox"
           id={color}
-          name=""
+          name="labelColor"
           value={color}
-          onChange={handleColorChange}
+          onClick={handleColorChange}
           checked={selectedColor === color}
           disabled={disabled}
         />
