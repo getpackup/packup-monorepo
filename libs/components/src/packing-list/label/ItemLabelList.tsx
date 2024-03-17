@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { brandPrimary } from '@packup/styles'
 import { useFirebase } from 'react-redux-firebase'
@@ -43,29 +43,46 @@ type PackingListLabelListProps = {
 }
 
 export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler }) => {
-  const [labels, setLabels] = useState([])
+  const [loaded, setLoaded] = useState(false)
+  const [labelComponents, setLabelComponents] = useState<JSX.Element[]>([])
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
 
-  firebase
-    .firestore()
-    .collection('users')
-    .doc(auth.uid)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        const { labels } = doc.data() ?? []
-        setLabels(labels)
-      }
-    })
+  useEffect(() => {
+    const labels: Array<ItemLabelType> = []
 
-  const labelComponents = labels.map((label: ItemLabelType, index) => {
-    return (
-      <ItemLabel colorName={label.color as LabelColorName} key={index} variant={'editable'}>
-        {label.text}
-      </ItemLabel>
-    )
-  })
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(auth.uid)
+      .collection('labels')
+      .get()
+      .then((subcollection) => {
+        for(const doc of subcollection.docs) {
+          console.log(doc.id)
+          labels.push({
+            ...doc.data() as ItemLabelType,
+            id: doc.id,
+          })
+        }
+
+        setLabelComponents(labels.map((label: ItemLabelType) => {
+          return (
+            <ItemLabel
+              colorName={label.color as LabelColorName}
+              key={label.id}
+              variant={'editable'}
+              id={label.id}
+            >
+              {label.text}
+            </ItemLabel>
+          )
+        }))
+
+        console.log(labelComponents)
+        setLoaded(true)
+      })
+  }, [loaded])
 
   return (
     <Container>

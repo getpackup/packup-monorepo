@@ -7,6 +7,7 @@ import { ItemLabelDeleteButton } from './ItemLabelDeleteButton'
 type PackingListItemLabelProps = {
   colorName: LabelColorName
   children: string | JSX.Element | JSX.Element[]
+  id: string
   variant?: 'editable' | 'removable' | 'default'
 }
 
@@ -59,10 +60,14 @@ const ButtonContainer = styled.div`
 
 // TODO Update to make show it as removable when in label selection state
 export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
-   children, colorName, variant = 'default'
+   children, colorName, variant = 'default', id
 }) => {
   const { colorMode } = useContext(ThemeContext)
   const labelColor = getLabelColor(colorName, colorMode)
+  const [show, setShow] = React.useState(true)
+
+  // TODO would be nice to add animation to fade out in 0.2s
+  if (!show) return null
 
   if (variant === 'editable') {
     return (
@@ -76,7 +81,7 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
         </LabelListItem>
         <ButtonContainer>
           <ItemLabelEditButton onClick={() => console.log('edit')} />
-          <ItemLabelDeleteButton onClick={() => console.log('remove')} />
+          <ItemLabelDeleteButton id={id} setShow={setShow} />
         </ButtonContainer>
       </LabelRow>
     )

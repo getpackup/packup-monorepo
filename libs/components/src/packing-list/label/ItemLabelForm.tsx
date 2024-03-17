@@ -65,24 +65,15 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
 
     // Handle form submission
     try {
-      const doc = await firebase
-        .firestore()
-        .collection('users')
-        .doc(auth.uid)
-        .get()
-
-      const { labels: currentLabels } = doc.data() ?? []
-
-      currentLabels.push({
-        text: values.labelText,
-        color: values.labelColor[0]
-      })
-
       await firebase
         .firestore()
         .collection('users')
         .doc(auth.uid)
-        .update({ labels: currentLabels })
+        .collection('labels')
+        .add({
+          text: values.labelText,
+          color: values.labelColor[0]
+        })
 
       trackEvent('User Label Created', {
         label: values.labelText,
@@ -94,6 +85,7 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
         color: values.labelColor[0],
         error,
       })
+      console.error('Failed to add label', error)
       toast.error('Failed to add label, please try again')
     } finally {
       // Return user to the select list
