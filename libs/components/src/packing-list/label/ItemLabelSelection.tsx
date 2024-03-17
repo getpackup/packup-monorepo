@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
+import { MdArrowBackIos } from 'react-icons/md'
 import { ItemLabelForm, ItemLabelList } from '@packup/components'
 import { brandPrimary } from '@packup/styles'
 
@@ -66,6 +67,21 @@ const CloseButton = styled.button`
   }
 `
 
+const BackButton = styled.button`
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  grid-column: 1;
+  grid-row: 1;
+  width: 32px;
+  height: 32px;
+
+  :hover {
+    color: ${brandPrimary};
+    transition: color 0.2s ease-in-out;
+  }
+`
+
 const Container = styled.div`
   display: flex;
   width: 100%;
@@ -94,6 +110,12 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
     <Overlay>
       <StyledLabelWindow>
         <Header>
+          {
+            !showList &&
+            <BackButton onClick={toggleShowList}>
+              <MdArrowBackIos />
+            </BackButton>
+          }
           <Title>
             {showList ? 'Select Label' : 'Create Label'}
           </Title>
