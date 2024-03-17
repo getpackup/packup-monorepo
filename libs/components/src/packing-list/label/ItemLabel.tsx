@@ -7,12 +7,13 @@ import { ItemLabelDeleteButton } from './ItemLabelDeleteButton'
 type PackingListItemLabelProps = {
   colorName: LabelColorName
   children: string | JSX.Element | JSX.Element[]
-  variant?: 'editable' | 'default'
+  variant?: 'editable' | 'removable' | 'default'
 }
 
 type LabelProps = {
   color?: string
   bgColor?: string
+  clickable?: boolean
 }
 
 const PackingItemLabel = styled.span<LabelProps>`
@@ -23,6 +24,7 @@ const PackingItemLabel = styled.span<LabelProps>`
   border-radius: 25px;
   color: ${props => props.color};
   background-color: ${props => props.bgColor};
+  cursor: ${props => props.clickable ? 'pointer' : 'auto'};
 `
 
 const LabelListItem = styled.span<LabelProps>`
@@ -85,6 +87,10 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
       color={labelColor.color}
       bgColor={labelColor.bgColor}
     >
+      {
+        variant === 'removable' &&
+        '-'
+      }
       {children}
     </PackingItemLabel>
   )
