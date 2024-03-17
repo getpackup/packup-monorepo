@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
-import { ItemLabelCreate, ItemLabelList } from '@packup/components'
+import { ItemLabelForm, ItemLabelList } from '@packup/components'
 import { brandPrimary } from '@packup/styles'
 
 const spacing = '15px'
@@ -105,7 +105,7 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
           {
             showList ?
               <ItemLabelList toggleListHandler={toggleShowList} /> :
-              <ItemLabelCreate toggleListHandler={toggleShowList} />
+              <ItemLabelForm toggleListHandler={toggleShowList} />
           }
         </Container>
       </StyledLabelWindow>

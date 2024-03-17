@@ -45,7 +45,7 @@ type PackingListLabelCreateProps = {
   toggleListHandler: (e?: any) => void
 }
 
-export const ItemLabelCreate: FunctionComponent<PackingListLabelCreateProps> = ({
+export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   toggleListHandler,
 }) => {
   const [labelText, setLabelText] = useState('Label Name')

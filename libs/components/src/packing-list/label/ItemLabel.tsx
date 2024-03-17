@@ -33,6 +33,13 @@ const LabelListItem = styled.span<LabelProps>`
   border-radius: 3px;
   color: ${props => props.color};
   background-color: ${props => props.bgColor};
+  cursor: pointer;
+
+  :hover {
+    color: ${props => props.bgColor};
+    background-color: ${props => props.color};
+    transition: all 0.2s ease-in-out;
+  }
 `
 
 const LabelRow = styled.div`
@@ -61,6 +68,7 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
         <LabelListItem
           color={labelColor.color}
           bgColor={labelColor.bgColor}
+          onClick={() => console.log('select')}
         >
           {children}
         </LabelListItem>
