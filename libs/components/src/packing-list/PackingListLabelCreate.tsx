@@ -5,16 +5,12 @@ import { Input } from '@packup/components'
 import { FaPlus } from 'react-icons/fa'
 import { brandPrimary } from '@packup/styles'
 import { ColorPickerInput } from '../color-picker-input/ColorPickerInput'
-import { LabelColorName, trackEvent } from '@packup/utils'
+import { LabelColorName, trackEvent, ItemLabel } from '@packup/utils'
 import { PackingListLabelPreview } from './PackingListLabelPreview'
 import { useFirebase } from 'react-redux-firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
 import toast from 'react-hot-toast'
-
-type PackingListLabelCreateProps = {
-  toggleListHandler: (e?: any) => void
-}
 
 const FormWrapper = styled.div`
   display: flex;
@@ -45,14 +41,17 @@ const CreateText = styled.span`
   margin-left: 5px;
 `
 
+type PackingListLabelCreateProps = {
+  toggleListHandler: (e?: any) => void
+}
+
 export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreateProps> = ({
-  toggleListHandler
+  toggleListHandler,
 }) => {
   const [labelText, setLabelText] = useState('Label Name')
   const [labelColor, setLabelColor] = useState(LabelColorName.default)
 
   const firebase = useFirebase()
-  const dispatch = useDispatch()
   const auth = useSelector((state: AppState) => state.firebase.auth)
 
   const handleChange = (e: any) => {
@@ -66,19 +65,27 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
 
     // Handle form submission
     try {
-      console.log('Form submitted, storing in db')
-      console.log(values)
+      const doc = await firebase
+        .firestore()
+        .collection('users')
+        .doc(auth.uid)
+        .get()
+
+      const { labels: currentLabels } = doc.data() ?? []
+      console.log('currentLabels before update', currentLabels)
+
+      currentLabels.push({
+        text: values.labelText,
+        color: values.labelColor[0]
+      })
+
+      console.log('currentLabels after update', currentLabels)
 
       await firebase
         .firestore()
         .collection('users')
         .doc(auth.uid)
-        .update({
-          labels: {
-            name: values.labelText,
-            color: values.labelColor[0]
-          }
-        })
+        .update({ labels: currentLabels })
 
       trackEvent('User Label Created', {
         label: values.labelText,
@@ -90,13 +97,13 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
         color: values.labelColor[0],
         error,
       })
-      toast.error('Failed to add item, please try again')
+      toast.error('Failed to add label, please try again')
+      console.error(error)
     } finally {
       // Return user to the select list
       setSubmitting(false)
       toggleListHandler()
     }
-
   }
 
   return (

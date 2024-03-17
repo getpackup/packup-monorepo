@@ -1,6 +1,9 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { brandPrimary } from '@packup/styles'
+import { useFirebase } from 'react-redux-firebase'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppState } from '@packup/redux'
 
 const CreateButton = styled.button`
   background: none;
@@ -18,10 +21,25 @@ const Container = styled.div`
 `
 
 type PackingListLabelListProps = {
-  toggleListHandler: (e: any) => void
+  toggleListHandler: (e?: any) => void
 }
 
 export const PackingListLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler }) => {
+  const firebase = useFirebase()
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+
+  firebase
+    .firestore()
+    .collection('users')
+    .doc(auth.uid)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const { labels } = doc.data() ?? []
+        console.log('labels', labels)
+      }
+    })
+
   return (
     <Container>
       <CreateButton onClick={toggleListHandler}>
