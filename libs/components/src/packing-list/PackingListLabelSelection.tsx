@@ -85,9 +85,7 @@ export const PackingListLabelSelection: FunctionComponent<PackingListLabelSelect
 }) => {
   const [showList, setShowList] = useState(false)
 
-  const toggleShowList = (e: any) => {
-    e.stopPropagation()
-    e.preventDefault()
+  const toggleShowList = () => {
     setShowList(!showList)
   }
 
