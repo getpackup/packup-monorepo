@@ -39,7 +39,7 @@ const LabelContainer = styled.div`
 `
 
 type PackingListLabelListProps = {
-  toggleListHandler: (e?: any) => void
+  toggleListHandler: (labelId?: string) => void
 }
 
 export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler }) => {
@@ -59,7 +59,6 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
       .get()
       .then((subcollection) => {
         for(const doc of subcollection.docs) {
-          console.log(doc.id)
           labels.push({
             ...doc.data() as ItemLabelType,
             id: doc.id,
@@ -73,20 +72,23 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
               key={label.id}
               variant={'editable'}
               id={label.id}
+              toggleForm={toggleListHandler}
             >
               {label.text}
             </ItemLabel>
           )
         }))
 
-        console.log(labelComponents)
         setLoaded(true)
       })
   }, [loaded])
 
   return (
     <Container>
-      <CreateButton onClick={toggleListHandler}>
+      <CreateButton onClick={() => {
+        toggleListHandler()
+        console.log('create')
+      }}>
         + New Label
       </CreateButton>
       <LabelContainer>

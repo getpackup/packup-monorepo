@@ -9,6 +9,7 @@ type PackingListItemLabelProps = {
   children: string | JSX.Element | JSX.Element[]
   id: string
   variant?: 'editable' | 'removable' | 'default'
+  toggleForm: (id?: string) => void
 }
 
 type LabelProps = {
@@ -60,7 +61,11 @@ const ButtonContainer = styled.div`
 
 // TODO Update to make show it as removable when in label selection state
 export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
-   children, colorName, variant = 'default', id
+  children,
+  colorName,
+  variant = 'default',
+  id,
+  toggleForm
 }) => {
   const { colorMode } = useContext(ThemeContext)
   const labelColor = getLabelColor(colorName, colorMode)
@@ -80,7 +85,7 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
           {children}
         </LabelListItem>
         <ButtonContainer>
-          <ItemLabelEditButton onClick={() => console.log('edit')} />
+          <ItemLabelEditButton onClick={() => toggleForm(id)} />
           <ItemLabelDeleteButton id={id} setShow={setShow} />
         </ButtonContainer>
       </LabelRow>

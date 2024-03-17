@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { MdArrowBackIos } from 'react-icons/md'
@@ -99,10 +99,25 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
   closeWindow
 }) => {
   const [showList, setShowList] = useState(true)
+  const [labelId, setLabelId] = useState('')
+  const [title, setTitle] = useState('Select Label')
 
-  const toggleShowList = () => {
+  const toggleShowForm = (labelId?: string) => {
     setShowList(!showList)
+    setLabelId(labelId ?? '')
   }
+
+  useEffect(() => {
+    console.log(labelId)
+    if (showList) {
+      setTitle('Select Label')
+    }
+    else if (labelId) {
+      setTitle('Update Label')
+    } else {
+      setTitle('Create Label')
+    }
+  }, [showList, labelId])
 
   return (
     // TODO Fix the overlay click event to stop applying to child elements
@@ -112,12 +127,12 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
         <Header>
           {
             !showList &&
-            <BackButton onClick={toggleShowList}>
+            <BackButton onClick={() => toggleShowForm()}>
               <MdArrowBackIos />
             </BackButton>
           }
           <Title>
-            {showList ? 'Select Label' : 'Create Label'}
+            {title}
           </Title>
           <CloseButton onClick={closeWindow}>
             <FaTimes />
@@ -126,8 +141,8 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
         <Container>
           {
             showList ?
-              <ItemLabelList toggleListHandler={toggleShowList} /> :
-              <ItemLabelForm toggleListHandler={toggleShowList} />
+              <ItemLabelList toggleListHandler={toggleShowForm} /> :
+              <ItemLabelForm toggleListHandler={toggleShowForm} labelId={labelId} />
           }
         </Container>
       </StyledLabelWindow>

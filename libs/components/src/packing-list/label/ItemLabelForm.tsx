@@ -42,11 +42,13 @@ const CreateText = styled.span`
 `
 
 type PackingListLabelCreateProps = {
-  toggleListHandler: (e?: any) => void
+  toggleListHandler: (id?: string) => void
+  labelId?: string
 }
 
 export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   toggleListHandler,
+  labelId,
 }) => {
   const [labelText, setLabelText] = useState('Label Name')
   const [labelColor, setLabelColor] = useState(LabelColorName.default)
@@ -60,6 +62,7 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   }
 
   const handleSubmit = async (values: any, {resetForm, setSubmitting}: any) => {
+    console.log('handle submit')
     resetForm({})
     setSubmitting(true)
 
@@ -85,7 +88,6 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
         color: values.labelColor[0],
         error,
       })
-      console.error('Failed to add label', error)
       toast.error('Failed to add label, please try again')
     } finally {
       // Return user to the select list
@@ -94,13 +96,19 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
     }
   }
 
+  const handleUpdate = async (values: any, {resetForm, setSubmitting}: any) => {
+    console.log('handle update')
+    resetForm({})
+    setSubmitting(true)
+  }
+
   return (
     <Formik
       initialValues={{
         labelText: '',
         labelColor: LabelColorName.default
       }}
-      onSubmit={handleSubmit}
+      onSubmit={labelId ? handleUpdate : handleSubmit}
     >
       {({ handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit} onChange={handleChange}>
@@ -118,7 +126,7 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
             />
             <SubmitButton type={'submit'}>
               <FaPlus />
-              <CreateText>Submit</CreateText>
+              <CreateText>{ labelId ? 'Update' : 'Create'}</CreateText>
             </SubmitButton>
           </FormWrapper>
         </Form>
