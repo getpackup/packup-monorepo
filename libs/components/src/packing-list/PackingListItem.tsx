@@ -10,7 +10,7 @@ import {
   IconWrapper,
   Input,
   Pill,
-  EditPackingListItem, PackingListItemLabel, PackingListLabelSelection
+  EditPackingListItem, PackingListItemLabel
 } from '@packup/components'
 import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import toast from 'react-hot-toast'

@@ -1,14 +1,14 @@
-import React, { FormEvent, FunctionComponent, SyntheticEvent, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { Field, Form, Formik } from 'formik'
 import { Input } from '@packup/components'
 import { FaPlus } from 'react-icons/fa'
 import { brandPrimary } from '@packup/styles'
-import { ColorPickerInput } from '../color-picker-input/ColorPickerInput'
-import { LabelColorName, trackEvent, ItemLabel } from '@packup/utils'
+import { ColorPickerInput } from '../../color-picker-input/ColorPickerInput'
+import { LabelColorName, trackEvent } from '@packup/utils'
 import { PackingListLabelPreview } from './PackingListLabelPreview'
 import { useFirebase } from 'react-redux-firebase'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
 import toast from 'react-hot-toast'
 
@@ -72,14 +72,11 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
         .get()
 
       const { labels: currentLabels } = doc.data() ?? []
-      console.log('currentLabels before update', currentLabels)
 
       currentLabels.push({
         text: values.labelText,
         color: values.labelColor[0]
       })
-
-      console.log('currentLabels after update', currentLabels)
 
       await firebase
         .firestore()
@@ -98,7 +95,6 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
         error,
       })
       toast.error('Failed to add label, please try again')
-      console.error(error)
     } finally {
       // Return user to the select list
       setSubmitting(false)
