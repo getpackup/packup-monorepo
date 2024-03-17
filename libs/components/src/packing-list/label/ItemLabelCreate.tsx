@@ -6,7 +6,7 @@ import { FaPlus } from 'react-icons/fa'
 import { brandPrimary } from '@packup/styles'
 import { ColorPickerInput } from '../../color-picker-input/ColorPickerInput'
 import { LabelColorName, trackEvent } from '@packup/utils'
-import { PackingListLabelPreview } from './PackingListLabelPreview'
+import { ItemLabelPreview } from './ItemLabelPreview'
 import { useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
@@ -45,7 +45,7 @@ type PackingListLabelCreateProps = {
   toggleListHandler: (e?: any) => void
 }
 
-export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreateProps> = ({
+export const ItemLabelCreate: FunctionComponent<PackingListLabelCreateProps> = ({
   toggleListHandler,
 }) => {
   const [labelText, setLabelText] = useState('Label Name')
@@ -113,7 +113,7 @@ export const PackingListLabelCreate: FunctionComponent<PackingListLabelCreatePro
       {({ handleSubmit, isSubmitting }) => (
         <Form onSubmit={handleSubmit} onChange={handleChange}>
           <FormWrapper>
-            <PackingListLabelPreview color={labelColor} text={labelText} />
+            <ItemLabelPreview color={labelColor} text={labelText} />
             <ColorPickerInput disabled={isSubmitting} setColor={setLabelColor} />
             <Field
               as={Input}

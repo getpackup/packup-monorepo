@@ -1,11 +1,8 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
-import { PackingListLabelCreate, PackingListLabelList } from '@packup/components'
+import { ItemLabelCreate, ItemLabelList } from '@packup/components'
 import { brandPrimary } from '@packup/styles'
-import { useFirebase } from 'react-redux-firebase'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppState } from '@packup/redux'
 
 const spacing = '15px'
 
@@ -82,7 +79,7 @@ type PackingListLabelSelectionProps = {
   closeWindow: () => void
 }
 
-export const PackingListLabelSelection: FunctionComponent<PackingListLabelSelectionProps> = ({
+export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProps> = ({
   closeWindow
 }) => {
   const [showList, setShowList] = useState(true)
@@ -107,8 +104,8 @@ export const PackingListLabelSelection: FunctionComponent<PackingListLabelSelect
         <Container>
           {
             showList ?
-              <PackingListLabelList toggleListHandler={toggleShowList} /> :
-              <PackingListLabelCreate toggleListHandler={toggleShowList} />
+              <ItemLabelList toggleListHandler={toggleShowList} /> :
+              <ItemLabelCreate toggleListHandler={toggleShowList} />
           }
         </Container>
       </StyledLabelWindow>

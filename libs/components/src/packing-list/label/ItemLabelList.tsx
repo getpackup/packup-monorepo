@@ -2,10 +2,10 @@ import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { brandPrimary } from '@packup/styles'
 import { useFirebase } from 'react-redux-firebase'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
-import { ItemLabel, LabelColorName } from '@packup/utils'
-import { PackingListItemLabel } from './PackingListItemLabel'
+import { ItemLabel as ItemLabelType, LabelColorName } from '@packup/utils'
+import { ItemLabel } from '@packup/components'
 
 const CreateButton = styled.button`
   cursor: pointer;
@@ -42,7 +42,7 @@ type PackingListLabelListProps = {
   toggleListHandler: (e?: any) => void
 }
 
-export const PackingListLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler }) => {
+export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler }) => {
   const [labels, setLabels] = useState([])
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
@@ -59,11 +59,11 @@ export const PackingListLabelList: FunctionComponent<PackingListLabelListProps> 
       }
     })
 
-  const labelComponents = labels.map((label: ItemLabel, index) => {
+  const labelComponents = labels.map((label: ItemLabelType, index) => {
     return (
-      <PackingListItemLabel colorName={label.color as LabelColorName} key={index} variant={'editable'}>
+      <ItemLabel colorName={label.color as LabelColorName} key={index} variant={'editable'}>
         {label.text}
-      </PackingListItemLabel>
+      </ItemLabel>
     )
   })
 

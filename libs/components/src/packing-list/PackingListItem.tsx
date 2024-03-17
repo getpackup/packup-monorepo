@@ -10,7 +10,7 @@ import {
   IconWrapper,
   Input,
   Pill,
-  EditPackingListItem, PackingListItemLabel
+  EditPackingListItem, ItemLabel
 } from '@packup/components'
 import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import toast from 'react-hot-toast'
@@ -287,9 +287,9 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                   </>
                 </ItemText>
 
-                <PackingListItemLabel colorName={'green'}>
+                <ItemLabel colorName={'green'}>
                   Backpack
-                </PackingListItemLabel>
+                </ItemLabel>
 
                 {props.isOnSharedList && (
                   <StackedAvatars style={{ marginRight: halfSpacer }}>

@@ -7,7 +7,7 @@ import {
   Heading,
   LoadingSpinner,
   PackingListCategory,
-  PackingListFilters, PackingListLabelSelection,
+  PackingListFilters, ItemLabelSelection,
   PackingListSearch,
   ProgressBar,
   Row,
@@ -551,7 +551,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
         )}
       </div>
 
-      {!showLabelSelection && <PackingListLabelSelection closeWindow={toggleLabelSelection}/>}
+      {!showLabelSelection && <ItemLabelSelection closeWindow={toggleLabelSelection}/>}
     </>
   )
 }

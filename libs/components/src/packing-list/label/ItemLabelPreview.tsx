@@ -25,7 +25,7 @@ const LabelPreviewText = styled.p`
   margin: 0;
 `
 
-export const PackingListLabelPreview: FunctionComponent<PackingListLabelPreviewProps> = ({color, text}) => {
+export const ItemLabelPreview: FunctionComponent<PackingListLabelPreviewProps> = ({color, text}) => {
   const mode = localStorage.getItem('color-mode') ?? 'dark'
   const labelColor = getLabelColor(color, mode)
 
