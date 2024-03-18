@@ -32,8 +32,8 @@ const PackingItemLabel = styled.span<LabelProps>`
 const LabelListItem = styled.span<LabelProps>`
   border: 1px solid ${props => props.color};
   line-height: normal;
-  font-size: 1rem;
-  padding: 5px 10px;
+  font-size: 1.2rem;
+  padding: 8px 16px;
   border-radius: 3px;
   color: ${props => props.color};
   background-color: ${props => props.bgColor};
