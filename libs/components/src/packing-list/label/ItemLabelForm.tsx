@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Field, Form, Formik } from 'formik'
 import { Input } from '@packup/components'
 import { FaPlus } from 'react-icons/fa'
 import { brandPrimary } from '@packup/styles'
 import { ColorPickerInput } from '../../color-picker-input/ColorPickerInput'
-import { LabelColorName, trackEvent } from '@packup/utils'
+import { ItemLabel, LabelColorName, trackEvent } from '@packup/utils'
 import { ItemLabelPreview } from './ItemLabelPreview'
 import { useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
@@ -50,11 +50,30 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   toggleListHandler,
   labelId,
 }) => {
-  const [labelText, setLabelText] = useState('Label Name')
+  const [labelText, setLabelText] = useState('')
   const [labelColor, setLabelColor] = useState(LabelColorName.default)
 
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
+
+  useEffect(() => {
+    if (labelId) {
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(auth.uid)
+        .collection('labels')
+        .doc(labelId)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const data = doc.data() as ItemLabel
+            setLabelText(data.text)
+            setLabelColor(data.color as LabelColorName)
+          }
+        })
+    }
+  }, [labelId])
 
   const handleChange = (e: any) => {
     if (e.target.type === 'text') setLabelText(e.target.value)
@@ -62,7 +81,6 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   }
 
   const handleSubmit = async (values: any, {resetForm, setSubmitting}: any) => {
-    console.log('handle submit')
     resetForm({})
     setSubmitting(true)
 
@@ -75,17 +93,17 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
         .collection('labels')
         .add({
           text: values.labelText,
-          color: values.labelColor[0]
+          color: values.labelColor
         })
 
       trackEvent('User Label Created', {
         label: values.labelText,
-        color: values.labelColor[0]
+        color: values.labelColor
       })
     } catch (error) {
       trackEvent('User Label Create Failure', {
         label: values.labelText,
-        color: values.labelColor[0],
+        color: values.labelColor,
         error,
       })
       toast.error('Failed to add label, please try again')
@@ -97,28 +115,59 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   }
 
   const handleUpdate = async (values: any, {resetForm, setSubmitting}: any) => {
-    console.log('handle update')
     resetForm({})
     setSubmitting(true)
+
+    // Handle form submission
+    try {
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(auth.uid)
+        .collection('labels')
+        .doc(labelId)
+        .update({
+          text: values.labelText,
+          color: values.labelColor
+        })
+
+      trackEvent('User Label Updated', {
+        label: values.labelText,
+        color: values.labelColor
+      })
+    } catch (error) {
+      trackEvent('User Label Update Failure', {
+        label: values.labelText,
+        color: values.labelColor[0],
+        error,
+      })
+      toast.error('Failed to update label, please try again')
+    } finally {
+      // Return user to the select list
+      setSubmitting(false)
+      toggleListHandler()
+    }
   }
 
   return (
     <Formik
       initialValues={{
-        labelText: '',
-        labelColor: LabelColorName.default
+        labelText: labelText,
+        labelColor: labelColor
       }}
       onSubmit={labelId ? handleUpdate : handleSubmit}
+      enableReinitialize={true}
     >
-      {({ handleSubmit, isSubmitting }) => (
+      {({ handleSubmit, isSubmitting, initialValues }) => (
         <Form onSubmit={handleSubmit} onChange={handleChange}>
           <FormWrapper>
             <ItemLabelPreview color={labelColor} text={labelText} />
-            <ColorPickerInput disabled={isSubmitting} setColor={setLabelColor} />
+            <ColorPickerInput disabled={isSubmitting} setColor={setLabelColor} initialValue={initialValues.labelColor} />
             <Field
               as={Input}
               type="text"
               name={`labelText`}
+              initialValue={initialValues.labelText}
               label="Label Name"
               hiddenLabel
               disabled={isSubmitting}

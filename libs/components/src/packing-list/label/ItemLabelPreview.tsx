@@ -32,7 +32,7 @@ export const ItemLabelPreview: FunctionComponent<PackingListLabelPreviewProps> =
   return (
     <LabelPreviewContainer style={{backgroundColor: labelColor.bgColor, borderColor: labelColor.color}}>
       <LabelPreviewText style={{color: labelColor.color}}>
-        {text}
+        {text || 'Label Text'}
       </LabelPreviewText>
     </LabelPreviewContainer>
   )
