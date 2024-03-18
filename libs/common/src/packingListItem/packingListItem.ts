@@ -1,3 +1,5 @@
+import { ItemLabel } from '../item-label/item-label';
+
 export type PackedByUserType = {
   uid: string
   quantity: number
@@ -17,4 +19,5 @@ export type PackingListItemType = {
   updated?: firebase.default.firestore.Timestamp
   weight?: string
   weightUnit?: 'g' | 'kg' | 'oz' | 'lb'
+  labels?: ItemLabel[]
 }

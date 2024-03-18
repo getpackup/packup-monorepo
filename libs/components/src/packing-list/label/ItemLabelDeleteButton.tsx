@@ -5,6 +5,8 @@ import { IconWrapper } from '@packup/components'
 import { useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
+import toast from 'react-hot-toast'
+import { trackEvent } from '@packup/utils'
 
 type ItemLabelDeleteButtonProps = {
   id: string
@@ -15,7 +17,7 @@ export const ItemLabelDeleteButton: FunctionComponent<ItemLabelDeleteButtonProps
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     firebase
       .firestore()
       .collection('users')
@@ -25,9 +27,13 @@ export const ItemLabelDeleteButton: FunctionComponent<ItemLabelDeleteButtonProps
       .delete()
       .then(() => {
         setShow(false)
+        toast.success('Label deleted!')
       })
       .catch((error) => {
-        console.error('Error removing document: ', error)
+        toast.error('Failed to delete label.')
+        trackEvent('User Label Create Failure', {
+          error,
+        })
       })
   }
 

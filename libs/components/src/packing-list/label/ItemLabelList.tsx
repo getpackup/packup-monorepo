@@ -1,11 +1,12 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { brandPrimary } from '@packup/styles'
-import { useFirebase } from 'react-redux-firebase'
+import { ExtendedFirebaseInstance, useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
 import { ItemLabel as ItemLabelType, LabelColorName } from '@packup/utils'
 import { ItemLabel } from '@packup/components'
+import toast from 'react-hot-toast'
 
 const CreateButton = styled.button`
   cursor: pointer;
@@ -42,13 +43,34 @@ const LabelContainer = styled.div`
 
 type PackingListLabelListProps = {
   toggleListHandler: (labelId?: string) => void
+  tripId: string
+  itemId: string
 }
 
-export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler }) => {
+export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler, tripId, itemId }) => {
   const [loaded, setLoaded] = useState(false)
   const [labelComponents, setLabelComponents] = useState<JSX.Element[]>([])
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
+
+  const handleSelect = async (itemId: string, tripId: string, label: ItemLabelType) => {
+    await firebase
+      .firestore()
+      .collection('trips')
+      .doc(tripId)
+      .collection('packing-list')
+      .doc(itemId)
+      .update({
+        labels: {
+          [label.id]: {
+            text: label.text,
+            color: label.color
+          }
+        }
+      })
+
+    toast.success(`${label.text} label added!`)
+  }
 
   useEffect(() => {
     const labels: Array<ItemLabelType> = []
@@ -75,6 +97,7 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
               variant={'editable'}
               id={label.id}
               toggleForm={toggleListHandler}
+              onClick={() => handleSelect(itemId, tripId, label)}
             >
               {label.text}
             </ItemLabel>

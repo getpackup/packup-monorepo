@@ -4,14 +4,6 @@ import { ThemeContext, getLabelColor, LabelColorName } from '@packup/utils'
 import { ItemLabelEditButton } from './ItemLabelEditButton'
 import { ItemLabelDeleteButton } from './ItemLabelDeleteButton'
 
-type PackingListItemLabelProps = {
-  colorName: LabelColorName
-  children: string | JSX.Element | JSX.Element[]
-  id: string
-  variant?: 'editable' | 'removable' | 'default'
-  toggleForm: (id?: string) => void
-}
-
 type LabelProps = {
   color?: string
   bgColor?: string
@@ -59,28 +51,38 @@ const ButtonContainer = styled.div`
   display: flex;
 `
 
+type PackingListItemLabelProps = {
+  colorName: LabelColorName
+  children: string
+  id?: string
+  variant?: 'editable' | 'removable' | 'default'
+  toggleForm?: (id?: string) => void
+  onClick?: (e?: any) => void
+}
+
 // TODO Update to make show it as removable when in label selection state
 export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
   children,
   colorName,
   variant = 'default',
   id,
-  toggleForm
+  toggleForm,
+  onClick
 }) => {
+  const [show, setShow] = React.useState(true)
   const { colorMode } = useContext(ThemeContext)
   const labelColor = getLabelColor(colorName, colorMode)
-  const [show, setShow] = React.useState(true)
 
   // TODO would be nice to add animation to fade out in 0.2s
   if (!show) return null
 
-  if (variant === 'editable') {
+  if (variant === 'editable' && id && toggleForm) {
     return (
       <LabelRow>
         <LabelListItem
           color={labelColor.color}
           bgColor={labelColor.bgColor}
-          onClick={() => console.log('select')}
+          onClick={onClick}
         >
           {children}
         </LabelListItem>
@@ -96,6 +98,7 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
     <PackingItemLabel
       color={labelColor.color}
       bgColor={labelColor.bgColor}
+      onClick={onClick}
     >
       {
         variant === 'removable' &&

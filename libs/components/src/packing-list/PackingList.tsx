@@ -131,9 +131,11 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
 
   const [loadingGearList, setLoadingGearList] = useState(true)
   const [showLabelSelection, setShowLabelSelection] = useState(false)
+  const [itemId, setItemId] = useState('')
 
-  const toggleLabelSelection = () => {
+  const toggleLabelSelection = (itemId: string) => {
     setShowLabelSelection(!showLabelSelection)
+    setItemId(itemId)
   }
 
   useEffect(() => {
@@ -466,6 +468,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                           // sort by packed status, with checked items last
                           return a.isPacked > b.isPacked ? 1 : -1
                         })
+
                         return (
                           <PackingListCategory
                             categoryIndex={index}
@@ -547,11 +550,19 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
             sortedItems={[]}
             tripId=""
             isSharedPackingListCategory
+            toggleLabelSelection={() => {}}
           />
         )}
       </div>
 
-      {!showLabelSelection && <ItemLabelSelection closeWindow={toggleLabelSelection}/>}
+      {
+        showLabelSelection &&
+        <ItemLabelSelection
+          closeWindow={() => setShowLabelSelection(!showLabelSelection)}
+          tripId={tripId}
+          itemId={itemId}
+        />
+      }
     </>
   )
 }

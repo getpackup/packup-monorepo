@@ -22,7 +22,7 @@ type PackingListCategoryProps = {
   isSharedTrip?: boolean
   /** used to pass down to PackingListItem to add an id if its the first category and first item for Joyride step */
   categoryIndex: number
-  toggleLabelSelection?: () => void
+  toggleLabelSelection: (id: string) => void
 }
 
 const ItemsWrapper = styled.ul`
@@ -127,7 +127,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
                   item={item}
                   isOnSharedList={isSharedPackingListCategory}
                   isSharedTrip={isSharedTrip}
-                  toggleLabelSelection={toggleLabelSelection}
+                  toggleLabelSelection={() => toggleLabelSelection(item.id)}
                 />
               ))}
               <PackingListAddItem

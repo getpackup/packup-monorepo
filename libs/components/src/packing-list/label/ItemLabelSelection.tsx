@@ -93,10 +93,14 @@ const Container = styled.div`
 
 type PackingListLabelSelectionProps = {
   closeWindow: () => void
+  tripId: string
+  itemId: string
 }
 
 export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProps> = ({
-  closeWindow
+  closeWindow,
+  tripId,
+  itemId
 }) => {
   const [showList, setShowList] = useState(true)
   const [labelId, setLabelId] = useState('')
@@ -140,7 +144,7 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
         <Container>
           {
             showList ?
-              <ItemLabelList toggleListHandler={toggleShowForm} /> :
+              <ItemLabelList toggleListHandler={toggleShowForm} tripId={tripId} itemId={itemId} /> :
               <ItemLabelForm toggleListHandler={toggleShowForm} labelId={labelId} />
           }
         </Container>

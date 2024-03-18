@@ -1,6 +1,6 @@
 import 'react-swipeable-list/dist/styles.css'
 
-import { PackingListItemType, UserType } from '@packup/common'
+import { PackingListItemType, UserType, ItemLabel as ItemLabelType } from '@packup/common'
 
 import {
   Avatar,
@@ -17,7 +17,7 @@ import toast from 'react-hot-toast'
 
 import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } from '@packup/styles'
 
-import { trackEvent } from '@packup/utils'
+import { LabelColorName, trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
 import { FunctionComponent, SyntheticEvent, useState } from 'react'
 import {
@@ -103,6 +103,18 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   const dispatch = useDispatch()
   const size = useWindowSize()
   const [removing, setRemoving] = useState(false)
+
+  console.log(props.item.labels)
+
+  const labelEntries = Object.entries(props.item.labels || [])
+  const labels = labelEntries.map(([id, label]) => {
+    return (
+      <ItemLabel key={id} colorName={label.color as LabelColorName}>
+        {label.text}
+      </ItemLabel>
+    )
+  })
+
 
   const onUpdate = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     firebaseConnection(firebase, props.tripId, props.item.id)
@@ -287,9 +299,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                   </>
                 </ItemText>
 
-                <ItemLabel colorName={'green'}>
-                  Backpack
-                </ItemLabel>
+                {labels}
 
                 {props.isOnSharedList && (
                   <StackedAvatars style={{ marginRight: halfSpacer }}>
