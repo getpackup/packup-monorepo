@@ -9,7 +9,7 @@ import { ItemLabel } from '@packup/components'
 
 const CreateButton = styled.button`
   cursor: pointer;
-  background-color: transparent;
+  background-color: inherit;
   border: none;
   width: 100%;
   display: flex;
@@ -17,10 +17,12 @@ const CreateButton = styled.button`
   justify-content: center;
   align-items: center;
   padding: 10px;
+  font-weight: 600;
+  border-radius: 3px;
 
   :hover {
     color: ${brandPrimary};
-    transition: color 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
   }
 `
 
@@ -87,7 +89,6 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
     <Container>
       <CreateButton onClick={() => {
         toggleListHandler()
-        console.log('create')
       }}>
         + New Label
       </CreateButton>

@@ -108,7 +108,6 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
   }
 
   useEffect(() => {
-    console.log(labelId)
     if (showList) {
       setTitle('Select Label')
     }
