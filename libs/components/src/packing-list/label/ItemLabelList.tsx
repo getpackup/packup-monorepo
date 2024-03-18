@@ -115,9 +115,11 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
       }}>
         + New Label
       </CreateButton>
-      <LabelContainer>
-        {labelComponents}
-      </LabelContainer>
+      { labelComponents.length > 0 && (
+        <LabelContainer>
+          {labelComponents}
+        </LabelContainer>
+      )}
     </Container>
   )
 }

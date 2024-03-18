@@ -104,8 +104,6 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   const size = useWindowSize()
   const [removing, setRemoving] = useState(false)
 
-  console.log(props.item.labels)
-
   const labelEntries = Object.entries(props.item.labels || [])
   const labels = labelEntries.map(([id, label]) => {
     return (
@@ -114,7 +112,6 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
       </ItemLabel>
     )
   })
-
 
   const onUpdate = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     firebaseConnection(firebase, props.tripId, props.item.id)
