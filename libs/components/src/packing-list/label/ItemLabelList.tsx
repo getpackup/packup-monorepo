@@ -7,6 +7,7 @@ import { AppState } from '@packup/redux'
 import { ItemLabel as ItemLabelType, LabelColorName } from '@packup/utils'
 import { ItemLabel } from '@packup/components'
 import toast from 'react-hot-toast'
+import { PackingListItemType } from '@packup/common'
 
 const CreateButton = styled.button`
   cursor: pointer;
@@ -53,7 +54,18 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
 
+  // TODO is there a better way to handle this? Pass label collection into each label doesnt seem right either
   const handleSelect = async (itemId: string, tripId: string, label: ItemLabelType) => {
+    const item = await firebase
+      .firestore()
+      .collection('trips')
+      .doc(tripId)
+      .collection('packing-list')
+      .doc(itemId)
+      .get()
+
+    const { labels } = item.data() as PackingListItemType
+
     await firebase
       .firestore()
       .collection('trips')
@@ -62,6 +74,7 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
       .doc(itemId)
       .update({
         labels: {
+          ...labels,
           [label.id]: {
             text: label.text,
             color: label.color

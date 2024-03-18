@@ -15,10 +15,15 @@ const PackingItemLabel = styled.span<LabelProps>`
   line-height: normal;
   font-size: 14px;
   padding: 5px 10px;
+  margin-right: 5px;
   border-radius: 25px;
   color: ${props => props.color};
   background-color: ${props => props.bgColor};
   cursor: ${props => props.clickable ? 'pointer' : 'auto'};
+
+  ${props => props.clickable &&
+    ':hover {color: ${props => props.bgColor}; background-color: ${props => props.color}; transition: all 0.2s ease-in-out; }'
+  }
 `
 
 const LabelListItem = styled.span<LabelProps>`
@@ -99,12 +104,13 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
       color={labelColor.color}
       bgColor={labelColor.bgColor}
       onClick={onClick}
+      clickable={variant === 'removable'}
     >
+      {children}
       {
         variant === 'removable' &&
-        '-'
+        ' x'
       }
-      {children}
     </PackingItemLabel>
   )
 }

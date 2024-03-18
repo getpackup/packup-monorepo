@@ -1,6 +1,6 @@
 import 'react-swipeable-list/dist/styles.css'
 
-import { PackingListItemType, UserType, ItemLabel as ItemLabelType } from '@packup/common'
+import { PackingListItemType, UserType } from '@packup/common'
 
 import {
   Avatar,
@@ -19,7 +19,7 @@ import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } fr
 
 import { LabelColorName, trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { FunctionComponent, SyntheticEvent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import {
   FaChevronDown,
   FaChevronRight,
@@ -103,15 +103,48 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   const dispatch = useDispatch()
   const size = useWindowSize()
   const [removing, setRemoving] = useState(false)
+  const [labels, setLabels] = useState<JSX.Element[]>([])
 
   const labelEntries = Object.entries(props.item.labels || [])
-  const labels = labelEntries.map(([id, label]) => {
-    return (
-      <ItemLabel key={id} colorName={label.color as LabelColorName}>
-        {label.text}
-      </ItemLabel>
-    )
-  })
+
+  const handleRemoveLabel = (labelId: string) => {
+    if (!props.item.labels) return
+    const tmpLabels: Record<string, any> = { ...props.item.labels }
+    delete tmpLabels[labelId]
+
+    firebase
+      .firestore()
+      .collection('trips')
+      .doc(props.tripId)
+      .collection('packing-list')
+      .doc(props.item.id)
+      .update({
+        labels: {
+          ...tmpLabels,
+        }
+      })
+
+    // toast.success(`${label.text} label added!`)
+  }
+
+  useEffect(() => {
+    setLabels(labelEntries.map(([id, label]) => {
+      return (
+        <ItemLabel
+          key={id}
+          colorName={label.color as LabelColorName}
+          variant={packingListItemBeingEdited === props.item.id ? 'removable' : 'default'}
+          onClick={
+            packingListItemBeingEdited === props.item.id
+              ? (() => handleRemoveLabel(id))
+              : () => {}
+          }
+        >
+          {label.text}
+        </ItemLabel>
+      )
+    }))
+  }, [packingListItemBeingEdited, props.item.labels])
 
   const onUpdate = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     firebaseConnection(firebase, props.tripId, props.item.id)
