@@ -7,7 +7,7 @@ import {
 } from '@packup/components'
 import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
 import { pluralize, trackEvent } from '@packup/utils'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, SyntheticEvent } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { FirebaseReducer, useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'
@@ -22,6 +22,7 @@ type PackingListCategoryProps = {
   isSharedTrip?: boolean
   /** used to pass down to PackingListItem to add an id if its the first category and first item for Joyride step */
   categoryIndex: number
+  toggleLabelSelection: (id: string) => void
 }
 
 const ItemsWrapper = styled.ul`
@@ -39,6 +40,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
   auth,
   isSharedTrip,
   categoryIndex,
+  toggleLabelSelection
 }) => {
   const firebase = useFirebase()
 
@@ -58,7 +60,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
           (cat) => cat !== name
         )
       }
-      // Category is not in the collapsedlist for current user, so we add it
+      // The Category is not in the collapsedlist for current user, so we add it
       else if (
         trip.collapsedCategories &&
         trip.collapsedCategories[auth.uid] &&
@@ -125,6 +127,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
                   item={item}
                   isOnSharedList={isSharedPackingListCategory}
                   isSharedTrip={isSharedTrip}
+                  toggleLabelSelection={() => toggleLabelSelection(item.id)}
                 />
               ))}
               <PackingListAddItem
