@@ -25,6 +25,9 @@ if (process.env.NODE_ENV !== 'development') {
     // sessions when an error occurs.
     replaysOnErrorSampleRate: 1.0,
 
-    integrations: [new Sentry.Replay()],
+    integrations: [new Sentry.Replay({
+      maskAllText: false,
+      blockAllMedia: false,
+    })],
   })
 }
