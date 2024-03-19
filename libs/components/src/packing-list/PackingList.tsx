@@ -1,4 +1,4 @@
-import { PackingListItemType, TripType } from '@packup/common'
+import { ItemLabel as ItemLabelType, PackingListItemType, TripType } from '@packup/common'
 import {
   Box,
   Button,

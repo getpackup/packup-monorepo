@@ -1,13 +1,13 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { brandPrimary } from '@packup/styles'
-import { ExtendedFirebaseInstance, useFirebase } from 'react-redux-firebase'
+import { useFirebase } from 'react-redux-firebase'
 import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
-import { ItemLabel as ItemLabelType, LabelColorName } from '@packup/utils'
+import { LabelColorName } from '@packup/utils'
 import { ItemLabel } from '@packup/components'
 import toast from 'react-hot-toast'
-import { PackingListItemType } from '@packup/common'
+import { PackingListItemType, ItemLabel as ItemLabelType } from '@packup/common'
 
 const CreateButton = styled.button`
   cursor: pointer;
@@ -43,16 +43,30 @@ const LabelContainer = styled.div`
 `
 
 type PackingListLabelListProps = {
-  toggleListHandler: (labelId?: string) => void
+  toggleListHandler: (label?: ItemLabelType) => void
   tripId: string
   itemId: string
 }
 
 export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler, tripId, itemId }) => {
-  const [loaded, setLoaded] = useState(false)
-  const [labelComponents, setLabelComponents] = useState<JSX.Element[]>([])
   const firebase = useFirebase()
-  const auth = useSelector((state: AppState) => state.firebase.auth)
+  const { gearItemLabels } = useSelector((state: AppState) => state.client)
+
+  const labelComponents = gearItemLabels.map((label) => {
+    // @ts-ignore
+    return (
+      <ItemLabel
+        colorName={label.color as LabelColorName}
+        key={label.id}
+        variant={'editable'}
+        id={label.id}
+        toggleForm={toggleListHandler}
+        onClick={() => handleSelect(itemId, tripId, label)}
+      >
+        {label.text}
+      </ItemLabel>
+    )
+  })
 
   // TODO is there a better way to handle this? Pass label collection into each label doesnt seem right either
   const handleSelect = async (itemId: string, tripId: string, label: ItemLabelType) => {
@@ -84,42 +98,6 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
 
     toast.success(`${label.text} label added!`)
   }
-
-  useEffect(() => {
-    const labels: Array<ItemLabelType> = []
-
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(auth.uid)
-      .collection('labels')
-      .get()
-      .then((subcollection) => {
-        for(const doc of subcollection.docs) {
-          labels.push({
-            ...doc.data() as ItemLabelType,
-            id: doc.id,
-          })
-        }
-
-        setLabelComponents(labels.map((label: ItemLabelType) => {
-          return (
-            <ItemLabel
-              colorName={label.color as LabelColorName}
-              key={label.id}
-              variant={'editable'}
-              id={label.id}
-              toggleForm={toggleListHandler}
-              onClick={() => handleSelect(itemId, tripId, label)}
-            >
-              {label.text}
-            </ItemLabel>
-          )
-        }))
-
-        setLoaded(true)
-      })
-  }, [loaded])
 
   return (
     <Container>

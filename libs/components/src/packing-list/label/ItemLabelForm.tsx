@@ -1,15 +1,16 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import { Field, Form, Formik } from 'formik'
 import { Input } from '@packup/components'
 import { FaPlus } from 'react-icons/fa'
 import { brandPrimary } from '@packup/styles'
 import { ColorPickerInput } from '../../color-picker-input/ColorPickerInput'
-import { ItemLabel, LabelColorName, trackEvent } from '@packup/utils'
+import { LabelColorName, trackEvent } from '@packup/utils'
+import { ItemLabel } from '@packup/common'
 import { ItemLabelPreview } from './ItemLabelPreview'
 import { useFirebase } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
-import { AppState } from '@packup/redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppState, setGearItemLabels } from '@packup/redux'
 import toast from 'react-hot-toast'
 
 const FormWrapper = styled.div`
@@ -42,38 +43,21 @@ const CreateText = styled.span`
 `
 
 type PackingListLabelCreateProps = {
-  toggleListHandler: (id?: string) => void
-  labelId?: string
+  toggleListHandler: (label?: ItemLabel) => void
+  label?: ItemLabel
 }
 
 export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   toggleListHandler,
-  labelId,
+  label,
 }) => {
-  const [labelText, setLabelText] = useState('')
-  const [labelColor, setLabelColor] = useState(LabelColorName.default)
+  const dispatch = useDispatch()
+  const [labelText, setLabelText] = useState(label?.text ?? '')
+  const [labelColor, setLabelColor] = useState(label?.color ?? LabelColorName.default)
 
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
-
-  useEffect(() => {
-    if (labelId) {
-      firebase
-        .firestore()
-        .collection('users')
-        .doc(auth.uid)
-        .collection('labels')
-        .doc(labelId)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            const data = doc.data() as ItemLabel
-            setLabelText(data.text)
-            setLabelColor(data.color as LabelColorName)
-          }
-        })
-    }
-  }, [labelId])
+  const { gearItemLabels: labels } = useSelector((state: AppState) => state.client)
 
   const handleChange = (e: any) => {
     if (e.target.type === 'text') setLabelText(e.target.value)
@@ -95,6 +79,9 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
           text: values.labelText,
           color: values.labelColor
         })
+
+      // Adding new label to Firestore will generate a new ID, so we need to re-fetch labels and update Redux
+      await refetchLabels(firebase, auth, dispatch)
 
       trackEvent('User Label Created', {
         label: values.labelText,
@@ -120,16 +107,20 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
 
     // Handle form submission
     try {
+      if (!label) throw new Error('Label not found')
+
       await firebase
         .firestore()
         .collection('users')
         .doc(auth.uid)
         .collection('labels')
-        .doc(labelId)
+        .doc(label.id)
         .update({
           text: values.labelText,
           color: values.labelColor
         })
+
+      await refetchLabels(firebase, auth, dispatch)
 
       trackEvent('User Label Updated', {
         label: values.labelText,
@@ -155,14 +146,14 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
         labelText: labelText,
         labelColor: labelColor
       }}
-      onSubmit={labelId ? handleUpdate : handleSubmit}
+      onSubmit={label ? handleUpdate : handleSubmit}
       enableReinitialize={true}
     >
       {({ handleSubmit, isSubmitting, initialValues }) => (
         <Form onSubmit={handleSubmit} onChange={handleChange}>
           <FormWrapper>
             <ItemLabelPreview color={labelColor} text={labelText} />
-            <ColorPickerInput disabled={isSubmitting} setColor={setLabelColor} initialValue={initialValues.labelColor} />
+            <ColorPickerInput disabled={isSubmitting} setColor={setLabelColor} initialValue={initialValues.labelColor as LabelColorName} />
             <Field
               as={Input}
               type="text"
@@ -175,11 +166,38 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
             />
             <SubmitButton type={'submit'}>
               <FaPlus />
-              <CreateText>{ labelId ? 'Update' : 'Create'}</CreateText>
+              <CreateText>{ label?.id ? 'Update' : 'Create'}</CreateText>
             </SubmitButton>
           </FormWrapper>
         </Form>
       )}
     </Formik>
   )
+}
+
+/**
+ * Update redux store with the latest labels from Firestore
+ * @param firebase
+ * @param auth
+ * @param dispatch
+ */
+const refetchLabels = async (firebase: any, auth: any, dispatch: any) => {
+  await firebase
+    .firestore()
+    .collection('users')
+    .doc(auth.uid)
+    .collection('labels')
+    .get()
+    .then((subcollection: any) => {
+      const tempLabels: Array<ItemLabel> = []
+
+      for (const doc of subcollection.docs) {
+        tempLabels.push({
+          ...doc.data() as ItemLabel,
+          id: doc.id,
+        })
+      }
+
+      dispatch(setGearItemLabels(tempLabels))
+    })
 }

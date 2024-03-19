@@ -109,6 +109,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
 
   const handleRemoveLabel = (labelId: string) => {
     if (!props.item.labels) return
+
     const tmpLabels: Record<string, any> = { ...props.item.labels }
     delete tmpLabels[labelId]
 

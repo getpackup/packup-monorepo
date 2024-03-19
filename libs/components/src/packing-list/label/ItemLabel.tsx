@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { ThemeContext, getLabelColor, LabelColorName } from '@packup/utils'
 import { ItemLabelEditButton } from './ItemLabelEditButton'
 import { ItemLabelDeleteButton } from './ItemLabelDeleteButton'
+import { ItemLabel as Label } from '@packup/common'
 
 type LabelProps = {
   color?: string
@@ -61,7 +62,7 @@ type PackingListItemLabelProps = {
   children: string
   id?: string
   variant?: 'editable' | 'removable' | 'default'
-  toggleForm?: (id?: string) => void
+  toggleForm?: (label?: Label) => void
   onClick?: (e?: any) => void
 }
 
@@ -92,7 +93,7 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
           {children}
         </LabelListItem>
         <ButtonContainer>
-          <ItemLabelEditButton onClick={() => toggleForm(id)} />
+          <ItemLabelEditButton onClick={() => toggleForm({id, color: colorName, text: children})} />
           <ItemLabelDeleteButton id={id} setShow={setShow} />
         </ButtonContainer>
       </LabelRow>

@@ -4,6 +4,7 @@ import { FaTimes } from 'react-icons/fa'
 import { MdArrowBackIos } from 'react-icons/md'
 import { ItemLabelForm, ItemLabelList } from '@packup/components'
 import { brandPrimary } from '@packup/styles'
+import { ItemLabel as ItemLabelType } from '@packup/common'
 
 const spacing = '15px'
 
@@ -100,27 +101,27 @@ type PackingListLabelSelectionProps = {
 export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProps> = ({
   closeWindow,
   tripId,
-  itemId
+  itemId,
 }) => {
   const [showList, setShowList] = useState(true)
-  const [labelId, setLabelId] = useState('')
+  const [label, setLabel] = useState<ItemLabelType|undefined>()
   const [title, setTitle] = useState('Select Label')
 
-  const toggleShowForm = (labelId?: string) => {
+  const toggleShowForm = (label?: ItemLabelType) => {
     setShowList(!showList)
-    setLabelId(labelId ?? '')
+    setLabel(label)
   }
 
   useEffect(() => {
     if (showList) {
       setTitle('Select Label')
     }
-    else if (labelId) {
+    else if (label) {
       setTitle('Update Label')
     } else {
       setTitle('Create Label')
     }
-  }, [showList, labelId])
+  }, [showList, label])
 
   return (
     // TODO Fix the overlay click event to stop applying to child elements
@@ -145,7 +146,7 @@ export const ItemLabelSelection: FunctionComponent<PackingListLabelSelectionProp
           {
             showList ?
               <ItemLabelList toggleListHandler={toggleShowForm} tripId={tripId} itemId={itemId} /> :
-              <ItemLabelForm toggleListHandler={toggleShowForm} labelId={labelId} />
+              <ItemLabelForm toggleListHandler={toggleShowForm} label={label} />
           }
         </Container>
       </StyledLabelWindow>
