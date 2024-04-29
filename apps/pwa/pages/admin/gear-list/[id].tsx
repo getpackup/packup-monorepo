@@ -1,4 +1,11 @@
 import { GearItemType } from '@packup/common'
+import { AppState } from '@packup/redux'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { FaChevronLeft } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
+
 import {
   Box,
   Button,
@@ -6,13 +13,7 @@ import {
   Heading,
   LoadingPage,
   PageContainer,
-} from '@packup/components'
-import { AppState } from '@packup/redux'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { FaChevronLeft } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
-import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
+} from '../../../components'
 
 export default function EditGearListItem() {
   const gear = useSelector((state: AppState) => state.firestore.ordered.gear)

@@ -1,4 +1,3 @@
-import { Box, Button, Column, Heading, Input, PageContainer, Row } from '@packup/components'
 import { useLoggedInUser } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import { postFormUrlEncoded, trackEvent } from '@packup/utils'
@@ -8,6 +7,8 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
+
+import { Box, Button, Column, Heading, Input, PageContainer, Row } from '../components'
 
 export default function AccountDelete() {
   const auth = useSelector((state: AppState) => state.firebase.auth)

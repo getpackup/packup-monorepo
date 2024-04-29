@@ -1,5 +1,4 @@
 // this page is mainly just ofr netlify forms to pick up so we can use the feedback modal to submit
-import { Box, Button, Column, Heading, Input, PageContainer, Row } from '@packup/components'
 import { AppState } from '@packup/redux'
 import { postFormUrlEncoded, trackEvent } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
@@ -7,6 +6,8 @@ import Head from 'next/head'
 import toast from 'react-hot-toast'
 import { FaCaretRight } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+
+import { Box, Button, Column, Heading, Input, PageContainer, Row } from '../components'
 
 export default function Feedback() {
   const auth = useSelector((state: AppState) => state.firebase.auth)

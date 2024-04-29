@@ -1,10 +1,11 @@
-import { Alert, Box, Heading, LoadingSpinner, PageContainer } from '@packup/components'
 import { trackEvent } from '@packup/utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useFirebase } from 'react-redux-firebase'
+
+import { Alert, Box, Heading, LoadingSpinner, PageContainer } from '../components'
 
 export default function VerifyEmail() {
   const firebase = useFirebase()

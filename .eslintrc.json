@@ -58,7 +58,9 @@
         "react/jsx-uses-react": "off",
         "react/react-in-jsx-scope": "off",
         "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-        "react/require-default-props": "off"
+        "react/require-default-props": "off",
+        "react/function-component-definition": "off",
+        "import/prefer-default-export": "off"
       }
     },
     {

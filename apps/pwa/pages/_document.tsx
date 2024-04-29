@@ -1,4 +1,3 @@
-import { HeadLinks, Meta } from '@packup/components'
 import { FallbackStyles, MagicScriptTag } from '@packup/styles'
 import Document, {
   DocumentContext,
@@ -9,6 +8,8 @@ import Document, {
   NextScript,
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+
+import { HeadLinks, Meta } from '../components'
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {

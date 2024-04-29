@@ -1,19 +1,4 @@
 import { GearItemType } from '@packup/common'
-import {
-  Alert,
-  Box,
-  Button,
-  CollapsibleBox,
-  Column,
-  FlexContainer,
-  Heading,
-  HorizontalRule,
-  Input,
-  LoadingPage,
-  Modal,
-  PageContainer,
-  Row,
-} from '@packup/components'
 import { usePersonalGear, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import {
@@ -37,6 +22,22 @@ import toast from 'react-hot-toast'
 import { FaCheckCircle, FaChevronLeft, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
+
+import {
+  Alert,
+  Box,
+  Button,
+  CollapsibleBox,
+  Column,
+  FlexContainer,
+  Heading,
+  HorizontalRule,
+  Input,
+  LoadingPage,
+  Modal,
+  PageContainer,
+  Row,
+} from '../../components'
 
 export default function GearClosetEditItem() {
   const firebase = useFirebase()

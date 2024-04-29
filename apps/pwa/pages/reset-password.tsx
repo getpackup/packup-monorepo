@@ -1,4 +1,3 @@
-import { Alert, Box, Button, Heading, Input, PageContainer } from '@packup/components'
 import { passwordRulesString, requiredPassword, trackEvent } from '@packup/utils'
 import * as Sentry from '@sentry/nextjs'
 import { Field, Form, Formik, FormikHelpers } from 'formik'
@@ -9,6 +8,8 @@ import toast from 'react-hot-toast'
 import { FaCaretRight, FaInfoCircle } from 'react-icons/fa'
 import { useFirebase } from 'react-redux-firebase'
 import ReactTooltip from 'react-tooltip'
+
+import { Alert, Box, Button, Heading, Input, PageContainer } from '../components'
 
 type ResetFormType = {
   password: string

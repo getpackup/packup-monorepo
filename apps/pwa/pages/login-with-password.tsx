@@ -1,14 +1,3 @@
-import {
-  AnimatedContainer,
-  Box,
-  Button,
-  Column,
-  FlexContainer,
-  Heading,
-  Input,
-  PageContainer,
-  Row,
-} from '@packup/components'
 import { AppState, removeAttemptedPrivatePage } from '@packup/redux'
 import { baseSpacer } from '@packup/styles'
 import { requiredEmail, requiredField, trackEvent } from '@packup/utils'
@@ -22,6 +11,18 @@ import toast from 'react-hot-toast'
 import { FaChevronRight } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
+
+import {
+  AnimatedContainer,
+  Box,
+  Button,
+  Column,
+  FlexContainer,
+  Heading,
+  Input,
+  PageContainer,
+  Row,
+} from '../components'
 
 export default function LoginWithPasswordForm() {
   const firebase = useFirebase()

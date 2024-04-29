@@ -1,3 +1,12 @@
+import { requiredField, trackEvent } from '@packup/utils'
+import { Field, Form, Formik, FormikHelpers } from 'formik'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { FaCaretRight } from 'react-icons/fa'
+import { useFirebase } from 'react-redux-firebase'
+
 import {
   Alert,
   Box,
@@ -8,15 +17,7 @@ import {
   Input,
   PageContainer,
   Row,
-} from '@packup/components'
-import { requiredField, trackEvent } from '@packup/utils'
-import { Field, Form, Formik, FormikHelpers } from 'formik'
-import Head from 'next/head'
-import Link from 'next/link'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
-import { FaCaretRight } from 'react-icons/fa'
-import { useFirebase } from 'react-redux-firebase'
+} from '../components'
 
 type ForgotPasswordForm = {
   email: string
