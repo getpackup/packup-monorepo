@@ -23,12 +23,7 @@ import {
 import toast from 'react-hot-toast'
 import { AppState } from '@packup/redux'
 import { brandDanger, baseSpacer, halfSpacer } from '@packup/styles'
-import {
-  acceptedTripMembersOnly,
-  isUserTripOwner,
-  sendTripInvitationEmail,
-  trackEvent,
-} from '@packup/utils'
+import { isUserTripOwner, sendTripInvitationEmail, trackEvent } from '@packup/utils'
 import axios from 'axios'
 import Head from 'next/head'
 import { FunctionComponent, useState } from 'react'
@@ -59,7 +54,7 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
     // Object.values(acceptedTripMembersOnly(activeTrip)).length + 1 accounts for async data updates
     if (
       activeTrip?.tripMembers &&
-      Object.values(acceptedTripMembersOnly(activeTrip)).length + 1 > MAX_TRIP_PARTY_SIZE
+      Object.values(activeTrip?.tripMembers).length + 1 > MAX_TRIP_PARTY_SIZE
     ) {
       setIsSearchBarDisabled(true)
       // send us a slack message so we can follow up
