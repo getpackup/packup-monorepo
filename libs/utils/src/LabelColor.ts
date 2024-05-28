@@ -54,7 +54,7 @@ const labelColors: Record<LabelColorName, LabelColor> = {
     },
     dark: {
       color: "#3d0a0a",
-      bgColor: "#750707"
+      bgColor: "#c51515"
     }
   },
   [LabelColorName.orange]: {
