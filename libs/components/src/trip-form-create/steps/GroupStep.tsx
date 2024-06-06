@@ -6,6 +6,7 @@ import { RootState } from '@packup/redux'
 import { MAX_TRIP_PARTY_SIZE, UserType } from '@packup/common'
 import { Button, Heading, HorizontalRule, UserMediaObject, UserSearch } from '@packup/components'
 import toast from 'react-hot-toast'
+import { trackEvent } from '@packup/utils'
 
 export default function GroupStep(props: any) {
   const [isSearchBarDisabled, setIsSearchBarDisabled] = useState(false)
@@ -37,6 +38,11 @@ export default function GroupStep(props: any) {
           : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new&owner=${auth.uid}`
       )
       toast.error(`At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`)
+
+      trackEvent('Trip Party Max Reached', {
+        tripId: 'new',
+        owner: auth.uid,
+      })
 
       return
     }
