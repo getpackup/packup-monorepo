@@ -11,11 +11,11 @@
     "@netlify/plugin-nextjs": "4.35.1-next-server-fix.0",
     "@nrwl/cli": "15.8.5",
     "@nrwl/cypress": "15.8.5",
-    "@nrwl/eslint-plugin-nx": "15.8.5",
+    "@nrwl/eslint-plugin-nx": "15.9.7",
     "@nrwl/jest": "15.8.5",
     "@nrwl/linter": "15.8.5",
-    "@nrwl/react": "15.8.5",
-    "@nrwl/web": "15.8.5",
+    "@nrwl/react": "15.9.7",
+    "@nrwl/web": "15.9.7",
     "@nrwl/workspace": "15.8.5",
     "@svgr/webpack": "^6.3.1",
     "@testing-library/react": "13.3.0",
@@ -58,7 +58,7 @@
     "yup": "^1.0.2"
   },
   "dependencies": {
-    "@nrwl/next": "15.8.5",
+    "@nrwl/next": "15.9.7",
     "@react-spring/web": "^9.6.1",
     "@segment/analytics-next": "^1.43.0",
     "@sentry/nextjs": "^7.77.0",
