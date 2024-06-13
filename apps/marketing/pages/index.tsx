@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 import { attributes, react as HomeContent } from '../content/about.md'
 
