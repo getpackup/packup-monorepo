@@ -53,7 +53,7 @@ const LabelRow = styled.div`
   flex-flow: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
+  gap: 5px;
   width: 100%;
 `
 

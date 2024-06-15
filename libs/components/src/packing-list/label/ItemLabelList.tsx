@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { brandPrimary } from '@packup/styles'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import { useSelector, useStore } from 'react-redux'
 import { AppState } from '@packup/redux'
@@ -8,11 +7,11 @@ import { LabelColorName } from '@packup/utils'
 import { ItemLabel } from '@packup/components'
 import toast from 'react-hot-toast'
 import { PackingListItemType, ItemLabel as ItemLabelType } from '@packup/common'
+import { FaPlus } from "react-icons/fa";
 
 const CreateButton = styled.button`
   cursor: pointer;
-  background-color: inherit;
-  border: none;
+  background-color: var(--color-backgroundTertiary);
   width: 100%;
   display: flex;
   flex-flow: row;
@@ -20,10 +19,13 @@ const CreateButton = styled.button`
   align-items: center;
   padding: 10px;
   font-weight: 600;
-  border-radius: 3px;
+  border-radius: 10px;
+  border: 2px solid;
+  border-color: var(--color-border);
+  gap: 5px;
 
   :hover {
-    color: ${brandPrimary};
+    background-color: var(--color-background);
     transition: all 0.2s ease-in-out;
   }
 `
@@ -39,7 +41,8 @@ const LabelContainer = styled.div`
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 15px 0 0;
+  gap: 5px;
 `
 
 type PackingListLabelListProps = {
@@ -126,7 +129,8 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
       <CreateButton onClick={() => {
         toggleListHandler()
       }}>
-        + New Label
+        <FaPlus />
+        New Label
       </CreateButton>
       { labelComponents.length > 0 && (
         <LabelContainer>
