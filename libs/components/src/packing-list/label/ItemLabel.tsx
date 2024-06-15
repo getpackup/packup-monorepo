@@ -70,7 +70,6 @@ type PackingListItemLabelProps = {
   onClick?: (e?: any) => void
 }
 
-// TODO Update to make show it as removable when in label selection state
 export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
   children,
   colorName,
