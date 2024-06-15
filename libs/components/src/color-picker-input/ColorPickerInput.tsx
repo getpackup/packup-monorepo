@@ -25,6 +25,7 @@ const ColorLabel = styled.label`
   justify-content: center;
   align-items: center;
   border-radius: 3px;
+  border: 2px solid;
   font-size: 20px;
 `
 
@@ -68,6 +69,7 @@ export const ColorPickerInput: FunctionComponent<ColorPickerInputProps> = ({disa
           style={{
             backgroundColor: labelColor.bgColor,
             color: labelColor.color,
+            borderColor: labelColor.color,
           }}
         >
           {selectedColor === color ? '✓' : null}
