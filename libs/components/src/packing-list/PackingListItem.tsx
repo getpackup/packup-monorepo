@@ -104,7 +104,6 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   const dispatch = useDispatch()
   const size = useWindowSize()
   const [removing, setRemoving] = useState(false)
-  const [labels, setLabels] = useState<JSX.Element[]>([])
 
   const labelEntries = Object.entries(props.item.labels || [])
 
@@ -126,25 +125,6 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
         }
       })
   }
-
-  useEffect(() => {
-    setLabels(labelEntries.map(([id, label]) => {
-      return (
-        <ItemLabel
-          key={id}
-          colorName={label.color as LabelColorName}
-          variant={packingListItemBeingEdited === props.item.id ? 'removable' : 'default'}
-          onClick={
-            packingListItemBeingEdited === props.item.id
-              ? (() => handleRemoveLabel(id))
-              : () => {}
-          }
-        >
-          {label.text}
-        </ItemLabel>
-      )
-    }))
-  }, [packingListItemBeingEdited, props.item.labels])
 
   const onUpdate = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     firebaseConnection(firebase, props.tripId, props.item.id)
@@ -329,7 +309,22 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                   </>
                 </ItemText>
 
-                {labels}
+                {labelEntries.map(([id, label]) => {
+                  return (
+                    <ItemLabel
+                      key={id}
+                      colorName={label.color as LabelColorName}
+                      variant={packingListItemBeingEdited === props.item.id ? 'removable' : 'default'}
+                      onClick={
+                        packingListItemBeingEdited === props.item.id
+                          ? (() => handleRemoveLabel(id))
+                          : () => {}
+                      }
+                    >
+                      {label.text}
+                    </ItemLabel>
+                  )
+                })}
 
                 {props.isOnSharedList && (
                   <StackedAvatars style={{ marginRight: halfSpacer }}>
