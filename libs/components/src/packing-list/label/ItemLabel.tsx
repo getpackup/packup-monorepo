@@ -4,6 +4,7 @@ import { ThemeContext, getLabelColor, LabelColorName } from '@packup/utils'
 import { ItemLabelEditButton } from './ItemLabelEditButton'
 import { ItemLabelDeleteButton } from './ItemLabelDeleteButton'
 import { ItemLabel as Label } from '@packup/common'
+import { IoClose } from "react-icons/io5"
 
 type LabelProps = {
   color?: string
@@ -21,6 +22,9 @@ const PackingItemLabel = styled.span<LabelProps>`
   color: ${props => props.color};
   background-color: ${props => props.bgColor};
   cursor: ${props => props.clickable ? 'pointer' : 'auto'};
+  display: flex;
+  align-items: center;
+  gap: 5px;
 
   ${props => props.clickable &&
     ':hover {color: ${props => props.bgColor}; background-color: ${props => props.color}; transition: all 0.2s ease-in-out; }'
@@ -110,7 +114,7 @@ export const ItemLabel: FunctionComponent<PackingListItemLabelProps> = ({
       {children}
       {
         variant === 'removable' &&
-        ' x'
+        <IoClose />
       }
     </PackingItemLabel>
   )
