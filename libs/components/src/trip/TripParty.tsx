@@ -60,10 +60,15 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
       // send us a slack message so we can follow up
       axios.get(
         process.env.NODE_ENV === 'production'
-          ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}`
-          : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}`
+          ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}&owner=${auth.uid}`
+          : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}&owner=${auth.uid}`
       )
       toast.error(`At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`)
+
+      trackEvent('Trip Party Max Reached', {
+        tripId: activeTrip.tripId,
+        owner: auth.uid,
+      })
       return
     }
     if (activeTrip) {
