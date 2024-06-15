@@ -1,11 +1,10 @@
-import { ItemLabel as ItemLabelType, PackingListItemType } from '@packup/common'
+import { PackingListItemType } from '@packup/common'
 import { Box, NoTripFound, PackingList, PageContainer } from '@packup/components'
 import { useActiveTrip } from '@packup/hooks'
 import {
   AppState,
   setActivePackingListFilter,
   setActivePackingListTab,
-  setGearItemLabels,
   setPersonalListScrollPosition,
   setSharedListScrollPosition} from '@packup/redux'
 import { PackingListFilterOptions, TabOptions, trackEvent } from '@packup/utils'
@@ -13,13 +12,12 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { isEmpty, isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import { actionTypes } from 'redux-firestore'
 
 export default function TripById() {
   const dispatch = useDispatch()
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const firebase = useFirebase()
 
   const packingList: PackingListItemType[] = useSelector(
     (state: AppState) => state.firestore.ordered.packingList
@@ -30,29 +28,6 @@ export default function TripById() {
   const router = useRouter()
   // the trip ID
   const id = router.query.id as string
-
-  useEffect(() => {
-    // Load gear item labels and store in Redux
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(auth.uid)
-      .collection('labels')
-      .get()
-      .then((subcollection) => {
-        const tempLabels: Array<ItemLabelType> = []
-
-        // Looks and feels weird, but let
-        for (const doc of subcollection.docs) {
-          tempLabels.push({
-            id: doc.id,
-            ...doc.data() as ItemLabelType,
-          })
-        }
-
-        dispatch(setGearItemLabels(tempLabels))
-      })
-  }, [])
 
   useFirestoreConnect([
     {
@@ -88,13 +63,13 @@ export default function TripById() {
 
     return () => {
       // disconnect listening and remove data from redux store
-      // so next trip can fetch without `activeTripById` already being populated with
+      //  so the next trip can fetch without `activeTripById` already being populated with
       // now-stale data
       dispatch({
         type: actionTypes.CLEAR_DATA,
         preserve: {
-          data: ['loggedInUser', 'trips', 'users'],
-          ordered: ['loggedInUser', 'trips', 'users'],
+          data: ['loggedInUser', 'trips', 'users', 'labels'],
+          ordered: ['loggedInUser', 'trips', 'users', 'labels'],
         },
       })
     }

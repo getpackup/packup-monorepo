@@ -8,7 +8,7 @@ import { ColorPickerInput } from '../../color-picker-input/ColorPickerInput'
 import { LabelColorName, trackEvent } from '@packup/utils'
 import { ItemLabel } from '@packup/common'
 import { ItemLabelPreview } from './ItemLabelPreview'
-import { useFirebase } from 'react-redux-firebase'
+import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState, setGearItemLabels } from '@packup/redux'
 import toast from 'react-hot-toast'
@@ -51,7 +51,6 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
   toggleListHandler,
   label,
 }) => {
-  const dispatch = useDispatch()
   const [labelText, setLabelText] = useState(label?.text ?? '')
   const [labelColor, setLabelColor] = useState(label?.color ?? LabelColorName.default)
 
@@ -80,8 +79,9 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
           color: values.labelColor
         })
 
-      // Adding new label to Firestore will generate a new ID, so we need to re-fetch labels and update Redux
-      await refetchLabels(firebase, auth, dispatch)
+      // Adding a new label to Firestore will generate a new ID, so we need to re-fetch labels and update Redux
+      // Subscribe to redux store to get new/updated labels
+
 
       trackEvent('User Label Created', {
         label: values.labelText,
@@ -120,7 +120,7 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
           color: values.labelColor
         })
 
-      await refetchLabels(firebase, auth, dispatch)
+      // TODO Subscribe to redux store to get new/updated labels
 
       trackEvent('User Label Updated', {
         label: values.labelText,
@@ -173,31 +173,4 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
       )}
     </Formik>
   )
-}
-
-/**
- * Update redux store with the latest labels from Firestore
- * @param firebase
- * @param auth
- * @param dispatch
- */
-const refetchLabels = async (firebase: any, auth: any, dispatch: any) => {
-  await firebase
-    .firestore()
-    .collection('users')
-    .doc(auth.uid)
-    .collection('labels')
-    .get()
-    .then((subcollection: any) => {
-      const tempLabels: Array<ItemLabel> = []
-
-      for (const doc of subcollection.docs) {
-        tempLabels.push({
-          ...doc.data() as ItemLabel,
-          id: doc.id,
-        })
-      }
-
-      dispatch(setGearItemLabels(tempLabels))
-    })
 }

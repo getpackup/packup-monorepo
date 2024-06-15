@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { brandPrimary } from '@packup/styles'
-import { useFirebase } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
+import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
+import { useSelector, useStore } from 'react-redux'
 import { AppState } from '@packup/redux'
 import { LabelColorName } from '@packup/utils'
 import { ItemLabel } from '@packup/components'
@@ -50,7 +50,29 @@ type PackingListLabelListProps = {
 
 export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler, tripId, itemId }) => {
   const firebase = useFirebase()
+  const auth = useSelector((state: AppState) => state.firebase.auth)
+
+  const store = useStore()
+
   const { gearItemLabels } = useSelector((state: AppState) => state.client)
+
+  // TODO is this right?
+  store.subscribe(() => {
+
+    const newState = store.getState()
+
+    console.log('gearItemLabels', gearItemLabels)
+    console.log('newState', newState)
+  })
+
+  useFirestoreConnect([
+    {
+      collection: 'users',
+      subcollections: [{ collection: 'labels' }],
+      doc: auth.uid,
+      storeAs: 'gearItemLabels'
+    }
+  ])
 
   const labelComponents = gearItemLabels.map((label) => {
     // @ts-ignore
