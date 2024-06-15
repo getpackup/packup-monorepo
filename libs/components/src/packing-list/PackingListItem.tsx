@@ -10,7 +10,8 @@ import {
   IconWrapper,
   Input,
   Pill,
-  EditPackingListItem, ItemLabel
+  EditPackingListItem,
+  ItemLabel
 } from '@packup/components'
 import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import toast from 'react-hot-toast'
@@ -124,8 +125,6 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
           ...tmpLabels,
         }
       })
-
-    // toast.success(`${label.text} label added!`)
   }
 
   useEffect(() => {
