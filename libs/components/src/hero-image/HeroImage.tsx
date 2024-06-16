@@ -1,7 +1,7 @@
 import { zIndexHeroImage, baseSpacer } from '@packup/styles'
 import { FunctionComponent } from 'react'
 import styled, { CSSProperties } from 'styled-components'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 
 // TODO fix any types
 type HeroImageProps = {
