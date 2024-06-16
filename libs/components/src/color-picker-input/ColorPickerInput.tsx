@@ -10,7 +10,7 @@ const ColorInput = styled.div`
   width: 100%;
   margin-bottom: ${baseSpacer};
   justify-content: space-between;
-  gap: 10px;
+  gap: 5px;
 `
 
 const ColorCheckbox = styled.input`

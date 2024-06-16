@@ -24,7 +24,7 @@ const Overlay = styled.div`
 `
 
 const StyledLabelWindow = styled.div`
-  width: 300px;
+  width: 330px;
   max-height: 500px;
   height: fit-content;
   border-radius: 3px;
