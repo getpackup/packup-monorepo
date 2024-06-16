@@ -10,6 +10,7 @@ const ColorInput = styled.div`
   width: 100%;
   margin-bottom: ${baseSpacer};
   justify-content: space-between;
+  gap: 10px;
 `
 
 const ColorCheckbox = styled.input`
@@ -20,7 +21,7 @@ const ColorLabel = styled.label`
   display: flex;
   width: 50px;
   height: 30px;
-  margin: 0 0 10px;
+  margin: 0;
   cursor: pointer;
   justify-content: center;
   align-items: center;

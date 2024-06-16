@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-import { useSelector, useStore } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
 import { LabelColorName } from '@packup/utils'
 import { ItemLabel } from '@packup/components'
