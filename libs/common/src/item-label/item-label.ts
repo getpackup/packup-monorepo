@@ -3,3 +3,5 @@ export interface ItemLabel {
   text: string
   color: string
 }
+
+export type FirestoreItemLabel = Omit<ItemLabel, 'id'>

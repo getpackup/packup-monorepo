@@ -20,7 +20,7 @@ import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } fr
 
 import { LabelColorName, trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import {
   FaChevronDown,
   FaChevronRight,

@@ -6,7 +6,7 @@ import { AppState } from '@packup/redux'
 import { LabelColorName } from '@packup/utils'
 import { ItemLabel } from '@packup/components'
 import toast from 'react-hot-toast'
-import { PackingListItemType, ItemLabel as ItemLabelType } from '@packup/common'
+import { PackingListItemType, ItemLabel as ItemLabelType, FirestoreItemLabel } from '@packup/common'
 import { FaPlus } from "react-icons/fa";
 
 const CreateButton = styled.button`
@@ -54,18 +54,13 @@ type PackingListLabelListProps = {
 export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ toggleListHandler, tripId, itemId }) => {
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
+  const gearItemLabels: Record<string, FirestoreItemLabel> = useSelector((state: AppState) => state.firestore.data[`gearItemLabels`])
 
-  const store = useStore()
-
-  const { gearItemLabels } = useSelector((state: AppState) => state.client)
-
-  // TODO is this right?
-  store.subscribe(() => {
-
-    const newState = store.getState()
-
-    console.log('gearItemLabels', gearItemLabels)
-    console.log('newState', newState)
+  const labels: Array<ItemLabelType> = Object.keys(gearItemLabels ?? {}).map((id) => {
+    return {
+      id,
+      ...gearItemLabels[id]
+    }
   })
 
   useFirestoreConnect([
@@ -77,8 +72,7 @@ export const ItemLabelList: FunctionComponent<PackingListLabelListProps> = ({ to
     }
   ])
 
-  const labelComponents = gearItemLabels.map((label) => {
-    // @ts-ignore
+  const labelComponents = labels.map((label) => {
     return (
       <ItemLabel
         colorName={label.color as LabelColorName}
