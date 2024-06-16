@@ -26,7 +26,6 @@ const ColorLabel = styled.label`
   justify-content: center;
   align-items: center;
   border-radius: 3px;
-  border: 2px solid;
   font-size: 20px;
 `
 

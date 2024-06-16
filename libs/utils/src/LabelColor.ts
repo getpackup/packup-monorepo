@@ -5,7 +5,9 @@ export enum LabelColorName {
   orange = "orange",
   yellow = "yellow",
   blue = "blue",
+  teal = "teal",
   purple = "purple",
+  pink = "pink",
   gray = "gray",
   brown = "brown",
 }
@@ -30,93 +32,113 @@ const labelColors: Record<LabelColorName, LabelColor> = {
   [LabelColorName.default]: {
     light: {
       color: "#000",
-      bgColor: "#e1e4e8"
+      bgColor: "#B6C2CF"
     },
     dark: {
-      color: "#e1e4e8",
+      color: "#B6C2CF",
       bgColor: "#24292e"
     }
   },
   [LabelColorName.green]: {
     light: {
-      color: "#062d10",
-      bgColor: "#6fde75"
+      color: "#1D2125",
+      bgColor: "#4BCE97"
     },
     dark: {
-      color: "#0a3d18",
-      bgColor: "#1a993c"
+      color: "#BAF3DB",
+      bgColor: "#216E4E"
     }
   },
   [LabelColorName.red]: {
     light: {
-      color: "#e72525",
-      bgColor: "#750707"
+      color: "#1D2125",
+      bgColor: "#c63b2f"
     },
     dark: {
-      color: "#3d0a0a",
-      bgColor: "#c51515"
+      color: "#FFD5D2",
+      bgColor: "#AE2E24"
     }
   },
   [LabelColorName.orange]: {
     light: {
-      color: "#ce4a11",
-      bgColor: "#622409"
+      color: "#1D2125",
+      bgColor: "#FEA362"
     },
     dark: {
-      color: "#59290e",
-      bgColor: "#c25c22"
+      color: "#FEDEC8",
+      bgColor: "#A54800"
     }
   },
   [LabelColorName.yellow]: {
     light: {
-      color: "#9a6700",
-      bgColor: "#f9c513"
+      color: "#1D2125",
+      bgColor: "#E2B203"
     },
     dark: {
-      color: "#9a6700",
-      bgColor: "#f9c513"
+      color: "#F8E6A0",
+      bgColor: "#7F5F01"
     }
   },
   [LabelColorName.blue]: {
     light: {
-      color: "#0f3560",
-      bgColor: "#a4d1ff"
+      color: "#1D2125",
+      bgColor: "#579DFF"
     },
     dark: {
-      color: "#0f3560",
-      bgColor: "#a4d1ff"
+      color: "#CCE0FF",
+      bgColor: "#0055CC"
     }
   },
   [LabelColorName.purple]: {
     light: {
-      color: "#4c2882",
-      bgColor: "#d4c5ff"
+      color: "#1D2125",
+      bgColor: "#9F8FEF"
     },
     dark: {
-      color: "#4c2882",
-      bgColor: "#d4c5ff"
+      color: "#DFD8FD",
+      bgColor: "#5E4DB2"
     }
   },
   [LabelColorName.gray]: {
     light: {
-      color: "#000",
-      bgColor: "#e1e4e8"
+      color: "#1D2125",
+      bgColor: "#8C9BAB"
     },
     dark: {
-      color: "#e1e4e8",
-      bgColor: "#24292e"
+      color: "#DEE4EA",
+      bgColor: "#596773"
     }
   },
   [LabelColorName.brown]: {
     light: {
-      color: "#3d1f00",
-      bgColor: "#c7a17a"
+      bgColor: "#e48528",
+      color: "#1D2125"
     },
     dark: {
-      color: "#3d1f00",
-      bgColor: "#c7a17a"
+      bgColor: "#6a3a0c",
+      color: "#ddbc9d"
     }
-  }
+  },
+  [LabelColorName.teal]: {
+    light: {
+      color: "#1D2125",
+      bgColor: "#6CC3E0"
+    },
+    dark: {
+      color: "#C6EDFB",
+      bgColor: "#206A83"
+    }
+  },
+  [LabelColorName.pink]: {
+    light: {
+      color: "#1D2125",
+      bgColor: "#FF7EB9"
+    },
+    dark: {
+      color: "#FFD6EB",
+      bgColor: "#A4006B"
+    }
+  },
 }
 
 export const isValidColor = (color: string): color is LabelColorName => Object.values(LabelColorName).includes(color as LabelColorName)

@@ -13,7 +13,6 @@ type LabelProps = {
 }
 
 const PackingItemLabel = styled.span<LabelProps>`
-  border: 1px solid ${props => props.color};
   line-height: normal;
   font-size: 14px;
   padding: 5px 10px;
@@ -32,7 +31,6 @@ const PackingItemLabel = styled.span<LabelProps>`
 `
 
 const LabelListItem = styled.span<LabelProps>`
-  border: 1px solid ${props => props.color};
   line-height: normal;
   font-size: 1.2rem;
   padding: 8px 16px;
