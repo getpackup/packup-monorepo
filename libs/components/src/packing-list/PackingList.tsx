@@ -1,4 +1,4 @@
-import { ItemLabel as ItemLabelType, PackingListItemType, TripType } from '@packup/common'
+import { PackingListItemType, TripType } from '@packup/common'
 import {
   Box,
   Button,
@@ -7,7 +7,8 @@ import {
   Heading,
   LoadingSpinner,
   PackingListCategory,
-  PackingListFilters, ItemLabelSelection,
+  PackingListFilters,
+  ItemLabelSelection,
   PackingListSearch,
   ProgressBar,
   Row,
@@ -48,7 +49,7 @@ import {
   scrollToPosition,
 } from '@packup/utils'
 import { useRouter } from 'next/router'
-import { FunctionComponent, SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -130,7 +131,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const firebase = useFirebase()
 
   const [loadingGearList, setLoadingGearList] = useState(true)
-  const [showLabelSelection, setShowLabelSelection] = useState(false)
+  const [showLabelSelection, setShowLabelSelection] = useState<boolean>(false)
   const [itemId, setItemId] = useState('')
 
   const toggleLabelSelection = (itemId: string) => {

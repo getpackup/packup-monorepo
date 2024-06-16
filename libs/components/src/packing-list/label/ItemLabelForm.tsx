@@ -56,7 +56,6 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
 
   const firebase = useFirebase()
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const { gearItemLabels: labels } = useSelector((state: AppState) => state.client)
 
   const handleChange = (e: any) => {
     if (e.target.type === 'text') setLabelText(e.target.value)
@@ -81,7 +80,6 @@ export const ItemLabelForm: FunctionComponent<PackingListLabelCreateProps> = ({
 
       // Adding a new label to Firestore will generate a new ID, so we need to re-fetch labels and update Redux
       // Subscribe to redux store to get new/updated labels
-
 
       trackEvent('User Label Created', {
         label: values.labelText,
