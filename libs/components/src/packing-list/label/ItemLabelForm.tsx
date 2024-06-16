@@ -21,18 +21,21 @@ const FormWrapper = styled.div`
 
 const SubmitButton = styled.button`
   cursor: pointer;
-  background-color: transparent;
-  border: none;
+  background-color: var(--color-backgroundTertiary);
   width: 100%;
   display: flex;
   flex-flow: row;
   justify-content: center;
   align-items: center;
   padding: 10px;
+  border-radius: 10px;
+  border: 2px solid;
+  border-color: var(--color-border);
+  gap: 5px;
 
   :hover {
-    color: ${brandPrimary};
-    transition: color 0.2s ease-in-out;
+    background-color: var(--color-background);
+    transition: all 0.2s ease-in-out;
   }
 `
 
