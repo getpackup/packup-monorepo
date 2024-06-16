@@ -18,8 +18,6 @@ export const SET_PACKING_LIST_SEARCH_VALUE = 'SET_PACKING_LIST_SEARCH_VALUE'
 
 export const SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED = 'SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED'
 
-export const SET_GEAR_ITEM_LABELS = 'SET_GEAR_ITEM_LABELS'
-
 export const clientInitialState: ClientStoreType = {
   location: undefined,
   activePackingListFilter: PackingListFilterOptions.All,
@@ -96,12 +94,6 @@ export default function clientReducer(
         packingListItemBeingEdited: action.payload,
       }
     }
-    case SET_GEAR_ITEM_LABELS: {
-      return {
-        ...state,
-        gearItemLabels: action.payload,
-      }
-    }
     default:
       return state
   }
@@ -148,10 +140,5 @@ export const setPackingListSearchValue = (payload: string) => ({
 
 export const setActivePackingListItemBeingEdited = (payload: string | undefined) => ({
   type: SET_ACTIVE_PACKING_LIST_ITEM_BEING_EDITED,
-  payload,
-})
-
-export const setGearItemLabels = (payload: Record<string, any>) => ({
-  type: SET_GEAR_ITEM_LABELS,
   payload,
 })

@@ -8,9 +8,9 @@ import { ColorPickerInput } from '../../color-picker-input/ColorPickerInput'
 import { LabelColorName, trackEvent } from '@packup/utils'
 import { ItemLabel } from '@packup/common'
 import { ItemLabelPreview } from './ItemLabelPreview'
-import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppState, setGearItemLabels } from '@packup/redux'
+import { useFirebase } from 'react-redux-firebase'
+import { useSelector } from 'react-redux'
+import { AppState } from '@packup/redux'
 import toast from 'react-hot-toast'
 
 const FormWrapper = styled.div`

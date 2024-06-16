@@ -70,11 +70,6 @@ export type SetActivePackingListItemBeingEdited = {
   payload: item
 }
 
-export type SetGearItemLabels = {
-  type: typeof SET_GEAR_ITEM_LABELS
-  payload: LabelItem[]
-}
-
 export type ClientActions =
   | AddAttemptedPrivatePageAction
   | RemoveAttemptedPrivatePageAction
@@ -85,4 +80,3 @@ export type ClientActions =
   | SetTripsDefaultView
   | SetPackingListSearchValue
   | SetActivePackingListItemBeingEdited
-  | SetGearItemLabels
