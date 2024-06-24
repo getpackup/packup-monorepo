@@ -15,7 +15,7 @@ import { FunctionComponent } from 'react'
 import ReactTooltip from 'react-tooltip'
 import styled, { CSSProperties } from 'styled-components'
 import { Md5 } from 'ts-md5'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 
 export interface AvatarProps {
   src?: string
