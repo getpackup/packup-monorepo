@@ -11,6 +11,7 @@ import {
   SET_PERSONAL_LIST_SCROLL_POSITION,
   SET_SHARED_LIST_SCROLL_POSITION,
   SET_TRIPS_DEFAULT_VIEW,
+  SET_GEAR_ITEM_LABELS,
 } from './client'
 
 export type ClientStoreType = {
@@ -22,6 +23,7 @@ export type ClientStoreType = {
   sharedListScrollPosition: number
   tripsDefaultView: 'list' | 'calendar'
   packingListItemBeingEdited: undefined | string
+  gearItemLabels: LabelItem[]
 }
 
 export type AddAttemptedPrivatePageAction = {
