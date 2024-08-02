@@ -4,6 +4,7 @@ import { Heading, TripCard } from '@packup/components'
 import { isAfterToday, isBeforeToday, trackEvent } from '@packup/utils'
 import { useRouter } from 'next/router'
 import { FirebaseReducer } from 'react-redux-firebase'
+import { PackingListBannerAd } from '../packing-list/PackingListBannerAd'
 
 export function ListView({ trips, auth }: { trips: TripType[]; auth: FirebaseReducer.AuthState }) {
   const router = useRouter()
@@ -76,6 +77,8 @@ export function ListView({ trips, auth }: { trips: TripType[]; auth: FirebaseRed
           {upcomingTrips.map((trip) => renderTrip(trip))}
         </>
       )}
+
+      <PackingListBannerAd />
 
       {/* PAST TRIPS */}
       {pastTrips.length > 0 && (

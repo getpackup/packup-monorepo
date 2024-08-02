@@ -302,7 +302,8 @@ export const CssReset = createGlobalStyle`
     margin: 0 auto !important;
   }
 
-  /* add icon to external links in blogs */
+  /* add icon to external links in blogs and sponsored packing list items */
+  .packing-list-item a[target="_blank"]:after,
   .blog-content a[target="_blank"]:after {
     content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==");
     margin-left: ${quarterSpacer};

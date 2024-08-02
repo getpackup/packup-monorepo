@@ -81,7 +81,6 @@ const ItemInputWrapper = styled.div`
 
 const ItemText = styled.div`
   flex: 1;
-  cursor: pointer;
 `
 
 type FormValues = {
@@ -246,8 +245,24 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     label=""
                   />
                 </ItemInputWrapper>
-                <ItemText title="Edit item">
+                <ItemText className="packing-list-item">
                   <>
+                    {props.item.isSponsored && (
+                      <span
+                        data-tip="We partner with brands we love to help keep Packup free for you."
+                        data-for="sponsoredItem"
+                        style={{ display: 'inline-block' }}
+                      >
+                        <Pill text="Ad" color="neutral" style={{ margin: 0 }} />
+                        <ReactTooltip
+                          id="sponsoredItem"
+                          place="top"
+                          type="dark"
+                          effect="solid"
+                          className="tooltip customTooltip"
+                        />
+                      </span>
+                    )}
                     {props.item.isEssential && (
                       <span
                         data-tip="Essential Item"
@@ -264,7 +279,13 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                         />
                       </span>
                     )}{' '}
-                    {props.item.name}{' '}
+                    {props.item.isSponsored ? (
+                      <a href="https://fernwoodcoffee.com/?ref=packup" target="_blank">
+                        {props.item.name}
+                      </a>
+                    ) : (
+                      props.item.name
+                    )}{' '}
                     {/* TODO: deprecate quantity and only user packedBy quanities added together? Or get rid of quantity on packedBy and not be able to break down total number by person */}
                     {props.item.quantity && props.item.quantity !== 1 && (
                       // || props.item.packedBy.length > 1) && (

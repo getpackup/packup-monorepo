@@ -72,7 +72,7 @@ function App({ Component, pageProps }: AppProps) {
       <Script id="googleMapsLoaded">{`window.googleMapsLoaded = function() {}`}</Script>
       <Script
         strategy="lazyOnload"
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places&callback=googleMapsLoaded`}
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NX_GOOGLE_MAPS_API_KEY}&libraries=places&callback=googleMapsLoaded&loading=async`}
       />
       <ReduxWrapper>
         <ThemeProvider>
