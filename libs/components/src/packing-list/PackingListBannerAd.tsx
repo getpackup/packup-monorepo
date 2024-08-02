@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import ReactTooltip from 'react-tooltip'
 
 import logo from '../../../../apps/pwa/public/images/Fernwood/Fernwood-Logo-RGB-2022-Wordmark-Red_1980x.png'
@@ -104,15 +104,26 @@ const Stripes = styled.div`
   );
 `
 
-const images = [Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9, Image10]
+const images: StaticImageData[] = [
+  Image1,
+  Image2,
+  Image3,
+  Image4,
+  Image5,
+  Image6,
+  Image7,
+  Image8,
+  Image9,
+  Image10,
+] as unknown as StaticImageData[]
 
-const getRandomImageUrl = (images: string[]) => {
+const getRandomImageUrl = (images: StaticImageData[]) => {
   const randomIndex = Math.floor(Math.random() * images.length)
   return images[randomIndex]
 }
 
 export const PackingListBannerAd = () => {
-  const [imageUrl, setImageUrl] = useState('')
+  const [imageUrl, setImageUrl] = useState<StaticImageData | null>(null)
   const { isExtraSmallScreen } = useWindowSize()
 
   const auth = useSelector((state: AppState) => state.firebase.auth)
