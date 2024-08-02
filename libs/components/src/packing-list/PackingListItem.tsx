@@ -19,7 +19,7 @@ import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } fr
 
 import { trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import {
   FaChevronDown,
   FaChevronRight,
@@ -125,6 +125,11 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   }
 
   const onDelete = () => {
+    if (props.item.isSponsored) {
+      trackEvent('Fernwood Ad Packing List Item Deleted', {
+        tripId: props.tripId,
+      })
+    }
     firebaseConnection(firebase, props.tripId, props.item.id)
       .delete()
       .then(() => {
@@ -214,6 +219,14 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   }
 
   const itemIsShared = props.item.packedBy.some((item) => item.isShared)
+
+  useEffect(() => {
+    if (props.item.isSponsored) {
+      trackEvent('Fernwood Ad Packing List Item Viewed', {
+        tripId: props.tripId,
+      })
+    }
+  }, [])
 
   return (
     <PackingListItemWrapper

@@ -78,7 +78,7 @@ export function ListView({ trips, auth }: { trips: TripType[]; auth: FirebaseRed
         </>
       )}
 
-      <PackingListBannerAd />
+      <PackingListBannerAd location="trips" />
 
       {/* PAST TRIPS */}
       {pastTrips.length > 0 && (

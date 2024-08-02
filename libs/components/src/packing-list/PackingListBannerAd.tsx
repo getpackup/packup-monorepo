@@ -32,8 +32,8 @@ import { useWindowSize } from '@packup/hooks'
 import { useSelector } from 'react-redux'
 import { AppState } from '@packup/redux'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
-import { isAfterToday } from '@packup/utils'
 import addDays from 'date-fns/addDays'
+import { trackEvent } from '@packup/utils'
 
 const BannerAdWrapper = styled.div`
   background-color: #f3efe8;
@@ -76,7 +76,7 @@ const CloseButton = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background-color: ${white};
+  background-color: var(--color-backgroundAlt);
   border-radius: 100%;
   border: ${baseBorderStyle};
   width: ${doubleSpacer};
@@ -122,7 +122,7 @@ const getRandomImageUrl = (images: StaticImageData[]) => {
   return images[randomIndex]
 }
 
-export const PackingListBannerAd = () => {
+export const PackingListBannerAd = ({ location }: { location: 'packingList' | 'trips' }) => {
   const [imageUrl, setImageUrl] = useState<StaticImageData | null>(null)
   const { isExtraSmallScreen } = useWindowSize()
 
@@ -131,6 +131,11 @@ export const PackingListBannerAd = () => {
   const firebase = useFirebase()
 
   const handleCloseClick = () => {
+    trackEvent('Fernwood Ad Dismissed', {
+      imageUrl: imageUrl?.src,
+      userId: auth.uid,
+      location: location,
+    })
     if (isLoaded(auth) && auth?.uid) {
       firebase
         .firestore()
@@ -145,6 +150,7 @@ export const PackingListBannerAd = () => {
   useEffect(() => {
     const url = getRandomImageUrl(images)
     setImageUrl(url)
+    trackEvent('Fernwood Ad Viewed', { imageUrl: url.src })
   }, [])
 
   if (
@@ -155,8 +161,6 @@ export const PackingListBannerAd = () => {
   ) {
     return null
   }
-
-  // TODO: view and click analytics
 
   return (
     <BannerAdWrapper>
@@ -169,8 +173,19 @@ export const PackingListBannerAd = () => {
               data-for="sponsored"
             >
               <Pill text="Sponsored" color="neutral" style={{ margin: `0 0 ${halfSpacer} 0` }} />
-              <span style={{ position: 'absolute', top: -8, right: -4 }}>
-                <FaQuestionCircle size={12} />
+              <span
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  height: 12,
+                  width: 12,
+                  background: 'white',
+                  display: 'flex',
+                  borderRadius: '100%',
+                }}
+              >
+                <FaQuestionCircle size={12} color="var(--color-info)" />
                 <ReactTooltip
                   id="sponsored"
                   place="top"
@@ -184,7 +199,7 @@ export const PackingListBannerAd = () => {
               <Image src={logo} alt="Fernwood Coffee Logo" width={300} height={30} />
             </p>
             {!isExtraSmallScreen && (
-              <p style={{ fontSize: fontSizeSmall }}>
+              <p style={{ fontSize: fontSizeSmall, color: 'var(--color-secondary)' }}>
                 The luxury of great coffee, wherever your adventures take you
               </p>
             )}

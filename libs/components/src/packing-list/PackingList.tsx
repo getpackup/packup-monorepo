@@ -474,7 +474,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                         if (index === 2) {
                           return (
                             <Fragment key={`${categoryName}-PackingListCategory`}>
-                              <PackingListBannerAd />
+                              <PackingListBannerAd location="packingList" />
                               <PackingListCategory
                                 categoryIndex={index}
                                 trip={trip}
