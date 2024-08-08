@@ -264,7 +264,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                       <span
                         data-tip="We partner with brands we love to help keep Packup free for you."
                         data-for="sponsoredItem"
-                        style={{ display: 'inline-block' }}
+                        style={{ display: 'inline-block', maxWidth: '75vw' }}
                       >
                         <Pill text="Ad" color="neutral" style={{ margin: 0 }} />
                         <ReactTooltip
@@ -272,7 +272,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                           place="top"
                           type="dark"
                           effect="solid"
-                          className="tooltip customTooltip"
+                          className="tooltip customTooltip customTooltip200"
                         />
                       </span>
                     )}

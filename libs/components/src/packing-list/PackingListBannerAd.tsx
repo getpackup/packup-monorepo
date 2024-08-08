@@ -191,7 +191,7 @@ export const PackingListBannerAd = ({ location }: { location: 'packingList' | 't
                   place="top"
                   type="dark"
                   effect="solid"
-                  className="tooltip customTooltip"
+                  className="tooltip customTooltip customTooltip200"
                 />
               </span>
             </div>
