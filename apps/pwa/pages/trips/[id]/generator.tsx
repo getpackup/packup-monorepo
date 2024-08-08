@@ -74,6 +74,7 @@ const generateGearList = (
       description: item.description || '',
       weight: item.weight || '',
       weightUnit: item.weightUnit || '',
+      isSponsored: item.isSponsored || false,
       created: new Date(),
       packedBy: [
         {
