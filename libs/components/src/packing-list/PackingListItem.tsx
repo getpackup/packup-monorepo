@@ -293,7 +293,10 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                       </span>
                     )}{' '}
                     {props.item.isSponsored ? (
-                      <a href="https://fernwoodcoffee.com/?ref=packup" target="_blank">
+                      <a
+                        href="https://fernwoodcoffee.com/products/fernwood-instant-coffee?ref=packup"
+                        target="_blank"
+                      >
                         {props.item.name}
                       </a>
                     ) : (
