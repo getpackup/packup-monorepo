@@ -294,7 +294,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     )}{' '}
                     {props.item.isSponsored ? (
                       <a
-                        href="https://fernwoodcoffee.com/products/fernwood-instant-coffee?ref=packup"
+                        href="https://fernwoodcoffee.com/products/fernwood-instant-coffee?srsltid=AfmBOoquFMLb3yNHBJPa4vqp0ytQqhjLtATXiwJq74I-eeXk27n4rtV_&ref=packup"
                         target="_blank"
                       >
                         {props.item.name}
