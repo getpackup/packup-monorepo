@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { GearItemType } from '@packup/common'
 import {
   Alert,
@@ -35,7 +36,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaCheckCircle, FaPlusSquare } from 'react-icons/fa'
+import { FaCheckCircle, FaPlusSquare, FaUserTag } from 'react-icons/fa'
 import Skeleton from 'react-loading-skeleton'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
@@ -94,6 +95,7 @@ export default function TripGenerator() {
   const activeTrip = useActiveTrip()
   const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
   const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
+  const customCategories: Array<string> = fetchedGearCloset?.[0]?.customCategories ?? []
 
   const router = useRouter()
   const activeLoggedInUser = useLoggedInUser()
@@ -244,7 +246,11 @@ export default function TripGenerator() {
             onSubmit={onSubmit}
             validate={(values) => {
               const numberOfCheckedCategories = Object.keys(values)
-                .filter((valueKey) => gearListKeys.includes(valueKey as keyof ActivityTypes))
+                .filter((valueKey) =>
+                  [...gearListKeys, ...(customCategories || [])].includes(
+                    valueKey as keyof ActivityTypes
+                  )
+                )
                 .filter((item) => values[item] === true).length
               return numberOfCheckedCategories === 0
                 ? {
@@ -391,6 +397,32 @@ export default function TripGenerator() {
                         </Row>
                       </Box>
                     </div>
+                    {customCategories?.length > 0 && (
+                      <div>
+                        <Box>
+                          <Heading as="h3" altStyle noMargin>
+                            Custom Categories
+                          </Heading>
+
+                          <p style={{ margin: '0 0 8px 0', lineHeight: 1 }}>
+                            <small>Need to include anything from your custom categories?</small>
+                          </p>
+                          <Row>
+                            {customCategories.map((item) => (
+                              <Column xs={4} md={3} key={item}>
+                                <Field
+                                  as={IconCheckbox}
+                                  icon={FaUserTag}
+                                  checked={values[item] ?? false}
+                                  name={item}
+                                  label={item}
+                                />
+                              </Column>
+                            ))}
+                          </Row>
+                        </Box>
+                      </div>
+                    )}
                     {!isLoading && !isSubmitting && <FormErrors dirty errors={errors} />}
                     <Row>
                       <Column xs={6} xsOffset={6}>

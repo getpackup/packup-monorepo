@@ -360,6 +360,10 @@ export const multiSelectStyles = {
     ...provided,
     color: 'var(--color-text)',
   }),
+  input: (provided: any) => ({
+    ...provided,
+    color: 'var(--color-text)',
+  }),
   control: (provided: any, state: { isFocused: boolean }) => ({
     ...provided,
     minHeight: inputHeight,
