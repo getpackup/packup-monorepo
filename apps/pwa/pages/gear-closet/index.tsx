@@ -169,6 +169,10 @@ export default function GearCloset() {
       ),
     }
 
+    if (customCategories.length > 0) {
+      trackEvent('New custom categories added', { customCategories })
+    }
+
     trackEvent('Save Gear Category Button clicked')
     setAddNewCategoryModalIsOpen(false)
     firebase
