@@ -377,7 +377,6 @@ export default function GearCloset() {
             styles={multiSelectStyles}
             isMulti
             menuPlacement="auto"
-            isSearchable={!size.isExtraSmallScreen}
             options={gearListCategoryOptions}
             placeholder="Select or create a category"
             onChange={(options) =>
