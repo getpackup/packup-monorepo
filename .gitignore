@@ -48,3 +48,6 @@ Thumbs.db
 .sentryclirc
 
 .nx
+
+# Instructions for AI agents
+CLAUDE.local.md
