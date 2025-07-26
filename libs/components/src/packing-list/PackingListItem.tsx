@@ -11,13 +11,14 @@ import {
   Input,
   Pill,
   EditPackingListItem,
+  ItemLabel
 } from '@packup/components'
 import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import toast from 'react-hot-toast'
 
 import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } from '@packup/styles'
 
-import { trackEvent } from '@packup/utils'
+import { LabelColorName, trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
 import { FunctionComponent, useEffect, useState } from 'react'
 import {
@@ -28,6 +29,7 @@ import {
   FaTrash,
   FaUsers,
 } from 'react-icons/fa'
+import { MdLabelOutline } from "react-icons/md"
 import { useDispatch, useSelector } from 'react-redux'
 import { ExtendedFirebaseInstance, useFirebase } from 'react-redux-firebase'
 import {
@@ -47,6 +49,7 @@ type PackingListItemProps = {
   isOnSharedList?: boolean
   isSharedTrip?: boolean
   isFirstCategoryAndItem?: boolean
+  toggleLabelSelection?: () => void
 }
 
 const PackingListItemWrapper = styled.li`
@@ -100,6 +103,27 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   const dispatch = useDispatch()
   const size = useWindowSize()
   const [removing, setRemoving] = useState(false)
+
+  const labelEntries = Object.entries(props.item.labels || [])
+
+  const handleRemoveLabel = (labelId: string) => {
+    if (!props.item.labels) return
+
+    const tmpLabels: Record<string, any> = { ...props.item.labels }
+    delete tmpLabels[labelId]
+
+    firebase
+      .firestore()
+      .collection('trips')
+      .doc(props.tripId)
+      .collection('packing-list')
+      .doc(props.item.id)
+      .update({
+        labels: {
+          ...tmpLabels,
+        }
+      })
+  }
 
   const onUpdate = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     firebaseConnection(firebase, props.tripId, props.item.id)
@@ -219,6 +243,9 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   }
 
   const itemIsShared = props.item.packedBy.some((item) => item.isShared)
+  const iconColor = packingListItemBeingEdited === props.item.id
+    ? 'var(--color-primary)'
+    : 'var(--color-lightGray)'
 
   useEffect(() => {
     if (props.item.isSponsored) {
@@ -302,7 +329,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     ) : (
                       props.item.name
                     )}{' '}
-                    {/* TODO: deprecate quantity and only user packedBy quanities added together? Or get rid of quantity on packedBy and not be able to break down total number by person */}
+                    {/* TODO: deprecate quantity and only user packedBy qualities added together? Or get rid of quantity on packedBy and not be able to break down total number by person */}
                     {props.item.quantity && props.item.quantity !== 1 && (
                       // || props.item.packedBy.length > 1) && (
                       // use Math.max to grab the larger of the two values, looking at the item's quantity field, or the quantities of all of the packedBy entries
@@ -318,6 +345,23 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     )}
                   </>
                 </ItemText>
+
+                {labelEntries.map(([id, label]) => {
+                  return (
+                    <ItemLabel
+                      key={id}
+                      colorName={label.color as LabelColorName}
+                      variant={packingListItemBeingEdited === props.item.id ? 'removable' : 'default'}
+                      onClick={
+                        packingListItemBeingEdited === props.item.id
+                          ? (() => handleRemoveLabel(id))
+                          : () => {}
+                      }
+                    >
+                      {label.text}
+                    </ItemLabel>
+                  )
+                })}
 
                 {props.isOnSharedList && (
                   <StackedAvatars style={{ marginRight: halfSpacer }}>
@@ -343,13 +387,28 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
 
                 {!size.isSmallScreen && (
                   <IconWrapper
+                    onClick={props.toggleLabelSelection}
+                    hoverColor={brandPrimary}
+                    color={iconColor}
+                    data-tip="Show Labels"
+                    data-for="showLabelsIcon"
+                  >
+                    <MdLabelOutline />
+                    <ReactTooltip
+                      id="showLabelsIcon"
+                      place="top"
+                      type="dark"
+                      effect="solid"
+                      className="tooltip customTooltip"
+                    />
+                  </IconWrapper>
+                )}
+
+                {!size.isSmallScreen && (
+                  <IconWrapper
                     onClick={() => handleItemSelect(props.item.id)}
                     hoverColor={brandPrimary}
-                    color={
-                      packingListItemBeingEdited === props.item.id
-                        ? 'var(--color-primary)'
-                        : 'var(--color-lightGray)'
-                    }
+                    color={iconColor}
                     data-tip="Edit Item"
                     data-for="editItemIcon"
                   >
@@ -431,11 +490,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     <IconWrapper
                       onClick={() => handleItemSelect(props.item.id)}
                       hoverColor={brandPrimary}
-                      color={
-                        packingListItemBeingEdited === props.item.id
-                          ? 'var(--color-primary)'
-                          : 'var(--color-lightGray)'
-                      }
+                      color={iconColor}
                       data-tip="Edit Item"
                       data-for="editItemIconSmall"
                     >

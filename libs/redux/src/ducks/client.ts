@@ -27,6 +27,7 @@ export const clientInitialState: ClientStoreType = {
   tripsDefaultView: 'list',
   packingListSearchValue: '',
   packingListItemBeingEdited: undefined,
+  gearItemLabels: []
 }
 
 export default function clientReducer(

@@ -1,4 +1,5 @@
 export * from './gearCloset/gearCloset'
+export * from './item-label/item-label'
 export * from './packingListItem/packingListItem'
 export * from './trip/trip'
 export * from './user/user'

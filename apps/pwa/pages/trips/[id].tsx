@@ -6,8 +6,7 @@ import {
   setActivePackingListFilter,
   setActivePackingListTab,
   setPersonalListScrollPosition,
-  setSharedListScrollPosition,
-} from '@packup/redux'
+  setSharedListScrollPosition} from '@packup/redux'
 import { PackingListFilterOptions, TabOptions, trackEvent } from '@packup/utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -61,15 +60,16 @@ export default function TripById() {
     dispatch(setActivePackingListTab(TabOptions.Personal))
     dispatch(setPersonalListScrollPosition(0))
     dispatch(setSharedListScrollPosition(0))
+
     return () => {
       // disconnect listening and remove data from redux store
-      // so next trip can fetch without `activeTripById` already being populated with
+      //  so the next trip can fetch without `activeTripById` already being populated with
       // now-stale data
       dispatch({
         type: actionTypes.CLEAR_DATA,
         preserve: {
-          data: ['loggedInUser', 'trips', 'users'],
-          ordered: ['loggedInUser', 'trips', 'users'],
+          data: ['loggedInUser', 'trips', 'users', 'labels'],
+          ordered: ['loggedInUser', 'trips', 'users', 'labels'],
         },
       })
     }
