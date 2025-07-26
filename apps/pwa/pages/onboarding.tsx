@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { TripMemberStatus, TripType } from '@packup/common'
 import {
   Box,
@@ -206,10 +207,8 @@ export default function Onboarding() {
                         <p>
                           <small>
                             <em>
-                              Select all that apply.
-                              {/* TODO: add back when we have custom categories */}
-                              {/* Don&apos;t see your favorite activity? You will
-                            have a chance to add it later. */}
+                              Select all that apply. Don&apos;t see your favorite activity? You will
+                              have a chance to add it later.
                             </em>
                           </small>
                         </p>

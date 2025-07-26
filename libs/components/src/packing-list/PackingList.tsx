@@ -49,12 +49,21 @@ import {
   scrollToPosition,
 } from '@packup/utils'
 import { useRouter } from 'next/router'
-import { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  Fragment,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { FaUser, FaUsers } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
+import { PackingListBannerAd } from './PackingListBannerAd'
 
 type PackingListProps = {
   trip?: TripType
@@ -466,9 +475,29 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                             // sort by timestamp
                             return b.created.toDate() > a.created.toDate() ? -1 : 1
                           }
-                          // sort by packed status, with checked items last
+                          // sort by packed status, with checkedf items last
                           return a.isPacked > b.isPacked ? 1 : -1
                         })
+
+                        if (index === 2) {
+                          return (
+                            <Fragment key={`${categoryName}-PackingListCategory`}>
+                              <PackingListBannerAd location="packingList" />
+                              <PackingListCategory
+                                categoryIndex={index}
+                                trip={trip}
+                                categoryName={categoryName}
+                                sortedItems={sortedItems}
+                                tripId={tripId}
+                                isSharedPackingListCategory={
+                                  activePackingListTab === TabOptions.Shared
+                                }
+                                auth={auth}
+                                isSharedTrip={sharedTrip}
+                              />
+                            </Fragment>
+                          )
+                        }
 
                         return (
                           <PackingListCategory

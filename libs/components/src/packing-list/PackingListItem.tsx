@@ -20,7 +20,7 @@ import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } fr
 
 import { LabelColorName, trackEvent } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import {
   FaChevronDown,
   FaChevronRight,
@@ -84,7 +84,6 @@ const ItemInputWrapper = styled.div`
 
 const ItemText = styled.div`
   flex: 1;
-  cursor: pointer;
 `
 
 type FormValues = {
@@ -150,6 +149,11 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   }
 
   const onDelete = () => {
+    if (props.item.isSponsored) {
+      trackEvent('Fernwood Ad Packing List Item Deleted', {
+        tripId: props.tripId,
+      })
+    }
     firebaseConnection(firebase, props.tripId, props.item.id)
       .delete()
       .then(() => {
@@ -243,6 +247,14 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
     ? 'var(--color-primary)'
     : 'var(--color-lightGray)'
 
+  useEffect(() => {
+    if (props.item.isSponsored) {
+      trackEvent('Fernwood Ad Packing List Item Viewed', {
+        tripId: props.tripId,
+      })
+    }
+  }, [])
+
   return (
     <PackingListItemWrapper
       className={removing ? 'removing' : ''}
@@ -273,8 +285,24 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     label=""
                   />
                 </ItemInputWrapper>
-                <ItemText title="Edit item">
+                <ItemText className="packing-list-item">
                   <>
+                    {props.item.isSponsored && (
+                      <span
+                        data-tip="We partner with brands we love to help keep Packup free for you."
+                        data-for="sponsoredItem"
+                        style={{ display: 'inline-block', maxWidth: '75vw' }}
+                      >
+                        <Pill text="Ad" color="neutral" style={{ margin: 0 }} />
+                        <ReactTooltip
+                          id="sponsoredItem"
+                          place="top"
+                          type="dark"
+                          effect="solid"
+                          className="tooltip customTooltip customTooltip200"
+                        />
+                      </span>
+                    )}
                     {props.item.isEssential && (
                       <span
                         data-tip="Essential Item"
@@ -291,7 +319,16 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                         />
                       </span>
                     )}{' '}
-                    {props.item.name}{' '}
+                    {props.item.isSponsored ? (
+                      <a
+                        href="https://fernwoodcoffee.com/products/fernwood-instant-coffee?srsltid=AfmBOoquFMLb3yNHBJPa4vqp0ytQqhjLtATXiwJq74I-eeXk27n4rtV_&ref=packup"
+                        target="_blank"
+                      >
+                        {props.item.name}
+                      </a>
+                    ) : (
+                      props.item.name
+                    )}{' '}
                     {/* TODO: deprecate quantity and only user packedBy qualities added together? Or get rid of quantity on packedBy and not be able to break down total number by person */}
                     {props.item.quantity && props.item.quantity !== 1 && (
                       // || props.item.packedBy.length > 1) && (

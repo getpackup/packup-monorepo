@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { GearItemType } from '@packup/common'
 import {
   Alert,
@@ -44,6 +45,7 @@ export default function GearClosetEditItem() {
   const personalGear = usePersonalGear()
   const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
   const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
+  const customCategories: Array<string> = fetchedGearCloset?.[0]?.customCategories ?? []
 
   const router = useRouter()
   // the gear closet item ID
@@ -240,8 +242,14 @@ export default function GearClosetEditItem() {
                         as={Input}
                         type="select"
                         name="category"
-                        label="Category"
-                        options={gearListCategories}
+                        label="Main Category"
+                        options={[
+                          ...gearListCategories,
+                          ...customCategories.map((category) => ({
+                            value: category,
+                            label: category,
+                          })),
+                        ]}
                         validate={requiredSelect}
                         setFieldValue={setFieldValue}
                         {...rest}
@@ -294,6 +302,10 @@ export default function GearClosetEditItem() {
                     </Column>
                   </Row>
                   <Field as={Input} type="textarea" name="description" label="Description" />
+                  <Heading as="h3" style={{ marginBottom: 0 }}>
+                    Sub Categories
+                  </Heading>
+                  <p>Tag any other categories that this item may be relevant for.</p>
                   {getFilteredCategories(gearListActivities).length > 0 && (
                     <CollapsibleBox
                       title="Activities"
@@ -349,6 +361,21 @@ export default function GearClosetEditItem() {
                         {getFilteredCategories(gearListOtherConsiderations).map((item) => (
                           <Column xs={6} md={4} lg={3} key={item.name}>
                             <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+                          </Column>
+                        ))}
+                      </Row>
+                    </CollapsibleBox>
+                  )}
+                  {customCategories?.length > 0 && (
+                    <CollapsibleBox
+                      title="Custom Categories"
+                      defaultClosed={false}
+                      subtitle="&nbsp;"
+                    >
+                      <Row>
+                        {customCategories.map((item) => (
+                          <Column xs={6} md={4} lg={3} key={item}>
+                            <Field as={Input} type="checkbox" name={item} label={item} />
                           </Column>
                         ))}
                       </Row>

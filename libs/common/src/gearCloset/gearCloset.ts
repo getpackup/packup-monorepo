@@ -17,6 +17,7 @@ export type GearItemType = {
   updated?: firebase.firestore.Timestamp
   essential: boolean
   isCustomGearItem?: boolean
+  isSponsored?: boolean
   weight?: string
   weightUnit?: 'g' | 'kg' | 'oz' | 'lb'
   description?: string

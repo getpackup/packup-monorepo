@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 // import { GearItemType } from '@packup/common'
 import {
   Box,
@@ -40,6 +41,7 @@ export default function GearClosetAddItem() {
   const auth = useSelector((state: AppState) => state.firebase.auth)
   const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
   const gearClosetCategories: Array<keyof ActivityTypes> = fetchedGearCloset?.[0]?.categories ?? []
+  const customCategories: Array<string> = fetchedGearCloset?.[0]?.customCategories ?? []
   const [isLoading, setIsLoading] = useState(false)
 
   const size = useWindowSize()
@@ -150,7 +152,11 @@ export default function GearClosetAddItem() {
           onSubmit={onSubmit}
           validate={(values) => {
             const activityTypeCheckedValuesLength = Object.keys(values)
-              .filter((valueKey) => activityTypesList.includes(valueKey as keyof ActivityTypes))
+              .filter((valueKey) =>
+                [...activityTypesList, ...(customCategories || [])].includes(
+                  valueKey as keyof ActivityTypes
+                )
+              )
               .filter((item) => values[item] === true).length
             return activityTypeCheckedValuesLength === 0
               ? {
@@ -177,8 +183,14 @@ export default function GearClosetAddItem() {
                     as={Input}
                     type="select"
                     name="category"
-                    label="Category"
-                    options={gearListCategories}
+                    label="Main Category"
+                    options={[
+                      ...gearListCategories,
+                      ...customCategories.map((category) => ({
+                        value: category,
+                        label: category,
+                      })),
+                    ]}
                     validate={requiredSelect}
                     setFieldValue={setFieldValue}
                     {...rest}
@@ -291,6 +303,17 @@ export default function GearClosetAddItem() {
                     {getFilteredCategories(gearListOtherConsiderations).map((item) => (
                       <Column xs={6} md={4} lg={3} key={item.name}>
                         <Field as={Input} type="checkbox" name={item.name} label={item.label} />
+                      </Column>
+                    ))}
+                  </Row>
+                </CollapsibleBox>
+              )}
+              {customCategories?.length > 0 && (
+                <CollapsibleBox title="Custom Categories" defaultClosed={false} subtitle="&nbsp;">
+                  <Row>
+                    {customCategories.map((item) => (
+                      <Column xs={6} md={4} lg={3} key={item}>
+                        <Field as={Input} type="checkbox" name={item} label={item} />
                       </Column>
                     ))}
                   </Row>

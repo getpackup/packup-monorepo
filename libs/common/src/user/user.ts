@@ -17,5 +17,6 @@ export type UserType = {
   preferences?: {
     theme?: 'light' | 'dark'
     hasSeenPackingListTour?: boolean
+    hasDismissedFernwoodAd?: firebase.default.firestore.Timestamp
   }
 }

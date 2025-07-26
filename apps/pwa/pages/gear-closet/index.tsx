@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { TripMemberStatus, TripType } from '@packup/common'
 import {
@@ -37,7 +38,7 @@ import toast from 'react-hot-toast'
 import { FaFolderOpen, FaPencilAlt, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { isLoaded, useFirebase, useFirestoreConnect } from 'react-redux-firebase'
-import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 
 type SelectGearListCategoryOption = {
   readonly value: keyof ActivityTypes
@@ -152,17 +153,33 @@ export default function GearCloset() {
   ])
 
   const saveAddedCategories = () => {
+    const flattenedOptions = gearListCategoryOptions
+      .map((group) => group.options)
+      .flat()
+      .map((opt) => opt.value)
+    const customCategories = categoriesToAdd.filter((cat) => !flattenedOptions.includes(cat.value))
+    const existingCategories = categoriesToAdd.filter((cat) => flattenedOptions.includes(cat.value))
+
+    const updatedCategories = {
+      categories: firebase.firestore.FieldValue.arrayUnion(
+        ...existingCategories.map((cat) => cat?.value)
+      ),
+      customCategories: firebase.firestore.FieldValue.arrayUnion(
+        ...customCategories.map((cat) => cat?.value)
+      ),
+    }
+
+    if (customCategories.length > 0) {
+      trackEvent('New custom categories added', { customCategories })
+    }
+
     trackEvent('Save Gear Category Button clicked')
     setAddNewCategoryModalIsOpen(false)
     firebase
       .firestore()
       .collection('gear-closet')
       .doc(auth.uid)
-      .update({
-        categories: firebase.firestore.FieldValue.arrayUnion(
-          ...categoriesToAdd.map((cat) => cat?.value)
-        ),
-      })
+      .update(updatedCategories)
       .then()
       .catch((err) => {
         toast.error(err.message)
@@ -357,15 +374,15 @@ export default function GearCloset() {
 
           <p>
             Getting into a new sport or activity, or upgrading your gear? Select any category that
-            applies to gear you own.
+            applies to gear you own, or create your own <em>custom category</em>.
           </p>
-          <Select<SelectGearListCategoryOption, true, GroupedChannelOption>
+          <CreatableSelect<SelectGearListCategoryOption, true, GroupedChannelOption>
             className="react-select"
             styles={multiSelectStyles}
             isMulti
             menuPlacement="auto"
-            isSearchable={!size.isExtraSmallScreen}
             options={gearListCategoryOptions}
+            placeholder="Select or create a category"
             onChange={(options) =>
               setCategoriesToAdd(options as React.SetStateAction<SelectGearListCategoryOption[]>)
             }

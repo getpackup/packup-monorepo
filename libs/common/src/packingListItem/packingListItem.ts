@@ -13,6 +13,7 @@ export type PackingListItemType = {
   id: string
   isEssential: boolean
   isPacked: boolean
+  isSponsored?: boolean
   name: string
   packedBy: PackedByUserType[]
   quantity: number
