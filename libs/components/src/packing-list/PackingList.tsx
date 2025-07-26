@@ -486,6 +486,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                               <PackingListCategory
                                 categoryIndex={index}
                                 trip={trip}
+                                key={`${categoryName}-PackingListCategory`}
                                 categoryName={categoryName}
                                 sortedItems={sortedItems}
                                 tripId={tripId}
@@ -494,6 +495,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                                 }
                                 auth={auth}
                                 isSharedTrip={sharedTrip}
+                                toggleLabelSelection={toggleLabelSelection}
                               />
                             </Fragment>
                           )
