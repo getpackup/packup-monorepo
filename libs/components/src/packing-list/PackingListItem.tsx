@@ -343,6 +343,17 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                         style={{ margin: 0, paddingTop: 2, paddingBottom: 2 }}
                       />
                     )}
+                    {props.item.weight && props.item.weightUnit && (
+                      <Pill
+                        text={
+                          props.item.quantity && props.item.quantity > 1
+                            ? `${(parseFloat(props.item.weight) * props.item.quantity).toString()} ${props.item.weightUnit} TOTAL`
+                            : `${props.item.weight} ${props.item.weightUnit}`
+                        }
+                        color="neutral"
+                        style={{ margin: 0, paddingTop: 2, paddingBottom: 2, marginLeft: 4, textTransform: 'none' }}
+                      />
+                    )}
                   </>
                 </ItemText>
 
