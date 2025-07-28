@@ -44,6 +44,51 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
 }) => {
   const firebase = useFirebase()
 
+  // Calculate total weight for this category
+  const calculateCategoryWeight = (): string | null => {
+    const itemsWithWeight = sortedItems.filter(item => item.weight && item.weightUnit)
+
+    if (itemsWithWeight.length === 0) {
+      return null
+    }
+
+    // Group items by weight unit
+    const weightsByUnit: Record<string, number> = {}
+
+    itemsWithWeight.forEach(item => {
+      if (item.weight && item.weightUnit) {
+        const itemWeight = parseFloat(item.weight) * (item.quantity || 1)
+        if (!weightsByUnit[item.weightUnit]) {
+          weightsByUnit[item.weightUnit] = 0
+        }
+        weightsByUnit[item.weightUnit] += itemWeight
+      }
+    })
+
+    // Format the weight display
+    const units = Object.keys(weightsByUnit)
+    if (units.length === 0) {
+      return null
+    }
+
+    if (units.length === 1) {
+      // Single unit - show total
+      const unit = units[0]
+      const total = Math.round(weightsByUnit[unit] * 100) / 100
+      return `${total} ${unit}`
+    } else {
+      // Multiple units - show breakdown
+      return units
+        .map(unit => {
+          const total = Math.round(weightsByUnit[unit] * 100) / 100
+          return `${total} ${unit}`
+        })
+        .join(' + ')
+    }
+  }
+
+  const categoryWeight = calculateCategoryWeight()
+
   const handleCollapsible = (name: string) => {
     if (auth && auth.uid && trip) {
       // updatedCollapsedCategories is not the same shape as collapsedCategories,
@@ -105,7 +150,11 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
           : `${categoryName}-CollapsibleBox-Personal`
       }
       title={categoryName}
-      subtitle={pluralize('item', sortedItems.length)}
+      subtitle={
+        categoryWeight
+          ? `${pluralize('item', sortedItems.length)} • ${categoryWeight}`
+          : pluralize('item', sortedItems.length)
+      }
       defaultClosed={
         auth && auth.uid && trip && trip.collapsedCategories && trip.collapsedCategories[auth.uid]
           ? trip.collapsedCategories[auth.uid].findIndex((cat) => cat === categoryName) > -1 &&
