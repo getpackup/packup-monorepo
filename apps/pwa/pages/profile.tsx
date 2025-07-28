@@ -416,6 +416,21 @@ export default function Profile() {
                           <strong>Settings</strong>
                         </p>
                         <DarkModeToggle showText color="var(--color-text)" />
+                        <div style={{ marginTop: baseSpacer }}>
+                          <Field
+                            as={Input}
+                            type="select"
+                            name="preferences.weightUnit"
+                            label="Preferred Weight Unit"
+                            options={[
+                              { value: 'g', label: 'Grams (g)' },
+                              { value: 'kg', label: 'Kilograms (kg)' },
+                              { value: 'oz', label: 'Ounces (oz)' },
+                              { value: 'lb', label: 'Pounds (lb)' },
+                            ]}
+                            helpText="This will be used when displaying item weights in your trips"
+                          />
+                        </div>
                       </section>
                       <HorizontalRule />
                       <section

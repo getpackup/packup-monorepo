@@ -6,8 +6,9 @@ import {
   PackingListItem,
 } from '@packup/components'
 import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
-import { pluralize, trackEvent } from '@packup/utils'
-import { FunctionComponent, SyntheticEvent } from 'react'
+import { pluralize, trackEvent, convertWeight, formatWeight, WeightUnit } from '@packup/utils'
+import { useLoggedInUser } from '@packup/hooks'
+import { FunctionComponent } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { FirebaseReducer, useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'
@@ -43,6 +44,7 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
   toggleLabelSelection
 }) => {
   const firebase = useFirebase()
+  const loggedInUser = useLoggedInUser()
 
   // Calculate total weight for this category
   const calculateCategoryWeight = (): string | null => {
@@ -52,39 +54,18 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
       return null
     }
 
-    // Group items by weight unit
-    const weightsByUnit: Record<string, number> = {}
+    const preferredUnit = loggedInUser?.preferences?.weightUnit || ('g' as WeightUnit)
+    let totalWeightInPreferredUnit = 0
 
     itemsWithWeight.forEach(item => {
       if (item.weight && item.weightUnit) {
         const itemWeight = parseFloat(item.weight) * (item.quantity || 1)
-        if (!weightsByUnit[item.weightUnit]) {
-          weightsByUnit[item.weightUnit] = 0
-        }
-        weightsByUnit[item.weightUnit] += itemWeight
+        const convertedWeight = convertWeight(itemWeight, item.weightUnit as WeightUnit, preferredUnit)
+        totalWeightInPreferredUnit += convertedWeight
       }
     })
 
-    // Format the weight display
-    const units = Object.keys(weightsByUnit)
-    if (units.length === 0) {
-      return null
-    }
-
-    if (units.length === 1) {
-      // Single unit - show total
-      const unit = units[0]
-      const total = Math.round(weightsByUnit[unit] * 100) / 100
-      return `${total} ${unit}`
-    } else {
-      // Multiple units - show breakdown
-      return units
-        .map(unit => {
-          const total = Math.round(weightsByUnit[unit] * 100) / 100
-          return `${total} ${unit}`
-        })
-        .join(' + ')
-    }
+    return formatWeight(totalWeightInPreferredUnit, preferredUnit)
   }
 
   const categoryWeight = calculateCategoryWeight()

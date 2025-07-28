@@ -18,5 +18,6 @@ export type UserType = {
     theme?: 'light' | 'dark'
     hasSeenPackingListTour?: boolean
     hasDismissedFernwoodAd?: firebase.default.firestore.Timestamp
+    weightUnit?: 'g' | 'kg' | 'oz' | 'lb'
   }
 }
