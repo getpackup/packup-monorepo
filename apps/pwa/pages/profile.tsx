@@ -416,6 +416,9 @@ export default function Profile() {
                           <strong>Settings</strong>
                         </p>
                         <DarkModeToggle showText color="var(--color-text)" />
+                      </section>
+                      <HorizontalRule />
+                      <section>
                         <div style={{ marginTop: baseSpacer }}>
                           <Field
                             as={Input}
