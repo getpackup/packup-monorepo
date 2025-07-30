@@ -42,16 +42,24 @@ export function convertWeight(weight: number, fromUnit: WeightUnit, toUnit: Weig
  * @param unit - The weight unit
  * @returns Formatted weight string
  */
-export function formatWeight(weight: number, unit: WeightUnit): string {
+export function formatWeight(weight: number | string, unit: WeightUnit): string {
+  // Convert to number if it's a string
+  const numericWeight = typeof weight === 'string' ? parseFloat(weight) : weight
+  
+  // Handle invalid numbers
+  if (Number.isNaN(numericWeight)) {
+    return `0 ${unit}`
+  }
+
   // Use appropriate precision based on unit
   let precision = 1
   if (unit === 'kg' || unit === 'lb') {
     precision = 2 // More precision for larger units
   } else if (unit === 'g' || unit === 'oz') {
-    precision = weight < 10 ? 1 : 0 // More precision for small values
+    precision = numericWeight < 10 ? 1 : 0 // More precision for small values
   }
 
-  const roundedWeight = parseFloat(weight.toFixed(precision))
+  const roundedWeight = parseFloat(numericWeight.toFixed(precision))
   return `${roundedWeight} ${unit}`
 }
 
