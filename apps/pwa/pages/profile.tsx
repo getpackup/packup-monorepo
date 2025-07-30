@@ -12,6 +12,7 @@ import {
   Input,
   PageContainer,
   Row,
+  PreferredWeightUnit
 } from '@packup/components'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
@@ -419,21 +420,10 @@ export default function Profile() {
                       </section>
                       <HorizontalRule />
                       <section>
-                        <div style={{ marginTop: baseSpacer }}>
-                          <Field
-                            as={Input}
-                            type="select"
-                            name="preferences.weightUnit"
-                            label="Preferred Weight Unit"
-                            options={[
-                              { value: 'g', label: 'Grams (g)' },
-                              { value: 'kg', label: 'Kilograms (kg)' },
-                              { value: 'oz', label: 'Ounces (oz)' },
-                              { value: 'lb', label: 'Pounds (lb)' },
-                            ]}
-                            helpText="This will be used when displaying item weights in your trips"
-                          />
-                        </div>
+                        <p>
+                          <strong>Preferred Weight Unit</strong>
+                        </p>
+                        <PreferredWeightUnit />
                       </section>
                       <HorizontalRule />
                       <section
