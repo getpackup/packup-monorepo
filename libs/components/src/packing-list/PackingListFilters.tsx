@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { FirestoreItemLabel, ItemLabel as ItemLabelType } from '@packup/common'
 import { AppState } from '@packup/redux'
+import { useFirestoreConnect } from 'react-redux-firebase'
 
-type PackingListFilterProps = {
+interface PackingListFilterProps {
   disabled: boolean
   activeFilter: PackingListFilterOptions
   onFilterChange: (filter: PackingListFilterOptions) => any
@@ -16,9 +17,18 @@ type PackingListFilterProps = {
 
 const Filters = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-bottom: ${baseSpacer};
+  gap: ${baseSpacer};
 `
+
+const FilterColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: ${baseSpacer};
+`
+
 export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   disabled,
   activeFilter,
@@ -32,6 +42,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   ]
 
   const dispatch = useDispatch()
+  const auth = useSelector((state: AppState) => state.firebase.auth)
   const gearItemLabels: Record<string, FirestoreItemLabel> = useSelector((state: AppState) => state.firestore.data[`gearItemLabels`])
 
   const handleFilter = (filter: PackingListFilterOptions) => {
@@ -49,40 +60,51 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
     }
   })
 
-  console.log('where are my labels at??', labels)
+  useFirestoreConnect([
+    {
+      collection: 'users',
+      subcollections: [{ collection: 'labels' }],
+      doc: auth.uid,
+      storeAs: 'gearItemLabels'
+    }
+  ])
 
   return (
     <Filters>
-      <ButtonGroup>
+      <FilterColumn>
         <strong>Show: </strong>
-        {filterSettings.map((filter) => (
-          <Button
-            key={filter}
-            type="button"
-            size="small"
-            color={filter === activeFilter ? 'tertiaryAlt' : 'tertiary'}
-            onClick={() => handleFilter(filter)}
-            disabled={disabled}
-          >
-            {filter}
-          </Button>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup>
         <strong>Labels: </strong>
-        {labels.map((label) => (
-          <Button
-            key={label.id}
-            type="button"
-            size="small"
-            color={'tertiary'}
-            onClick={() => handleLabels(label)}
-            disabled={disabled}
-          >
-            {label.text}
-          </Button>
-        ))}
-      </ButtonGroup>
+      </FilterColumn>
+      <FilterColumn>
+        <ButtonGroup>
+          {filterSettings.map((filter) => (
+            <Button
+              key={filter}
+              type="button"
+              size="small"
+              color={filter === activeFilter ? 'tertiaryAlt' : 'tertiary'}
+              onClick={() => handleFilter(filter)}
+              disabled={disabled}
+            >
+              {filter}
+            </Button>
+          ))}
+        </ButtonGroup>
+        <ButtonGroup>
+          {labels.map((label) => (
+            <Button
+              key={label.id}
+              type="button"
+              size="small"
+              color={'tertiary'}
+              onClick={() => handleLabels(label)}
+              disabled={disabled}
+            >
+              {label.text}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </FilterColumn>
     </Filters>
   )
 }
