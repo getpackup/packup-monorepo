@@ -19,6 +19,7 @@ import { useWindowSize } from '@packup/hooks'
 import {
   AppState,
   setActivePackingListFilter,
+  setLabelListFilter,
   setActivePackingListTab,
   setPersonalListScrollPosition,
   setSharedListScrollPosition,
@@ -364,6 +365,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                   <PackingListFilters
                     activeFilter={activePackingListFilter}
                     onFilterChange={setActivePackingListFilter}
+                    onLabelChange={setLabelListFilter}
                     disabled={!trip}
                   />
                 </Column>
