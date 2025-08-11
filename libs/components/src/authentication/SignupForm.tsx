@@ -1,13 +1,14 @@
 import { Alert, AnimatedContainer, Button, FlexContainer, Input, LoadingSpinner } from '../'
-import { trackEvent, requiredField, requiredEmail, validateUsername } from '@packup/utils'
-import { Field, Form, Formik } from 'formik'
-import { useState } from 'react'
-import { useFirebase } from 'react-redux-firebase'
-import toast from 'react-hot-toast'
 import { FaCheckCircle, FaChevronRight, FaExclamationTriangle } from 'react-icons/fa'
-import { baseSpacer } from '@packup/styles'
+import { Field, Form, Formik } from 'formik'
+import { requiredEmail, requiredField, trackEvent, validateUsername } from '@packup/utils'
+
 import { UserCredential } from 'firebase/auth'
+import { baseSpacer } from '@packup/styles'
 import { sendSignInLink } from './sendSignInLink'
+import toast from 'react-hot-toast'
+import { useFirebase } from 'react-redux-firebase'
+import { useState } from 'react'
 
 /**
  * Generates a random password of the specified length.
@@ -98,8 +99,6 @@ export const SignupForm = (props: { email?: string }) => {
               installApp: true,
               minimumVersion: '1',
             },
-            dynamicLinkDomain:
-              process.env.NODE_ENV === 'production' ? 'packup.page.link' : 'packupapp.page.link',
           })
           setFormStep('done')
         }

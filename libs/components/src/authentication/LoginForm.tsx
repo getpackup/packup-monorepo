@@ -1,12 +1,13 @@
 import { Button, FlexContainer, Input } from '../'
-import { trackEvent, requiredEmail } from '@packup/utils'
 import { Field, Form, Formik } from 'formik'
-import toast from 'react-hot-toast'
+import { requiredEmail, trackEvent } from '@packup/utils'
+
 import { FaChevronRight } from 'react-icons/fa'
 import { baseSpacer } from '@packup/styles'
+import { sendSignInLink } from './sendSignInLink'
+import toast from 'react-hot-toast'
 import { useFirebase } from 'react-redux-firebase'
 import { useRouter } from 'next/router'
-import { sendSignInLink } from './sendSignInLink'
 
 export const LoginForm = ({
   setLoginState,
@@ -35,8 +36,6 @@ export const LoginForm = ({
       installApp: true,
       minimumVersion: '1',
     },
-    dynamicLinkDomain:
-      process.env.NODE_ENV === 'production' ? 'packup.page.link' : 'packupapp.page.link',
   }
 
   return (

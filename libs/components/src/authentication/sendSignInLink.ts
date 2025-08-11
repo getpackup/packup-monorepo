@@ -1,5 +1,6 @@
-import { trackEvent } from '@packup/utils'
 import { getAuth, sendSignInLinkToEmail } from 'firebase/auth'
+
+import { trackEvent } from '@packup/utils'
 
 export const sendSignInLink = (email: string) => {
   const auth = getAuth()
@@ -15,8 +16,6 @@ export const sendSignInLink = (email: string) => {
       installApp: true,
       minimumVersion: '1',
     },
-    dynamicLinkDomain:
-      process.env.NODE_ENV === 'production' ? 'packup.page.link' : 'packupapp.page.link',
   }
 
   trackEvent('Send Sign In Link Request', { email })
