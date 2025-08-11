@@ -7,15 +7,7 @@ export const sendSignInLink = (email: string) => {
 
   const actionCodeSettings = {
     url: `${window.location.origin}/signin`,
-    handleCodeInApp: true, // This must be true
-    iOS: {
-      bundleId: 'com.packupapp',
-    },
-    android: {
-      packageName: 'com.packupapp.twa',
-      installApp: true,
-      minimumVersion: '1',
-    },
+    handleCodeInApp: true,
   }
 
   trackEvent('Send Sign In Link Request', { email })
