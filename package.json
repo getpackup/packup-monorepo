@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:pwa": "nx build pwa",
-    "build:marketing": "nx build marketing"
+    "build:pwa": "nx build pwa"
   },
   "private": true,
   "devDependencies": {
