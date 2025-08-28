@@ -28,7 +28,8 @@ export const clientInitialState: ClientStoreType = {
   tripsDefaultView: 'list',
   packingListSearchValue: '',
   packingListItemBeingEdited: undefined,
-  gearItemLabels: []
+  gearItemLabels: [],
+  activeLabelFilters: []
 }
 
 export default function clientReducer(
@@ -51,6 +52,12 @@ export default function clientReducer(
       return {
         ...state,
         location: undefined,
+      }
+    }
+    case SET_LABEL_LIST_FILTER: {
+      return {
+        ...state,
+        activeLabelFilters: action.ids,
       }
     }
     case SET_ACTIVE_PACKING_LIST_FILTER: {
@@ -114,9 +121,9 @@ export const setActivePackingListFilter = (payload: PackingListFilterOptions) =>
   payload,
 })
 
-export const setLabelListFilter = (id: string) => ({
+export const setLabelListFilter = (ids: Array<string>) => ({
   type: SET_LABEL_LIST_FILTER,
-  id,
+  ids,
 })
 
 export const setActivePackingListTab = (payload: TabOptions) => ({

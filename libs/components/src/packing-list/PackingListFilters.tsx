@@ -12,7 +12,8 @@ interface PackingListFilterProps {
   disabled: boolean
   activeFilter: PackingListFilterOptions
   onFilterChange: (filter: PackingListFilterOptions) => any
-  onLabelChange: (id: string) => any
+  activeLabels: Array<string>
+  onLabelChange: (id: Array<string>) => any
 }
 
 const Filters = styled.div`
@@ -33,6 +34,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   disabled,
   activeFilter,
   onFilterChange,
+  activeLabels,
   onLabelChange,
 }): JSX.Element => {
   const filterSettings = [
@@ -50,7 +52,18 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   }
 
   const handleLabels = (label: ItemLabelType) => {
-    dispatch(onLabelChange(label.id))
+    const tmpLabels = activeLabels
+
+    if (tmpLabels.includes(label.id)) {
+      const index = tmpLabels.indexOf(label.id)
+      if (index > -1) {
+        tmpLabels.splice(index, 1)
+      }
+    } else {
+      tmpLabels.push(label.id)
+    }
+
+    dispatch(onLabelChange(tmpLabels))
   }
 
   const labels: Array<ItemLabelType> = Object.keys(gearItemLabels ?? {}).map((id) => {
@@ -72,8 +85,8 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   return (
     <Filters>
       <FilterColumn>
-        <strong>Show: </strong>
-        <strong>Labels: </strong>
+        <strong>Show:</strong>
+        <strong>Labels:</strong>
       </FilterColumn>
       <FilterColumn>
         <ButtonGroup>
@@ -96,7 +109,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
               key={label.id}
               type="button"
               size="small"
-              color={'tertiary'}
+              color={activeLabels.includes(label.id) ? 'tertiaryAlt' : 'tertiary'}
               onClick={() => handleLabels(label)}
               disabled={disabled}
             >

@@ -66,7 +66,7 @@ import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import { PackingListBannerAd } from './PackingListBannerAd'
 
-type PackingListProps = {
+interface PackingListProps {
   trip?: TripType
   tripId: string
   packingList: PackingListItemType[]
@@ -128,6 +128,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const gearList = useSelector((state: AppState) => state.firestore.data['packingList'])
   const {
     activePackingListFilter,
+    activeLabelFilters,
     activePackingListTab,
     personalListScrollPosition,
     sharedListScrollPosition,
@@ -144,9 +145,9 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const [showLabelSelection, setShowLabelSelection] = useState<boolean>(false)
   const [itemId, setItemId] = useState('')
 
-  const toggleLabelSelection = (itemId: string) => {
+  const toggleLabelSelection = (id: string) => {
     setShowLabelSelection(!showLabelSelection)
-    setItemId(itemId)
+    setItemId(id)
   }
 
   useEffect(() => {
@@ -365,6 +366,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                   <PackingListFilters
                     activeFilter={activePackingListFilter}
                     onFilterChange={setActivePackingListFilter}
+                    activeLabels={activeLabelFilters}
                     onLabelChange={setLabelListFilter}
                     disabled={!trip}
                   />
