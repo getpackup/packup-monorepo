@@ -12,6 +12,7 @@ import {
   Input,
   PageContainer,
   Row,
+  PreferredWeightUnit
 } from '@packup/components'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
@@ -416,6 +417,13 @@ export default function Profile() {
                           <strong>Settings</strong>
                         </p>
                         <DarkModeToggle showText color="var(--color-text)" />
+                      </section>
+                      <HorizontalRule />
+                      <section>
+                        <p>
+                          <strong>Preferred Weight Unit</strong>
+                        </p>
+                        <PreferredWeightUnit />
                       </section>
                       <HorizontalRule />
                       <section
