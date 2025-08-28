@@ -11,7 +11,7 @@ import {
   Input,
   Pill,
   EditPackingListItem,
-  ItemLabel
+  ItemLabel,
 } from '@packup/components'
 import { AppState, setActivePackingListItemBeingEdited } from '@packup/redux'
 import toast from 'react-hot-toast'
@@ -29,7 +29,7 @@ import {
   FaTrash,
   FaUsers,
 } from 'react-icons/fa'
-import { MdLabelOutline } from "react-icons/md"
+import { MdLabelOutline } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExtendedFirebaseInstance, useFirebase } from 'react-redux-firebase'
 import {
@@ -121,7 +121,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
       .update({
         labels: {
           ...tmpLabels,
-        }
+        },
       })
   }
 
@@ -149,11 +149,6 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   }
 
   const onDelete = () => {
-    if (props.item.isSponsored) {
-      trackEvent('Fernwood Ad Packing List Item Deleted', {
-        tripId: props.tripId,
-      })
-    }
     firebaseConnection(firebase, props.tripId, props.item.id)
       .delete()
       .then(() => {
@@ -243,17 +238,8 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   }
 
   const itemIsShared = props.item.packedBy.some((item) => item.isShared)
-  const iconColor = packingListItemBeingEdited === props.item.id
-    ? 'var(--color-primary)'
-    : 'var(--color-lightGray)'
-
-  useEffect(() => {
-    if (props.item.isSponsored) {
-      trackEvent('Fernwood Ad Packing List Item Viewed', {
-        tripId: props.tripId,
-      })
-    }
-  }, [])
+  const iconColor =
+    packingListItemBeingEdited === props.item.id ? 'var(--color-primary)' : 'var(--color-lightGray)'
 
   return (
     <PackingListItemWrapper
@@ -319,16 +305,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                         />
                       </span>
                     )}{' '}
-                    {props.item.isSponsored ? (
-                      <a
-                        href="https://fernwoodcoffee.com/products/fernwood-instant-coffee?srsltid=AfmBOoquFMLb3yNHBJPa4vqp0ytQqhjLtATXiwJq74I-eeXk27n4rtV_&ref=packup"
-                        target="_blank"
-                      >
-                        {props.item.name}
-                      </a>
-                    ) : (
-                      props.item.name
-                    )}{' '}
+                    {props.item.name}{' '}
                     {/* TODO: deprecate quantity and only user packedBy qualities added together? Or get rid of quantity on packedBy and not be able to break down total number by person */}
                     {props.item.quantity && props.item.quantity !== 1 && (
                       // || props.item.packedBy.length > 1) && (
@@ -351,10 +328,12 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                     <ItemLabel
                       key={id}
                       colorName={label.color as LabelColorName}
-                      variant={packingListItemBeingEdited === props.item.id ? 'removable' : 'default'}
+                      variant={
+                        packingListItemBeingEdited === props.item.id ? 'removable' : 'default'
+                      }
                       onClick={
                         packingListItemBeingEdited === props.item.id
-                          ? (() => handleRemoveLabel(id))
+                          ? () => handleRemoveLabel(id)
                           : () => {}
                       }
                     >
