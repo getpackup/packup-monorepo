@@ -18,16 +18,21 @@ interface PackingListFilterProps {
 
 const Filters = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-bottom: ${baseSpacer};
   gap: ${baseSpacer};
 `
 
-const FilterColumn = styled.div`
+const FilterRow = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: fit-content;
   gap: ${baseSpacer};
+`
+
+const FilterLabel = styled.span`
+  font-weight: bold;
+  width: 55px;
 `
 
 export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
@@ -84,11 +89,8 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
 
   return (
     <Filters>
-      <FilterColumn>
-        <strong>Show:</strong>
-        <strong>Labels:</strong>
-      </FilterColumn>
-      <FilterColumn>
+      <FilterRow>
+        <FilterLabel>Show:</FilterLabel>
         <ButtonGroup>
           {filterSettings.map((filter) => (
             <Button
@@ -103,6 +105,9 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
             </Button>
           ))}
         </ButtonGroup>
+      </FilterRow>
+      <FilterRow>
+        <FilterLabel>Labels:</FilterLabel>
         <ButtonGroup>
           {labels.map((label) => (
             <Button
@@ -117,7 +122,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
             </Button>
           ))}
         </ButtonGroup>
-      </FilterColumn>
+      </FilterRow>
     </Filters>
   )
 }
