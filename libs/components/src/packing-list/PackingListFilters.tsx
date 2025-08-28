@@ -106,23 +106,25 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
           ))}
         </ButtonGroup>
       </FilterRow>
-      <FilterRow>
-        <FilterLabel>Labels:</FilterLabel>
-        <ButtonGroup>
-          {labels.map((label) => (
-            <Button
-              key={label.id}
-              type="button"
-              size="small"
-              color={activeLabels.includes(label.id) ? 'tertiaryAlt' : 'tertiary'}
-              onClick={() => handleLabels(label)}
-              disabled={disabled}
-            >
-              {label.text}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </FilterRow>
+      { labels.length > 0 && (
+        <FilterRow>
+          <FilterLabel>Labels:</FilterLabel>
+          <ButtonGroup>
+            {labels.map((label) => (
+              <Button
+                key={label.id}
+                type="button"
+                size="small"
+                color={activeLabels.includes(label.id) ? 'tertiaryAlt' : 'tertiary'}
+                onClick={() => handleLabels(label)}
+                disabled={disabled}
+              >
+                {label.text}
+              </Button>
+            ))}
+          </ButtonGroup>
+        </FilterRow>
+      )}
     </Filters>
   )
 }
