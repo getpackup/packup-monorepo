@@ -22,6 +22,8 @@ import { AppState } from '@packup/redux'
 import { brandDanger, brandPrimary, halfSpacer, inputPaddingY, lightestGray } from '@packup/styles'
 import {
   ActivityTypes,
+  convertAndFormatWeight,
+  convertWeight,
   GearItemType,
   gearListAccommodations,
   gearListActivities,
@@ -29,6 +31,7 @@ import {
   GearListEnumType,
   gearListOtherConsiderations,
   trackEvent,
+  WeightUnit,
 } from '@packup/utils'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -81,6 +84,7 @@ export default function GearCloset() {
   const router = useRouter()
   const personalGear: string | Array<GearItemType> = usePersonalGear()
   const auth = useSelector((state: AppState) => state.firebase.auth)
+  const profile = useSelector((state: AppState) => state.firebase.profile)
   const fetchedGearCloset = useSelector((state: AppState) => state.firestore.ordered.gearCloset)
   const trips: Array<TripType> = useSelector((state: AppState) => state.firestore.ordered.trips)
 
@@ -199,6 +203,27 @@ export default function GearCloset() {
       enableSorting: true,
     },
     {
+      id: 'weight',
+      header: 'Weight',
+      enableSorting: true,
+      accessorFn: (row: GearItemType) => {
+        if (!row.weight || !row.weightUnit) return 0
+        // Convert to grams for sorting
+        return convertWeight(row.weight, row.weightUnit as WeightUnit, 'g')
+      },
+      // eslint-disable-next-line react/no-unstable-nested-components
+      cell: (props) => {
+        const item = props.row.original as GearItemType
+        if (!item.weight || !item.weightUnit) {
+          return '—'
+        }
+
+        const userPreferredUnit = profile?.preferences?.weightUnit || (item.weightUnit as WeightUnit)
+
+        return convertAndFormatWeight(item.weight, item.weightUnit as WeightUnit, userPreferredUnit)
+      },
+    },
+    {
       id: 'actions',
       // eslint-disable-next-line react/no-unstable-nested-components
       cell: (props) => (
@@ -214,9 +239,7 @@ export default function GearCloset() {
 
   const data =
     auth?.uid && typeof personalGear !== 'string' && personalGear?.length > 0
-      ? [...(personalGear as Array<GearItemType>)].sort((a: GearItemType, b: GearItemType) =>
-          a.name?.localeCompare(b.name)
-        )
+      ? [...(personalGear as Array<GearItemType>)].sort((a: GearItemType, b: GearItemType) => a.name?.localeCompare(b.name))
       : []
 
   const deleteItem = (item: GearItemType) => {
@@ -310,11 +333,6 @@ export default function GearCloset() {
           <Table
             columns={columns}
             data={data || []}
-            // hasPagination
-            // hasSorting
-            // hasFiltering
-            // rowsPerPage={25}
-            // isLoading={personalGearIsLoading}
           />
         )}
 

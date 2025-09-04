@@ -112,6 +112,7 @@ export function Table({
     },
     state: {
       globalFilter,
+      sorting,
     },
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,

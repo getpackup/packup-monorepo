@@ -51,3 +51,5 @@ Thumbs.db
 
 # Instructions for AI agents
 CLAUDE.local.md
+
+.env

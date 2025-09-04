@@ -18,7 +18,7 @@ export type GearItemType = {
   essential: boolean
   isCustomGearItem?: boolean
   isSponsored?: boolean
-  weight?: string
+  weight?: number
   weightUnit?: 'g' | 'kg' | 'oz' | 'lb'
   description?: string
   quantity?: number
