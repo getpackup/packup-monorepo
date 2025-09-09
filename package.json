@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:pwa": "nx build pwa",
-    "build:marketing": "nx build marketing"
+    "build:pwa": "nx build pwa"
   },
   "private": true,
   "devDependencies": {
@@ -83,7 +82,7 @@
     "date-fns-tz": "^1.0.10",
     "detect-browser": "^5.3.0",
     "eslint-import-resolver-typescript": "^3.5.0",
-    "firebase": "^10.12.2",
+    "firebase": "^12.2.1",
     "firebaseui": "^6.0.2",
     "formik": "^2.2.9",
     "globby": "^11.0.1",
