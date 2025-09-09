@@ -6,12 +6,15 @@ import { PackingListItemType } from '../packingListItem/packingListItem'
 const filterItems = (
   items: Array<PackingListItemType>,
   labelFilters: Array<string>,
-  packingFilter: PackingListFilterOptions,
-): Array<PackingListItemType> => items.filter((item: PackingListItemType) => {
+  packingFilter: PackingListFilterOptions
+): Array<PackingListItemType> =>
+  items.filter((item: PackingListItemType) => {
     if (packingFilter === PackingListFilterOptions.Packed) {
       if (labelFilters.length > 0) {
         const itemLabels = Object.keys(item.labels ?? [])
-        const matchedLabels = itemLabels.filter((label) => labelFilters.includes(label) && item.isPacked)
+        const matchedLabels = itemLabels.filter(
+          (label) => labelFilters.includes(label) && item.isPacked
+        )
 
         return matchedLabels.length > 0
       }
@@ -20,9 +23,11 @@ const filterItems = (
     }
 
     if (packingFilter === PackingListFilterOptions.Unpacked) {
-      if (labelFilters.length > 0) {
+      if (labelFilters?.length > 0) {
         const itemLabels = Object.keys(item.labels ?? [])
-        const matchedLabels = itemLabels.filter((label) => labelFilters.includes(label) && !item.isPacked)
+        const matchedLabels = itemLabels.filter(
+          (label) => labelFilters.includes(label) && !item.isPacked
+        )
 
         return matchedLabels.length > 0
       }
@@ -30,7 +35,7 @@ const filterItems = (
       return !item.isPacked
     }
 
-    if (labelFilters.length > 0) {
+    if (labelFilters?.length > 0) {
       const itemLabels = Object.keys(item.labels ?? [])
       const matchedLabels = itemLabels.filter((label) => labelFilters.includes(label))
 

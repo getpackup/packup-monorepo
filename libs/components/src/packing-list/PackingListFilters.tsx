@@ -50,7 +50,9 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
 
   const dispatch = useDispatch()
   const auth = useSelector((state: AppState) => state.firebase.auth)
-  const gearItemLabels: Record<string, FirestoreItemLabel> = useSelector((state: AppState) => state.firestore.data[`gearItemLabels`])
+  const gearItemLabels: Record<string, FirestoreItemLabel> = useSelector(
+    (state: AppState) => state.firestore.data[`gearItemLabels`]
+  )
 
   const handleFilter = (filter: PackingListFilterOptions) => {
     trackEvent('Packing List Filter Changed', { filter })
@@ -75,7 +77,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   const labels: Array<ItemLabelType> = Object.keys(gearItemLabels ?? {}).map((id) => {
     return {
       id,
-      ...gearItemLabels[id]
+      ...gearItemLabels[id],
     }
   })
 
@@ -84,8 +86,8 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
       collection: 'users',
       subcollections: [{ collection: 'labels' }],
       doc: auth.uid,
-      storeAs: 'gearItemLabels'
-    }
+      storeAs: 'gearItemLabels',
+    },
   ])
 
   return (
@@ -107,7 +109,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
           ))}
         </ButtonGroup>
       </FilterRow>
-      { labels.length > 0 && (
+      {labels.length > 0 && (
         <FilterRow>
           <FilterLabel>Labels:</FilterLabel>
           <ButtonGroup>
@@ -116,7 +118,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
                 key={label.id}
                 type="button"
                 size="small"
-                color={activeLabels.includes(label.id) ? 'tertiaryAlt' : 'tertiary'}
+                color={activeLabels?.includes(label.id) ? 'tertiaryAlt' : 'tertiary'}
                 onClick={() => handleLabels(label)}
                 disabled={disabled}
               >
