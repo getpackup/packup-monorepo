@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from '@packup/components'
 import { baseSpacer } from '@packup/styles'
-import { PackingListFilterOptions } from '@packup/utils'
+import { PackingListFilterOptions, trackEvent } from '@packup/utils'
 import { FunctionComponent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -53,6 +53,7 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   const gearItemLabels: Record<string, FirestoreItemLabel> = useSelector((state: AppState) => state.firestore.data[`gearItemLabels`])
 
   const handleFilter = (filter: PackingListFilterOptions) => {
+    trackEvent('Packing List Filter Changed', { filter })
     dispatch(onFilterChange(filter))
   }
 

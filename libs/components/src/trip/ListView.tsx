@@ -75,7 +75,6 @@ export function ListView({ trips, auth }: { trips: TripType[]; auth: FirebaseRed
             Upcoming Trips
           </Heading>
           {upcomingTrips.map((trip) => renderTrip(trip))}
-          <PackingListBannerAd location="trips" />
         </>
       )}
 
@@ -85,18 +84,7 @@ export function ListView({ trips, auth }: { trips: TripType[]; auth: FirebaseRed
           <Heading as="h2" altStyle>
             Past Trips
           </Heading>
-          {pastTrips.map((trip, index) => {
-            if (index === 2) {
-              return (
-                <>
-                  <PackingListBannerAd location="trips" />
-                  {renderTrip(trip)}
-                </>
-              )
-            } else {
-              return renderTrip(trip)
-            }
-          })}
+          {pastTrips.map((trip) => renderTrip(trip))}
         </>
       )}
     </>

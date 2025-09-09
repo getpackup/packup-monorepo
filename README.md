@@ -2,9 +2,6 @@
 
 # Packup 🎒🥾🏔
 
-## Marketing Site
-[![Netlify Status](https://api.netlify.com/api/v1/badges/2d4c5148-d316-4405-82e7-6c2af7b6e1f3/deploy-status)](https://app.netlify.com/sites/packup-marketing/deploys)
-
 ## Progressive Web App
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9d202cd5-0e90-46c9-9391-6d4766c73322/deploy-status)](https://app.netlify.com/sites/packup-monorepo/deploys)
 

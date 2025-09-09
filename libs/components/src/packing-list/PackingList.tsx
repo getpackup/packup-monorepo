@@ -479,28 +479,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                           return a.isPacked > b.isPacked ? 1 : -1
                         })
 
-                        if (index === 2) {
-                          return (
-                            <Fragment key={`${categoryName}-PackingListCategory`}>
-                              <PackingListBannerAd location="packingList" />
-                              <PackingListCategory
-                                categoryIndex={index}
-                                trip={trip}
-                                key={`${categoryName}-PackingListCategory`}
-                                categoryName={categoryName}
-                                sortedItems={sortedItems}
-                                tripId={tripId}
-                                isSharedPackingListCategory={
-                                  activePackingListTab === TabOptions.Shared
-                                }
-                                auth={auth}
-                                isSharedTrip={sharedTrip}
-                                toggleLabelSelection={toggleLabelSelection}
-                              />
-                            </Fragment>
-                          )
-                        }
-
                         return (
                           <PackingListCategory
                             categoryIndex={index}
@@ -587,14 +565,13 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
         )}
       </div>
 
-      {
-        showLabelSelection &&
+      {showLabelSelection && (
         <ItemLabelSelection
           closeWindow={() => setShowLabelSelection(!showLabelSelection)}
           tripId={tripId}
           itemId={itemId}
         />
-      }
+      )}
     </>
   )
 }

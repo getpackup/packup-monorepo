@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'development') {
   Sentry.init({
     dsn: SENTRY_DSN,
     // Adjust this value in production, or use tracesSampler for greater control
-    tracesSampleRate: 1.0,
+    tracesSampleRate: 0.1,
     // ...
     // Note: if you want to override the automatic release value, do not set a
     // `release` value here - use the environment variable `SENTRY_RELEASE`, so
@@ -25,9 +25,11 @@ if (process.env.NODE_ENV !== 'development') {
     // sessions when an error occurs.
     replaysOnErrorSampleRate: 1.0,
 
-    integrations: [new Sentry.Replay({
-      maskAllText: false,
-      blockAllMedia: false,
-    })],
+    integrations: [
+      new Sentry.Replay({
+        maskAllText: false,
+        blockAllMedia: false,
+      }),
+    ],
   })
 }
