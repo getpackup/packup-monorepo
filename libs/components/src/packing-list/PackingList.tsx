@@ -65,6 +65,7 @@ import styled from 'styled-components'
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import { PackingListBannerAd } from './PackingListBannerAd'
+import filterItems from '../../../utils/src/filter-items/filterItems'
 
 interface PackingListProps {
   trip?: TripType
@@ -167,8 +168,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   // Personal vs Shared list
   //
   const personalItems =
-    packingListCopy &&
-    packingListCopy.length > 0 &&
     packingListCopy?.filter(
       (packingListItem: PackingListItemType) =>
         packingListItem &&
@@ -178,8 +177,6 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
     )
 
   const sharedItems =
-    packingListCopy &&
-    packingListCopy.length > 0 &&
     packingListCopy?.filter(
       (item) => item.packedBy && item.packedBy.length > 0 && item.packedBy.some((i) => i.isShared)
     )
@@ -198,8 +195,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
       activePackingListFilter === PackingListFilterOptions.Unpacked ? !item.isPacked : item.isPacked
     )
   // if the filter is All, just return all the items
-  const finalItems =
-    activePackingListFilter === PackingListFilterOptions.All ? items : filteredItems
+  const finalItems = filterItems(items, activeLabelFilters, activePackingListFilter)
 
   const searchedItems = useMemo(() => {
     return (

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, ItemLabelList } from '@packup/components'
+import { Button, ButtonGroup } from '@packup/components'
 import { baseSpacer } from '@packup/styles'
 import { PackingListFilterOptions } from '@packup/utils'
 import { FunctionComponent } from 'react'
