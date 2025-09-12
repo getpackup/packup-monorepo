@@ -62,13 +62,13 @@ export const PackingListFilters: FunctionComponent<PackingListFilterProps> = ({
   const handleLabels = (label: ItemLabelType) => {
     const tmpLabels = activeLabels
 
-    if (tmpLabels.includes(label.id)) {
+    if (tmpLabels?.includes(label.id)) {
       const index = tmpLabels.indexOf(label.id)
       if (index > -1) {
         tmpLabels.splice(index, 1)
       }
     } else {
-      tmpLabels.push(label.id)
+      tmpLabels?.push(label.id)
     }
 
     dispatch(onLabelChange(tmpLabels))

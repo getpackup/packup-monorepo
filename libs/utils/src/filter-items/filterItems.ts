@@ -10,7 +10,7 @@ const filterItems = (
 ): Array<PackingListItemType> =>
   items.filter((item: PackingListItemType) => {
     if (packingFilter === PackingListFilterOptions.Packed) {
-      if (labelFilters.length > 0) {
+      if (labelFilters?.length > 0) {
         const itemLabels = Object.keys(item.labels ?? [])
         const matchedLabels = itemLabels.filter(
           (label) => labelFilters.includes(label) && item.isPacked

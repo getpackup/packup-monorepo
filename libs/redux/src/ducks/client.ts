@@ -29,7 +29,7 @@ export const clientInitialState: ClientStoreType = {
   packingListSearchValue: '',
   packingListItemBeingEdited: undefined,
   gearItemLabels: [],
-  activeLabelFilters: []
+  activeLabelFilters: [],
 }
 
 export default function clientReducer(

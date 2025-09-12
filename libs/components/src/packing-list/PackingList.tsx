@@ -167,19 +167,17 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   //
   // Personal vs Shared list
   //
-  const personalItems =
-    packingListCopy?.filter(
-      (packingListItem: PackingListItemType) =>
-        packingListItem &&
-        packingListItem.packedBy &&
-        packingListItem.packedBy.length > 0 &&
-        packingListItem.packedBy.some((item) => item.uid === auth.uid)
-    )
+  const personalItems = packingListCopy?.filter(
+    (packingListItem: PackingListItemType) =>
+      packingListItem &&
+      packingListItem.packedBy &&
+      packingListItem.packedBy.length > 0 &&
+      packingListItem.packedBy.some((item) => item.uid === auth.uid)
+  )
 
-  const sharedItems =
-    packingListCopy?.filter(
-      (item) => item.packedBy && item.packedBy.length > 0 && item.packedBy.some((i) => i.isShared)
-    )
+  const sharedItems = packingListCopy?.filter(
+    (item) => item.packedBy && item.packedBy.length > 0 && item.packedBy.some((i) => i.isShared)
+  )
 
   // take into account if we are on the personal or shared list
   const items = useMemo(
