@@ -6,8 +6,9 @@ import {
   PackingListItem,
 } from '@packup/components'
 import { baseAndAHalfSpacer, halfSpacer } from '@packup/styles'
-import { pluralize, trackEvent } from '@packup/utils'
-import { FunctionComponent, SyntheticEvent } from 'react'
+import { pluralize, trackEvent, convertWeight, formatWeight, WeightUnit } from '@packup/utils'
+import { useLoggedInUser } from '@packup/hooks'
+import { FunctionComponent } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { FirebaseReducer, useFirebase } from 'react-redux-firebase'
 import styled from 'styled-components'
@@ -43,6 +44,31 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
   toggleLabelSelection
 }) => {
   const firebase = useFirebase()
+  const loggedInUser = useLoggedInUser()
+
+  // Calculate total weight for this category
+  const calculateCategoryWeight = (): string | null => {
+    const itemsWithWeight = sortedItems.filter(item => item.weight && item.weightUnit)
+
+    if (itemsWithWeight.length === 0) {
+      return null
+    }
+
+    const preferredUnit = loggedInUser?.preferences?.weightUnit || ('g' as WeightUnit)
+    let totalWeightInPreferredUnit = 0
+
+    itemsWithWeight.forEach(item => {
+      if (item.weight && item.weightUnit) {
+        const itemWeight = parseFloat(item.weight) * (item.quantity || 1)
+        const convertedWeight = convertWeight(itemWeight, item.weightUnit as WeightUnit, preferredUnit)
+        totalWeightInPreferredUnit += convertedWeight
+      }
+    })
+
+    return formatWeight(totalWeightInPreferredUnit, preferredUnit)
+  }
+
+  const categoryWeight = calculateCategoryWeight()
 
   const handleCollapsible = (name: string) => {
     if (auth && auth.uid && trip) {
@@ -105,7 +131,11 @@ export const PackingListCategory: FunctionComponent<PackingListCategoryProps> = 
           : `${categoryName}-CollapsibleBox-Personal`
       }
       title={categoryName}
-      subtitle={pluralize('item', sortedItems.length)}
+      subtitle={
+        categoryWeight
+          ? `${pluralize('item', sortedItems.length)} • ${categoryWeight}`
+          : pluralize('item', sortedItems.length)
+      }
       defaultClosed={
         auth && auth.uid && trip && trip.collapsedCategories && trip.collapsedCategories[auth.uid]
           ? trip.collapsedCategories[auth.uid].findIndex((cat) => cat === categoryName) > -1 &&

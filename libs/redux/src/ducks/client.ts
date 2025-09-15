@@ -6,6 +6,7 @@ import { ClientActions, ClientStoreType } from './client.d'
 export const ADD_ATTEMPTED_PRIVATE_PAGE = 'ADD_ATTEMPTED_PRIVATE_PAGE'
 export const REMOVE_ATTEMPTED_PRIVATE_PAGE = 'REMOVE_ATTEMPTED_PRIVATE_PAGE'
 
+export const SET_LABEL_LIST_FILTER = 'SET_LABEL_LIST_FILTER'
 export const SET_ACTIVE_PACKING_LIST_FILTER = 'SET_ACTIVE_PACKING_LIST_FILTER'
 export const SET_ACTIVE_PACKING_LIST_TAB = 'SET_ACTIVE_PACKING_LIST_TAB'
 
@@ -27,7 +28,8 @@ export const clientInitialState: ClientStoreType = {
   tripsDefaultView: 'list',
   packingListSearchValue: '',
   packingListItemBeingEdited: undefined,
-  gearItemLabels: []
+  gearItemLabels: [],
+  activeLabelFilters: [],
 }
 
 export default function clientReducer(
@@ -50,6 +52,12 @@ export default function clientReducer(
       return {
         ...state,
         location: undefined,
+      }
+    }
+    case SET_LABEL_LIST_FILTER: {
+      return {
+        ...state,
+        activeLabelFilters: action.ids,
       }
     }
     case SET_ACTIVE_PACKING_LIST_FILTER: {
@@ -111,6 +119,11 @@ export const removeAttemptedPrivatePage = () => ({
 export const setActivePackingListFilter = (payload: PackingListFilterOptions) => ({
   type: SET_ACTIVE_PACKING_LIST_FILTER,
   payload,
+})
+
+export const setLabelListFilter = (ids: Array<string>) => ({
+  type: SET_LABEL_LIST_FILTER,
+  ids,
 })
 
 export const setActivePackingListTab = (payload: TabOptions) => ({

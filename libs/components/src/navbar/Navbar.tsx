@@ -120,7 +120,7 @@ const TopNavIconWrapper = styled.nav<{ isMobile: boolean }>`
   }
 
   & a:focus {
-    outline: 1px dotted var(--color-primary);
+    outline: none;
   }
 
   /* active avatar border */

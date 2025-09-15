@@ -18,7 +18,7 @@ import toast from 'react-hot-toast'
 
 import { brandInfo, brandPrimary, lightestGray, baseBorderStyle, halfSpacer } from '@packup/styles'
 
-import { LabelColorName, trackEvent } from '@packup/utils'
+import { LabelColorName, trackEvent, convertAndFormatWeight, WeightUnit } from '@packup/utils'
 import { Field, Formik, FormikHelpers } from 'formik'
 import { FunctionComponent, useEffect, useState } from 'react'
 import {
@@ -41,7 +41,7 @@ import {
 } from 'react-swipeable-list'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components'
-import { useWindowSize } from '@packup/hooks'
+import { useWindowSize, useLoggedInUser } from '@packup/hooks'
 
 type PackingListItemProps = {
   tripId: string
@@ -102,6 +102,7 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
   const firebase = useFirebase()
   const dispatch = useDispatch()
   const size = useWindowSize()
+  const loggedInUser = useLoggedInUser()
   const [removing, setRemoving] = useState(false)
 
   const labelEntries = Object.entries(props.item.labels || [])
@@ -273,22 +274,6 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                 </ItemInputWrapper>
                 <ItemText className="packing-list-item">
                   <>
-                    {props.item.isSponsored && (
-                      <span
-                        data-tip="We partner with brands we love to help keep Packup free for you."
-                        data-for="sponsoredItem"
-                        style={{ display: 'inline-block', maxWidth: '75vw' }}
-                      >
-                        <Pill text="Ad" color="neutral" style={{ margin: 0 }} />
-                        <ReactTooltip
-                          id="sponsoredItem"
-                          place="top"
-                          type="dark"
-                          effect="solid"
-                          className="tooltip customTooltip customTooltip200"
-                        />
-                      </span>
-                    )}
                     {props.item.isEssential && (
                       <span
                         data-tip="Essential Item"
@@ -318,6 +303,40 @@ export const PackingListItem: FunctionComponent<PackingListItemProps> = (props) 
                         text={`x ${props.item.quantity}`}
                         color="neutral"
                         style={{ margin: 0, paddingTop: 2, paddingBottom: 2 }}
+                      />
+                    )}
+                    {props.item.weight && props.item.weightUnit && (
+                      <Pill
+                        text={(() => {
+                          const userPreferredUnit =
+                            loggedInUser?.preferences?.weightUnit ||
+                            (props.item.weightUnit as WeightUnit)
+                          const itemWeight = parseFloat(props.item.weight)
+                          const totalWeight = itemWeight * (props.item.quantity || 1)
+
+                          if (props.item.quantity && props.item.quantity > 1) {
+                            const convertedWeight = convertAndFormatWeight(
+                              totalWeight,
+                              props.item.weightUnit as WeightUnit,
+                              userPreferredUnit
+                            )
+                            return `${convertedWeight} total`
+                          } else {
+                            return convertAndFormatWeight(
+                              itemWeight,
+                              props.item.weightUnit as WeightUnit,
+                              userPreferredUnit
+                            )
+                          }
+                        })()}
+                        color="neutral"
+                        style={{
+                          margin: 0,
+                          paddingTop: 2,
+                          paddingBottom: 2,
+                          marginLeft: 4,
+                          textTransform: 'none',
+                        }}
                       />
                     )}
                   </>

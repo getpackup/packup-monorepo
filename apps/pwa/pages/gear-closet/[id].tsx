@@ -65,7 +65,7 @@ export default function GearClosetEditItem() {
 
   const initialValues: GearItemType = {
     quantity: 1,
-    weight: '',
+    weight: 0,
     weightUnit: 'g',
     description: '',
     // above are defaults since Master Gear List Items won't have them,

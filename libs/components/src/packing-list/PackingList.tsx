@@ -19,6 +19,7 @@ import { useWindowSize } from '@packup/hooks'
 import {
   AppState,
   setActivePackingListFilter,
+  setLabelListFilter,
   setActivePackingListTab,
   setPersonalListScrollPosition,
   setSharedListScrollPosition,
@@ -64,8 +65,9 @@ import styled from 'styled-components'
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
 import { isLoaded, useFirebase } from 'react-redux-firebase'
 import { PackingListBannerAd } from './PackingListBannerAd'
+import filterItems from '../../../utils/src/filter-items/filterItems'
 
-type PackingListProps = {
+interface PackingListProps {
   trip?: TripType
   tripId: string
   packingList: PackingListItemType[]
@@ -127,6 +129,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const gearList = useSelector((state: AppState) => state.firestore.data['packingList'])
   const {
     activePackingListFilter,
+    activeLabelFilters,
     activePackingListTab,
     personalListScrollPosition,
     sharedListScrollPosition,
@@ -143,9 +146,9 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   const [showLabelSelection, setShowLabelSelection] = useState<boolean>(false)
   const [itemId, setItemId] = useState('')
 
-  const toggleLabelSelection = (itemId: string) => {
+  const toggleLabelSelection = (id: string) => {
     setShowLabelSelection(!showLabelSelection)
-    setItemId(itemId)
+    setItemId(id)
   }
 
   useEffect(() => {
@@ -164,23 +167,17 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
   //
   // Personal vs Shared list
   //
-  const personalItems =
-    packingListCopy &&
-    packingListCopy.length > 0 &&
-    packingListCopy?.filter(
-      (packingListItem: PackingListItemType) =>
-        packingListItem &&
-        packingListItem.packedBy &&
-        packingListItem.packedBy.length > 0 &&
-        packingListItem.packedBy.some((item) => item.uid === auth.uid)
-    )
+  const personalItems = packingListCopy?.filter(
+    (packingListItem: PackingListItemType) =>
+      packingListItem &&
+      packingListItem.packedBy &&
+      packingListItem.packedBy.length > 0 &&
+      packingListItem.packedBy.some((item) => item.uid === auth.uid)
+  )
 
-  const sharedItems =
-    packingListCopy &&
-    packingListCopy.length > 0 &&
-    packingListCopy?.filter(
-      (item) => item.packedBy && item.packedBy.length > 0 && item.packedBy.some((i) => i.isShared)
-    )
+  const sharedItems = packingListCopy?.filter(
+    (item) => item.packedBy && item.packedBy.length > 0 && item.packedBy.some((i) => i.isShared)
+  )
 
   // take into account if we are on the personal or shared list
   const items = useMemo(
@@ -196,8 +193,7 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
       activePackingListFilter === PackingListFilterOptions.Unpacked ? !item.isPacked : item.isPacked
     )
   // if the filter is All, just return all the items
-  const finalItems =
-    activePackingListFilter === PackingListFilterOptions.All ? items : filteredItems
+  const finalItems = filterItems(items, activeLabelFilters, activePackingListFilter)
 
   const searchedItems = useMemo(() => {
     return (
@@ -364,6 +360,8 @@ export const PackingList: FunctionComponent<PackingListProps> = ({
                   <PackingListFilters
                     activeFilter={activePackingListFilter}
                     onFilterChange={setActivePackingListFilter}
+                    activeLabels={activeLabelFilters}
+                    onLabelChange={setLabelListFilter}
                     disabled={!trip}
                   />
                 </Column>

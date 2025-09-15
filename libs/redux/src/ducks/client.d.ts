@@ -11,7 +11,7 @@ import {
   SET_PERSONAL_LIST_SCROLL_POSITION,
   SET_SHARED_LIST_SCROLL_POSITION,
   SET_TRIPS_DEFAULT_VIEW,
-  SET_GEAR_ITEM_LABELS,
+  SET_GEAR_ITEM_LABELS, SET_LABEL_LIST_FILTER,
 } from './client'
 
 export type ClientStoreType = {
@@ -23,7 +23,8 @@ export type ClientStoreType = {
   sharedListScrollPosition: number
   tripsDefaultView: 'list' | 'calendar'
   packingListItemBeingEdited: undefined | string
-  gearItemLabels: LabelItem[]
+  gearItemLabels: LabelItem[],
+  activeLabelFilters: string[]
 }
 
 export type AddAttemptedPrivatePageAction = {
@@ -38,6 +39,11 @@ export type RemoveAttemptedPrivatePageAction = {
 export type SetActivePackingListFilterAction = {
   type: typeof SET_ACTIVE_PACKING_LIST_FILTER
   payload: PackingListFilterOptions
+}
+
+export type SetLabelListFilterAction = {
+  type: typeof SET_LABEL_LIST_FILTER
+  ids: Array<string>
 }
 
 export type SetActivePackingListTabAction = {
@@ -80,3 +86,4 @@ export type ClientActions =
   | SetTripsDefaultView
   | SetPackingListSearchValue
   | SetActivePackingListItemBeingEdited
+  | SetLabelListFilterAction
