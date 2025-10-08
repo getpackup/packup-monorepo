@@ -25,19 +25,6 @@ export const LoginForm = ({
 
   const usersRef = firebase.firestore().collection('users')
 
-  const actionCodeSettings = {
-    url: `${window.location.origin}/signin`,
-    handleCodeInApp: true, // This must be true
-    iOS: {
-      bundleId: 'com.packupapp',
-    },
-    android: {
-      packageName: 'com.packupapp.twa',
-      installApp: true,
-      minimumVersion: '1',
-    },
-  }
-
   return (
     <Formik
       validateOnMount

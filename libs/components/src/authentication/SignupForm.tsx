@@ -1,5 +1,5 @@
 import { Alert, AnimatedContainer, Button, FlexContainer, Input, LoadingSpinner } from '../'
-import { FaCheckCircle, FaChevronRight, FaExclamationTriangle } from 'react-icons/fa'
+import { FaChevronRight } from 'react-icons/fa'
 import { Field, Form, Formik } from 'formik'
 import { requiredEmail, requiredField, trackEvent, validateUsername } from '@packup/utils'
 
@@ -88,18 +88,7 @@ export const SignupForm = (props: { email?: string }) => {
           trackEvent('New User Signed Up And Created Profile', {
             email: result.user.email,
           })
-          firebase.auth().sendSignInLinkToEmail(result.user.email, {
-            url: `${window.location.origin}/signin`,
-            handleCodeInApp: true, // This must be true
-            iOS: {
-              bundleId: 'com.packupapp',
-            },
-            android: {
-              packageName: 'com.packupapp.twa',
-              installApp: true,
-              minimumVersion: '1',
-            },
-          })
+          sendSignInLink(result.user.email)
           setFormStep('done')
         }
       })
