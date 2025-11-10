@@ -7,7 +7,7 @@
   },
   "private": true,
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.14.5",
+    "@netlify/plugin-nextjs": "4.35.1-next-server-fix.0",
     "@nrwl/cli": "15.8.5",
     "@nrwl/cypress": "15.8.5",
     "@nrwl/eslint-plugin-nx": "15.8.5",
@@ -133,7 +133,6 @@
     "regenerator-runtime": "0.13.7",
     "remark": "^14.0.2",
     "remark-html": "^15.0.2",
-    "sharp": "^0.32.6",
     "spacetime": "^6.16.2",
     "string-mask": "^0.3.0",
     "styled-components": "5.3.6",
