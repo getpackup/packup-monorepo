@@ -62,6 +62,7 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: true,
   },
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
