@@ -34,7 +34,6 @@ const nextConfig = {
     svgr: true,
   },
   swcMinify: false,
-  output: 'standalone',
   images: {
     remotePatterns: [
       {
