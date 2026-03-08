@@ -11,9 +11,8 @@ import {
   HorizontalRule,
   Input,
   PageContainer,
-  Row,
-  PreferredWeightUnit
-} from '@packup/components'
+  PreferredWeightUnit,
+  Row} from '@packup/components'
 import { useLoggedInUser, useWindowSize } from '@packup/hooks'
 import { AppState } from '@packup/redux'
 import {
