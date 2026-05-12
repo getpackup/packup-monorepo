@@ -27,8 +27,8 @@ export const sendTripInvitationEmail = ({
   })
   const invitationUrl =
     process.env.NODE_ENV === 'production'
-      ? `https://us-central1-getpackup.cloudfunctions.net/sendTripInvitationEmail?${queryParams}`
-      : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/sendTripInvitationEmail?${queryParams}`
+      ? `https://us-central1-getpackup.cloudfunctions.net/sendInvitationToTripEmail?${queryParams}`
+      : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/sendInvitationToTripEmail?${queryParams}`
 
   return axios
     .post(invitationUrl)

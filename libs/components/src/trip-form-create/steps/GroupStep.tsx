@@ -32,11 +32,11 @@ export default function GroupStep(props: any) {
     if (membersToInvite && membersToInvite.length + 1 > MAX_TRIP_PARTY_SIZE) {
       setIsSearchBarDisabled(true)
       // send us a Slack message so we can follow up
-      axios.get(
-        process.env.NODE_ENV === 'production'
-          ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new&owner=${auth.uid}`
-          : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new&owner=${auth.uid}`
-      )
+      // axios.get(
+      //   process.env.NODE_ENV === 'production'
+      //     ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new&owner=${auth.uid}`
+      //     : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new&owner=${auth.uid}`
+      // )
       toast.error(`At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`)
 
       trackEvent('Trip Party Max Reached', {
