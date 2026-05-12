@@ -2,12 +2,8 @@
 import algoliasearch from 'algoliasearch/lite'
 
 export const algoliaClient = algoliasearch(
-  process.env.NODE_ENV === 'development'
-    ? (process.env.NX_TEST_ALGOLIA_APP_ID as string)
-    : (process.env.NX_ALGOLIA_APP_ID as string),
-  process.env.NODE_ENV === 'development'
-    ? (process.env.NX_TEST_ALGOLIA_SEARCH_API_KEY as string)
-    : (process.env.NX_ALGOLIA_SEARCH_API_KEY as string)
+  process.env.NX_ALGOLIA_APP_ID as string,
+  process.env.NX_ALGOLIA_SEARCH_API_KEY as string
 )
 
 export const alogliaSearch = {

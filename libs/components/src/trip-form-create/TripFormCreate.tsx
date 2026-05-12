@@ -5,7 +5,7 @@ import { AppState, RootState } from '@packup/redux'
 import getInitValues from './form-model/formInitialValues'
 import newTripFormModel from './form-model/newTripFormModel'
 import { useRef, useState } from 'react'
-import { getSeason, sendTripInvitationEmail, trackEvent } from '@packup/utils'
+import { formattedDateRange, getSeason, sendTripInvitationEmail, trackEvent } from '@packup/utils'
 import { differenceInCalendarDays, endOfDay, startOfDay } from 'date-fns'
 import { useFirebase, useFirestoreConnect } from 'react-redux-firebase'
 import validationSchema from './form-model/validationSchema'
@@ -148,14 +148,20 @@ export function TripFormCreate() {
         invitedAt: now,
         invitedBy: auth.uid,
       }
-      if (tripId) {
-        sendTripInvitationEmail({
-          tripId,
-          invitedBy: profile.username,
-          email: member.email,
-          greetingName: member.greetingName || '',
-        })
-      }
+
+      sendTripInvitationEmail({
+        invitedBy: profile.username,
+        email: member.email,
+        greetingName: member.greetingName,
+        tripName: values.name,
+        where: values.startingPoint,
+        why: values.description,
+        when: formattedDateRange(
+          startOfDay(new Date(values.startDate as string)).getMilliseconds(),
+          endOfDay(new Date(values.endDate as string)).getMilliseconds()
+        ),
+        tags: '',
+      })
     })
 
     firebase

@@ -1,10 +1,4 @@
-import {
-  MAX_TRIP_PARTY_SIZE,
-  TripMember,
-  TripMemberStatus,
-  TripType,
-  UserType,
-} from '@packup/common'
+import { TripMember, TripMemberStatus, TripType, UserType } from '@packup/common'
 import {
   Box,
   HorizontalRule,
@@ -23,8 +17,12 @@ import {
 import toast from 'react-hot-toast'
 import { AppState } from '@packup/redux'
 import { brandDanger, baseSpacer, halfSpacer } from '@packup/styles'
-import { isUserTripOwner, sendTripInvitationEmail, trackEvent } from '@packup/utils'
-import axios from 'axios'
+import {
+  formattedDateRange,
+  isUserTripOwner,
+  sendTripInvitationEmail,
+  trackEvent,
+} from '@packup/utils'
 import Head from 'next/head'
 import { FunctionComponent, useState } from 'react'
 import { FaSignOutAlt, FaUserPlus, FaUserTimes } from 'react-icons/fa'
@@ -51,26 +49,6 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
   const firebase = useFirebase()
 
   const updateTrip = (memberId: string, memberEmail: string, greetingName: string) => {
-    // Object.values(acceptedTripMembersOnly(activeTrip)).length + 1 accounts for async data updates
-    if (
-      activeTrip?.tripMembers &&
-      Object.values(activeTrip?.tripMembers).length + 1 > MAX_TRIP_PARTY_SIZE
-    ) {
-      setIsSearchBarDisabled(true)
-      // send us a slack message so we can follow up
-      // axios.get(
-      //   process.env.NODE_ENV === 'production'
-      //     ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}&owner=${auth.uid}`
-      //     : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=${activeTrip.tripId}&owner=${auth.uid}`
-      // )
-      toast.error(`At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`)
-
-      trackEvent('Trip Party Max Reached', {
-        tripId: activeTrip.tripId,
-        owner: auth.uid,
-      })
-      return
-    }
     if (activeTrip) {
       setIsSearchBarDisabled(true)
       firebase
@@ -87,10 +65,17 @@ export const TripParty: FunctionComponent<TripPartyProps> = ({ activeTrip }) => 
         })
         .then(() => {
           sendTripInvitationEmail({
-            tripId: activeTrip.tripId,
             invitedBy: profile.username,
             email: memberEmail,
-            greetingName: greetingName || '',
+            greetingName,
+            tripName: activeTrip.name,
+            where: activeTrip.startingPoint,
+            why: activeTrip.description,
+            when: formattedDateRange(
+              activeTrip.startDate.seconds * 1000,
+              activeTrip.endDate.seconds * 1000
+            ),
+            tags: activeTrip.tags.toString(),
           })
           setIsSearchBarDisabled(false)
         })

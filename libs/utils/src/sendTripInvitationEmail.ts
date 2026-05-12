@@ -7,45 +7,52 @@ import { stringify } from 'query-string'
 import { trackEvent } from './track-events/track-events'
 
 export const sendTripInvitationEmail = ({
-  tripId,
   invitedBy,
   email,
   greetingName,
+  tripName,
+  where,
+  why,
+  when,
+  tags,
 }: {
-  tripId: TripType['tripId']
   invitedBy: string
   email: string
   greetingName: string
+  tripName: string
+  where: string
+  why: string
+  when: string
+  tags: string
 }) => {
   const queryParams = stringify({
-    to: email,
+    invitedBy,
+    email,
     greetingName,
-    subject: `${invitedBy} has invited you on a trip`,
-    username: invitedBy,
-    tripId,
-    isTestEnv: process.env.NODE_ENV !== 'production',
+    tripName,
+    where,
+    why,
+    when,
+    tags,
   })
-  const invitationUrl =
-    process.env.NODE_ENV === 'production'
-      ? `https://us-central1-getpackup.cloudfunctions.net/sendInvitationToTripEmail?${queryParams}`
-      : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/sendInvitationToTripEmail?${queryParams}`
+  const invitationUrl = `https://sendinvitationtotripemail-tgytmbuywa-uc.a.run.app/?${queryParams}`
 
   return axios
     .post(invitationUrl)
     .then(() => {
       toast.success('Successfully sent invitation email')
       trackEvent('Trip Party Invitation Email Sent', {
-        tripId,
+        params: queryParams,
         updated: new Date(),
         invitedMember: email,
       })
     })
     .catch((error) => {
       toast.error(
-        'Invitation email failed to send, but will see this invitation when they login next.'
+        'Invitation email failed to send, but they will see this invitation when they log in next.'
       )
       trackEvent('Trip Party Invitation Email Send Failure', {
-        tripId,
+        params: queryParams,
         updated: new Date(),
         invitedMember: email,
       })

@@ -1,12 +1,9 @@
-import axios from 'axios'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
 import { RootState } from '@packup/redux'
-import { MAX_TRIP_PARTY_SIZE, UserType } from '@packup/common'
+import { UserType } from '@packup/common'
 import { Button, Heading, HorizontalRule, UserMediaObject, UserSearch } from '@packup/components'
-import toast from 'react-hot-toast'
-import { trackEvent } from '@packup/utils'
 
 export default function GroupStep(props: any) {
   const [isSearchBarDisabled, setIsSearchBarDisabled] = useState(false)
@@ -28,25 +25,6 @@ export default function GroupStep(props: any) {
   ])
 
   const updateTripMembers = (uid: string, email: string, greetingName: string) => {
-    // Object.values(acceptedTripMembersOnly(activeTrip)).length + 1 accounts for async data updates
-    if (membersToInvite && membersToInvite.length + 1 > MAX_TRIP_PARTY_SIZE) {
-      setIsSearchBarDisabled(true)
-      // send us a Slack message so we can follow up
-      // axios.get(
-      //   process.env.NODE_ENV === 'production'
-      //     ? `https://us-central1-getpackup.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new&owner=${auth.uid}`
-      //     : `https://us-central1-packup-test-fc0c2.cloudfunctions.net/notifyOnTripPartyMaxReached?tripId=new&owner=${auth.uid}`
-      // )
-      toast.error(`At this time, Trip Parties are limited to ${MAX_TRIP_PARTY_SIZE} people.`)
-
-      trackEvent('Trip Party Max Reached', {
-        tripId: 'new',
-        owner: auth.uid,
-      })
-
-      return
-    }
-
     setMembersToInvite((prevState: any) => [...prevState, { uid, email, greetingName }])
   }
 

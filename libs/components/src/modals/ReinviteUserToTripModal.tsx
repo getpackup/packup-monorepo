@@ -1,7 +1,7 @@
 import { TripMember, TripMemberStatus, TripType } from '@packup/common'
 import { Button, Column, Heading, Modal, Row } from '@packup/components'
 import toast from 'react-hot-toast'
-import { sendTripInvitationEmail, trackEvent } from '@packup/utils'
+import { formattedDateRange, sendTripInvitationEmail, trackEvent } from '@packup/utils'
 import { FunctionComponent } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { useFirebase } from 'react-redux-firebase'
@@ -48,10 +48,14 @@ export const ReinviteUserToTripModal: FunctionComponent<ReinviteUserToTripModalP
           })
 
           sendTripInvitationEmail({
-            tripId: trip.tripId,
             invitedBy: profile.username,
             email: tripMemberEmail,
             greetingName,
+            tripName: trip.name,
+            where: trip.startingPoint,
+            why: trip.description,
+            when: formattedDateRange(trip.startDate.seconds * 1000, trip.endDate.seconds * 1000),
+            tags: trip.tags.toString(),
           })
 
           setModalIsOpen(false)
