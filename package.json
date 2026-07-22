@@ -7,7 +7,7 @@
   },
   "private": true,
   "devDependencies": {
-    "@netlify/plugin-nextjs": "4.35.1-next-server-fix.0",
+    "@netlify/plugin-nextjs": "5.15.12",
     "@nrwl/cli": "15.8.5",
     "@nrwl/eslint-plugin-nx": "15.8.5",
     "@nrwl/jest": "15.8.5",
